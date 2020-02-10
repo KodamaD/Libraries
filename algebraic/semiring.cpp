@@ -14,7 +14,7 @@ struct number {
       return x * y;
     }
   };
-}
+};
 
 #include <limits>
 template <class T>
