@@ -123,7 +123,7 @@ struct range_min_range_assign {
     }
   };
   struct merge_operation {
-    value_type operator () (const value_type &x, const effector_type &y, int l = 0) const {
+    value_type operator () (const value_type &x, const effector_type &y, int l = 1) const {
       return y;
     }
   };
@@ -147,7 +147,7 @@ struct range_max_range_assign {
     }
   };
   struct merge_operation {
-    value_type operator () (const value_type &x, const effector_type &y, int l = 0) const {
+    value_type operator () (const value_type &x, const effector_type &y, int l = 1) const {
       return y;
     }
   };
@@ -171,7 +171,7 @@ struct range_min_range_chmin {
     }
   };
   struct merge_operation {
-    value_type operator () (const value_type &x, const effector_type &y, int l = 0) const {
+    value_type operator () (const value_type &x, const effector_type &y, int l = 1) const {
       return x < y ? x : y;
     }
   };
@@ -195,7 +195,7 @@ struct range_max_range_chmax {
     }
   };
   struct merge_operation {
-    value_type operator () (const value_type &x, const effector_type &y, int l = 0) const {
+    value_type operator () (const value_type &x, const effector_type &y, int l = 1) const {
       return x > y ? x : y;
     }
   };
@@ -219,7 +219,7 @@ struct range_min_range_add {
     }
   };
   struct merge_operation {
-    value_type operator () (const value_type &x, const effector_type &y, int l = 0) const {
+    value_type operator () (const value_type &x, const effector_type &y, int l = 1) const {
       return x + y;
     }
   };
@@ -243,7 +243,7 @@ struct range_max_range_add {
     }
   };
   struct merge_operation {
-    value_type operator () (const value_type &x, const effector_type &y, int l = 0) const {
+    value_type operator () (const value_type &x, const effector_type &y, int l = 1) const {
       return x + y;
     }
   };
@@ -266,7 +266,7 @@ struct range_sum_range_assign {
     }
   };
   struct merge_operation {
-    value_type operator () (const value_type &x, const effector_type &y, int l = 0) const {
+    value_type operator () (const value_type &x, const effector_type &y, int l = 1) const {
       return y * l;
     }
   };
@@ -289,7 +289,7 @@ struct range_sum_range_add {
     }
   };
   struct merge_operation {
-    value_type operator () (const value_type &x, const effector_type &y, int l = 0) const {
+    value_type operator () (const value_type &x, const effector_type &y, int l = 1) const {
       return x + y * l;
     }
   };
