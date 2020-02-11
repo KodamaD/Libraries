@@ -1,7 +1,7 @@
-#include <iostream>
 
 #define DEBUG
 #ifdef DEBUG
+#include <iostream>
 #include <iomanip>
 
 void dbg_impl() {
