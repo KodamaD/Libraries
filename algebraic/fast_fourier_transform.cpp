@@ -3,13 +3,13 @@
 #include <cmath>
 #include <utility>
 
-namespace fast_fourier_transform {
-  using dbl = double;
-  constexpr dbl pi = acosl(-1.0L);
+namespace fft {
+  using real_number = double;
+  constexpr real_number pi = acosl(-1.0L);
 
   struct complex {
-    dbl re, im;
-    complex(dbl re_ = 0, dbl im_ = 0): re(re_), im(im_) { }
+    real_number re, im;
+    complex(real_number re_ = 0, real_number im_ = 0): re(re_), im(im_) { }
     inline complex operator + (const complex &rhs) const { 
       return complex(re + rhs.re, im + rhs.im); 
     }
@@ -33,7 +33,7 @@ namespace fast_fourier_transform {
     }
     root.assign(size, complex());
     for (int i = 0; i < size; ++i) {
-      dbl angle = pi * 2.0L / size * i;
+      real_number angle = pi * 2.0L / size * i;
       root[i] = complex(cosl(angle), sinl(angle));
     }
   }
@@ -96,10 +96,10 @@ namespace fast_fourier_transform {
     reserve(res_size);
     std::vector<complex> C(size), D(size);
     for (int i = 0; i < A.size(); ++i) {
-      C[i].re = static_cast<dbl>(A[i]);
+      C[i].re = static_cast<real_number>(A[i]);
     }
     for (int i = 0; i < B.size(); ++i) {
-      D[i].re = static_cast<dbl>(B[i]);
+      D[i].re = static_cast<real_number>(B[i]);
     }
     discrete_fourier_transform(C);
     discrete_fourier_transform(D);
