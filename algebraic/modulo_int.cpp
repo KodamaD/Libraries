@@ -1,9 +1,11 @@
 
 #include <iostream>
+#include <type_traits>
 
-template <int MODULUS = 1000000007>
+template <class T>
 class modulo_int {
-  static constexpr int mod = MODULUS;
+public:
+  static constexpr int mod = T::value;
   static_assert(mod > 0, "mod must be positive");
 private:
   long long value;
