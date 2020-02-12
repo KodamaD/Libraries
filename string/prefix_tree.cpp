@@ -18,10 +18,6 @@ private:
   const char base;
   std::vector<node> data;
 
-  int& next(int i, int j) {
-    return data[i].next[j];
-  }
-
 public:
   prefix_tree(char base = 'a', char root = '$'): base(base) { data.emplace_back(root); }
 
@@ -29,12 +25,12 @@ public:
     int pos = 0;
     for (int i = 0; i < str.size(); ++i) {
       int k = str[i] - base;
-      if (next(pos, k) != -1) {
-        pos = next(pos, k);
+      if (data[pos].next[k] != -1) {
+        pos = data[pos].next[k];
         continue;
       }
       int pos_new = data.size();
-      next(pos, k) = pos_new;
+      data[pos].next[k] = pos_new;
       data.emplace_back(str[i]);
       pos = pos_new;
     }
@@ -45,14 +41,16 @@ public:
     int pos = 0;
     for (int i = 0; i < str.size(); ++i) {
       int k = str[i] - base;
-      if (next(pos, k) == -1) return -1;
-      pos = next(pos, k);
+      if (data[pos].next[k] == -1) {
+        return -1;
+      }
+      pos = data[pos].next[k];
     }
     return pos;
   }
 
   int find(int i, char c) const {
-    return next(i, c - base);
+    return data[i].next[c - base];
   }
 
   int index(int i) const {
