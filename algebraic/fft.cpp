@@ -19,9 +19,6 @@ namespace fft {
     inline complex operator * (const complex &rhs) const { 
       return complex(re * rhs.re - im * rhs.im, re * rhs.im + im * rhs.re); 
     }
-    inline complex conjugate() const { 
-      return complex(re, -im); 
-    }
   };
 
   int size;
@@ -31,8 +28,8 @@ namespace fft {
     while (size < size_) {
       size <<= 1;
     }
-    root.assign(size, complex());
-    for (int i = 0; i < size; ++i) {
+    root.assign(size + 1, complex());
+    for (int i = 0; i <= size; ++i) {
       real_number angle = pi * 2.0L / size * i;
       root[i] = complex(cosl(angle), sinl(angle));
     }
@@ -78,13 +75,13 @@ namespace fft {
     complex first, second;
     for (int len = 1, bit = (size >> 1); len < size; len <<= 1, bit >>= 1) {
       for (int k = 0; k < size; k += (len << 1)) {
-        idx = 0;
+        idx = size;
         for (int i = 0; i < len; ++i) {
           first = F[i + k];
           second = F[(i + k) ^ len];
-          F[i + k] = root[0].conjugate() * first + root[idx].conjugate() * second;
-          F[(i + k) ^ len] = root[0].conjugate() * first + root[idx + (size >> 1)].conjugate() * second;
-          idx += bit;
+          F[i + k] = root[0] * first + root[idx] * second;
+          F[(i + k) ^ len] = root[0] * first + root[idx - (size >> 1)] * second;
+          idx -= bit;
         }
       }
     }
