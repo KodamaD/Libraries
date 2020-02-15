@@ -9,7 +9,7 @@ private:
   int index;
 
   void dfs(int u, int p) {
-    size[v] = 1;
+    size[u] = 1;
     for (int v: graph[u]) {
       if (v != p) {
         dfs(v, u);
@@ -23,12 +23,12 @@ private:
     head[u] = h;
     parent[u] = p;
     ++index;
-    for (int v : g[u]) {
-      if (v != p && size[v] * 2 >  size[u]) {
+    for (int v : graph[u]) {
+      if (v != p && size[v] * 2 > size[u]) {
         decompose(v, u, h);
       }
     }
-    for (int v : g[u]) {
+    for (int v : graph[u]) {
       if (v != p && size[v] * 2 <= size[u]) {
         decompose(v, u, v);
       }
@@ -39,7 +39,15 @@ public:
   std::vector<int> label;
 
   heavy_light_decomposition() { }
-  heavy_light_decomposition(int size_): graph(size_) { }
+  heavy_light_decomposition(int size_) { init(size_); }
+
+  void init(int size_) {
+    graph.assign(size_, { });
+    size.assign(size_, 0);
+    parent.assign(size_, 0);
+    head.assign(size_, 0);
+    label.assign(size_, 0);
+  }
 
   void add_edge(int u, int v) {
     graph[u].push_back(v);
