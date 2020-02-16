@@ -69,7 +69,7 @@ public:
   }
 
   template <class T> 
-  void each_edge(int u, int v, const T& func) const {
+  void each_edge(int u, int v, const T &func) const {
     while (true) {
       if (label[u] > label[v]) {
         std::swap(u, v);
