@@ -8,11 +8,11 @@ private:
   std::vector<int> size, parent, head;
   int index;
 
-  void dfs(int u, int p) {
+  void calc_size(int u, int p) {
     size[u] = 1;
     for (int v: graph[u]) {
       if (v != p) {
-        dfs(v, u);
+        calc_size(v, u);
         size[u] += size[v];
       }
     }
@@ -23,13 +23,21 @@ private:
     head[u] = h;
     parent[u] = p;
     ++index;
+    int max = -1, heavy = -1;
     for (int v : graph[u]) {
-      if (v != p && size[v] * 2 > size[u]) {
-        decompose(v, u, h);
+      if (v != p) {
+        if (max < size[v]) {
+          max = size[v];
+          heavy = v;
+        }
       }
     }
+    if (heavy == -1) {
+      return;
+    }
+    decompose(heavy, u, h);
     for (int v : graph[u]) {
-      if (v != p && size[v] * 2 <= size[u]) {
+      if (v != p && v != heavy) {
         decompose(v, u, v);
       }
     }
@@ -56,7 +64,7 @@ public:
 
   void build() {
     index = 0;
-    dfs(0, -1);
+    calc_size(0, -1);
     decompose(0, -1, 0);
   }
 
@@ -75,6 +83,19 @@ public:
       func(label[head[v]], label[v]);
       v = parent[head[v]];
     }
+  }
+
+  int lca(int u, int v) const {
+    if (label[u] > label[v]) {
+      std::swap(u, v);
+    }
+    while (label[u] <= label[v]) {
+      if (head[u] == head[v]) {
+        return u;
+      }
+      v = parent[head[v]];
+    }
+    return v;
   }
 
 };
