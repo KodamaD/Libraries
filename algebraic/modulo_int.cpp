@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <type_traits>
 
 template <class T>
 class modulo_int {
