@@ -54,13 +54,6 @@ struct revrange {
   constexpr itr end() const { return l; }
 };
 
-template <class T>
-inline T scan() {
-  T res;
-  std::cin >> res;
-  return res;
-}
-
 int main() {
 
   return 0;
