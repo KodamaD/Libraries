@@ -56,6 +56,8 @@ public:
   }
 };
 
+using modint = modulo_int<std::integral_constant<int, 1000000007>>;
+
 int main() {
   return 0;
 }
