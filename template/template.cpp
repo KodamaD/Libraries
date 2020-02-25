@@ -34,7 +34,7 @@ struct range {
     constexpr bool operator != (itr x) const { return i != x.i; }
   };
   const itr l, r;
-  constexpr range(int l_, int r_): l(l_), r(std::max<int>(l_, r_)) { }
+  constexpr range(int l_, int r_): l(l_), r(std::max(l_, r_)) { }
   constexpr itr begin() const { return l; }
   constexpr itr end() const { return r; }
 };
@@ -49,7 +49,7 @@ struct revrange {
     constexpr bool operator != (itr x) const { return i != x.i; }
   };
   const itr r, l;
-  constexpr revrange(int l_, int r_): l(l_ - 1), r(std::max<int>(l_, r_) - 1) { }
+  constexpr revrange(int l_, int r_): l(l_ - 1), r(std::max(l_, r_) - 1) { }
   constexpr itr begin() const { return r; }
   constexpr itr end() const { return l; }
 };
