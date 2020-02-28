@@ -39,7 +39,7 @@ public:
     i = find_parent(i);
     j = find_parent(j);
     if (i == j) {
-      return true;
+      return false;
     }
     if (parent[i] > parent[j]) {
       std::swap(i, j);
