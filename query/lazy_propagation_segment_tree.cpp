@@ -97,6 +97,9 @@ public:
   }
 
   void modify(int l, int r, const effector_type &x) {
+    if (l >= r) {
+      return;
+    }
     flush(l + size);
     flush(r + size - 1);
     int tl = l + size, tr = r + size, k = 1;
@@ -120,6 +123,9 @@ public:
   }
 
   value_type fold(int l, int r) {
+    if (l >= r) {
+      return op1.identity;
+    }
     flush(l + size);
     flush(r + size - 1);
     int tl = l + size, tr = r + size, k = 1;
