@@ -36,9 +36,7 @@ public:
       size <<= 1;
     }
     node.assign(size << 1, initial_);
-    if (initial_ != value_operation().identity) {
-      update();
-    }
+    update();
   }
   void build(const std::vector<value_type> &node_) {
     init(node_.size());

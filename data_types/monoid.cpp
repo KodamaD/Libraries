@@ -105,6 +105,24 @@ struct range_sum_single_add {
   };
 };
 
+#include <utility>
+template <class T>
+struct range_composite_single_assign {
+  using value_type = std::pair<T, T>;
+  using effector_type = std::pair<T, T>;
+  struct value_operation {
+    value_type identity = { 1, 0 };
+    value_type operator () (const value_type &x, const value_type &y) const {
+      return { y.first * x.first, y.first * x.second + y.second };
+    }
+  };
+  struct merge_operation {
+    value_type operator () (const value_type &x, const effector_type &y) const {
+      return y;
+    }
+  };
+};
+
 #include <limits>
 template <class T>
 struct range_min_range_assign {
