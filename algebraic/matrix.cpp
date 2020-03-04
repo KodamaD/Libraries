@@ -9,8 +9,8 @@ public:
   using multiplication = typename T::multiplication;
 
 private:
-  const addition add;
-  const multiplication mult;
+  addition add;
+  multiplication mult;
 
 public:
   int height, width;
