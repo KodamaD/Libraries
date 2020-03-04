@@ -6,6 +6,7 @@ class sliding_window_aggregation {
 public:
   using value_type = typename T::value_type;
   using value_operation = typename T::value_operation;
+  using size_type = unsigned;
 
 private:
   struct node {
@@ -28,6 +29,14 @@ public:
     else {
       return op(front.top().sum, back.top().sum);
     }
+  }
+
+  size_type size() const {
+    return front.size() + back.size();
+  }
+  
+  bool empty() const {
+    return size() == 0;
   }
 
   void push(const value_type &x) {
