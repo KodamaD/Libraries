@@ -7,7 +7,7 @@
 #include <tuple>
 
 template <class T, class U>
-inline bool chmin(T& lhs, const U& rhs) {
+inline bool chmin(T &lhs, const U &rhs) {
   if (lhs > rhs) {
     lhs = rhs;
     return true;
@@ -16,7 +16,7 @@ inline bool chmin(T& lhs, const U& rhs) {
 }
 
 template <class T, class U>
-inline bool chmax(T& lhs, const U& rhs) {
+inline bool chmax(T &lhs, const U &rhs) {
   if (lhs < rhs) {
     lhs = rhs;
     return true;
