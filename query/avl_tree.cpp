@@ -23,34 +23,34 @@ private:
   node_ptr M_root;
   size_type M_node_count;
 
-  size_type size(node_ptr node) const {
+  inline size_type size(node_ptr node) const {
     return node ? node -> size : 0;
   }
-  size_type height(node_ptr node) const {
+  inline size_type height(node_ptr node) const {
     return node ? node -> height : 0;
   }
-  size_type coeff(node_ptr node) const {
+  inline size_type coeff(node_ptr node) const {
     return node ? height(node -> left) - height(node -> right) : 0;
   }
 
-  node_ptr apply(node_ptr node) {
+  inline node_ptr apply(node_ptr node) {
     node -> size = size(node -> left) + size(node -> right) + 1;
     node -> height = std::max(height(node -> left), height(node -> right)) + 1;
     return node;
   }
-  node_ptr rotate_l(node_ptr node) {
+  inline node_ptr rotate_l(node_ptr node) {
     node_ptr new_root = node -> right;
     node -> right = new_root -> left;
     new_root -> left = node;
     return apply(node), apply(new_root);
   }
-  node_ptr rotate_r(node_ptr node) {
+  inline node_ptr rotate_r(node_ptr node) {
     node_ptr new_root = node -> left;
     node -> left = new_root -> right;
     new_root -> right = node;
     return apply(node), apply(new_root);
   }
-  node_ptr balance(node_ptr node) {
+  inline node_ptr balance(node_ptr node) {
     size_type dif = coeff(apply(node));
     if (dif == 2) {
       if (coeff(node -> left) < 0) node -> left = rotate_l(node -> left);
@@ -63,16 +63,16 @@ private:
     return node;
   }
 
+  inline node_ptr find_right_end(node_ptr node) {
+    while (node -> right) node = node -> right;
+    return node;
+  }
+
   node_ptr insert_impl(node_ptr node, const value_type &val) {
     if (!node) return std::make_shared<node_type>(nullptr, nullptr, val, 1, 1); 
     if (val < node -> value) node -> left = insert_impl(node -> left, val);
     else node -> right = insert_impl(node -> right, val);
     return balance(node);
-  }
-
-  node_ptr find_right_end(node_ptr node) {
-    if (node -> right) return find_right_end(node -> right);
-    return node;
   }
 
   node_ptr erase_impl(node_ptr node, const value_type &val) {
