@@ -4,83 +4,70 @@
 #include <algorithm>
 #include <limits>
 
-template <class T>
 class partially_persistent_union_find {
-public:
-  using value_type = T;
-
 private:
-  int size;
-  value_type last_query;
-  const value_type inf;
-  std::vector<int> parent;
-  std::vector<value_type> updated;
-  std::vector<std::pair<value_type, int>> component;
-  std::vector<std::vector<std::pair<value_type, int>>> history;
+  const int inf;
+  int size, last;
+  std::vector<int> parent, updated, component;
+  std::vector<std::vector<std::pair<int, int>>> history;
 
 public:
-  partially_persistent_union_find(): inf(std::numeric_limits<value_type>::max()) { }
-  partially_persistent_union_find(int size_): 
-    inf(std::numeric_limits<value_type>::max())
-  { init(size_);}
-
-  void init(int size_) {
+  partially_persistent_union_find(): inf(std::numeric_limits<int>::max()) { }
+  partially_persistent_union_find(int size_): inf(std::numeric_limits<int>::max()) {
     size = size_;
-    last_query = std::numeric_limits<value_type>::min();
+    last = -1;
     parent.assign(size_, 1);
     updated.assign(size_, inf);
-    component.assign(1, { last_query, size_ });
-    history.assign(size_, { { last_query, 1 } });
+    component.assign(1, size_);
+    history.assign(size_, { { -1, 1 } });
   }
 
-  int find_parent(int i, const value_type &t) const {
-    if (updated[i] > t) {
-      return i;
+  int find_parent(int x, int t) const {
+    if (updated[x] > t) {
+      return x;
     }
-    else {
-      return find_parent(parent[i], t);
-    }
+    return find_parent(parent[x], t);
   }
-
-  int count_components(const value_type &t) const {
-    return (--std::upper_bound(component.begin(), component.end(), std::make_pair(t, size))) -> second;
-  }
-  int component_size(int i, const value_type &t) const {
-    i = find_parent(i, t);
-    return (--std::upper_bound(history[i].begin(), history[i].end(), std::make_pair(t, size))) -> second;
-  }
-  bool same_component(int i, int j, const value_type &t) const {
-    return find_parent(i, t) == find_parent(j, t);
-  }
-
-  value_type united(int i, int j) const {
-    if (!same_component(i, j, last_query)) {
+  int when(int x, int y) const {
+    if (!same_component(x, y, last)) {
       return inf;
     }
-    int ok = last_query, ng = -1;
+    int ok = last, ng = -1, md;
     while (ok - ng > 1) {
-      int md = (ok + ng) / 2;
-      (same_component(i, j, md) ? ok : ng) = md;
+      md = (ok + ng) / 2;
+      (same_component(x, y, md) ? ok : ng) = md;
     }
     return ok;
   }
 
-  bool unite(int i, int j, const value_type &t) {
-    i = find_parent(i, last_query);
-    j = find_parent(j, last_query);
-    last_query = t;
-    if (i == j) {
+  int count_components(int t) const {
+    return component[std::min(t, last) + 1];
+  }
+  int component_size(int x, int t) const {
+    x = find_parent(x, t);
+    return (--std::upper_bound(history[x].begin(), history[x].end(), std::make_pair(t, inf ))) -> second;
+  }
+
+  bool same_component(int x, int y, int t) const {
+    return find_parent(x, t) == find_parent(y, t);
+  }
+  bool unite(int x, int y) {
+    x = find_parent(x, last);
+    y = find_parent(y, last);
+    int tmp_size = component.size();
+    ++last;
+    if (x == y) {
+      component.push_back(tmp_size);
       return false;
     }
-    if (parent[i] < parent[j]) {
-      std::swap(i, j);
+    if (parent[x] < parent[y]) {
+      std::swap(x, y);
     }
-    parent[i] += parent[j];
-    parent[j] = i;
-    updated[j] = last_query;
-    int tmp = component.back().second;
-    component.emplace_back(last_query, tmp - 1);
-    history[i].emplace_back(last_query, parent[i]);
+    parent[x] += parent[y];
+    parent[y] = x;
+    updated[y] = last;
+    component.push_back(tmp_size - 1);
+    history[x].emplace_back(last, parent[x]);
     return true;
   }
 

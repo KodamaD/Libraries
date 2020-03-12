@@ -85,6 +85,21 @@ public:
     }
   }
 
+  template <class T> 
+  void each_vertex(int u, int v, const T &func) const {
+    while (true) {
+      if (label[u] > label[v]) {
+        std::swap(u, v);
+      }
+      if (head[u] == head[v]) {
+        func(label[u], label[v]);
+        return;
+      }
+      func(label[head[v]], label[v]);
+      v = parent[head[v]];
+    }
+  }
+
   int lca(int u, int v) const {
     if (label[u] > label[v]) {
       std::swap(u, v);
