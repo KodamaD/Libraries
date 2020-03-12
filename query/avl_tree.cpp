@@ -64,7 +64,7 @@ private:
   }
 
   node_ptr insert_impl(node_ptr node, const value_type &val) {
-    if (!node) return node = std::make_shared<node_type>(nullptr, nullptr, val, 1, 1); 
+    if (!node) return std::make_shared<node_type>(nullptr, nullptr, val, 1, 1); 
     if (val < node -> value) node -> left = insert_impl(node -> left, val);
     else node -> right = insert_impl(node -> right, val);
     return balance(node);
