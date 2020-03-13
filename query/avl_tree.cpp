@@ -1,12 +1,11 @@
 
-#include <memory>
 #include <algorithm>
 
 template <class T>
 class avl_tree {
 public:
   struct node_type;
-  using node_ptr = std::shared_ptr<node_type>;
+  using node_ptr = node_type *;
   using value_type = T;
   using size_type = int;
 
@@ -14,9 +13,6 @@ public:
     node_ptr left, right;
     value_type value;
     size_type size, height;
-    node_type(node_ptr l, node_ptr r, value_type v, size_type s, size_type h):
-      left(l), right(r), value(v), size(s), height(h)
-    { }
   };
 
 private:
@@ -63,32 +59,35 @@ private:
     return node;
   }
 
-  inline node_ptr find_right_end(node_ptr node) {
-    while (node -> right) node = node -> right;
-    return node;
-  }
-
-  node_ptr insert_impl(node_ptr node, const value_type &val) {
-    if (!node) return std::make_shared<node_type>(nullptr, nullptr, val, 1, 1); 
-    if (val < node -> value) node -> left = insert_impl(node -> left, val);
-    else node -> right = insert_impl(node -> right, val);
+  node_ptr M_insert_impl(node_ptr node, const value_type &val) {
+    if (!node) return new node_type{ nullptr, nullptr, val, 1, 1 };
+    if (val < node -> value) node -> left = M_insert_impl(node -> left, val);
+    else node -> right = M_insert_impl(node -> right, val);
     return balance(node);
   }
-
-  node_ptr erase_impl(node_ptr node, const value_type &val) {
-    if (!node) return node;
-    if (val < node -> value) node -> left = erase_impl(node -> left, val);
-    else if (val > node -> value) node -> right = erase_impl(node -> right, val);
+  node_ptr M_erase_impl(node_ptr node, const value_type &val) {
+    if (!node) return nullptr;
+    if (val < node -> value) node -> left = M_erase_impl(node -> left, val);
+    else if (val > node -> value) node -> right = M_erase_impl(node -> right, val);
     else {
       if (!(node -> left) || !(node -> right)) {
         --M_node_count;
-        return node -> left ? node -> left : node -> right;
+        node_ptr res = node -> left ? node -> left : node -> right;
+        delete node;
+        return res;
       }
-      node_ptr right_end = find_right_end(node -> left);
+      node_ptr right_end = node -> left;
+      while (right_end -> right) right_end = right_end -> right;
       node -> value = right_end -> value;
-      node -> left = erase_impl(node -> left, right_end -> value);
+      node -> left = M_erase_impl(node -> left, right_end -> value);
     }
     return balance(node);
+  }
+  void M_clear_impl(node_ptr node) {
+    if (!node) return;
+    M_clear_impl(node -> left);
+    M_clear_impl(node -> right);
+    delete node;
   }
 
 public:
@@ -96,13 +95,19 @@ public:
     M_root(nullptr),
     M_node_count(0)
   { }
+  ~avl_tree() {
+    M_clear_impl(M_root);
+  }
 
   void insert(const value_type &val) {
-    M_root = insert_impl(M_root, val);
+    M_root = M_insert_impl(M_root, val);
     ++M_node_count;
   }
   void erase(const value_type &val) {
-    M_root = erase_impl(M_root, val);
+    M_root = M_erase_impl(M_root, val);
+  }
+  void clear() {
+    M_clear_impl(M_root);
   }
 
   bool empty() const {
@@ -151,6 +156,7 @@ public:
   }
 
 };
+
 
 int main() {
   return 0;
