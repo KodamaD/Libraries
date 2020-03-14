@@ -29,24 +29,24 @@ private:
     return node ? height(node -> left) - height(node -> right) : 0;
   }
 
-  inline root_type apply(root_type node) {
+  inline root_type apply(root_type node) const {
     node -> size = size(node -> left) + size(node -> right) + 1;
     node -> height = std::max(height(node -> left), height(node -> right)) + 1;
     return node;
   }
-  inline root_type rotate_l(root_type node) {
+  inline root_type rotate_l(root_type node) const {
     root_type new_root = node -> right;
     node -> right = new_root -> left;
     new_root -> left = node;
     return apply(node), apply(new_root);
   }
-  inline root_type rotate_r(root_type node) {
+  inline root_type rotate_r(root_type node) const {
     root_type new_root = node -> left;
     node -> left = new_root -> right;
     new_root -> right = node;
     return apply(node), apply(new_root);
   }
-  inline root_type balance(root_type node) {
+  inline root_type balance(root_type node) const {
     size_type dif = coeff(apply(node));
     if (dif == 2) {
       if (coeff(node -> left) < 0) node -> left = rotate_l(node -> left);
@@ -59,13 +59,13 @@ private:
     return node;
   }
 
-  root_type M_insert_impl(root_type node, const value_type &val) {
+  root_type M_insert_impl(root_type node, const value_type &val) const {
     if (!node) return new node_type{ nullptr, nullptr, val, 1, 1 };
     if (val < node -> value) node -> left = M_insert_impl(node -> left, val);
     else node -> right = M_insert_impl(node -> right, val);
     return balance(node);
   }
-  root_type M_erase_impl(root_type node, const value_type &val) {
+  root_type M_erase_impl(root_type node, const value_type &val) const {
     if (!node) return nullptr;
     if (val < node -> value) node -> left = M_erase_impl(node -> left, val);
     else if (val > node -> value) node -> right = M_erase_impl(node -> right, val);
@@ -82,7 +82,7 @@ private:
     }
     return balance(node);
   }
-  void M_clear_impl(root_type node) {
+  void M_clear_impl(root_type node) const {
     if (!node) return;
     M_clear_impl(node -> left);
     M_clear_impl(node -> right);
