@@ -13,7 +13,7 @@ std::vector<int> z_algorithm(const T& str) {
     }
     result[i] = j;
     if (j == 0) { 
-      ++j; 
+      ++i; 
       continue; 
     }
     int k = 1;
