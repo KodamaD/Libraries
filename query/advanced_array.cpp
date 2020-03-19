@@ -148,7 +148,7 @@ public:
   void reverse(size_type l, size_type r) {
     auto left = M_split_impl(M_root, l);
     auto right = M_split_impl(left.second, r - l);
-    right.first -> reversed ^= 1;
+    if (right.first) right.first -> reversed ^= 1;
     M_root = M_merge_impl(left.first, M_merge_impl(right.first, right.second));
   }
   void clear() {
