@@ -109,7 +109,6 @@ namespace fft {
       res[i] = static_cast<T>(C[i].re / size + 0.5L);
     }
     return res;
-    return std::vector<T>();
   }
 
 };
