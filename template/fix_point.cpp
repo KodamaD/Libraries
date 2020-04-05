@@ -10,11 +10,6 @@ struct fix_point: private T {
   }
 };
 
-template <class T>
-constexpr decltype(auto) make_fix_point(T &&func) {
-  return fix_point<T>{std::forward<T>(func)};
-}
-
 int main() {
   return 0;
 }
