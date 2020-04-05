@@ -18,7 +18,7 @@ private:
   std::vector<value_type> node;
   std::vector<effector_type> lazy;
 
-  value_type reflect(int i, int l) const {
+  value_type fetch(int i, int l) const {
     if (lazy[i] == op2.identity) {
       return node[i];
     }
@@ -53,7 +53,7 @@ private:
     i >>= 1;
     int l = 1;
     while (i > 0) {
-      node[i] = op1(reflect(i << 1 | 0, l), reflect(i << 1 | 1, l));
+      node[i] = op1(fetch(i << 1 | 0, l), fetch(i << 1 | 1, l));
       i >>= 1;
       l <<= 1;
     }
@@ -75,7 +75,7 @@ public:
       size <<= 1;
       ++height;
     }
-    node.assign(size << 1, op1.identity);
+    node.assign(size << 1, initial_);
     lazy.assign(size << 1, op2.identity);
     update();
   }
