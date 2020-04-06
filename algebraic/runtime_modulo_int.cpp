@@ -4,9 +4,7 @@
 template <class T>
 class runtime_modulo_int {
 public:
-  static int mod() {
-    return T::value;
-  }
+  static int mod() { return T::value; }
 private:
   long long value;
   void normalize() {
@@ -56,8 +54,7 @@ public:
   }
 };
 
-struct runtime_mod { static int value; };
-int runtime_mod::value;
+struct runtime_mod { static inline int value; };
 int &mod = runtime_mod::value;
 using modint = runtime_modulo_int<runtime_mod>;
 
