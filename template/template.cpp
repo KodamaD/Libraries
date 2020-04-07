@@ -47,7 +47,7 @@ struct revrange {
     constexpr int operator * () const { return i; }
     constexpr bool operator != (itr x) const { return i != x.i; }
   };
-  const itr r, l;
+  const itr l, r;
   constexpr revrange(int l_, int r_): l(l_ - 1), r(std::max(l_, r_) - 1) { }
   constexpr itr begin() const { return r; }
   constexpr itr end() const { return l; }

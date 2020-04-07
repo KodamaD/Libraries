@@ -33,7 +33,7 @@ struct dbg_setup {
   do {\
     if (!(condition)) {\
       std::cerr << "Assertion failed: (" << #condition << "), ";\
-      if (#__VA_ARGS__ != "") {\
+      if (std::string(#__VA_ARGS__) != "") {\
         std::cerr << "message: " << #__VA_ARGS__ << ", ";\
       }\
       std::cerr << "function " << __func__  << ", ";\
