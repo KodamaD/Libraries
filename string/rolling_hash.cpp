@@ -42,7 +42,7 @@ public:
     return M_string.size();
   }
   bool empty() const {
-    return M_string.size();
+    return M_string.size() == 0;
   }
   const std::string &get() const {
     return M_string;
