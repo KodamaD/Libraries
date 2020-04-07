@@ -28,10 +28,22 @@ struct dbg_setup {
     dbg_impl(__VA_ARGS__);\
   } while (false)
 
-#else
-#define debug(...) 0
-#endif
+#undef assert
+#define assert(condition, ...)\
+  do {\
+    if (!(condition)) {\
+      std::cerr << "Assertion failed: (" << #condition << "), ";\
+      if (#__VA_ARGS__ != "") {\
+        std::cerr << "message: " << #__VA_ARGS__ << ", ";\
+      }\
+      std::cerr << "function " << __func__  << ", ";\
+      std::cerr << "file " << __FILE__  << ", ";\
+      std::cerr << "line " << __LINE__ << ".\n";\
+      std::exit(1);\
+    }\
+  } while (false)
 
-int main() {
-  return 0;
-}
+#else
+#define debug(...) ((void) 0)
+#define assert(...) ((void) 0)
+#endif

@@ -1,6 +1,4 @@
 
-#include <vector>
-
 template <class T>
 class lazy_propagation_segment_tree {
 public:
@@ -147,7 +145,3 @@ public:
   }
 
 };
-
-int main() {
-  return 0;
-}

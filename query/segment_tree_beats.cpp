@@ -1,7 +1,4 @@
 
-#include <vector>
-#include <algorithm>
-
 template <class T>
 class segment_tree_beats {
 public:
@@ -231,7 +228,3 @@ public:
   }
 
 };
-
-int main() {
-  return 0;
-}

@@ -1,6 +1,4 @@
 
-#include <algorithm>
-
 class link_cut_tree {
 public:
   struct node_type;
@@ -127,7 +125,3 @@ public:
   }
 
 };
-
-int main() {
-  return 0;
-}

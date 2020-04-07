@@ -1,6 +1,4 @@
 
-#include <vector>
-
 template <class T>
 class segment_tree {
 public:
@@ -103,7 +101,3 @@ public:
   }
 
 };
-
-int main() {
-  return 0;
-}

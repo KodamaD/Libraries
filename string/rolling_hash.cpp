@@ -1,8 +1,4 @@
 
-#include <ctime>
-#include <vector>
-#include <string>
-
 template <class T>
 class hash_string {
 public:
@@ -68,7 +64,3 @@ public:
 
 struct rolling_hash_base { static inline const unsigned value = std::clock() ^ std::time(nullptr); };
 using rolling_hash = hash_string<rolling_hash_base>;
-
-int main() {
-  return 0;
-}

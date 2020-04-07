@@ -1,6 +1,4 @@
 
-#include <vector>
-
 template <class T>
 class matrix: public std::vector<std::vector<typename T::value_type>> {
 public:
@@ -76,7 +74,3 @@ public:
   }
 
 };
-
-int main() {
-  return 0;
-}

@@ -1,8 +1,6 @@
 
-#include <vector>
-
 template <class T>
-class fenwick {
+class fenwick_tree {
 public:
   using value_type = T;
 
@@ -11,8 +9,8 @@ private:
   std::vector<value_type> node;
 
 public:
-  fenwick() = default;
-  fenwick(int size_) { init(size_); }
+  fenwick_tree() = default;
+  fenwick_tree(int size_) { init(size_); }
 
   void init(int size_) {
     size = size_;
@@ -41,7 +39,3 @@ public:
   }
 
 };
-
-int main() {
-  return 0;
-}

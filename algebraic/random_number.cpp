@@ -1,7 +1,4 @@
 
-#include <ctime>
-#include <type_traits>
-
 class random_number {
 public:
   using random_type = unsigned long long;
@@ -49,7 +46,3 @@ public:
   }
 
 };
-
-int main() {
-  return 0;
-}

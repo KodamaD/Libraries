@@ -39,7 +39,3 @@ struct range_product {
     }
   };
 };
-
-int main() {
-  return 0;
-}

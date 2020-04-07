@@ -1,5 +1,4 @@
 
-#include <limits>
 template <class T>
 struct range_min_single_assign {
   using value_type = T;
@@ -17,7 +16,6 @@ struct range_min_single_assign {
   };
 };
 
-#include <limits>
 template <class T>
 struct range_max_single_assign {
   using value_type = T;
@@ -35,7 +33,6 @@ struct range_max_single_assign {
   };
 };
 
-#include <limits>
 template <class T>
 struct range_min_single_chmin {
   using value_type = T;
@@ -53,7 +50,6 @@ struct range_min_single_chmin {
   };
 };
 
-#include <limits>
 template <class T>
 struct range_max_single_chmax {
   using value_type = T;
@@ -105,7 +101,6 @@ struct range_sum_single_add {
   };
 };
 
-#include <limits>
 template <class T>
 struct range_min_range_assign {
   using value_type = T;
@@ -129,7 +124,6 @@ struct range_min_range_assign {
   };
 };
 
-#include <limits>
 template <class T>
 struct range_max_range_assign {
   using value_type = T;
@@ -153,7 +147,6 @@ struct range_max_range_assign {
   };
 };
 
-#include <limits>
 template <class T>
 struct range_min_range_chmin {
   using value_type = T;
@@ -177,7 +170,6 @@ struct range_min_range_chmin {
   };
 };
 
-#include <limits>
 template <class T>
 struct range_max_range_chmax {
   using value_type = T;
@@ -201,7 +193,6 @@ struct range_max_range_chmax {
   };
 };
 
-#include <limits>
 template <class T>
 struct range_min_range_add {
   using value_type = T;
@@ -225,7 +216,6 @@ struct range_min_range_add {
   };
 };
 
-#include <limits>
 template <class T>
 struct range_max_range_add {
   using value_type = T;
@@ -294,7 +284,3 @@ struct range_sum_range_add {
     }
   };
 };
-
-int main() {
-  return 0;
-}

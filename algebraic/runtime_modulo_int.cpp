@@ -1,6 +1,4 @@
 
-#include <iostream>
-
 template <class T>
 class runtime_modulo_int {
 public:
@@ -57,7 +55,3 @@ public:
 struct runtime_mod { static inline int value; };
 int &mod = runtime_mod::value;
 using modint = runtime_modulo_int<runtime_mod>;
-
-int main() {
-  return 0;
-}

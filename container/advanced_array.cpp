@@ -1,8 +1,4 @@
 
-#include <ctime>
-#include <utility>
-#include <vector>
-
 template <class T>
 class advanced_array {
 public:
@@ -181,7 +177,3 @@ public:
   }
 
 };
-
-int main() {
-  return 0;
-}

@@ -1,7 +1,4 @@
 
-#include <iostream>
-#include <type_traits>
-
 template <class T>
 class modulo_int {
 public:
@@ -63,7 +60,3 @@ public:
 };
 
 using modint = modulo_int<std::integral_constant<int, 1000000007>>;
-
-int main() {
-  return 0;
-}

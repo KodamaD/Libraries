@@ -1,6 +1,4 @@
 
-#include <vector>
-
 template <class T>
 class disjoint_sparse_table {
 public:
@@ -60,7 +58,3 @@ public:
   }
 
 };
-
-int main() {
-  return 0;
-}

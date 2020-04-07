@@ -4,7 +4,6 @@
 #include <utility>
 #include <vector>
 #include <numeric>
-#include <tuple>
 
 template <class T, class U>
 inline bool chmin(T &lhs, const U &rhs) {

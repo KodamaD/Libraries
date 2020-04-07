@@ -1,15 +1,11 @@
 
-#include <vector>
-#include <cmath>
-#include <utility>
-
 namespace fft {
-  using real_number = double;
-  constexpr real_number pi = acosl(-1.0L);
+  using real_type = double;
+  constexpr real_type pi = std::acos(-1.0L);
 
   struct complex {
-    real_number re, im;
-    complex(real_number re_ = 0, real_number im_ = 0): re(re_), im(im_) { }
+    real_type re, im;
+    complex(real_type re_ = 0, real_type im_ = 0): re(re_), im(im_) { }
     inline complex operator + (const complex &rhs) const { 
       return complex(re + rhs.re, im + rhs.im); 
     }
@@ -30,7 +26,7 @@ namespace fft {
     }
     root.assign(size + 1, complex());
     for (int i = 0; i <= size; ++i) {
-      real_number angle = pi * 2.0L / size * i;
+      real_type angle = pi * 2.0L / size * i;
       root[i] = complex(cosl(angle), sinl(angle));
     }
   }
@@ -93,10 +89,10 @@ namespace fft {
     reserve(res_size);
     std::vector<complex> C(size), D(size);
     for (int i = 0; i < A.size(); ++i) {
-      C[i].re = static_cast<real_number>(A[i]);
+      C[i].re = static_cast<real_type>(A[i]);
     }
     for (int i = 0; i < B.size(); ++i) {
-      D[i].re = static_cast<real_number>(B[i]);
+      D[i].re = static_cast<real_type>(B[i]);
     }
     discrete_fourier_transform(C);
     discrete_fourier_transform(D);
@@ -112,7 +108,3 @@ namespace fft {
   }
 
 };
-
-int main() {
-  return 0;
-}

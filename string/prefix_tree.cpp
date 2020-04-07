@@ -1,8 +1,4 @@
 
-#include <vector>
-#include <algorithm>
-#include <string>
-
 template <int LETTER = 26>
 class prefix_tree {
 private:
@@ -52,13 +48,8 @@ public:
   int find(int i, char c) const {
     return data[i].next[c - base];
   }
-
   int index(int i) const {
     return i == -1 ? -1 : data[i].index;
   }
 
 };
-
-int main() {
-  return 0;
-}

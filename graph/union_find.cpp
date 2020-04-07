@@ -1,7 +1,4 @@
 
-#include <vector>
-#include <utility>
-
 class union_find {
 private:
   int component;
@@ -51,7 +48,3 @@ public:
   }
 
 };
-
-int main() {
-  return 0;
-}

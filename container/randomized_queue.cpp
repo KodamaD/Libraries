@@ -1,8 +1,4 @@
 
-#include <vector>
-#include <algorithm>
-#include <ctime>
-
 template <class T>
 class randomized_queue {
 public:
@@ -49,7 +45,3 @@ public:
   }
 
 };
-
-int main() {
-  return 0;
-}

@@ -1,8 +1,4 @@
 
-#include <ctime>
-#include <utility>
-#include <vector>
-
 template <class T>
 class advanced_segment_tree {
 public:
@@ -226,6 +222,3 @@ public:
 
 };
 
-int main() {
-  return 0;
-}

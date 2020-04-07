@@ -16,7 +16,6 @@ struct number {
   };
 };
 
-#include <limits>
 template <class T>
 struct xor_and {
   using value_type = T;
@@ -34,7 +33,6 @@ struct xor_and {
   };
 };
 
-#include <limits>
 template <class T>
 struct min_add {
   using value_type = T;
@@ -52,7 +50,6 @@ struct min_add {
   };
 };
 
-#include <limits>
 template <class T>
 struct max_add {
   using value_type = T;

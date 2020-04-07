@@ -1,6 +1,4 @@
 
-#include <algorithm>
-
 template <class T>
 class avl_tree {
 public:
@@ -149,7 +147,3 @@ public:
   }
 
 };
-
-int main() {
-  return 0;
-}

@@ -1,6 +1,4 @@
 
-#include <stack>
-
 template <class T>
 class sliding_window_aggregation {
 public:
@@ -63,7 +61,3 @@ public:
   }
 
 };
-
-int main() {
-  return 0;
-}

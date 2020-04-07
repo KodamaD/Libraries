@@ -1,6 +1,4 @@
 
-#include <utility>
-
 template <class T>
 struct fix_point: private T {
   explicit constexpr fix_point(T &&func): T(std::forward<T>(func)) { }
@@ -9,7 +7,3 @@ struct fix_point: private T {
     return T::operator()(*this, std::forward<Args>(args)...);
   }
 };
-
-int main() {
-  return 0;
-}

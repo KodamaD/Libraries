@@ -1,6 +1,4 @@
 
-#include <vector>
-
 template <class T>
 std::vector<int> z_algorithm(const T& str) {
   int size = str.size();
@@ -25,8 +23,4 @@ std::vector<int> z_algorithm(const T& str) {
     j -= k;
   }
   return result;
-}
-
-int main() {
-  return 0;
 }

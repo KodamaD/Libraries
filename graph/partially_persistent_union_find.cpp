@@ -1,9 +1,4 @@
 
-#include <vector>
-#include <utility>
-#include <algorithm>
-#include <limits>
-
 class partially_persistent_union_find {
 private:
   const int inf;
@@ -72,7 +67,3 @@ public:
   }
 
 };
-
-int main() {
-  return 0;
-}

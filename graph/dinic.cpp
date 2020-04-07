@@ -1,9 +1,4 @@
 
-#include <vector>
-#include <algorithm>
-#include <limits>
-#include <queue>
-
 template <class T>
 class dinic {
 public:
@@ -85,7 +80,3 @@ public:
   }
 
 };
-
-int main() {
-  return 0;
-}

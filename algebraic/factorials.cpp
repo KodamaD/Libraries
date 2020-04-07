@@ -1,6 +1,4 @@
 
-#include <vector>
-
 template <class T>
 class factorials {
 public:
@@ -25,7 +23,3 @@ public:
   }
 
 };
-
-int main() {
-  return 0;
-}
