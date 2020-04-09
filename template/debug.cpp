@@ -28,11 +28,10 @@ struct dbg_setup {
     dbg_impl(__VA_ARGS__);\
   } while (false)
 
-#undef assert
-#define assert(condition, ...)\
+#define affirm(condition, ...)\
   do {\
     if (!(condition)) {\
-      std::cerr << "Assertion failed: (" << #condition << "), ";\
+      std::cerr << "Affirmation failed: (" << #condition << "), ";\
       if (std::string(#__VA_ARGS__) != "") {\
         std::cerr << "message: " << #__VA_ARGS__ << ", ";\
       }\
@@ -45,5 +44,5 @@ struct dbg_setup {
 
 #else
 #define debug(...) ((void) 0)
-#define assert(...) ((void) 0)
+#define affirm(...) ((void) 0)
 #endif
