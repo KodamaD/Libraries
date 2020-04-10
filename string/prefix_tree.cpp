@@ -1,13 +1,13 @@
 
-template <int LETTER = 26>
+template <int WORD_SIZE = 26>
 class prefix_tree {
 private:
   struct node {
     int index;
-    int next[LETTER];
+    int next[WORD_SIZE];
     char letter;
     node(char c): letter(c), index(-1) {
-      std::fill(next, next + LETTER, -1);
+      std::fill(next, next + WORD_SIZE, -1);
     }
   };
 
