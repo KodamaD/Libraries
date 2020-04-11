@@ -3,7 +3,6 @@ template <class T>
 class suffix_array {
 public:
   using container_type = T;
-  using value_type = typename T::value_type;
   using size_type = unsigned;
 
 private:
@@ -54,7 +53,7 @@ public:
   size_type size() const {
     return M_size;
   }
-  const std::vector<value_type> &get() const {
+  const container_type &get() const {
     return M_data;
   }
 
