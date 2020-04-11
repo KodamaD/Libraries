@@ -1,5 +1,4 @@
 
-#define DEBUG
 #ifdef DEBUG
 #include <iostream>
 #include <iomanip>
