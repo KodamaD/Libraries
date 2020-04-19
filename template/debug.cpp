@@ -1,5 +1,5 @@
 
-#ifdef DEBUG
+#ifndef ONLINE_JUDGE
 #include <iostream>
 #include <iomanip>
 
@@ -37,7 +37,7 @@ struct dbg_setup {
       std::cerr << "function " << __func__  << ", ";\
       std::cerr << "file " << __FILE__  << ", ";\
       std::cerr << "line " << __LINE__ << ".\n";\
-      std::exit(1);\
+      std::exit(EXIT_FAILURE);\
     }\
   } while (false)
 
