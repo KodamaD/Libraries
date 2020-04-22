@@ -1,5 +1,5 @@
 
-#ifndef ONLINE_JUDGE
+#ifdef LOCAL
 #include <iostream>
 #include <iomanip>
 
