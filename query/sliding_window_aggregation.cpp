@@ -9,7 +9,7 @@ public:
 private:
   struct node {
     value_type value, sum;
-    node (const value_type &value_, const value_type &sum): value(value_), sum(sum_) { }
+    node (const value_type &value_, const value_type &sum_): value(value_), sum(sum_) { }
   };
   const value_operation op;
   std::stack<node> front, back;
