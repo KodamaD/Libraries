@@ -99,6 +99,7 @@ public:
   }
   void clear() {
     M_clear_impl(M_root);
+    M_root = nullptr;
   }
 
   flag_type empty() const {
