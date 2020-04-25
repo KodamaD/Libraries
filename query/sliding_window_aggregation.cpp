@@ -4,7 +4,7 @@ class sliding_window_aggregation {
 public:
   using value_type = typename T::value_type;
   using value_operation = typename T::value_operation;
-  using size_type = unsigned;
+  using size_type = std::size_t;
 
 private:
   struct node {

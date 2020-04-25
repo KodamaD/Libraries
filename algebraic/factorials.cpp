@@ -1,24 +1,26 @@
 
-template <class T>
+template <class T, std::size_t N>
 class factorials {
 public:
   using value_type = T;
+  static constexpr std::size_t size = N;
 
 public:
-  std::vector<value_type> fact, fact_inv;
+  std::array<value_type, size + 1> fact{};
+  std::array<value_type, size + 1> fact_inv{};
 
-  factorials(int size_ = 200000): fact(size_ + 1), fact_inv(size_ + 1) {
-    fact[0] = 1;
-    for (int i = 1; i <= size_; ++i) {
+  constexpr factorials() {
+    fact.front() = value_type(1);
+    for (std::size_t i = 1; i <= size; ++i) {
       fact[i] = fact[i - 1] * value_type(i);
     }
-    fact_inv[size_] = ~fact[size_];
-    for (int i = size_; i > 0; --i) {
+    fact_inv.back() = ~fact.back();
+    for (std::size_t i = size; i > 0; --i) {
       fact_inv[i - 1] = fact_inv[i] * value_type(i);
     }
   }
 
-  value_type operator () (int n, int r) const {
+  constexpr value_type operator () (std::size_t n, std::size_t r) const {
     return fact[n] * fact_inv[n - r] * fact_inv[r];
   }
 
