@@ -7,8 +7,8 @@ public:
 private:
   std::vector<value_type> data;
 
-  inline unsigned engine() const {
-    static unsigned current = std::clock() ^ std::time(nullptr);
+  inline uint64_t engine() const {
+    static uint64_t current = std::clock() ^ std::time(nullptr);
     current ^= current << 13;
     current ^= current >> 17;
     current ^= current << 5;
@@ -29,7 +29,7 @@ public:
   bool empty() const {
     return data.empty();
   }
-  unsigned size() const {
+  size_t size() const {
     return data.size();
   }
 
