@@ -33,12 +33,12 @@ public:
   runtime_modulo_int& operator /= (const runtime_modulo_int& rhs) {
     return (*this) *= ~rhs;
   }
-  runtime_modulo_int power (unsigned long long pow) const {
+  runtime_modulo_int power (uint64_t exp) const {
     runtime_modulo_int result(1), mult(*this);
-    while (pow > 0) {
-      if (pow & 1) result *= mult;
+    while (exp > 0) {
+      if (exp & 1) result *= mult;
       mult *= mult;
-      pow >>= 1;
+      exp >>= 1;
     }
     return result;
   }

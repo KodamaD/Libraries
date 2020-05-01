@@ -58,17 +58,17 @@ public:
     return *this;
   }
 
-  matrix power(unsigned long long pow) const {
+  matrix power(uint64_t exp) const {
     matrix res(height, width), use(*this);
     for (int i = 0; i < height; ++i) {
       res[i][i] = mult.identity;
     }
-    while (pow > 0) {
-      if (pow & 1) {
+    while (exp > 0) {
+      if (exp & 1) {
         res *= use;
       }
       use *= use;
-      pow >>= 1;
+      exp >>= 1;
     }
     return res;
   }

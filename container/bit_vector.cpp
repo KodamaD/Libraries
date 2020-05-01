@@ -1,9 +1,9 @@
 
 class bit_vector {
 public:
-  using size_type = std::size_t;
-  using bit_type = std::uint_fast64_t;
-  using count_type = std::uint_fast32_t;
+  using size_type = size_t;
+  using bit_type = uint64_t;
+  using count_type = uint32_t;
 
   static constexpr size_type block_size = 64;
 

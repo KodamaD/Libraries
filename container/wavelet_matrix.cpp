@@ -1,9 +1,9 @@
 
-template <class T, std::size_t W>
+template <class T, size_t W>
 class wavelet_matrix {
 public:
   using value_type = T;
-  using size_type = std::size_t;
+  using size_type = size_t;
 
   static constexpr size_type word_size = W;
 
