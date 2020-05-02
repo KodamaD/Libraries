@@ -1,35 +1,40 @@
 
 template <class T>
-class matrix: public std::vector<std::vector<typename T::value_type>> {
+class matrix {
 public:
   using value_type = typename T::value_type;
   using addition = typename T::addition;
   using multiplication = typename T::multiplication;
+  using size_type = size_t;
 
 private:
+  std::vector<std::vector<value_type>> data;
   addition add;
   multiplication mult;
 
 public:
-  int height, width;
+  size_type height, width;
 
   matrix(): add(addition()), mult(multiplication()) { }
-  matrix(int height_, int width_, const value_type &initial_ = addition().identity):
+  matrix(size_type height_, size_type width_, const value_type &value_ = addition().identity):
+    data(height_, std::vector<value_type>(width_, value_)),
     add(addition()), mult(multiplication()),
-    height(height_), width(width_),
-    std::vector<std::vector<value_type>>(height_, std::vector<value_type>(width_, initial_))
+    height(height_), width(width_)
   { }
   matrix(const std::vector<std::vector<value_type>> &data_):
+    data(data_),
     add(addition()), mult(multiplication()),
-    height(data_.size()), width(data_.front().size()),
-    std::vector<std::vector<value_type>>(data_)
+    height(data_.size()), width(data_.front().size())
   { }
+
+  std::vector<value_type> &operator [] (size_type idx) { return data[idx]; }
+  const std::vector<value_type> &operator [] (size_type idx) const { return data[idx]; }
 
   matrix operator + (const matrix &rhs) const { return matrix(*this) += rhs; }
   matrix& operator += (const matrix &rhs) { 
-    for (int i = 0; i < height; ++i) {
-      for (int j = 0; j < width; ++j) {
-        (*this)[i][j] = add((*this)[i][j], rhs[i][j]);
+    for (size_type i = 0; i < height; ++i) {
+      for (size_type j = 0; j < width; ++j) {
+        data[i][j] = add(data[i][j], rhs[i][j]);
       }
     }
     return *this;
@@ -38,10 +43,10 @@ public:
   matrix& operator *= (const matrix &rhs) { *this = (*this) * rhs; return *this; }
   matrix operator * (const matrix &rhs) const {
     matrix res(height, rhs.width);
-    for (int i = 0; i < height; ++i) {
-      for (int j = 0; j < rhs.width; ++j) {
-        for (int k = 0; k < width; ++k) {
-          res[i][j] = add(res[i][j], mult((*this)[i][k], rhs[k][j]));
+    for (size_type i = 0; i < height; ++i) {
+      for (size_type j = 0; j < rhs.width; ++j) {
+        for (size_type k = 0; k < width; ++k) {
+          res[i][j] = add(res[i][j], mult(data[i][k], rhs[k][j]));
         }
       }
     }
@@ -50,9 +55,9 @@ public:
 
   matrix operator * (const value_type &rhs) const { return matrix(*this) *= rhs; }
   matrix& operator *= (const value_type &rhs)  { 
-    for (int i = 0; i < height; ++i) {
-      for (int j = 0; j < width; ++j) {
-        (*this)[i][j] = mult((*this)[i][j], rhs);
+    for (size_type i = 0; i < height; ++i) {
+      for (size_type j = 0; j < width; ++j) {
+        data[i][j] = mult(data[i][j], rhs);
       }
     }
     return *this;
@@ -60,7 +65,7 @@ public:
 
   matrix power(uint64_t exp) const {
     matrix res(height, width), use(*this);
-    for (int i = 0; i < height; ++i) {
+    for (size_type i = 0; i < height; ++i) {
       res[i][i] = mult.identity;
     }
     while (exp > 0) {
