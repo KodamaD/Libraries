@@ -5,13 +5,14 @@ public:
   using value_type = T;
   using size_type = int;
 
+  static constexpr value_type inf = std::numeric_limits<value_type>::max();
+
   struct edge_type {
     size_type to, rev;
     value_type cap;
   };
 
 private:
-  const value_type inf;
   size_type size;
   std::vector<std::vector<edge_type>> graph;
   std::vector<size_type> level, iter;
@@ -51,8 +52,8 @@ private:
 
 
 public:
-  dinic(): inf(std::numeric_limits<value_type>::max()) { }
-  dinic(size_type size_): inf(std::numeric_limits<value_type>::max()) { init(size_); }
+  dinic() { }
+  dinic(size_type size_) { init(size_); }
 
   void init(size_type size_) {
     size = size_;
