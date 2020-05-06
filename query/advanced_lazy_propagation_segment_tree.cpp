@@ -9,7 +9,7 @@ public:
   using value_operation = typename T::value_operation;
   using effector_operation = typename T::effector_operation;
   using merge_operation = typename T::merge_operation;
-  using size_type = unsigned;
+  using size_type = size_t;
   using flag_type = bool;
 
   struct node_type {

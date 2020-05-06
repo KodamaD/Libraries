@@ -5,13 +5,15 @@ public:
   struct node_type;
   using root_type = node_type *;
   using value_type = T;
-  using size_type = int;
+  using size_type = size_t;
+  using height_type = int8_t;
   using flag_type = bool;
 
   struct node_type {
     root_type left, right;
     value_type value;
-    size_type size, height;
+    size_type size;
+    height_type height;
   };
 
 private:
@@ -20,10 +22,10 @@ private:
   inline size_type size(root_type node) const {
     return node ? node -> size : 0;
   }
-  inline size_type height(root_type node) const {
+  inline height_type height(root_type node) const {
     return node ? node -> height : 0;
   }
-  inline size_type coeff(root_type node) const {
+  inline height_type coeff(root_type node) const {
     return node ? height(node -> left) - height(node -> right) : 0;
   }
 
@@ -45,7 +47,7 @@ private:
     return apply(node), apply(new_root);
   }
   inline root_type balance(root_type node) const {
-    size_type dif = coeff(apply(node));
+    height_type dif = coeff(apply(node));
     if (dif == 2) {
       if (coeff(node -> left) < 0) node -> left = rotate_l(node -> left);
       return rotate_r(node);

@@ -3,7 +3,7 @@ template <class T>
 class suffix_array {
 public:
   using container_type = T;
-  using size_type = unsigned;
+  using size_type = size_t;
 
 private:
   const size_type M_size;

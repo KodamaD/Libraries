@@ -5,7 +5,7 @@ public:
   struct node_type;
   using root_type = node_type *;
   using value_type = T;
-  using size_type = unsigned;
+  using size_type = size_t;
   using flag_type = bool;
 
   struct node_type {

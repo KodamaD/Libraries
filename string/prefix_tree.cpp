@@ -1,16 +1,19 @@
 
-template <int WORD_SIZE = 26>
+template <size_t L = 26>
 class prefix_tree {
-private:
+public:
+  static constexpr size_t letter_size = L;
+
   struct node {
     int index;
-    int next[WORD_SIZE];
+    std::array<int, letter_size> next;
     char letter;
     node(char c): letter(c), index(-1) {
-      std::fill(next, next + WORD_SIZE, -1);
+      next.fill(-1);
     }
   };
 
+private:
   const char base;
   std::vector<node> data;
 

@@ -1,10 +1,10 @@
 
 template <class T>
-std::vector<int> z_algorithm(const T& str) {
-  int size = str.size();
-  std::vector<int> result(size);
+std::vector<size_t> z_algorithm(const T& str) {
+  size_t size = str.size();
+  std::vector<size_t> result(size);
   result[0] = size;
-  int i = 1, j = 0;
+  size_t i = 1, j = 0;
   while (i < size) {
     while (i + j < size && str[i + j] == str[j]) {
       ++j;
@@ -14,7 +14,7 @@ std::vector<int> z_algorithm(const T& str) {
       ++i; 
       continue; 
     }
-    int k = 1;
+    size_t k = 1;
     while (i + k < size && k + result[k] < j) { 
       result[i + k] = result[k];
       ++k; 

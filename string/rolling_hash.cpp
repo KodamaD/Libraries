@@ -2,9 +2,9 @@
 template <class T>
 class hash_string {
 public:
-  using mod_type = unsigned long long;
-  using base_type = unsigned;
-  using size_type = unsigned;
+  using mod_type = uint64_t;
+  using base_type = uint32_t;
+  using size_type = size_t;
   static constexpr mod_type mod = (1ll << 61) - 1;
   static base_type base() { return T::value; }
 
@@ -34,7 +34,7 @@ public:
     M_hash.resize(next_size + 1);
     for (size_type i = cur_size; i < next_size; ++i) {
       M_power[i + 1] = (__uint128_t) M_power[i] * base() % mod;
-      M_hash[i + 1] = ((__uint128_t) M_hash[i] * base() + M_string[i])% mod;
+      M_hash[i + 1] = ((__uint128_t) M_hash[i] * base() + M_string[i]) % mod;
     }
   }
 
@@ -42,7 +42,7 @@ public:
     return M_string.size();
   }
   bool empty() const {
-    return M_string.size() == 0;
+    return M_string.empty();
   }
   const std::string &get() const {
     return M_string;
@@ -62,5 +62,5 @@ public:
 
 };
 
-struct rolling_hash_base { static inline const unsigned value = std::clock() ^ std::time(nullptr); };
+struct rolling_hash_base { static inline const uint32_t value = std::clock() ^ std::time(nullptr); };
 using rolling_hash = hash_string<rolling_hash_base>;
