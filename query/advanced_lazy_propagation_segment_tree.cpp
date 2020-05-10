@@ -20,19 +20,19 @@ public:
     flag_type reversed;
   };
 
-private:
-  root_type M_root;
-  const value_operation op1;
-  const effector_operation op2;
-  const merge_operation op3;
-
-  inline size_type engine() const {
-    static size_type current = std::clock() + std::time(nullptr);
+  static uint64_t engine() {
+    uint64_t current = std::clock() ^ std::time(nullptr);
     current ^= (current << 13);
     current ^= (current >> 17);
     current ^= (current << 5);
     return current;
   }
+
+private:
+  root_type M_root;
+  const value_operation op1;
+  const effector_operation op2;
+  const merge_operation op3;
 
   inline size_type size(root_type node) const {
     return node ? node -> size : 0;

@@ -4,16 +4,16 @@ class randomized_queue {
 public:
   using value_type = T;
 
-private:
-  std::vector<value_type> data;
-
-  inline uint64_t engine() const {
-    static uint64_t current = std::clock() ^ std::time(nullptr);
-    current ^= current << 13;
-    current ^= current >> 17;
-    current ^= current << 5;
+  static uint64_t engine() {
+    uint64_t current = std::clock() ^ std::time(nullptr);
+    current ^= (current << 13);
+    current ^= (current >> 17);
+    current ^= (current << 5);
     return current;
   }
+
+private:
+  std::vector<value_type> data;
 
 public:
   randomized_queue() = default;
