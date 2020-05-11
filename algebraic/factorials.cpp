@@ -8,7 +8,7 @@ public:
   std::vector<value_type> fact, fact_inv;
 
   factorials(size_t size_ = 200000): fact(size_ + 1), fact_inv(size_ + 1) {
-    fact[0] = 1;
+    fact[0] = value_type(1);
     for (size_t i = 1; i <= size_; ++i) {
       fact[i] = fact[i - 1] * value_type(i);
     }
