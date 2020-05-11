@@ -66,7 +66,7 @@ public:
   }
 
   constexpr modular operator / (const modular &rhs) const { return modular(*this) /= rhs; }
-  constexpr modular& operator /= (const modular &rhs) const { return (*this) *= rhs.inverse(); }
+  constexpr modular& operator /= (const modular &rhs) { return (*this) *= rhs.inverse(); }
 
   constexpr bool zero() const { return value == 0; }
   constexpr bool operator == (const modular &rhs) const { return value == rhs.value; }

@@ -61,7 +61,7 @@ public:
   }
 
   runtime_modular operator / (const runtime_modular &rhs) const { return runtime_modular(*this) /= rhs; }
-  runtime_modular& operator /= (const runtime_modular &rhs) const { return (*this) *= rhs.inverse(); }
+  runtime_modular& operator /= (const runtime_modular &rhs) { return (*this) *= rhs.inverse(); }
 
   bool zero() const { return value == 0; }
   bool operator == (const runtime_modular &rhs) const { return value == rhs.value; }
