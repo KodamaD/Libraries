@@ -5,7 +5,7 @@ public:
   using value_type = T;
 
   static uint64_t engine() {
-    uint64_t current = std::clock() ^ std::time(nullptr);
+    static uint64_t current = std::clock() ^ std::time(nullptr);
     current ^= (current << 13);
     current ^= (current >> 17);
     current ^= (current << 5);
