@@ -17,18 +17,12 @@ private:
   std::vector<effector_type> lazy;
 
   value_type fetch(int i, int l) const {
-    if (lazy[i] == op2.identity) {
-      return node[i];
-    }
-    else {
-      return op3(node[i], lazy[i], l);
-    }
+    if (lazy[i] == op2.identity) return node[i];
+    return op3(node[i], lazy[i], l);
   }
 
   void apply(int i, int l) {
-    if (lazy[i] == op2.identity) {
-      return;
-    }
+    if (lazy[i] == op2.identity) return;
     if (i < size) {
       lazy[i << 1 | 0] = op2(lazy[i << 1 | 0], lazy[i]);
       lazy[i << 1 | 1] = op2(lazy[i << 1 | 1], lazy[i]);
@@ -93,9 +87,7 @@ public:
   }
 
   void modify(int l, int r, const effector_type &x) {
-    if (l >= r) {
-      return;
-    }
+    if (l >= r) return;
     flush(l + size);
     flush(r + size - 1);
     int tl = l + size, tr = r + size, k = 1;
@@ -119,9 +111,7 @@ public:
   }
 
   value_type fold(int l, int r) {
-    if (l >= r) {
-      return op1.identity;
-    }
+    if (l >= r) return op1.identity;
     flush(l + size);
     flush(r + size - 1);
     int tl = l + size, tr = r + size, k = 1;

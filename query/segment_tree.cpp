@@ -30,9 +30,7 @@ public:
 
   void init(int size_, const value_type &initial_ = value_operation().identity) {
     size = 1;
-    while (size < size_) {
-      size <<= 1;
-    }
+    while (size < size_) size <<= 1;
     node.assign(size << 1, initial_);
     update();
   }
@@ -88,12 +86,8 @@ public:
     value_type resl = op1.identity;
     value_type resr = op1.identity;
     while (l < r) {
-      if (l & 1) {
-        resl = op1(resl, node[l++]);
-      }
-      if (r & 1) {
-        resr = op1(node[--r], resr);
-      }
+      if (l & 1) resl = op1(resl, node[l++]);
+      if (r & 1) resr = op1(node[--r], resr);
       l >>= 1;
       r >>= 1;
     }

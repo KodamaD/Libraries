@@ -4,7 +4,7 @@ class sliding_window_aggregation {
 public:
   using value_type = typename T::value_type;
   using value_operation = typename T::value_operation;
-  using size_type = std::size_t;
+  using size_type = size_t;
 
 private:
   struct node {
@@ -18,15 +18,9 @@ public:
   sliding_window_aggregation(): op(value_operation()), front(), back() { }
 
   value_type fold() const {
-    if (front.empty()) {
-      return back.top().sum;
-    } 
-    else if (back.empty()) {
-      return front.top().sum;
-    } 
-    else {
-      return op(front.top().sum, back.top().sum);
-    }
+    if (front.empty()) return back.top().sum;
+    else if (back.empty()) return front.top().sum;
+    return op(front.top().sum, back.top().sum);
   }
 
   size_type size() const {
@@ -38,9 +32,7 @@ public:
   }
 
   void push(const value_type &x) {
-    if (back.empty()) {
-      back.emplace(x, x);
-    } 
+    if (back.empty()) back.emplace(x, x);
     else {
       value_type tmp = op(back.top().sum, x);
       back.emplace(x, tmp);

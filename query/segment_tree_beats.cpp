@@ -81,9 +81,7 @@ private:
   }
 
   void M_chmin_impl(int l, int r, int k) {
-    if (l >= query_r || r <= query_l || query_v >= max[k]) {
-      return;
-    }
+    if (l >= query_r || r <= query_l || query_v >= max[k]) return;
     if (query_l <= l && r <= query_r && max2[k] < query_v) {
       update_node_max(k, query_v);
       return;
@@ -94,9 +92,7 @@ private:
     apply(k);
   }
   void M_chmax_impl(int l, int r, int k) {
-    if (l >= query_r || r <= query_l || query_v <= min[k]) {
-      return;
-    }
+    if (l >= query_r || r <= query_l || query_v <= min[k]) return;
     if (query_l <= l && r <= query_r && min2[k] > query_v) {
       update_node_min(k, query_v);
       return;
@@ -107,9 +103,7 @@ private:
     apply(k);
   }
   void M_add_impl(int l, int r, int k) {
-    if (l >= query_r || r <= query_l) {
-      return;
-    }
+    if (l >= query_r || r <= query_l) return;
     if (query_l <= l && r <= query_r) {
       update_node_add(k, r - l, query_v);
       return;
@@ -121,32 +115,20 @@ private:
   }
 
   value_type M_max_impl(int l, int r, int k) {
-    if (l >= query_r || r <= query_l) {
-      return -inf;
-    }
-    if (query_l <= l && r <= query_r) {
-      return max[k];
-    }
+    if (l >= query_r || r <= query_l) return -inf;
+    if (query_l <= l && r <= query_r) return max[k];
     flush(k, r - l);
     return std::max(M_max_impl(l, (l + r) >> 1, k << 1 | 0), M_max_impl((l + r) >> 1, r, k << 1 | 1));
   }
   value_type M_min_impl(int l, int r, int k) {
-    if (l >= query_r || r <= query_l) {
-      return -inf;
-    }
-    if (query_l <= l && r <= query_r) {
-      return min[k];
-    }
+    if (l >= query_r || r <= query_l) return -inf;
+    if (query_l <= l && r <= query_r) return min[k];
     flush(k, r - l);
     return std::min(M_min_impl(l, (l + r) >> 1, k << 1 | 0), M_min_impl((l + r) >> 1, r, k << 1 | 1));
   }
   value_type M_sum_impl(int l, int r, int k) {
-    if (l >= query_r || r <= query_l) {
-      return 0;
-    }
-    if (query_l <= l && r <= query_r) {
-      return sum[k];
-    }
+    if (l >= query_r || r <= query_l) return 0;
+    if (query_l <= l && r <= query_r) return sum[k];
     flush(k, r - l);
     return M_sum_impl(l, (l + r) >> 1, k << 1 | 0) + M_sum_impl((l + r) >> 1, r, k << 1 | 1);
   }
@@ -161,9 +143,7 @@ public:
 
   void init(int size_, const value_type &initial_) {
     size = 1;
-    while (size < size_) {
-      size <<= 1;
-    }
+    while (size < size_) size <<= 1;
     sum.assign(size << 1, initial_);
     lazy.assign(size << 1, 0);
     max.assign(size << 1, initial_);
