@@ -1,5 +1,5 @@
 
-template <class T, class U = std::less<T>, T X = 2000000000>
+template <class T, class U = std::less<T>>
 class li_chao_tree {
 public:
   using value_type = T;
@@ -10,7 +10,6 @@ public:
   static constexpr value_type max_inf = std::numeric_limits<value_type>::max();
   static constexpr value_type min_inf = std::numeric_limits<value_type>::min();
   static constexpr value_type identity = compare(min_inf, max_inf) ? max_inf : min_inf;
-  static constexpr value_type max_x = X;
 
   struct line_type {
     value_type a, b;
@@ -46,7 +45,8 @@ public:
     M_coordinate = coordinate_;
     M_size = 1;
     while (M_size < M_coordinate.size()) M_size <<= 1;
-    M_coordinate.resize(M_size, max_x);
+    value_type margin = M_coordinate.empty() ? 0 : M_coordinate.back();
+    M_coordinate.resize(M_size, margin);
     M_line.assign(M_size << 1, line_type());
   }
 
