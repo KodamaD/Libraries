@@ -31,6 +31,7 @@ public:
   runtime_modular operator - () const { return runtime_modular(mod() - value); }
   runtime_modular operator ~ () const { return inverse(); }
 
+  value_type &extract() { return value; }
   runtime_modular inverse() const { return power(mod() - 2); }
   runtime_modular power(max_type exp) const {
     runtime_modular res(1), mult(*this);

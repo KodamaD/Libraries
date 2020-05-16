@@ -36,6 +36,7 @@ public:
   constexpr modular operator - () const { return modular(mod - value); }
   constexpr modular operator ~ () const { return inverse(); }
 
+  constexpr value_type &extract() { return value; }
   constexpr modular inverse() const { return power(mod - 2); }
   constexpr modular power(max_type exp) const {
     modular res(1), mult(*this);
