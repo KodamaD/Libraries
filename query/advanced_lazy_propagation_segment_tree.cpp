@@ -6,11 +6,12 @@ public:
   using root_type = node_type *;
   using value_type = typename T::value_type;
   using effector_type = typename T::effector_type;
-  using value_operation = typename T::value_operation;
-  using effector_operation = typename T::effector_operation;
-  using merge_operation = typename T::merge_operation;
   using size_type = size_t;
   using flag_type = bool;
+
+  static inline const auto op1 = typename T::value_operation();
+  static inline const auto op2 = typename T::effector_operation();
+  static inline const auto op3 = typename T::merge_operation();
 
   struct node_type {
     root_type left, right;
@@ -21,18 +22,14 @@ public:
   };
 
   static uint64_t engine() {
-    static uint64_t current = std::clock() ^ std::time(nullptr);
-    current ^= (current << 13);
-    current ^= (current >> 17);
-    current ^= (current << 5);
+    static uint64_t current = 7511168;
+    current ^= (current << 9);
+    current ^= (current >> 7);
     return current;
   }
 
 private:
   root_type M_root;
-  const value_operation op1;
-  const effector_operation op2;
-  const merge_operation op3;
 
   inline size_type size(root_type node) const {
     return node ? node -> size : 0;
@@ -147,13 +144,9 @@ private:
   }
 
 public:
-  advanced_lazy_propagation_segment_tree():
-    M_root(nullptr), 
-    op1(value_operation()), op2(effector_operation()), op3(merge_operation())
-  { }
+  advanced_lazy_propagation_segment_tree(): M_root(nullptr) { }
   advanced_lazy_propagation_segment_tree(const std::vector<value_type> &data): 
-    M_root(nullptr),
-    op1(value_operation()), op2(effector_operation()), op3(merge_operation())
+    M_root(nullptr)
   { M_root = M_build_impl(data, 0, data.size()); }
   ~advanced_lazy_propagation_segment_tree() { M_clear_impl(M_root); }
 

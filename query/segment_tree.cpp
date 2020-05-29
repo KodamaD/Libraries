@@ -4,13 +4,12 @@ class segment_tree {
 public:
   using value_type = typename T::value_type;
   using effector_type = typename T::effector_type;
-  using value_operation = typename T::value_operation;
-  using merge_operation = typename T::merge_operation;
+  
+  static inline const auto op1 = typename T::value_operation();
+  static inline const auto op2 = typename T::merge_operation();
 
 private:
   int size;
-  const value_operation op1;
-  const merge_operation op2;
   std::vector<value_type> node;
 
   void update() {
@@ -20,15 +19,11 @@ private:
   }
 
 public:
-  segment_tree(): op1(value_operation()), op2(merge_operation()) { }
-  segment_tree(int size_, const value_type &initial_ = value_operation().identity):
-    op1(value_operation()), op2(merge_operation())
-  { init(size_, initial_); }
-  segment_tree(const std::vector<value_type> &node_):
-    op1(value_operation()), op2(merge_operation())
-  { build(node_); }
+  segment_tree() = default;
+  segment_tree(int size_, const value_type &initial_ = op1.identity) { init(size_, initial_); }
+  segment_tree(const std::vector<value_type> &node_) { build(node_); }
 
-  void init(int size_, const value_type &initial_ = value_operation().identity) {
+  void init(int size_, const value_type &initial_ = op1.identity) {
     size = 1;
     while (size < size_) size <<= 1;
     node.assign(size << 1, initial_);

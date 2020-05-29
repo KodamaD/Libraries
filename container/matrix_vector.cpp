@@ -3,27 +3,24 @@ template <class T>
 class matrix {
 public:
   using value_type = typename T::value_type;
-  using addition = typename T::addition;
-  using multiplication = typename T::multiplication;
   using size_type = size_t;
+
+  static inline const auto add = typename T::addition();
+  static inline const auto mult = typename T::multiplication();
 
 private:
   std::vector<std::vector<value_type>> data;
-  addition add;
-  multiplication mult;
 
 public:
   size_type height, width;
 
-  matrix(): add(addition()), mult(multiplication()) { }
-  matrix(size_type height_, size_type width_, const value_type &value_ = addition().identity):
+  matrix() = default;
+  matrix(size_type height_, size_type width_, const value_type &value_ = add.identity):
     data(height_, std::vector<value_type>(width_, value_)),
-    add(addition()), mult(multiplication()),
     height(height_), width(width_)
   { }
   matrix(const std::vector<std::vector<value_type>> &data_):
     data(data_),
-    add(addition()), mult(multiplication()),
     height(data_.size()), width(data_.front().size())
   { }
 

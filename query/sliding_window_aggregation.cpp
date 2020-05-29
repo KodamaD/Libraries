@@ -3,19 +3,19 @@ template <class T>
 class sliding_window_aggregation {
 public:
   using value_type = typename T::value_type;
-  using value_operation = typename T::value_operation;
   using size_type = size_t;
+
+  static inline const auto op = typename T::value_operation();
 
 private:
   struct node {
     value_type value, sum;
     node (const value_type &value_, const value_type &sum_): value(value_), sum(sum_) { }
   };
-  const value_operation op;
   std::stack<node> front, back;
 
 public:
-  sliding_window_aggregation(): op(value_operation()), front(), back() { }
+  sliding_window_aggregation(): front(), back() { }
 
   value_type fold() const {
     if (front.empty()) return back.top().sum;

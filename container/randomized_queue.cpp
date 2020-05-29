@@ -5,13 +5,12 @@ public:
   using value_type = T;
 
   static uint64_t engine() {
-    static uint64_t current = std::clock() ^ std::time(nullptr);
-    current ^= (current << 13);
-    current ^= (current >> 17);
-    current ^= (current << 5);
+    static uint64_t current = 7511168;
+    current ^= (current << 9);
+    current ^= (current >> 7);
     return current;
   }
-
+  
 private:
   std::vector<value_type> data;
 

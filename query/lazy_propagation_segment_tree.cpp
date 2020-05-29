@@ -4,15 +4,13 @@ class lazy_propagation_segment_tree {
 public:
   using value_type = typename T::value_type;
   using effector_type = typename T::effector_type;
-  using value_operation = typename T::value_operation;
-  using effector_operation = typename T::effector_operation;
-  using merge_operation = typename T::merge_operation;
+
+  static inline const auto op1 = typename T::value_operation();
+  static inline const auto op2 = typename T::effector_operation();
+  static inline const auto op3 = typename T::merge_operation();
 
 private:
   int size, height;
-  const value_operation op1;
-  const effector_operation op2;
-  const merge_operation op3;
   std::vector<value_type> node;
   std::vector<effector_type> lazy;
 
@@ -52,15 +50,11 @@ private:
   }
 
 public:
-  lazy_propagation_segment_tree(): op1(value_operation()), op2(effector_operation()), op3(merge_operation()) { }
-  lazy_propagation_segment_tree(int size_, const value_type &initial_ = value_operation().identity):
-    op1(value_operation()), op2(effector_operation()), op3(merge_operation())
-  { init(size_, initial_); }
-  lazy_propagation_segment_tree(const std::vector<value_type> &node_):
-    op1(value_operation()), op2(effector_operation()), op3(merge_operation())
-  { build(node_); }
+  lazy_propagation_segment_tree() = default;
+  lazy_propagation_segment_tree(int size_, const value_type &initial_ = op1.identity) { init(size_, initial_); }
+  lazy_propagation_segment_tree(const std::vector<value_type> &node_) { build(node_); }
 
-  void init(int size_, const value_type &initial_ = value_operation().identity) {
+  void init(int size_, const value_type &initial_ = op1.identity) {
     size = 1; 
     height = 0;
     while (size < size_) {
