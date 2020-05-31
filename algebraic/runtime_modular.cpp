@@ -74,4 +74,4 @@ public:
 };
 
 struct modulus_type { static inline uint32_t value; };
-using modint = runtime_modular<modulus_type>;
+using m32 = runtime_modular<modulus_type>;

@@ -78,4 +78,4 @@ public:
 
 };
 
-using modint = modular<1000000007>;
+using m32 = modular<1000000007>;

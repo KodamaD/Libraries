@@ -2,22 +2,18 @@
 namespace fast_io {
   static constexpr size_t buf_size = 1 << 18;
   static constexpr size_t buf_margin = 1;
-  static constexpr size_t memo_size = 1 << 6;
   static constexpr size_t block_size = 10000;
   static constexpr size_t integer_size = 20;
   size_t in_pos = 0, in_end = buf_size, out_pos = 0;
 
   static char inbuf[buf_size + buf_margin] = {};
   static char outbuf[buf_size + buf_margin] = {};
-  static char memobuf[memo_size + buf_margin] = {};
   static char block_str[(block_size << 2) + buf_margin] = {};
 
   template <class T, class U>
   using if_integral = typename std::enable_if<std::is_integral<T>::value, U>::type;
-  template <class T, class U>
-  using if_not_integral = typename std::enable_if<!std::is_integral<T>::value, U>::type;
 
-  static constexpr uintmax_t power10[] = {
+  static constexpr uint64_t power10[] = {
     1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000,
     1000000000, 10000000000, 100000000000, 1000000000000, 10000000000000,
     100000000000000, 1000000000000000, 10000000000000000, 100000000000000000,
@@ -42,14 +38,6 @@ namespace fast_io {
       while (inbuf[in_pos] <= ' ') {
         if (__builtin_expect(++in_pos == in_end, 0)) M_reload();
       }
-    }
-    void M_prepare_memo() {
-      char c = M_next_nonspace();
-      if (__builtin_expect(in_pos + memo_size >= in_end, 0)) M_reload();
-      size_t pos = 0;
-      memobuf[pos++] = c;
-      while ((c = M_next()) > ' ') memobuf[pos++] = c;
-      memobuf[pos] = 0;
     }
 
     char M_next() { return inbuf[in_pos++]; }
@@ -89,19 +77,6 @@ namespace fast_io {
       if (n) x = -x;
     }
 
-    void scan(float &x) {
-      M_prepare_memo();
-      sscanf(memobuf, "%f", &x);
-    }
-    void scan(double &x) {
-      M_prepare_memo();
-      sscanf(memobuf, "%lf", &x);
-    }
-    void scan(long double &x) {
-      M_prepare_memo();
-      sscanf(memobuf, "%Lf", &x);
-    }
-    
     template <class T, class... Args>
     void scan(T &x, Args&... args) {
       scan(x); scan(args...);
@@ -116,7 +91,17 @@ namespace fast_io {
       out_pos = 0;
     }
 
-    static constexpr int S_int_digits(uintmax_t n) {
+    void M_precompute() {
+      for (size_t i = 0; i < block_size; ++i) {
+        size_t j = i;
+        for (int t = 3; t >= 0; --t) {
+          block_str[i * 4 + t] = j % 10 + '0';
+          j /= 10;
+        }
+      }
+    }
+
+    static constexpr int S_int_digits(uint64_t n) {
       if (n >= power10[10]) {
         if (n >= power10[19]) return 20;
         if (n >= power10[18]) return 19;
@@ -144,15 +129,7 @@ namespace fast_io {
     }
 
   public:
-    printer() {
-      for (size_t i = 0; i < block_size; ++i) {
-        size_t j = i;
-        for (int t = 3; t >= 0; --t) {
-          block_str[i * 4 + t] = j % 10 + '0';
-          j /= 10;
-        }
-      }
-    }
+    printer() { M_precompute(); }
     ~printer() { M_flush(); }
 
     void print(char c) { 
@@ -184,19 +161,6 @@ namespace fast_io {
       }
       memcpy(outbuf + out_pos, block_str + (x << 2) + (out_pos - i), 4 + i - out_pos);
       out_pos += digit;
-    }
-
-    void print(float x) {
-      if (__builtin_expect(out_pos + memo_size >= buf_size, 0)) M_flush();
-      out_pos += sprintf(outbuf, "%.8f", x);
-    }
-    void print(double x) {
-      if (__builtin_expect(out_pos + memo_size >= buf_size, 0)) M_flush();
-      out_pos += sprintf(outbuf, "%.16lf", x);
-    }
-    void print(long double x) {
-      if (__builtin_expect(out_pos + memo_size >= buf_size, 0)) M_flush();
-      out_pos += sprintf(outbuf, "%.16Lf", x);
     }
 
     template <class T, class... Args>
