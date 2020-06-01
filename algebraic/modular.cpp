@@ -2,8 +2,8 @@
 template <uint32_t Modulus>
 class modular {
 public:
-  using value_type = uint32_t;
-  using max_type = uint64_t;
+  using value_type = uint_fast32_t;
+  using max_type = uint_fast64_t;
 
   static constexpr value_type mod = Modulus;
   static constexpr value_type mod_min = 1;

@@ -2,8 +2,8 @@
 template <class Modulus>
 class runtime_modular {
 public:
-  using value_type = uint32_t;
-  using max_type = uint64_t;
+  using value_type = uint_fast32_t;
+  using max_type = uint_fast64_t;
   static value_type mod() { return Modulus::value; } 
 
   template <class T>
@@ -73,5 +73,5 @@ public:
 
 };
 
-struct modulus_type { static inline uint32_t value; };
+struct modulus_type { static inline uint_fast32_t value; };
 using m32 = runtime_modular<modulus_type>;

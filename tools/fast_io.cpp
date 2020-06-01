@@ -13,7 +13,7 @@ namespace fast_io {
   template <class T, class U>
   using if_integral = typename std::enable_if<std::is_integral<T>::value, U>::type;
 
-  static constexpr uint64_t power10[] = {
+  static constexpr uint_fast64_t power10[] = {
     1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000,
     1000000000, 10000000000, 100000000000, 1000000000000, 10000000000000,
     100000000000000, 1000000000000000, 10000000000000000, 100000000000000000,
@@ -101,7 +101,7 @@ namespace fast_io {
       }
     }
 
-    static constexpr int S_int_digits(uint64_t n) {
+    static constexpr int S_int_digits(uint_fast64_t n) {
       if (n >= power10[10]) {
         if (n >= power10[19]) return 20;
         if (n >= power10[18]) return 19;
