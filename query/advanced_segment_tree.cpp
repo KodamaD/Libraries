@@ -157,7 +157,7 @@ public:
     return *this;
   }
 
-  root_type extract() { 
+  root_type& extract() { 
     return M_root;
   }
   root_type copy() const {
@@ -202,7 +202,7 @@ public:
     if (right.first) right.first -> reversed ^= 1;
     M_root = M_merge_impl(left.first, M_merge_impl(right.first, right.second));
   }
-  
+
   void build(const std::vector<value_type> &data) {
     M_root = M_build_impl(data, 0, data.size());
   }

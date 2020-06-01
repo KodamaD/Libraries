@@ -168,7 +168,7 @@ public:
     return *this;
   }
 
-  root_type extract() { 
+  root_type& extract() { 
     return M_root;
   }
   root_type copy() const {
