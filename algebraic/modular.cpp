@@ -32,7 +32,7 @@ public:
   template <class T>
   explicit constexpr operator T() { return static_cast<T>(value); }
 
-  constexpr value_type operator () () const { return value; }
+  constexpr value_type get() const { return value; }
   constexpr modular operator - () const { return modular(mod - value); }
   constexpr modular operator ~ () const { return inverse(); }
 

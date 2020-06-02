@@ -27,7 +27,7 @@ public:
   template <class T>
   explicit operator T() { return static_cast<T>(value); }
 
-  value_type operator () () const { return value; }
+  value_type get() const { return value; }
   runtime_modular operator - () const { return runtime_modular(mod() - value); }
   runtime_modular operator ~ () const { return inverse(); }
 

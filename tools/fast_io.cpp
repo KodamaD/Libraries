@@ -8,7 +8,7 @@ namespace fast_io {
 
   static char inbuf[buf_size + buf_margin] = {};
   static char outbuf[buf_size + buf_margin] = {};
-  static char block_str[(block_size << 2) + buf_margin] = {};
+  static char block_str[block_size * 4 + buf_margin] = {};
 
   template <class T, class U>
   using if_integral = typename std::enable_if<std::is_integral<T>::value, U>::type;
@@ -24,13 +24,13 @@ namespace fast_io {
   private:
     void M_load() { 
       in_end = fread(inbuf, 1, buf_size, stdin); 
-      inbuf[in_end] = 0;  
+      inbuf[in_end] = '\0';  
     }
     void M_reload() {
       size_t length = in_end - in_pos;
-      memcpy(inbuf, inbuf + in_pos, length);
+      memmove(inbuf, inbuf + in_pos, length);
       in_end = length + fread(inbuf + length, 1, buf_size - length, stdin);
-      inbuf[in_end] = 0;
+      inbuf[in_end] = '\0';
       in_pos = 0;
     }
 
@@ -53,17 +53,13 @@ namespace fast_io {
     void scan(std::string &s) {
       M_ignore_space();
       s = "";
-      size_t cur = in_pos;
-      while (inbuf[cur] > ' ') {
-        if (__builtin_expect(++cur == in_end, 0)) {
-          s += std::string(inbuf + in_pos, inbuf + cur);
-          in_pos = cur;
-          M_reload();
-          cur = in_pos;
-        }
-      }
-      s += std::string(inbuf + in_pos, inbuf + cur);
-      in_pos = cur;
+      do {
+        size_t start = in_pos;
+        while (inbuf[in_pos] > ' ') ++in_pos;
+        s += std::string(inbuf + start, inbuf + in_pos);
+        if (inbuf[in_pos] != '\0') break;
+        M_reload();
+      } while (true);
     }
 
     template <class T>
@@ -93,15 +89,15 @@ namespace fast_io {
 
     void M_precompute() {
       for (size_t i = 0; i < block_size; ++i) {
-        size_t j = i;
-        for (int t = 3; t >= 0; --t) {
-          block_str[i * 4 + t] = j % 10 + '0';
-          j /= 10;
+        size_t j = 4, k = i;
+        while (j--) {
+          block_str[i * 4 + j] = k % 10 + '0';
+          k /= 10;
         }
       }
     }
 
-    static constexpr int S_int_digits(uint_fast64_t n) {
+    static constexpr size_t M_integer_digits(uint_fast64_t n) {
       if (n >= power10[10]) {
         if (n >= power10[19]) return 20;
         if (n >= power10[18]) return 19;
@@ -139,13 +135,13 @@ namespace fast_io {
     void print(const char *s) {
       while (*s != 0) {
         outbuf[out_pos++] = *s++;
-        if (__builtin_expect(out_pos == buf_size, 0)) M_flush();
+        if (out_pos == buf_size) M_flush();
       }
     }
     void print(const std::string &s) {
       for (auto c: s) {
         outbuf[out_pos++] = c;
-        if (__builtin_expect(out_pos == buf_size, 0)) M_flush();
+        if (out_pos == buf_size) M_flush();
       }
     }
     
@@ -153,13 +149,14 @@ namespace fast_io {
     if_integral<T, void> print(T x) {
       if (__builtin_expect(out_pos + integer_size >= buf_size, 0)) M_flush();
       if (x < 0) print('-'), x = -x;
-      int digit = S_int_digits(x);
-      int i;
-      for (i = out_pos + digit - 4; i > (int) out_pos; i -= 4) {
-        memcpy(outbuf + i, block_str + ((x % 10000) << 2), 4);
+      size_t digit = M_integer_digits(x);
+      size_t len = digit;
+      while (len >= 4) {
+        len -= 4;
+        memcpy(outbuf + out_pos + len, block_str + (x % block_size) * 4, 4);
         x /= 10000;
       }
-      memcpy(outbuf + out_pos, block_str + (x << 2) + (out_pos - i), 4 + i - out_pos);
+      memcpy(outbuf + out_pos, block_str + x * 4 + 4 - len, len);
       out_pos += digit;
     }
 
