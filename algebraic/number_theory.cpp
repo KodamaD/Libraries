@@ -86,12 +86,14 @@ namespace detail {
     while (!(d & 1)) { d >>= 1; ++s; }
     if (n < 4759123141) {
       for (auto p: { 2, 7, 61 }) {
-        if (p != n && !test_prime(p, s, d, n)) return false;
+        if (p >= n) break;
+        if (!test_prime(p, s, d, n)) return false;
       }
     } 
     else {
       for (auto p: { 2, 325, 9375, 28178, 450775, 9780504, 1795265022 }) {
-        if (p != n && !test_prime(p, s, d, n)) return false;
+        if (p >= n) break;
+        if (!test_prime(p, s, d, n)) return false;
       }
     }
     return true;
@@ -125,14 +127,16 @@ namespace detail {
 };
 
 template <class T>
-std::vector<T> enumerate_factors(T n) {
+std::vector<T> enumerate_factors(T n, bool sort = true) {
   if (n == 1) return { };
   if (detail::miller_rabin(n)) return { n };
   T d = detail::pollard_rho(n);
-  std::vector<T> res = enumerate_factors(d);
-  for (auto x: enumerate_factors(n / d)) {
-    res.push_back(x);
-  }
+  auto res = enumerate_factors(d);
+  auto add = enumerate_factors(n / d);
+  size_t size = res.size();
+  res.resize(size + add.size());
+  std::copy(add.cbegin(), add.cend(), res.begin() + size);
+  if (sort) std::inplace_merge(res.begin(), res.begin() + size, res.end());
   return res;
 }
 
@@ -140,7 +144,6 @@ template <class T>
 std::vector<std::pair<T, size_t>> factorize(T n) {
   std::vector<std::pair<T, size_t>> res;
   auto factors = enumerate_factors(n);
-  std::sort(factors.begin(), factors.end());
   T cur = 0;
   for (auto p: factors) {
     if (p != cur) {
