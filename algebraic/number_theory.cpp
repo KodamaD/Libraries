@@ -1,15 +1,13 @@
 
 namespace detail {
 
-  using u32 = uint_fast32_t;
-  using u64 = uint_fast64_t;
+  using u32 = uint32_t;
+  using u64 = uint64_t;
   using u128 = __uint128_t;
 
-  class modular64 {
+  class m64 {
   public:
     static inline u64 mod;
-    static inline u64 encode;
-    static inline u64 decode;
 
     static void set_mod(u64 x) {
       mod = x;
@@ -23,25 +21,29 @@ namespace detail {
         return res;
       }();
     }
+
+  private:
+    static inline u64 encode;
+    static inline u64 decode;
+
     static u64 reduce(u128 x) {
       u64 res = u64((u128(u64(x) * decode) * mod + x) >> 64);
       return res >= mod ? res - mod : res;
     }
 
-  private:
     u64 value;
 
   public:
-    explicit modular64(): value(0) { }
-    explicit modular64(u64 x): value(reduce((u128) x * encode)) { }
+    m64(): value(0) { }
+    explicit m64(u64 x): value(reduce((u128) x * encode)) { }
 
     u64 get() const {
       u64 res = reduce(value);
       return res >= mod ? res - mod : res;
     }
 
-    modular64 power(u64 exp) const {
-      modular64 res(1), mult(*this);
+    m64 power(u64 exp) const {
+      m64 res(1), mult(*this);
       while (exp > 0) {
         if (exp & 1) res *= mult;
         mult *= mult;
@@ -50,26 +52,26 @@ namespace detail {
       return res;
     }
 
-    modular64 operator + (const modular64 &rhs) const { return modular64(*this) += rhs; }
-    modular64& operator += (const modular64 &rhs) { 
+    m64 operator + (const m64 &rhs) const { return m64(*this) += rhs; }
+    m64& operator += (const m64 &rhs) { 
       if ((value += rhs.value) >= mod) value -= mod;
       return *this; 
     }
-    modular64 operator * (const modular64 &rhs) const { return modular64(*this) *= rhs; }
-    modular64& operator *= (const modular64 &rhs) { 
+    m64 operator * (const m64 &rhs) const { return m64(*this) *= rhs; }
+    m64& operator *= (const m64 &rhs) { 
       value = reduce((u128) value * rhs.value);
       return *this;
     }
-    bool operator == (const modular64 &rhs) const { return value == rhs.value; }
-    bool operator != (const modular64 &rhs) const { return value != rhs.value; }
+    bool operator == (const m64 &rhs) const { return value == rhs.value; }
+    bool operator != (const m64 &rhs) const { return value != rhs.value; }
 
   };
 
   bool test_prime(u64 a, u64 s, u64 d, u64 n) {
-    modular64::set_mod(n);
-    modular64 cur = modular64(a).power(d);
-    if (cur == modular64(1)) return true;
-    modular64 bad(n - 1);
+    m64::set_mod(n);
+    m64 cur = m64(a).power(d);
+    if (cur == m64(1)) return true;
+    m64 bad(n - 1);
     for (size_t i = 0; i < s; ++i) {
       if (cur == bad) return true;
       cur *= cur;
@@ -82,7 +84,7 @@ namespace detail {
     if (n <= 1) return false;
     if (n == 2) return true;
     if (!(n & 1)) return false;
-    uint_fast64_t d = n - 1, s = 0;
+    u64 d = n - 1, s = 0;
     while (!(d & 1)) { d >>= 1; ++s; }
     if (n < 4759123141) {
       for (auto p: { 2, 7, 61 }) {
@@ -102,15 +104,15 @@ namespace detail {
   template <class T>
   T pollard_rho(T n) {
     if (!(n & 1)) return 2;
-    modular64::set_mod(n);
-    modular64 add(1);
-    auto transit = [&add](modular64 m) { return m * m + add; };
+    m64::set_mod(n);
+    m64 add(1);
+    auto transit = [&add](m64 m) { return m * m + add; };
     auto dif_abs = [](u64 x, u64 y) { return x > y ? x - y : y - x; };
     u64 initial = 0;
     while (true) {
       ++initial;
-      modular64 x(initial);
-      modular64 y = transit(x);
+      m64 x(initial);
+      m64 y = transit(x);
       while (true) {
         u64 g = std::gcd(dif_abs(x.get(), y.get()), n);
         if (g == 1) {
@@ -127,9 +129,14 @@ namespace detail {
 };
 
 template <class T>
+bool is_prime(T x) {
+  return detail::miller_rabin(x);
+}
+
+template <class T>
 std::vector<T> enumerate_factors(T n, bool sort = true) {
   if (n == 1) return { };
-  if (detail::miller_rabin(n)) return { n };
+  if (is_prime(n)) return { n };
   T d = detail::pollard_rho(n);
   auto res = enumerate_factors(d);
   auto add = enumerate_factors(n / d);
@@ -143,9 +150,8 @@ std::vector<T> enumerate_factors(T n, bool sort = true) {
 template <class T>
 std::vector<std::pair<T, size_t>> factorize(T n) {
   std::vector<std::pair<T, size_t>> res;
-  auto factors = enumerate_factors(n);
   T cur = 0;
-  for (auto p: factors) {
+  for (auto p: enumerate_factors(n)) {
     if (p != cur) {
       cur = p;
       res.emplace_back(p, 0);
@@ -153,11 +159,6 @@ std::vector<std::pair<T, size_t>> factorize(T n) {
     ++res.back().second;
   }
   return res;
-}
-
-template <class T>
-bool is_prime(T x) {
-  return detail::miller_rabin(x);
 }
 
 template <class T>

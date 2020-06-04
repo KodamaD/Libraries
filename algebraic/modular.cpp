@@ -2,14 +2,12 @@
 template <uint32_t Modulus>
 class modular {
 public:
-  using value_type = uint_fast32_t;
-  using max_type = uint_fast64_t;
+  using value_type = uint32_t;
+  using max_type = uint64_t;
 
   static constexpr value_type mod = Modulus;
-  static constexpr value_type mod_min = 1;
-  static constexpr value_type mod_max = 2147483647;
-  static_assert(mod >= mod_min, "invalid mod :: too small");
-  static_assert(mod <= mod_max, "invalid mod :: too big");
+  static_assert(mod >= 2, "invalid mod :: smaller than 2");
+  static_assert(mod < (value_type(1) << 31), "invalid mod :: over 2^31");
 
   template <class T>
   static constexpr value_type normalize(T value_) {
