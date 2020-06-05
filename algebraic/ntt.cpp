@@ -11,20 +11,6 @@ namespace detail {
     return res;
   }
 
-  constexpr uint32_t b16 = 0b00000000000000001111111111111111;
-  constexpr uint32_t  b8 = 0b00000000111111110000000011111111;
-  constexpr uint32_t  b4 = 0b00001111000011110000111100001111;
-  constexpr uint32_t  b2 = 0b00110011001100110011001100110011;
-  constexpr uint32_t  b1 = 0b01010101010101010101010101010101;
-  constexpr size_t bit_reverse(size_t x) {
-    x = ((x >> 16) & b16) | ((x & b16) << 16);
-    x = ((x >>  8) &  b8) | ((x &  b8) <<  8);
-    x = ((x >>  4) &  b4) | ((x &  b4) <<  4);
-    x = ((x >>  2) &  b2) | ((x &  b2) <<  2);
-    x = ((x >>  1) &  b1) | ((x &  b1) <<  1);
-    return x;
-  }
-
   template <class OtherModular, class Modular>
   constexpr OtherModular convert_mod(Modular x) {
     return OtherModular(x.get());
@@ -36,6 +22,22 @@ namespace detail {
     std::transform(vec.cbegin(), vec.cend(), res.begin(), convert_mod<OtherModular, Modular>);
     return res;
   }
+
+  namespace bit_operation {
+    constexpr uint32_t b16 = 0b00000000000000001111111111111111;
+    constexpr uint32_t  b8 = 0b00000000111111110000000011111111;
+    constexpr uint32_t  b4 = 0b00001111000011110000111100001111;
+    constexpr uint32_t  b2 = 0b00110011001100110011001100110011;
+    constexpr uint32_t  b1 = 0b01010101010101010101010101010101;
+    constexpr size_t reverse(size_t x) {
+      x = ((x >> 16) & b16) | ((x & b16) << 16);
+      x = ((x >>  8) &  b8) | ((x &  b8) <<  8);
+      x = ((x >>  4) &  b4) | ((x &  b4) <<  4);
+      x = ((x >>  2) &  b2) | ((x &  b2) <<  2);
+      x = ((x >>  1) &  b1) | ((x &  b1) <<  1);
+      return x;
+    }
+  };
 
   namespace garner_mod {
     constexpr uint32_t m0 = 998244353;
@@ -82,7 +84,7 @@ private:
     size_t size = F.size();
     size_t logn = __builtin_ctz(size);
     for (size_t i = 0; i < size; ++i) {
-      size_t j = detail::bit_reverse(i) >> (32 - logn);
+      size_t j = detail::bit_operation::reverse(i) >> (32 - logn);
       if (i < j) {
         std::swap(F[i], F[j]);
       }
@@ -104,11 +106,11 @@ private:
     }
   }
 
-  void M_itransform(std::vector<value_type> &F) const {
+  void M_inv_transform(std::vector<value_type> &F) const {
     size_t size = F.size();
     size_t logn = __builtin_ctz(size);
     for (size_t i = 0; i < size; ++i) {
-      size_t j = detail::bit_reverse(i) >> (32 - logn);
+      size_t j = detail::bit_operation::reverse(i) >> (32 - logn);
       if (i < j) {
         std::swap(F[i], F[j]);
       }
@@ -145,7 +147,7 @@ public:
       for (size_t i = 0; i < fix_size; ++i) {
         A[i] *= A[i];
       }
-      M_itransform(A);
+      M_inv_transform(A);
       A.resize(res_size);
       return A;
     }
@@ -157,7 +159,7 @@ public:
       for (size_t i = 0; i < fix_size; ++i) {
         A[i] *= B[i];
       }
-      M_itransform(A);
+      M_inv_transform(A);
       A.resize(res_size);
       return A;
     }
