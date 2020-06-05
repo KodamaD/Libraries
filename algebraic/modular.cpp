@@ -6,6 +6,7 @@ public:
   using max_type = uint64_t;
 
   static constexpr value_type mod = Modulus;
+  static constexpr value_type get_mod() { return mod; }
   static_assert(mod >= 2, "invalid mod :: smaller than 2");
   static_assert(mod < (value_type(1) << 31), "invalid mod :: over 2^31");
 

@@ -6,6 +6,7 @@ public:
   using max_type = uint64_t;
   
   static value_type mod() { return Modulus::value; } 
+  static value_type get_mod() { return Modulus::value;; }
 
   template <class T>
   static value_type normalize(T value_) {

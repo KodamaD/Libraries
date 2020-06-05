@@ -25,6 +25,30 @@ namespace detail {
     return x;
   }
 
+  template <class OtherModular, class Modular>
+  constexpr OtherModular convert_mod(Modular x) {
+    return OtherModular(x.get());
+  }
+
+  template <class OtherModular, class Modular>
+  std::vector<OtherModular> convert_mod_vec(const std::vector<Modular> &vec) {
+    std::vector<OtherModular> res(vec.size());
+    std::transform(vec.cbegin(), vec.cend(), res.begin(), convert_mod<OtherModular, Modular>);
+    return res;
+  }
+
+  namespace garner_mod {
+    constexpr uint32_t m0 = 998244353;
+    constexpr uint32_t m1 = 935329793;
+    constexpr uint32_t m2 = 943718401;
+    constexpr uint32_t p0 = 3;
+    constexpr uint32_t p1 = 3;
+    constexpr uint32_t p2 = 7;
+    constexpr uint64_t m0m1 = (uint64_t) m0 * m1;
+    constexpr auto im0_m1 = modular<m1>(m0).inverse();
+    constexpr auto im0m1_m2 = modular<m2>(m0m1).inverse();
+  };
+
   /*
     prime numbers for ntt
     [ 1051721729, 6 ]  [ 2^20 ]
@@ -139,4 +163,28 @@ public:
     }
   }
 
+  template <class OtherModular>
+  std::vector<value_type> convolve_convert(const std::vector<OtherModular> &A, const std::vector<OtherModular> &B) const {
+    return convolve(detail::convert_mod_vec<value_type>(A), detail::convert_mod_vec<value_type>(B));
+  }
+
 };
+
+template <class Modular>
+std::vector<Modular> arbitrary_mod_convolution(const std::vector<Modular> &A, const std::vector<Modular> &B) {
+  using namespace detail::garner_mod;
+  number_theoretic_transform<m0, p0> ntt0;
+  number_theoretic_transform<m1, p1> ntt1;
+  number_theoretic_transform<m2, p2> ntt2;
+  auto X = ntt0.convolve_convert(A, B);
+  auto Y = ntt1.convolve_convert(A, B);
+  auto Z = ntt2.convolve_convert(A, B);
+  size_t size = X.size();
+  std::vector<Modular> res(size);
+  for (size_t i = 0; i < size; ++i) {
+    uint32_t s = (uint32_t) X[i];
+    uint64_t t = (uint64_t) ((Y[i] - modular<m1>(s)) * im0_m1) * m0 + s;
+    res[i] = Modular((__uint128_t) ((Z[i] - modular<m2>(t)) * im0m1_m2) * m0m1 + t);
+  }
+  return res;
+}
