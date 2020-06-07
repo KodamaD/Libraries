@@ -23,7 +23,7 @@ public:
     accum.assign(fixed_size, 0);
     for (size_type i = 0; i < size; ++i) {
       if (data_[i]) {
-        block[i / block_size] |= (1ull << (i & (block_size - 1)));
+        block[i / block_size] |= bit_type(1) << (i & (block_size - 1));
       }
     }
     for (size_type i = 1; i < fixed_size; ++i) {
@@ -35,7 +35,7 @@ public:
     return block[idx / block_size] >> (idx & (block_size - 1)) & 1;
   }
   size_type rank(bool value, size_type idx) const {
-    bit_type mask = (1ull << (idx & (block_size - 1))) - 1;
+    bit_type mask = (bit_type(1) << (idx & (block_size - 1))) - 1;
     size_type res = accum[idx / block_size] + __builtin_popcountll(block[idx / block_size] & mask);
     return value ? res : idx - res;
   }

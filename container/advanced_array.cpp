@@ -130,15 +130,15 @@ public:
     return *this;
   }
   advanced_array& operator = (advanced_array &&arr) noexcept {
-    if (this != &arr) { clear(); M_root = std::exchange(arr.extract(), nullptr); }
+    if (this != &arr) { clear(); M_root = std::exchange(arr.M_root, nullptr); }
     return *this;
   }
 
-  root_type& extract() { 
-    return M_root;
-  }
   root_type copy() const {
     return M_copy_tree_impl(M_root);
+  }
+  void swap(advanced_array &arr) {
+    std::swap(M_root, arr.M_root);
   }
 
   void insert_at(size_type idx, const value_type &val) {
