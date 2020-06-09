@@ -1,16 +1,18 @@
 
-#ifdef __APPLE__
+#ifdef LOCAL
 #include <iostream>
 #include <iomanip>
 #include <fstream>
 #include <sstream>
+#include <ctime>
 
 struct debug_support {
 
   std::ofstream file;
   std::stringstream to_str_helper;
+  const std::clock_t start_time;
 
-  debug_support() {
+  debug_support(): start_time(std::clock()) {
     file.open("debug.txt");
     if (!file.is_open()) {
       std::cerr << "\033[31m failed to open the file 'debug.txt' \033[0m \n";
@@ -67,7 +69,7 @@ struct debug_support {
 
   template <class T>
   void print(const T &x) { 
-    file << to_str(x) << '\n';
+    file << to_str(x) << std::endl;
   }
   template <class T, class... Args>
   void print(const T &x, const Args&... args) {
@@ -107,33 +109,40 @@ struct debug_support {
     file << to_str_container(x, args...) << std::flush;
   }
 
+  void show_c_impl(const std::string &s) {
+    auto i = s.begin();
+    while (i != s.end() && *i != ',') ++i;
+    file << " [" << std::string(s.begin(), i) << "]";
+    if (i != s.end()) file << " (ignore" << std::string(i + 1, s.end()) << ")";
+    file << ":\n";
+  }
+
 } debugger;
 
-#define dout(...)\
+#define show(...)\
   do {\
     debugger.file << "<line:" << std::setw(4) << __LINE__ << "> [";\
     debugger.file << #__VA_ARGS__ << "]: ";\
     debugger.print(__VA_ARGS__);\
   } while (false)
 
-#define doutc(x)\
+#define show_c(...)\
   do {\
-    debugger.file << "\n<line:" << std::setw(4) << __LINE__ << "> [";\
-    debugger.file << #x << "]:\n";\
-    debugger.print_container(x);\
-    debugger.file << "\n";\
+    debugger.file << "\n<line:" << std::setw(4) << __LINE__ << ">";\
+    debugger.show_c_impl(#__VA_ARGS__);\
+    debugger.print_container(__VA_ARGS__);\
+    debugger.file << std::endl;\
   } while (false)
 
-#define doutc2(x, ...)\
+#define showtime()\
   do {\
-    debugger.file << "\n<line:" << std::setw(4) << __LINE__ << "> [";\
-    debugger.file << #x << "]:\n";\
-    debugger.print_container(x, __VA_ARGS__);\
-    debugger.file << "\n";\
+    double d = static_cast<double>(std::clock() - debugger.start_time);\
+    debugger.file << "<line:" << std::setw(4) << __LINE__ << ">";\
+    debugger.file << " elapsed time: " << d * 1000 / CLOCKS_PER_SEC << "ms" << std::endl;\
   } while (false)
 
 #else
-#define dout(...) ((void) 0)
-#define doutc(...) ((void) 0)
-#define doutc2(...) ((void) 0)
+#define show(...) ((void) 0)
+#define show_c(...) ((void) 0)
+#define showtime() ((void) 0)
 #endif
