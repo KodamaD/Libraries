@@ -19,28 +19,28 @@ struct real_constant<long double> {
 };
 
 template <>
-struct real_constant<int> {
-  using value_type = int;
+struct real_constant<int32_t> {
+  using value_type = int32_t;
   static constexpr value_type infinity() { return 1e9; }
   static constexpr value_type epsilon() { return 1; }
 };
 
 template <>
-struct real_constant<long long> {
-  using value_type = long long;
+struct real_constant<int64_t> {
+  using value_type = int64_t;
   static constexpr value_type infinity() { return 1e18; }
   static constexpr value_type epsilon() { return 1; }
 };
 
 template <class T, class U>
-constexpr bool leq(T x, U y) {
+bool leq(T x, U y) {
   return x - y < real_constant<T>::epsilon();
 }
 template <class T, class U>
-constexpr bool geq(T x, U y) {
+bool geq(T x, U y) {
   return y - x < real_constant<T>::epsilon();
 }
 template <class T, class U>
-constexpr bool equal(T x, U y) {
+bool equal(T x, U y) {
   return leq(x, y) && geq(x, y);
 }
