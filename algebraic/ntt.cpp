@@ -1,5 +1,39 @@
 
-namespace detail {
+namespace ntt_detail {
+
+  constexpr uint32_t calc_primitive_root(uint32_t mod) {
+    uint32_t exp[32] = {};
+    uint32_t cur = mod - 1;
+    size_t size = 0;
+    for (uint32_t i = 2; i * i <= cur; ++i) {
+      if (cur % i == 0) {
+        exp[size++] = (mod - 1) / i;
+        while (cur % i == 0) cur /= i;
+      }
+    }
+    if (cur != 1) {
+      exp[size++] = (mod - 1) / cur;
+    }
+    uint32_t res = 2;
+    while (true) {
+      bool ok = true;
+      for (size_t i = 0; i < size; ++i) {
+        uint64_t a = res, e = exp[i], x = 1;
+        while (e > 0) {
+          if (e & 1) (x *= a) %= mod;
+          (a *= a) %= mod;
+          e >>= 1;
+        }
+        if (x == 1) {
+          ok = false;
+          break;
+        }
+      }
+      if (ok) break;
+      ++res;
+    }
+    return res;
+  };
 
   template <size_t N, class T>
   constexpr std::array<T, N> calculate_roots(T omega) {
@@ -43,9 +77,6 @@ namespace detail {
     constexpr uint32_t m0 = 754974721;
     constexpr uint32_t m1 = 167772161;
     constexpr uint32_t m2 = 469762049;
-    constexpr uint32_t p0 = 11;
-    constexpr uint32_t p1 = 3;
-    constexpr uint32_t p2 = 3;
     constexpr uint64_t m0m1 = (uint64_t) m0 * m1;
     constexpr auto im0_m1 = modular<m1>(m0).inverse();
     constexpr auto im0m1_m2 = modular<m2>(m0m1).inverse();
@@ -53,41 +84,42 @@ namespace detail {
 
   /*
     prime numbers for ntt
-    [ 1051721729,  6 ]  [ 2^20 ]
-    [ 1045430273,  3 ]  [ 2^20 ]
-    [ 1007681537,  3 ]  [ 2^20 ]
-    [  962592769,  7 ]  [ 2^21 ]
-    [  924844033,  5 ]  [ 2^21 ]
-    [  985661441,  3 ]  [ 2^22 ]
-    [  943718401,  7 ]  [ 2^22 ]
-    [  935329793,  3 ]  [ 2^22 ]
-    [  998244353,  3 ]  [ 2^23 ]
-    [  754974721, 11 ]  [ 2^24 ]
-    [  167772161,  3 ]  [ 2^25 ]
-    [  469762049,  3 ]  [ 2^26 ]
+    [ 1051721729 ]  [ 2^20 ]
+    [ 1045430273 ]  [ 2^20 ]
+    [ 1007681537 ]  [ 2^20 ]
+    [  962592769 ]  [ 2^21 ]
+    [  924844033 ]  [ 2^21 ]
+    [  985661441 ]  [ 2^22 ]
+    [  943718401 ]  [ 2^22 ]
+    [  935329793 ]  [ 2^22 ]
+    [  998244353 ]  [ 2^23 ]
+    [  754974721 ]  [ 2^24 ]
+    [  167772161 ]  [ 2^25 ]
+    [  469762049 ]  [ 2^26 ]
   */
 
 }
 
-template <uint32_t Modulus, uint32_t PrimRoot, class Modular = modular<Modulus>>
+template <uint32_t Modulus, class Modular = modular<Modulus>>
 class number_theoretic_transform {
 public:
   using value_type = Modular;
   static constexpr uint32_t mod = Modulus;
-  static constexpr uint32_t prim = PrimRoot;
+  static constexpr uint32_t prim = ntt_detail::calc_primitive_root(mod);
 
 private:
   static constexpr size_t level = __builtin_ctz(mod - 1);
   static constexpr value_type unit = value_type(1);
   static constexpr value_type omega = value_type(prim).power((mod - 1) >> level); 
-  static constexpr auto roots = detail::calculate_roots<level>(omega);
-  static constexpr auto inv_roots = detail::calculate_roots<level>(omega.inverse());
+  static constexpr auto roots = ntt_detail::calculate_roots<level>(omega);
+  static constexpr auto inv_roots = ntt_detail::calculate_roots<level>(omega.inverse());
 
+protected:
   void M_transform(std::vector<value_type> &F) const {
     size_t size = F.size();
     size_t logn = __builtin_ctz(size);
     for (size_t i = 0; i < size; ++i) {
-      size_t j = detail::bit_operation::reverse(i) >> (32 - logn);
+      size_t j = ntt_detail::bit_operation::reverse(i) >> (32 - logn);
       if (i < j) {
         std::swap(F[i], F[j]);
       }
@@ -113,7 +145,7 @@ private:
     size_t size = F.size();
     size_t logn = __builtin_ctz(size);
     for (size_t i = 0; i < size; ++i) {
-      size_t j = detail::bit_operation::reverse(i) >> (32 - logn);
+      size_t j = ntt_detail::bit_operation::reverse(i) >> (32 - logn);
       if (i < j) {
         std::swap(F[i], F[j]);
       }
@@ -140,11 +172,15 @@ private:
   }
 
 public:
-  std::vector<value_type> convolve(std::vector<value_type> A, std::vector<value_type> B) const {
+  std::vector<value_type> convolve(
+    std::vector<value_type> A, 
+    std::vector<value_type> B, 
+    bool same = false
+  ) const {
     if (A.empty() || B.empty()) return { };
     size_t res_size = A.size() + B.size() - 1;
     size_t fix_size = 1 << (31 - __builtin_clz(2 * res_size - 1));
-    if (A == B) {
+    if (same) {
       A.resize(fix_size);
       M_transform(A);
       for (size_t i = 0; i < fix_size; ++i) {
@@ -162,26 +198,37 @@ public:
     }
     M_inv_transform(A);
     A.resize(res_size);
-    A.shrink_to_fit();
     return A;
   }
 
   template <class OtherModular>
-  std::vector<value_type> convolve_convert(const std::vector<OtherModular> &A, const std::vector<OtherModular> &B) const {
-    return convolve(detail::convert_mod_vec<value_type>(A), detail::convert_mod_vec<value_type>(B));
+  std::vector<value_type> convolve_convert(
+    const std::vector<OtherModular> &A, 
+    const std::vector<OtherModular> &B
+    bool same = false
+  ) const {
+    return convolve(
+      ntt_detail::convert_mod_vec<value_type>(A), 
+      ntt_detail::convert_mod_vec<value_type>(B)
+      same
+    );
   }
 
 };
 
 template <class Modular>
-std::vector<Modular> arbitrary_mod_convolution(const std::vector<Modular> &A, const std::vector<Modular> &B) {
-  using namespace detail::garner_mod;
-  number_theoretic_transform<m0, p0> ntt0;
-  number_theoretic_transform<m1, p1> ntt1;
-  number_theoretic_transform<m2, p2> ntt2;
-  auto X = ntt0.convolve_convert(A, B);
-  auto Y = ntt1.convolve_convert(A, B);
-  auto Z = ntt2.convolve_convert(A, B);
+std::vector<Modular> convolve_arbitrary_mod(
+  const std::vector<Modular> &A, 
+  const std::vector<Modular> &B, 
+  bool same = false
+) {
+  using namespace ntt_detail::garner_mod;
+  number_theoretic_transform<m0> ntt0;
+  number_theoretic_transform<m1> ntt1;
+  number_theoretic_transform<m2> ntt2;
+  auto X = ntt0.convolve_convert(A, B, same);
+  auto Y = ntt1.convolve_convert(A, B, same);
+  auto Z = ntt2.convolve_convert(A, B, same);
   size_t size = X.size();
   std::vector<Modular> res(size);
   for (size_t i = 0; i < size; ++i) {
