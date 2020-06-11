@@ -5,7 +5,7 @@ public:
   using mod_type = uint64_t;
   using base_type = uint32_t;
   using size_type = size_t;
-  static constexpr mod_type mod = (1ll << 61) - 1;
+  static constexpr mod_type mod = (mod_type(1) << 61) - 1;
   static base_type base() { return T::value; }
 
 private:

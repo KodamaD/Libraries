@@ -1,29 +1,29 @@
 
 class union_find {
 private:
-  int component;
-  std::vector<int> parent;
+  size_t component;
+  std::vector<int32_t> parent;
 
 public:
   union_find() = default;
-  union_find(int size_) { init(size_); }
+  union_find(size_t size_) { init(size_); }
 
-  void init(int size_) {
+  void init(size_t size_) {
     component = size_;
     parent.assign(size_, -1);
   }
 
-  int count_components() const { 
+  size_t count_components() const { 
     return component; 
   }
-  int component_size(int i) { 
+  size_t component_size(size_t i) { 
     return -parent[find_parent(i)]; 
   }
-  bool same_component(int i, int j) { 
+  bool same_component(size_t i, size_t j) { 
     return find_parent(i) == find_parent(j); 
   }
 
-  int find_parent(int i) {
+  size_t find_parent(size_t i) {
     if (parent[i] < 0) {
       return i;
     }
@@ -32,7 +32,7 @@ public:
     }
   }
 
-  bool unite(int i, int j) {
+  bool unite(size_t i, size_t j) {
     i = find_parent(i);
     j = find_parent(j);
     if (i == j) {

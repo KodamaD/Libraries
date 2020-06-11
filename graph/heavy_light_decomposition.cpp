@@ -1,13 +1,16 @@
 
 class heavy_light_decomposition {
-private:
-  std::vector<std::vector<int>> graph;
-  std::vector<int> size, parent, head;
-  int index;
+public:
+  using size_typeype = int32_t;
 
-  void calc_size(int u, int p) {
+private:
+  std::vector<std::vector<size_type>> graph;
+  std::vector<size_type> size, parent, head;
+  size_type index;
+
+  void calc_size(size_type u, size_type p) {
     size[u] = 1;
-    for (int v: graph[u]) {
+    for (size_type v: graph[u]) {
       if (v != p) {
         calc_size(v, u);
         size[u] += size[v];
@@ -15,13 +18,13 @@ private:
     }
   }
 
-  void decompose(int u, int p, int h) {
+  void decompose(size_type u, size_type p, size_type h) {
     label[u] = index;
     head[u] = h;
     parent[u] = p;
     ++index;
-    int max = -1, heavy = -1;
-    for (int v : graph[u]) {
+    size_type max = -1, heavy = -1;
+    for (size_type v : graph[u]) {
       if (v != p) {
         if (max < size[v]) {
           max = size[v];
@@ -33,7 +36,7 @@ private:
       return;
     }
     decompose(heavy, u, h);
-    for (int v : graph[u]) {
+    for (size_type v : graph[u]) {
       if (v != p && v != heavy) {
         decompose(v, u, v);
       }
@@ -41,12 +44,12 @@ private:
   }
 
 public:
-  std::vector<int> label;
+  std::vector<size_type> label;
 
   heavy_light_decomposition() { }
-  heavy_light_decomposition(int size_) { init(size_); }
+  heavy_light_decomposition(size_type size_) { init(size_); }
 
-  void init(int size_) {
+  void init(size_type size_) {
     graph.assign(size_, { });
     size.assign(size_, 0);
     parent.assign(size_, 0);
@@ -54,7 +57,7 @@ public:
     label.assign(size_, 0);
   }
 
-  void add_edge(int u, int v) {
+  void add_edge(size_type u, size_type v) {
     graph[u].push_back(v);
     graph[v].push_back(u);
   }
@@ -66,7 +69,7 @@ public:
   }
 
   template <class T> 
-  void each_edge(int u, int v, const T &func) const {
+  void each_edge(size_type u, size_type v, const T &func) const {
     while (true) {
       if (label[u] > label[v]) {
         std::swap(u, v);
@@ -83,7 +86,7 @@ public:
   }
 
   template <class T> 
-  void each_vertex(int u, int v, const T &func) const {
+  void each_vertex(size_type u, size_type v, const T &func) const {
     while (true) {
       if (label[u] > label[v]) {
         std::swap(u, v);
@@ -97,7 +100,7 @@ public:
     }
   }
 
-  int lca(int u, int v) const {
+  size_type lca(size_type u, size_type v) const {
     if (label[u] > label[v]) {
       std::swap(u, v);
     }

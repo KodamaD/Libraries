@@ -40,12 +40,12 @@ namespace detail {
   };
 
   namespace garner_mod {
-    constexpr uint32_t m0 = 998244353;
-    constexpr uint32_t m1 = 935329793;
-    constexpr uint32_t m2 = 943718401;
-    constexpr uint32_t p0 = 3;
+    constexpr uint32_t m0 = 754974721;
+    constexpr uint32_t m1 = 167772161;
+    constexpr uint32_t m2 = 469762049;
+    constexpr uint32_t p0 = 11;
     constexpr uint32_t p1 = 3;
-    constexpr uint32_t p2 = 7;
+    constexpr uint32_t p2 = 3;
     constexpr uint64_t m0m1 = (uint64_t) m0 * m1;
     constexpr auto im0_m1 = modular<m1>(m0).inverse();
     constexpr auto im0m1_m2 = modular<m2>(m0m1).inverse();
@@ -53,15 +53,18 @@ namespace detail {
 
   /*
     prime numbers for ntt
-    [ 1051721729, 6 ]  [ 2^20 ]
-    [ 1045430273, 3 ]  [ 2^20 ]
-    [ 1007681537, 3 ]  [ 2^20 ]
-    [  962592769, 7 ]  [ 2^21 ]
-    [  924844033, 5 ]  [ 2^21 ]
-    [  985661441, 3 ]  [ 2^22 ]
-    [  943718401, 7 ]  [ 2^22 ]
-    [  935329793, 3 ]  [ 2^22 ]
-    [  998244353, 3 ]  [ 2^23 ]
+    [ 1051721729,  6 ]  [ 2^20 ]
+    [ 1045430273,  3 ]  [ 2^20 ]
+    [ 1007681537,  3 ]  [ 2^20 ]
+    [  962592769,  7 ]  [ 2^21 ]
+    [  924844033,  5 ]  [ 2^21 ]
+    [  985661441,  3 ]  [ 2^22 ]
+    [  943718401,  7 ]  [ 2^22 ]
+    [  935329793,  3 ]  [ 2^22 ]
+    [  998244353,  3 ]  [ 2^23 ]
+    [  754974721, 11 ]  [ 2^24 ]
+    [  167772161,  3 ]  [ 2^25 ]
+    [  469762049,  3 ]  [ 2^26 ]
   */
 
 }
@@ -147,9 +150,6 @@ public:
       for (size_t i = 0; i < fix_size; ++i) {
         A[i] *= A[i];
       }
-      M_inv_transform(A);
-      A.resize(res_size);
-      return A;
     }
     else {
       A.resize(fix_size);
@@ -159,10 +159,11 @@ public:
       for (size_t i = 0; i < fix_size; ++i) {
         A[i] *= B[i];
       }
-      M_inv_transform(A);
-      A.resize(res_size);
-      return A;
     }
+    M_inv_transform(A);
+    A.resize(res_size);
+    A.shrink_to_fit();
+    return A;
   }
 
   template <class OtherModular>
