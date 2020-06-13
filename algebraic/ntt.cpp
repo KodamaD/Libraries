@@ -204,12 +204,12 @@ public:
   template <class OtherModular>
   std::vector<value_type> convolve_convert(
     const std::vector<OtherModular> &A, 
-    const std::vector<OtherModular> &B
+    const std::vector<OtherModular> &B,
     bool same = false
   ) const {
     return convolve(
       ntt_detail::convert_mod_vec<value_type>(A), 
-      ntt_detail::convert_mod_vec<value_type>(B)
+      ntt_detail::convert_mod_vec<value_type>(B),
       same
     );
   }
