@@ -22,30 +22,30 @@ struct range {
   using itr = int64_t;
   struct iterator {
     itr i;
-    constexpr iterator(itr i_): i(i_) { }
-    constexpr void operator ++ () { ++i; }
-    constexpr itr operator * () const { return i; }
-    constexpr bool operator != (iterator x) const { return i != x.i; }
+    constexpr iterator(itr i_) noexcept : i(i_) { }
+    constexpr void operator ++ () noexcept { ++i; }
+    constexpr itr operator * () const noexcept { return i; }
+    constexpr bool operator != (iterator x) const noexcept { return i != x.i; }
   };
   const iterator l, r;
-  constexpr range(itr l_, itr r_): l(l_), r(std::max(l_, r_)) { }
-  constexpr iterator begin() const { return l; }
-  constexpr iterator end() const { return r; }
+  constexpr range(itr l_, itr r_) noexcept : l(l_), r(std::max(l_, r_)) { }
+  constexpr iterator begin() const noexcept { return l; }
+  constexpr iterator end() const noexcept { return r; }
 };
 
 struct revrange {
   using itr = int64_t;
   struct iterator {
     itr i;
-    constexpr iterator(itr i_): i(i_) { }
-    constexpr void operator ++ () { --i; }
-    constexpr itr operator * () const { return i; }
-    constexpr bool operator != (iterator x) const { return i != x.i; }
+    constexpr iterator(itr i_) noexcept : i(i_) { }
+    constexpr void operator ++ () noexcept { --i; }
+    constexpr itr operator * () const noexcept { return i; }
+    constexpr bool operator != (iterator x) const noexcept { return i != x.i; }
   };
   const iterator l, r;
-  constexpr revrange(itr l_, itr r_): l(l_ - 1), r(std::max(l_, r_) - 1) { }
-  constexpr iterator begin() const { return r; }
-  constexpr iterator end() const { return l; }
+  constexpr revrange(itr l_, itr r_) noexcept : l(l_ - 1), r(std::max(l_, r_) - 1) { }
+  constexpr iterator begin() const noexcept { return r; }
+  constexpr iterator end() const noexcept { return l; }
 };
 
 using i32 = int32_t;
