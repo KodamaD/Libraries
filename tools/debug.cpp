@@ -10,9 +10,10 @@ struct debug_support {
 
   std::ofstream file;
   std::stringstream to_str_helper;
-  const std::clock_t start_time;
+  clock_t start_time;
+  size_t str_width;
 
-  debug_support(): start_time(std::clock()) {
+  debug_support() {
     file.open("debug.txt");
     if (!file.is_open()) {
       std::cerr << "\033[31m failed to open the file 'debug.txt' \033[0m \n";
@@ -21,9 +22,22 @@ struct debug_support {
     file << "\n<debug output file>\n\n";
     to_str_helper << std::boolalpha;
     to_str_helper << std::fixed;
+    setwidth(3);
+    setprecision(6);
+    settime();
   }
   ~debug_support() {
     file.close(); 
+  }
+
+  void setwidth(size_t x) {
+    str_width = x;
+  }
+  void setprecision(size_t x) {
+    to_str_helper << std::setprecision(x);
+  }
+  void settime() {
+    start_time = std::clock();
   }
 
   std::string to_str(char c) { 
@@ -67,14 +81,9 @@ struct debug_support {
     return x == y ? "__" : to_str(x, args...); 
   }
 
-  template <class T>
-  void print(const T &x) { 
-    file << to_str(x) << std::endl;
-  }
-  template <class T, class... Args>
-  void print(const T &x, const Args&... args) {
-    file << to_str(x) << ", ";
-    print(args...);
+  std::string fix_str(const std::string &s) {
+    if (s.size() >= str_width) return s;
+    return std::string(str_width - s.size(), ' ') + s;
   }
 
   template<typename T, typename _ = void>
@@ -99,42 +108,46 @@ struct debug_support {
     for (const auto &v: x) {
       if (f) s += ", ";
       f = true;
-      s += to_str(v, args...);
+      s += fix_str(to_str(v, args...));
     }
     return s + " }\n";
   }
 
+  template <class T>
+  void print(const T &x) { 
+    file << to_str(x) << std::endl;
+  }
   template <class T, class... Args>
-  void print_container(const T &x, const Args&... args) {
-    file << to_str_container(x, args...) << std::flush;
+  void print(const T &x, const Args&... args) {
+    file << to_str(x) << ", ";
+    print(args...);
   }
 
-  void show_c_impl(const std::string &s) {
-    auto i = s.begin();
-    while (i != s.end() && *i != ',') ++i;
-    file << " [" << std::string(s.begin(), i) << "]";
-    if (i != s.end()) file << " (ignore" << std::string(i + 1, s.end()) << ")";
-    file << ":\n";
+  template <class T, class... Args>
+  void print_container(const T &x, const Args&... args) {
+    file << to_str_container(x, args...) << std::endl;
+    setwidth(3);
   }
 
 } debugger;
 
 #define show(...)\
   do {\
-    debugger.file << "<line:" << std::setw(4) << __LINE__ << "> [";\
-    debugger.file << #__VA_ARGS__ << "]: ";\
+    debugger.file << "<line:" << std::setw(4) << __LINE__ << ">";\
+    debugger.file << " [" << #__VA_ARGS__ << "]: ";\
     debugger.print(__VA_ARGS__);\
   } while (false)
 
-#define show_c(...)\
-  do {\
+#define show_c(x, ...)\
+ do {\
     debugger.file << "\n<line:" << std::setw(4) << __LINE__ << ">";\
-    debugger.show_c_impl(#__VA_ARGS__);\
-    debugger.print_container(__VA_ARGS__);\
-    debugger.file << std::endl;\
-  } while (false)
+    debugger.file << " [" << #x << "]";\
+    if (std::string(#__VA_ARGS__).empty()) debugger.file << ":\n";\
+    else debugger.file << " (ignore " << #__VA_ARGS__ << "):\n";\
+    debugger.print_container(x __VA_OPT__(,) __VA_ARGS__);\
+ } while (false)
 
-#define showtime()\
+#define show_e()\
   do {\
     double d = static_cast<double>(std::clock() - debugger.start_time);\
     debugger.file << "<line:" << std::setw(4) << __LINE__ << ">";\
@@ -144,5 +157,5 @@ struct debug_support {
 #else
 #define show(...) ((void) 0)
 #define show_c(...) ((void) 0)
-#define showtime() ((void) 0)
+#define show_e() ((void) 0)
 #endif
