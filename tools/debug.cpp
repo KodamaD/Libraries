@@ -27,6 +27,7 @@ struct debug_support {
     settime();
   }
   ~debug_support() {
+    std::system("code -r debug.txt");
     file.close(); 
   }
 
