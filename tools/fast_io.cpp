@@ -18,7 +18,7 @@ namespace fast_io {
 
   class scanner {
   private:
-    size_t M_in_pos = 0, M_in_end = buf_size,
+    size_t M_in_pos = 0, M_in_end = buf_size;
 
     void M_load() { 
       M_in_end = fread(inbuf, 1, buf_size, stdin); 

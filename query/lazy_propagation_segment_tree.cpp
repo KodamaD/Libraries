@@ -1,131 +1,149 @@
 
-template <class T>
+template <class CombinedMonoid>
 class lazy_propagation_segment_tree {
 public:
-  using value_type = typename T::value_type;
-  using effector_type = typename T::effector_type;
-
-  static inline const auto op1 = typename T::value_operation();
-  static inline const auto op2 = typename T::effector_operation();
-  static inline const auto op3 = typename T::merge_operation();
+  using combined_monoid = CombinedMonoid;
+  using value_monoid    = typename CombinedMonoid::value_monoid;
+  using operator_monoid = typename CombinedMonoid::operator_monoid;
+  using value_type      = typename value_monoid::type;
+  using operator_type   = typename operator_monoid::type;
+  using size_type       = size_t;
 
 private:
-  int size, height;
-  std::vector<value_type> node;
-  std::vector<effector_type> lazy;
-
-  value_type fetch(int i, int l) const {
-    if (lazy[i] == op2.identity) return node[i];
-    return op3(node[i], lazy[i], l);
+  class node_type {
+  public:
+    value_type    value;
+    operator_type lazy;
+    node_type(
+      const value_type    &value = value_monoid::identity(),
+      const operator_type &lazy  = operator_monoid::identity()
+    ): value(value), lazy(lazy) { }
+  };
+  
+  static size_type S_lsb(const size_type index) {
+    return      __builtin_ctz(index);
+  }
+  static size_type S_msb(const size_type index) {
+    return 31 - __builtin_clz(index);
   }
 
-  void apply(int i, int l) {
-    if (lazy[i] == op2.identity) return;
-    if (i < size) {
-      lazy[i << 1 | 0] = op2(lazy[i << 1 | 0], lazy[i]);
-      lazy[i << 1 | 1] = op2(lazy[i << 1 | 1], lazy[i]);
-    }
-    node[i] = op3(node[i], lazy[i], l);
-    lazy[i] = op2.identity;
+  static void S_apply(node_type &node, const operator_type &op, const size_type length) {
+    node.value = combined_monoid::operation(node.value, op, length);
+    node.lazy  = operator_monoid::operation(node.lazy, op);
   }
-  void update() {
-    for (int i = size - 1; i > 0; --i) {
-      node[i] = op1(node[i << 1 | 0], node[i << 1 | 1]);
+
+  void M_propagate(const size_type index, const size_type length) {
+    S_apply(M_tree[index << 1 | 0], M_tree[index].lazy, length);
+    S_apply(M_tree[index << 1 | 1], M_tree[index].lazy, length);
+    M_tree[index].lazy = operator_monoid::identity();
+  }
+  void M_fix_change(const size_type index) {
+    M_tree[index].value = 
+      value_monoid::operation(M_tree[index << 1 | 0].value, M_tree[index << 1 | 1].value);
+  }
+
+  void M_pushdown(const size_type index) {
+    const size_type lsb = S_lsb(index);
+    for (size_type story = S_msb(index); story != lsb; --story) {
+      M_propagate(index >> story, 1 << (story - 1));
+    }
+  }
+  void M_pullup(size_type index) {
+    index >>= S_lsb(index);
+    while (index != 1) {
+      index >>= 1;
+      M_fix_change(index);
     }
   }
 
-  void flush(int i) {
-    for (int k = height; k >= 0; --k) {
-      apply(i >> k, 1 << k);
-    }
-  }
-  void lift(int i) {
-    i >>= 1;
-    int l = 1;
-    while (i > 0) {
-      node[i] = op1(fetch(i << 1 | 0, l), fetch(i << 1 | 1, l));
-      i >>= 1;
-      l <<= 1;
-    }
-  }
+  std::vector<node_type> M_tree;
 
 public:
   lazy_propagation_segment_tree() = default;
-  lazy_propagation_segment_tree(int size_, const value_type &initial_ = op1.identity) { init(size_, initial_); }
-  lazy_propagation_segment_tree(const std::vector<value_type> &node_) { build(node_); }
+  explicit lazy_propagation_segment_tree(const size_type size) { initialize(size); }
+  template <class InputIterator>
+  explicit lazy_propagation_segment_tree(InputIterator first, InputIterator last) { construct(first, last); }
 
-  void init(int size_, const value_type &initial_ = op1.identity) {
-    size = 1; 
-    height = 0;
-    while (size < size_) {
-      size <<= 1;
-      ++height;
-    }
-    node.assign(size << 1, initial_);
-    lazy.assign(size << 1, op2.identity);
-    update();
-  }
-  void build(const std::vector<value_type> &node_) {
-    init(node_.size());
-    for (int i = 0; i < node_.size(); ++i) {
-      node[i + size] = node_[i];
-    }
-    update();
+  void initialize(const size_type size) {
+    clear();
+    M_tree.assign(size << 1, node_type());
   }
 
-  void assign(int i, const value_type &x) {
-    i += size;
-    flush(i);
-    node[i] = x;
-    lift(i);
+  template <class InputIterator>
+  void construct(InputIterator first, InputIterator last) {
+    clear();
+    const size_type size = std::distance(first, last);
+    M_tree.reserve(size << 1);
+    M_tree.assign(size, node_type());
+    for (; first != last; ++first) {
+      M_tree.emplace_back(*first, operator_monoid::identity());
+    }
+    for (size_type index = size - 1; index != 0; --index) {
+      M_fix_change(index);
+    }
   }
 
-  void modify(int l, int r, const effector_type &x) {
-    if (l >= r) return;
-    flush(l + size);
-    flush(r + size - 1);
-    int tl = l + size, tr = r + size, k = 1;
-    while (tl < tr) {
-      if (tl & 1) {
-        lazy[tl] = op2(lazy[tl], x);
-        apply(tl, k);
-        ++tl;
+  value_type fold(size_type first, size_type last) {
+    first += size();
+    last  += size();
+    M_pushdown(first);
+    M_pushdown(last);
+    value_type fold_l = value_monoid::identity();
+    value_type fold_r = value_monoid::identity();
+    while (first != last) {
+      if (first & 1) {
+        fold_l = value_monoid::operation(fold_l, M_tree[first].value);
+        ++first;
       }
-      if (tr & 1) {
-        --tr;
-        lazy[tr] = op2(lazy[tr], x);
-        apply(tr, k);
+      if (last & 1) {
+        --last;
+        fold_r = value_monoid::operation(M_tree[last].value, fold_r);
       }
-      tl >>= 1;
-      tr >>= 1;
-      k <<= 1;
+      first >>= 1;
+      last  >>= 1;
     }
-    lift(l + size);
-    lift(r + size - 1);
+    return value_monoid::operation(fold_l, fold_r);
   }
 
-  value_type fold(int l, int r) {
-    if (l >= r) return op1.identity;
-    flush(l + size);
-    flush(r + size - 1);
-    int tl = l + size, tr = r + size, k = 1;
-    value_type resl = op1.identity, resr = op1.identity;
-    while (tl < tr) {
-      if (tl & 1) {
-        apply(tl, k);
-        resl = op1(resl, node[tl]);
-        ++tl;
+  void operate(size_type first, size_type last, const operator_type &op) {
+    first += size();
+    last  += size();
+    M_pushdown(first);
+    M_pushdown(last);
+    const size_type first_c = first;
+    const size_type last_c  = last;
+    for (size_type story = 0; first != last; ++story) {
+      if (first & 1) {
+        S_apply(M_tree[first], op, 1 << story);
+        ++first;
       }
-      if (tr & 1) {
-        --tr;
-        apply(tr, k);
-        resr = op1(node[tr], resr);
+      if (last & 1) {
+        --last;
+        S_apply(M_tree[last], op, 1 << story);
       }
-      tl >>= 1;
-      tr >>= 1;
-      k <<= 1;
+      first >>= 1;
+      last  >>= 1;
     }
-    return op1(resl, resr);
+    M_pullup(first_c);
+    M_pullup(last_c);
+  }
+
+  void assign(size_type index, const value_type &val) {
+    index += size();
+    for (size_type story = S_msb(index); story != 0; --story) {
+      M_propagate(index >> story, 1 << (story - 1));
+    }
+    M_tree[index].value = val;
+    M_tree[index].lazy  = operator_monoid::identity();
+  }
+
+  void clear() {
+    M_tree.clear();
+    M_tree.shrink_to_fit();
+  }
+
+  size_type size() const { 
+    return M_tree.size() >> 1;
   }
 
 };
