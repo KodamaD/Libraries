@@ -94,6 +94,7 @@ public:
     for (size_type story = S_msb(index); story != 0; --story) {
       M_propagate(index >> story);
     }
+    M_tree[index] = operator_monoid::identity();
     M_leaves[index_c] = val;
   }
 
