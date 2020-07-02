@@ -2,15 +2,16 @@
 template <class Monoid>
 class segment_tree {
 public:
-  using monoid     = Monoid;
-  using value_type = typename Monoid::type;
-  using size_type  = size_t;
+  using structure    = Monoid;
+  using value_monoid = typename Monoid::value_structure;
+  using value_type   = typename Monoid::value_structure::type;
+  using size_type    = size_t;
 
 private:
   std::vector<value_type> M_tree;
 
   void M_fix_change(const size_type index) {
-    M_tree[index] = monoid::operation(M_tree[index << 1 | 0], M_tree[index << 1 | 1]);
+    M_tree[index] = value_monoid::operation(M_tree[index << 1 | 0], M_tree[index << 1 | 1]);
   }
 
 public:
@@ -21,7 +22,7 @@ public:
 
   void initialize(const size_type size) {
     clear();
-    M_tree.assign(size << 1, monoid::identity());
+    M_tree.assign(size << 1, value_monoid::identity());
   }
 
   template <class InputIterator>
@@ -29,7 +30,7 @@ public:
     clear();
     const size_type size = std::distance(first, last);
     M_tree.reserve(size << 1);
-    M_tree.assign(size, monoid::identity());
+    M_tree.assign(size, value_monoid::identity());
     std::copy(first, last, std::back_inserter(M_tree));
     for (size_type index = size - 1; index != 0; --index) {
       M_fix_change(index);
@@ -52,21 +53,21 @@ public:
   value_type fold(size_type first, size_type last) const {
     first += size();
     last += size();
-    value_type fold_l = monoid::identity();
-    value_type fold_r = monoid::identity();
+    value_type fold_l = value_monoid::identity();
+    value_type fold_r = value_monoid::identity();
     while (first != last) {
       if (first & 1) {
-        fold_l = monoid::operation(fold_l, M_tree[first]);
+        fold_l = value_monoid::operation(fold_l, M_tree[first]);
         ++first;
       }
       if (last & 1) {
         --last;
-        fold_r = monoid::operation(M_tree[last], fold_r);      
+        fold_r = value_monoid::operation(M_tree[last], fold_r);      
       }
       first >>= 1;
       last  >>= 1;
     }
-    return monoid::operation(fold_l, fold_r);
+    return value_monoid::operation(fold_l, fold_r);
   }
 
   void clear() {

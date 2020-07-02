@@ -1,7 +1,7 @@
 
 class heavy_light_decomposition {
 public:
-  using size_typeype = int32_t;
+  using size_type = int32_t;
 
 private:
   std::vector<std::vector<size_type>> graph;

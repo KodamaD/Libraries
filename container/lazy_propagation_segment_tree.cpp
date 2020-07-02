@@ -2,11 +2,11 @@
 template <class CombinedMonoid>
 class lazy_propagation_segment_tree {
 public:
-  using combined_monoid = CombinedMonoid;
-  using value_monoid    = typename CombinedMonoid::value_monoid;
-  using operator_monoid = typename CombinedMonoid::operator_monoid;
-  using value_type      = typename value_monoid::type;
-  using operator_type   = typename operator_monoid::type;
+  using structure       = CombinedMonoid;
+  using value_monoid    = typename CombinedMonoid::value_structure;
+  using operator_monoid = typename CombinedMonoid::operator_structure;
+  using value_type      = typename CombinedMonoid::value_structure::type;
+  using operator_type   = typename CombinedMonoid::operator_structure::type;
   using size_type       = size_t;
 
 private:
@@ -28,7 +28,7 @@ private:
   }
 
   static void S_apply(node_type &node, const operator_type &op, const size_type length) {
-    node.value = combined_monoid::operation(node.value, op, length);
+    node.value = structure::operation(node.value, op, length);
     node.lazy  = operator_monoid::operation(node.lazy, op);
   }
 
