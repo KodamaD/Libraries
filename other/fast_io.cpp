@@ -1,4 +1,9 @@
 
+#include <cstddef>
+#include <cstdint>
+#include <cstring>
+#include <iostream>
+
 namespace fast_io {
   static constexpr size_t buf_size = 1 << 18;
   static constexpr size_t buf_margin = 1;
