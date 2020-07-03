@@ -114,8 +114,8 @@ private:
   static constexpr auto roots = ntt_detail::calculate_roots<level>(omega);
   static constexpr auto inv_roots = ntt_detail::calculate_roots<level>(omega.inverse());
 
-protected:
-  void M_transform(std::vector<value_type> &F) const {
+public:
+  static void transform(std::vector<value_type> &F) {
     size_t size = F.size();
     size_t logn = __builtin_ctz(size);
     for (size_t i = 0; i < size; ++i) {
@@ -141,7 +141,7 @@ protected:
     }
   }
 
-  void M_inv_transform(std::vector<value_type> &F) const {
+  static void inv_transform(std::vector<value_type> &F) {
     size_t size = F.size();
     size_t logn = __builtin_ctz(size);
     for (size_t i = 0; i < size; ++i) {
@@ -171,64 +171,65 @@ protected:
     }
   }
 
-public:
-  std::vector<value_type> convolve(
+  template <bool Same = false, typename std::enable_if<!Same, void>::type* = nullptr>
+  static std::vector<value_type> convolve(
     std::vector<value_type> A, 
-    std::vector<value_type> B, 
-    bool same = false
-  ) const {
+    std::vector<value_type> B) {
     if (A.empty() || B.empty()) return { };
     size_t res_size = A.size() + B.size() - 1;
     size_t fix_size = 1 << (31 - __builtin_clz(2 * res_size - 1));
-    if (same) {
-      A.resize(fix_size);
-      M_transform(A);
-      for (size_t i = 0; i < fix_size; ++i) {
-        A[i] *= A[i];
-      }
+    A.resize(fix_size);
+    B.resize(fix_size);
+    transform(A);
+    transform(B);
+    for (size_t i = 0; i < fix_size; ++i) {
+      A[i] *= B[i];
     }
-    else {
-      A.resize(fix_size);
-      B.resize(fix_size);
-      M_transform(A);
-      M_transform(B);
-      for (size_t i = 0; i < fix_size; ++i) {
-        A[i] *= B[i];
-      }
-    }
-    M_inv_transform(A);
+    inv_transform(A);
     A.resize(res_size);
     return A;
   }
 
-  template <class OtherModular>
-  std::vector<value_type> convolve_convert(
+  template <bool Same = false, typename std::enable_if<Same, void>::type* = nullptr>
+  static std::vector<value_type> convolve(
+    std::vector<value_type> A,
+    [[maybe_unused]] const std::vector<value_type> &B) {
+    if (A.empty()) return { };
+    size_t res_size = 2 * A.size() - 1;
+    size_t fix_size = 1 << (31 - __builtin_clz(2 * res_size - 1));
+    A.resize(fix_size);
+    transform(A);
+    for (size_t i = 0; i < fix_size; ++i) {
+      A[i] *= A[i];
+    }
+    inv_transform(A);
+    A.resize(res_size);
+    return A;
+  }
+
+  template <class OtherModular, bool Same = false>
+  static std::vector<value_type> convolve_convert(
     const std::vector<OtherModular> &A, 
-    const std::vector<OtherModular> &B,
-    bool same = false
-  ) const {
-    return convolve(
+    const std::vector<OtherModular> &B) {
+    return convolve<Same>(
       ntt_detail::convert_mod_vec<value_type>(A), 
-      ntt_detail::convert_mod_vec<value_type>(B),
-      same
+      ntt_detail::convert_mod_vec<value_type>(B)
     );
   }
 
 };
 
-template <class Modular>
+template <class Modular, bool Same = false>
 std::vector<Modular> convolve_arbitrary_mod(
   const std::vector<Modular> &A, 
-  const std::vector<Modular> &B, 
-  bool same = false
-) {
+  const std::vector<Modular> &B) {
   using namespace ntt_detail::garner_mod;
-  number_theoretic_transform<m0> ntt0;
-  number_theoretic_transform<m1> ntt1;
-  number_theoretic_transform<m2> ntt2;
-  auto X = ntt0.convolve_convert(A, B, same);
-  auto Y = ntt1.convolve_convert(A, B, same);
-  auto Z = ntt2.convolve_convert(A, B, same);
+  using ntt0 = number_theoretic_transform<m0>;
+  using ntt1 = number_theoretic_transform<m1>;
+  using ntt2 = number_theoretic_transform<m2>;
+  auto X = ntt0::convolve_convert<Modular, Same>(A, B);
+  auto Y = ntt1::convolve_convert<Modular, Same>(A, B);
+  auto Z = ntt2::convolve_convert<Modular, Same>(A, B);
   size_t size = X.size();
   std::vector<Modular> res(size);
   for (size_t i = 0; i < size; ++i) {

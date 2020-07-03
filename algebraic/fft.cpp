@@ -1,6 +1,6 @@
 
 template <class T>
-class fast_fourier_M_transform {
+class fast_fourier_transform {
 public:
   using value_type = T;
   static constexpr value_type pi = std::acos(value_type(-1.0));
@@ -23,7 +23,8 @@ private:
   size_t M_size;
   std::vector<complex_type> M_root;
 
-  void M_reserve(size_t size_) {
+public:
+  void reserve(size_t size_) {
     M_size = 1;
     while (M_size < size_) M_size <<= 1;
     M_root.assign(M_size + 1, complex_type());
@@ -34,7 +35,7 @@ private:
     }
   }
 
-  void M_transform(std::vector<complex_type> &F) const {
+  void transform(std::vector<complex_type> &F) const {
     for (size_t i = 0, j = 1; j + 1 < M_size; ++j) {
       size_t k = M_size >> 1;
       while (k > (i ^= k)) k >>= 1;
@@ -55,7 +56,7 @@ private:
     }
   }
 
-  void M_inv_transform(std::vector<complex_type> &F) const {
+  void inv_transform(std::vector<complex_type> &F) const {
     for (size_t i = 0, j = 1; j + 1 < M_size; ++j) {
       size_t k = M_size >> 1;
       while (k > (i ^= k)) k >>= 1;
@@ -76,11 +77,10 @@ private:
     }
   }
 
-public:
   template <class U>
   std::vector<U> convolve(const std::vector<U> &A, const std::vector<U> &B) {
     size_t res_size = A.size() + B.size() - 1;
-    M_reserve(res_size);
+    reserve(res_size);
     std::vector<complex_type> C(M_size), D(M_size);
     for (size_t i = 0; i < A.size(); ++i) {
       C[i].re = static_cast<value_type>(A[i]);
@@ -88,12 +88,12 @@ public:
     for (size_t i = 0; i < B.size(); ++i) {
       D[i].re = static_cast<value_type>(B[i]);
     }
-    M_transform(C);
-    M_transform(D);
+    transform(C);
+    transform(D);
     for (size_t i = 0; i < M_size; ++i) {
       C[i] = C[i] * D[i];
     }
-    M_inv_transform(C);
+    inv_transform(C);
     std::vector<U> res(res_size);
     for (size_t i = 0; i < res_size; ++i) {
       res[i] = static_cast<U>(C[i].re / M_size + value_type(0.5));
