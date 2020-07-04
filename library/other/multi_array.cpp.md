@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: other/gen_arr.cpp
+# :warning: other/multi_array.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
-* <a href="{{ site.github.repository_url }}/blob/master/other/gen_arr.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-03 23:58:07+09:00
+* <a href="{{ site.github.repository_url }}/blob/master/other/multi_array.cpp">View this file on GitHub</a>
+    - Last commit date: 2020-07-04 10:50:36+09:00
 
 
 
@@ -43,17 +43,17 @@ layout: default
 ```cpp
 
 template <class T, size_t N, size_t... Seq>
-struct gen_arr_impl {
-  using type = std::array<typename gen_arr_impl<T, Seq...>::type, N>;
+struct multi_array_impl {
+  using type = std::array<typename multi_array_impl<T, Seq...>::type, N>;
 };
 
 template <class T, size_t N>
-struct gen_arr_impl<T, N> {
+struct multi_array_impl<T, N> {
   using type = std::array<T, N>;
 };
 
 template <class T, size_t N, size_t... Seq>
-using gen_arr = typename gen_arr_impl<T, N, Seq...>::type; 
+using multi_array = typename multi_array_impl<T, N, Seq...>::type; 
 
 ```
 {% endraw %}
@@ -61,20 +61,20 @@ using gen_arr = typename gen_arr_impl<T, N, Seq...>::type;
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "other/gen_arr.cpp"
+#line 1 "other/multi_array.cpp"
 
 template <class T, size_t N, size_t... Seq>
-struct gen_arr_impl {
-  using type = std::array<typename gen_arr_impl<T, Seq...>::type, N>;
+struct multi_array_impl {
+  using type = std::array<typename multi_array_impl<T, Seq...>::type, N>;
 };
 
 template <class T, size_t N>
-struct gen_arr_impl<T, N> {
+struct multi_array_impl<T, N> {
   using type = std::array<T, N>;
 };
 
 template <class T, size_t N, size_t... Seq>
-using gen_arr = typename gen_arr_impl<T, N, Seq...>::type; 
+using multi_array = typename multi_array_impl<T, N, Seq...>::type; 
 
 ```
 {% endraw %}

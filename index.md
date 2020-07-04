@@ -92,8 +92,8 @@ layout: default
 * :warning: <a href="library/other/debug.cpp.html">other/debug.cpp</a>
 * :heavy_check_mark: <a href="library/other/fast_io.cpp.html">other/fast_io.cpp</a>
 * :warning: <a href="library/other/fix_point.cpp.html">other/fix_point.cpp</a>
-* :warning: <a href="library/other/gen_arr.cpp.html">other/gen_arr.cpp</a>
 * :warning: <a href="library/other/gen_vec.cpp.html">other/gen_vec.cpp</a>
+* :warning: <a href="library/other/multi_array.cpp.html">other/multi_array.cpp</a>
 * :warning: <a href="library/other/template.cpp.html">other/template.cpp</a>
 
 
