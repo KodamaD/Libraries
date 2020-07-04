@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: test/fast_io.test.cpp
+# :heavy_check_mark: test/fast_io.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/fast_io.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 16:35:04+09:00
+    - Last commit date: 2020-07-04 16:43:37+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/many_aplusb">https://judge.yosupo.jp/problem/many_aplusb</a>
@@ -51,6 +51,12 @@ layout: default
 #define PROBLEM "https://judge.yosupo.jp/problem/many_aplusb"
 
 #include "../other/fast_io.cpp"
+
+#include <cstddef>
+#include <cstdint>
+
+fast_io::scanner cin;
+fast_io::printer cout;
 
 int main() {
   size_t Q;
@@ -264,6 +270,11 @@ namespace fast_io {
 
 };
 #line 5 "test/fast_io.test.cpp"
+
+#line 8 "test/fast_io.test.cpp"
+
+fast_io::scanner cin;
+fast_io::printer cout;
 
 int main() {
   size_t Q;

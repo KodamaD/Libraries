@@ -103,7 +103,7 @@ layout: default
 
 ## Verify Files
 
-* :x: <a href="verify/test/fast_io.test.cpp.html">test/fast_io.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/fast_io.test.cpp.html">test/fast_io.test.cpp</a>
 * :x: <a href="verify/test/ntt.arbitrary_mod.test.cpp.html">test/ntt.arbitrary_mod.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
 
