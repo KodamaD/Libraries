@@ -1,6 +1,6 @@
 #pragma once
 
-#include "modular.cpp"
+#include "../algebraic/modular.cpp"
 #include "../other/bit_operation.cpp"
 #include <cstddef>
 #include <vector>

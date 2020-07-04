@@ -3,6 +3,12 @@
 
 #include "../other/fast_io.cpp"
 
+#include <cstddef>
+#include <cstdint>
+
+fast_io::scanner cin;
+fast_io::printer cout;
+
 int main() {
   size_t Q;
   cin.scan(Q);
