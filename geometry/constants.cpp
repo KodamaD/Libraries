@@ -1,3 +1,6 @@
+#pragma once
+
+#include <cmath>
 
 template <class T>
 struct real_constant;

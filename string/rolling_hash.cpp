@@ -1,28 +1,35 @@
 
-template <class T>
+#pragma once
+#include <cstddef>
+#include <cstdint>
+#include <vector>
+#include <string>
+#include <ctime>
+
+template <class Base>
 class hash_string {
 public:
   using mod_type = uint64_t;
   using base_type = uint32_t;
   using size_type = size_t;
   static constexpr mod_type mod = (mod_type(1) << 61) - 1;
-  static base_type base() { return T::value; }
+  static base_type base() { return Base::value; }
 
 private:
   std::string M_string;
   std::vector<mod_type> M_power, M_hash;
 
 public:
-  hash_string() { init(); }
-  hash_string(const std::string &initial_) { init(initial_);}
+  hash_string() { initialize(); }
+  hash_string(const std::string &initial_) { construct(initial_);}
 
-  void init() {
+  void initialize() {
     M_string = "";
     M_power.assign(1, 1);
     M_hash.assign(1, 0);
   }
-  void init(const std::string &initial_) {
-    init();
+  void construct(const std::string &initial_) {
+    initialize();
     add_string(initial_);
   }
 

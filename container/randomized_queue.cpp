@@ -1,8 +1,16 @@
+#pragma once
+
+#include <cstddef>
+#include <cstdint>
+#include <vector>
+#include <iterator>
+#include <algorithm>
 
 template <class T>
 class randomized_queue {
 public:
   using value_type = T;
+  using size_type = size_t;
 
   static uint64_t engine() {
     static uint64_t current = 7511168;
@@ -12,35 +20,48 @@ public:
   }
   
 private:
-  std::vector<value_type> data;
+  std::vector<value_type> M_data;
 
 public:
   randomized_queue() = default;
-  randomized_queue(const std::vector<value_type> &data_): data(data_) { shuffle(); }
+  template <class InputIterator>
+  explicit randomized_queue(InputIterator first, InputIterator last) { construct(first, last); }
+
+  template <class InputIterator>
+  void construct(InputIterator first, InputIterator last) { 
+    clear();
+    const size_type size = std::distance(first, last);
+    M_data.reserve(size);
+    std::copy(first, last, std::back_inserter(M_data));
+  }
 
   void shuffle() {
-    std::swap(data.back(), data[engine() % data.size()]);
+    std::swap(M_data.back(), M_data[engine() % M_data.size()]);
   }
 
   value_type front() const {
-    return data.back();
+    return M_data.back();
   }
   bool empty() const {
-    return data.empty();
+    return M_data.empty();
   }
-  size_t size() const {
-    return data.size();
+  size_type size() const {
+    return M_data.size();
   }
 
   void push(const value_type &val) {
-    data.push_back(val);
+    M_data.push_back(val);
     shuffle();
   }
   void pop() {
-    data.pop_back();
-    if (!data.empty()) {
+    M_data.pop_back();
+    if (!M_data.empty()) {
       shuffle();
     }
+  }
+  void clear() {
+    M_data.clear();
+    M_data.shrink_to_fit();
   }
 
 };

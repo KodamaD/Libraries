@@ -1,3 +1,7 @@
+#pragma once
+
+#include <cstddef>
+#include <array>
 
 template <class T, size_t N>
 class factorials {

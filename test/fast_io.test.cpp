@@ -1,5 +1,6 @@
 
 #define PROBLEM "https://judge.yosupo.jp/problem/many_aplusb"
+
 #include "../other/fast_io.cpp"
 
 int main() {

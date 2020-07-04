@@ -1,3 +1,9 @@
+#pragma once
+
+#include <cstddef>
+#include <cstdint>
+#include <vector>
+#include <utility>
 
 class union_find {
 private:

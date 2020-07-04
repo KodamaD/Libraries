@@ -1,3 +1,4 @@
+#pragma once
 
 #include <cstddef>
 #include <cstdint>
@@ -188,6 +189,3 @@ namespace fast_io {
   };
 
 };
-
-fast_io::scanner cin;
-fast_io::printer cout;

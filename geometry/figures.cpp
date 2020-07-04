@@ -1,3 +1,6 @@
+#pragma once
+
+#include "constants.cpp"
 
 template <class T>
 struct vector_type {

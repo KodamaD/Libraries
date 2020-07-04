@@ -1,3 +1,7 @@
+#pragma once
+
+#include <cstdint>
+#include <iostream>
 
 template <uint32_t Modulus>
 class modular {
@@ -76,5 +80,3 @@ public:
   }
 
 };
-
-using m32 = modular<1000000007>;

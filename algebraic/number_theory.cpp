@@ -1,5 +1,12 @@
+#pragma once
 
-namespace detail {
+#include <cstddef>
+#include <cstdint>
+#include <utility>
+#include <vector>
+#include <algorithm>
+
+namespace number_theory_detail {
 
   using u32 = uint32_t;
   using u64 = uint64_t;
@@ -130,14 +137,14 @@ namespace detail {
 
 template <class T>
 bool is_prime(T x) {
-  return detail::miller_rabin(x);
+  return number_theory_detail::miller_rabin(x);
 }
 
 template <class T>
 std::vector<T> enumerate_factors(T n, bool sort = true) {
   if (n == 1) return { };
   if (is_prime(n)) return { n };
-  T d = detail::pollard_rho(n);
+  T d = number_theory_detail::pollard_rho(n);
   auto res = enumerate_factors(d);
   auto add = enumerate_factors(n / d);
   size_t size = res.size();

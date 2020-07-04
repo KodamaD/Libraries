@@ -1,3 +1,10 @@
+#pragma once
+
+#include <cstddef>
+#include <cstdint>
+#include <vector>
+#include <utility>
+#include <algorithm>
 
 class partially_persistent_union_find {
 public:

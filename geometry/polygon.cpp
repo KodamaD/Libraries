@@ -1,3 +1,10 @@
+#pragma once
+
+#include "figures.cpp"
+#include <cstddef>
+#include <vector>
+#include <numeric>
+#include <algorithm>
 
 template <class T>
 using polygon = std::vector<vector_type<T>>;

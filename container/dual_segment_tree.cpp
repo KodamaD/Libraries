@@ -1,3 +1,10 @@
+#pragma once
+
+#include "../other/bit_operation.cpp"
+#include <cstddef>
+#include <vector>
+#include <iterator>
+#include <algorithm>
 
 template <class CombinedMonoid>
 class dual_segment_tree {
@@ -9,14 +16,6 @@ public:
   using size_type       = size_t;
 
 private:
-  
-  static size_type S_lsb(const size_type index) {
-    return      __builtin_ctz(index);
-  }
-  static size_type S_msb(const size_type index) {
-    return 31 - __builtin_clz(index);
-  }
-
   static void S_apply(operator_type &op, const operator_type &add) {
     op = operator_monoid::operation(op, add);
   }
@@ -28,8 +27,8 @@ private:
   }
 
   void M_pushdown(const size_type index) {
-    const size_type lsb = S_lsb(index);
-    for (size_type story = S_msb(index); story != lsb; --story) {
+    const size_type lsb = count_zero_right(index);
+    for (size_type story = bit_width(index); story != lsb; --story) {
       M_propagate(index >> story);
     }
   }
@@ -91,7 +90,7 @@ public:
   void assign(size_type index, const value_type &val) {
     const size_type index_c = index;
     index += size();
-    for (size_type story = S_msb(index); story != 0; --story) {
+    for (size_type story = bit_width(index); story != 0; --story) {
       M_propagate(index >> story);
     }
     M_tree[index] = operator_monoid::identity();

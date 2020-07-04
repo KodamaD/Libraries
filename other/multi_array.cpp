@@ -1,3 +1,7 @@
+#pragma once
+
+#include <cstddef>
+#include <array>
 
 template <class T, size_t N, size_t... Seq>
 struct multi_array_impl {

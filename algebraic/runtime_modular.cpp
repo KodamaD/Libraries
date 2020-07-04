@@ -1,3 +1,7 @@
+#pragma once
+
+#include <cstdint>
+#include <iostream>
 
 template <class Modulus>
 class modular {

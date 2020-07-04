@@ -1,3 +1,11 @@
+#pragma once
+
+#include "../other/bit_operation.cpp"
+#include <cstddef>
+#include <vector>
+#include <iterator>
+#include <algorithm>
+#include <functional>
 
 template <class T, class U = std::less<T>>
 class li_chao_tree {
@@ -43,8 +51,7 @@ public:
 
   void build(const std::vector<value_type> &coordinate_) {
     M_coordinate = coordinate_;
-    M_size = 1;
-    while (M_size < M_coordinate.size()) M_size <<= 1;
+    M_size = next_power_of_two(coordinate_.size());
     value_type margin = M_coordinate.empty() ? 0 : M_coordinate.back();
     M_coordinate.resize(M_size, margin);
     M_line.assign(M_size << 1, line_type());

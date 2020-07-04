@@ -1,8 +1,17 @@
+#pragma once
+
+#include "modular.cpp"
+#include "../other/bit_operation.cpp"
+#include <cstddef>
+#include <vector>
+#include <array>
+#include <utility>
+#include <algorithm>
 
 namespace ntt_detail {
 
   constexpr uint32_t calc_primitive_root(uint32_t mod) {
-    uint32_t exp[32] = {};
+    std::array<uint32_t, 32> exp{};
     uint32_t cur = mod - 1;
     size_t size = 0;
     for (uint32_t i = 2; i * i <= cur; ++i) {
@@ -57,22 +66,6 @@ namespace ntt_detail {
     return res;
   }
 
-  namespace bit_operation {
-    constexpr uint32_t b16 = 0b00000000000000001111111111111111;
-    constexpr uint32_t  b8 = 0b00000000111111110000000011111111;
-    constexpr uint32_t  b4 = 0b00001111000011110000111100001111;
-    constexpr uint32_t  b2 = 0b00110011001100110011001100110011;
-    constexpr uint32_t  b1 = 0b01010101010101010101010101010101;
-    constexpr size_t reverse(size_t x) {
-      x = ((x >> 16) & b16) | ((x & b16) << 16);
-      x = ((x >>  8) &  b8) | ((x &  b8) <<  8);
-      x = ((x >>  4) &  b4) | ((x &  b4) <<  4);
-      x = ((x >>  2) &  b2) | ((x &  b2) <<  2);
-      x = ((x >>  1) &  b1) | ((x &  b1) <<  1);
-      return x;
-    }
-  };
-
   namespace garner_mod {
     constexpr uint32_t m0 = 754974721;
     constexpr uint32_t m1 = 167772161;
@@ -100,15 +93,15 @@ namespace ntt_detail {
 
 }
 
-template <uint32_t Modulus, class Modular = modular<Modulus>>
+template <class Modular>
 class number_theoretic_transform {
 public:
   using value_type = Modular;
-  static constexpr uint32_t mod = Modulus;
+  static constexpr uint32_t mod = Modular::get_mod();
   static constexpr uint32_t prim = ntt_detail::calc_primitive_root(mod);
 
 private:
-  static constexpr size_t level = __builtin_ctz(mod - 1);
+  static constexpr size_t level = count_zero_right(mod - 1);
   static constexpr value_type unit = value_type(1);
   static constexpr value_type omega = value_type(prim).power((mod - 1) >> level); 
   static constexpr auto roots = ntt_detail::calculate_roots<level>(omega);
@@ -117,9 +110,9 @@ private:
 public:
   static void transform(std::vector<value_type> &F) {
     size_t size = F.size();
-    size_t logn = __builtin_ctz(size);
+    size_t logn = count_zero_right(size);
     for (size_t i = 0; i < size; ++i) {
-      size_t j = ntt_detail::bit_operation::reverse(i) >> (32 - logn);
+      size_t j = bit_reverse_32(i) >> (32 - logn);
       if (i < j) {
         std::swap(F[i], F[j]);
       }
@@ -143,9 +136,9 @@ public:
 
   static void inv_transform(std::vector<value_type> &F) {
     size_t size = F.size();
-    size_t logn = __builtin_ctz(size);
+    size_t logn = count_zero_right(size);
     for (size_t i = 0; i < size; ++i) {
-      size_t j = ntt_detail::bit_operation::reverse(i) >> (32 - logn);
+      size_t j = bit_reverse_32(i) >> (32 - logn);
       if (i < j) {
         std::swap(F[i], F[j]);
       }
@@ -177,7 +170,7 @@ public:
     std::vector<value_type> B) {
     if (A.empty() || B.empty()) return { };
     size_t res_size = A.size() + B.size() - 1;
-    size_t fix_size = 1 << (31 - __builtin_clz(2 * res_size - 1));
+    size_t fix_size = next_power_of_two(res_size);
     A.resize(fix_size);
     B.resize(fix_size);
     transform(A);
@@ -196,7 +189,7 @@ public:
     [[maybe_unused]] const std::vector<value_type> &B) {
     if (A.empty()) return { };
     size_t res_size = 2 * A.size() - 1;
-    size_t fix_size = 1 << (31 - __builtin_clz(2 * res_size - 1));
+    size_t fix_size = next_power_of_two(res_size);
     A.resize(fix_size);
     transform(A);
     for (size_t i = 0; i < fix_size; ++i) {
@@ -224,9 +217,9 @@ std::vector<Modular> convolve_arbitrary_mod(
   const std::vector<Modular> &A, 
   const std::vector<Modular> &B) {
   using namespace ntt_detail::garner_mod;
-  using ntt0 = number_theoretic_transform<m0>;
-  using ntt1 = number_theoretic_transform<m1>;
-  using ntt2 = number_theoretic_transform<m2>;
+  using ntt0 = number_theoretic_transform<modular<m0>>;
+  using ntt1 = number_theoretic_transform<modular<m1>>;
+  using ntt2 = number_theoretic_transform<modular<m2>>;
   auto X = ntt0::convolve_convert<Modular, Same>(A, B);
   auto Y = ntt1::convolve_convert<Modular, Same>(A, B);
   auto Z = ntt2::convolve_convert<Modular, Same>(A, B);

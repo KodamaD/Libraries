@@ -1,3 +1,6 @@
+#pragma once
+
+#include <utility>
 
 template <class Func>
 struct fix_point: private Func {

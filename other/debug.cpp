@@ -1,3 +1,4 @@
+#pragma once
 
 #ifdef LOCAL
 #include <iostream>

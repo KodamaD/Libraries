@@ -1,3 +1,9 @@
+#pragma once
+
+#include <cstddef>
+#include <vector>
+#include <iterator>
+#include <algorithm>
 
 template <class Monoid>
 class segment_tree {

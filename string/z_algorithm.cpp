@@ -1,6 +1,10 @@
 
-template <class T>
-std::vector<size_t> z_algorithm(const T& str) {
+#pragma once
+#include <cstddef>
+#include <vector>
+
+template <class Container>
+std::vector<size_t> z_algorithm(const Container& str) {
   size_t size = str.size();
   std::vector<size_t> result(size);
   result[0] = size;
