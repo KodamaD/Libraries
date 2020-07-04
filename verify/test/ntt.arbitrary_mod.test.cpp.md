@@ -31,10 +31,10 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/ntt.arbitrary_mod.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 16:43:37+09:00
+    - Last commit date: 2020-07-04 17:01:08+09:00
 
 
-* see: <a href="https://judge.yosupo.jp/problem/convolution_mod">https://judge.yosupo.jp/problem/convolution_mod</a>
+* see: <a href="https://judge.yosupo.jp/problem/convolution_mod_1000000007">https://judge.yosupo.jp/problem/convolution_mod_1000000007</a>
 
 
 ## Depends on
@@ -51,11 +51,12 @@ layout: default
 {% raw %}
 ```cpp
 
-#define PROBLEM "https://judge.yosupo.jp/problem/convolution_mod"
+#define PROBLEM "https://judge.yosupo.jp/problem/convolution_mod_1000000007"
 
 #include "../algebraic/ntt.cpp"
 #include "../other/fast_io.cpp"
 
+#include <iostream>
 #include <vector>
 
 fast_io::scanner cin;
@@ -65,18 +66,18 @@ using m32 = modular<1000000007>;
 
 int main() {
   size_t N, M;
-  cin.scan(N, M);
+  std::cin >> N >> M;
   std::vector<m32> A(N), B(M);
   for (auto &x: A) {
-    cin.scan(x.extract());
+    std::cin >> x.extract();
   }
   for (auto &x: B) {
-    cin.scan(x.extract());
+    std::cin >> x.extract();
   }
   auto C = convolve_arbitrary_mod(A, B);
   for (size_t i = 0; i < C.size(); ++i) {
-    cout.print(C[i].get());
-    cout.print(i + 1 == C.size() ? '\n' : ' ');
+    std::cout << C[i];
+    std::cout << (i + 1 == C.size() ? '\n' : ' ');
   }
   return 0;
 }
@@ -89,7 +90,7 @@ int main() {
 ```cpp
 #line 1 "test/ntt.arbitrary_mod.test.cpp"
 
-#define PROBLEM "https://judge.yosupo.jp/problem/convolution_mod"
+#define PROBLEM "https://judge.yosupo.jp/problem/convolution_mod_1000000007"
 
 #line 2 "algebraic/ntt.cpp"
 
@@ -639,7 +640,7 @@ namespace fast_io {
 };
 #line 6 "test/ntt.arbitrary_mod.test.cpp"
 
-#line 8 "test/ntt.arbitrary_mod.test.cpp"
+#line 9 "test/ntt.arbitrary_mod.test.cpp"
 
 fast_io::scanner cin;
 fast_io::printer cout;
@@ -648,18 +649,18 @@ using m32 = modular<1000000007>;
 
 int main() {
   size_t N, M;
-  cin.scan(N, M);
+  std::cin >> N >> M;
   std::vector<m32> A(N), B(M);
   for (auto &x: A) {
-    cin.scan(x.extract());
+    std::cin >> x.extract();
   }
   for (auto &x: B) {
-    cin.scan(x.extract());
+    std::cin >> x.extract();
   }
   auto C = convolve_arbitrary_mod(A, B);
   for (size_t i = 0; i < C.size(); ++i) {
-    cout.print(C[i].get());
-    cout.print(i + 1 == C.size() ? '\n' : ' ');
+    std::cout << C[i];
+    std::cout << (i + 1 == C.size() ? '\n' : ' ');
   }
   return 0;
 }

@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/ntt.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 16:43:37+09:00
+    - Last commit date: 2020-07-04 17:01:08+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/convolution_mod">https://judge.yosupo.jp/problem/convolution_mod</a>
@@ -56,28 +56,26 @@ layout: default
 #include "../algebraic/ntt.cpp"
 #include "../other/fast_io.cpp"
 
+#include <iostream>
 #include <vector>
-
-fast_io::scanner cin;
-fast_io::printer cout;
 
 using m32 = modular<998244353>;
 
 int main() {
   size_t N, M;
-  cin.scan(N, M);
+  std::cin >> N >> M;
   std::vector<m32> A(N), B(M);
   for (auto &x: A) {
-    cin.scan(x.extract());
+    std::cin >> x.extract();
   }
   for (auto &x: B) {
-    cin.scan(x.extract());
+    std::cin >> x.extract();
   }
   using ntt = number_theoretic_transform<m32>;
   auto C = ntt::convolve(A, B);
   for (size_t i = 0; i < C.size(); ++i) {
-    cout.print(C[i].get());
-    cout.print(i + 1 == C.size() ? '\n' : ' ');
+    std::cout << C[i];
+    std::cout << (i + 1 == C.size() ? '\n' : ' ');
   }
   return 0;
 }
@@ -640,28 +638,25 @@ namespace fast_io {
 };
 #line 6 "test/ntt.test.cpp"
 
-#line 8 "test/ntt.test.cpp"
-
-fast_io::scanner cin;
-fast_io::printer cout;
+#line 9 "test/ntt.test.cpp"
 
 using m32 = modular<998244353>;
 
 int main() {
   size_t N, M;
-  cin.scan(N, M);
+  std::cin >> N >> M;
   std::vector<m32> A(N), B(M);
   for (auto &x: A) {
-    cin.scan(x.extract());
+    std::cin >> x.extract();
   }
   for (auto &x: B) {
-    cin.scan(x.extract());
+    std::cin >> x.extract();
   }
   using ntt = number_theoretic_transform<m32>;
   auto C = ntt::convolve(A, B);
   for (size_t i = 0; i < C.size(); ++i) {
-    cout.print(C[i].get());
-    cout.print(i + 1 == C.size() ? '\n' : ' ');
+    std::cout << C[i];
+    std::cout << (i + 1 == C.size() ? '\n' : ' ');
   }
   return 0;
 }
