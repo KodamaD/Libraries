@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :question: algebraic/ntt.cpp
+# :heavy_check_mark: algebraic/ntt.cpp
 
 <a href="../../index.html">Back to top page</a>
 
@@ -44,13 +44,13 @@ layout: default
 
 ## Required by
 
-* :x: <a href="ntt_arbitrary.cpp.html">algebraic/ntt_arbitrary.cpp</a>
+* :heavy_check_mark: <a href="ntt_arbitrary.cpp.html">algebraic/ntt_arbitrary.cpp</a>
 
 
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
-* :x: <a href="../../verify/test/ntt_arbitrary_mod.test.cpp.html">test/ntt_arbitrary_mod.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/ntt_arbitrary_mod.test.cpp.html">test/ntt_arbitrary_mod.test.cpp</a>
 
 
 ## Code

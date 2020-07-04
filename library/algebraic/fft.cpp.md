@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/fft.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 16:35:04+09:00
+    - Last commit date: 2020-07-05 00:39:17+09:00
 
 
 
@@ -98,7 +98,7 @@ public:
   void transform(std::vector<complex_type> &F) const {
     size_type logn = count_zero_right(M_size);
     for (size_type i = 0; i < M_size; ++i) {
-      sizesize_type_t j = bit_reverse_32(i) >> (32 - logn);
+      size_type j = bit_reverse_32(i) >> (32 - logn);
       if (i < j) {
         std::swap(F[i], F[j]);
       }
@@ -121,7 +121,7 @@ public:
   void inv_transform(std::vector<complex_type> &F) const {
     size_type logn = count_zero_right(M_size);
     for (size_type i = 0; i < M_size; ++i) {
-      sizesize_type_t j = bit_reverse_32(i) >> (32 - logn);
+      size_type j = bit_reverse_32(i) >> (32 - logn);
       if (i < j) {
         std::swap(F[i], F[j]);
       }
@@ -262,7 +262,7 @@ public:
   void transform(std::vector<complex_type> &F) const {
     size_type logn = count_zero_right(M_size);
     for (size_type i = 0; i < M_size; ++i) {
-      sizesize_type_t j = bit_reverse_32(i) >> (32 - logn);
+      size_type j = bit_reverse_32(i) >> (32 - logn);
       if (i < j) {
         std::swap(F[i], F[j]);
       }
@@ -285,7 +285,7 @@ public:
   void inv_transform(std::vector<complex_type> &F) const {
     size_type logn = count_zero_right(M_size);
     for (size_type i = 0; i < M_size; ++i) {
-      sizesize_type_t j = bit_reverse_32(i) >> (32 - logn);
+      size_type j = bit_reverse_32(i) >> (32 - logn);
       if (i < j) {
         std::swap(F[i], F[j]);
       }

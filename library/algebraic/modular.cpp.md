@@ -38,8 +38,8 @@ layout: default
 
 ## Required by
 
-* :question: <a href="ntt.cpp.html">algebraic/ntt.cpp</a>
-* :x: <a href="ntt_arbitrary.cpp.html">algebraic/ntt_arbitrary.cpp</a>
+* :heavy_check_mark: <a href="ntt.cpp.html">algebraic/ntt.cpp</a>
+* :heavy_check_mark: <a href="ntt_arbitrary.cpp.html">algebraic/ntt_arbitrary.cpp</a>
 
 
 ## Verified with
@@ -47,7 +47,7 @@ layout: default
 * :x: <a href="../../verify/test/factorials.test.cpp.html">test/factorials.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
-* :x: <a href="../../verify/test/ntt_arbitrary_mod.test.cpp.html">test/ntt_arbitrary_mod.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/ntt_arbitrary_mod.test.cpp.html">test/ntt_arbitrary_mod.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
 
 

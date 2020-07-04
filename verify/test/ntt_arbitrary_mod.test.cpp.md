@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: test/ntt_arbitrary_mod.test.cpp
+# :heavy_check_mark: test/ntt_arbitrary_mod.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/ntt_arbitrary_mod.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-05 00:33:35+09:00
+    - Last commit date: 2020-07-05 00:39:17+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/convolution_mod_1000000007">https://judge.yosupo.jp/problem/convolution_mod_1000000007</a>
@@ -40,9 +40,9 @@ layout: default
 ## Depends on
 
 * :question: <a href="../../library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
-* :question: <a href="../../library/algebraic/ntt.cpp.html">algebraic/ntt.cpp</a>
-* :x: <a href="../../library/algebraic/ntt_arbitrary.cpp.html">algebraic/ntt_arbitrary.cpp</a>
-* :x: <a href="../../library/algebraic/runtime_modular.cpp.html">algebraic/runtime_modular.cpp</a>
+* :heavy_check_mark: <a href="../../library/algebraic/ntt.cpp.html">algebraic/ntt.cpp</a>
+* :heavy_check_mark: <a href="../../library/algebraic/ntt_arbitrary.cpp.html">algebraic/ntt_arbitrary.cpp</a>
+* :heavy_check_mark: <a href="../../library/algebraic/runtime_modular.cpp.html">algebraic/runtime_modular.cpp</a>
 * :question: <a href="../../library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
 
 
@@ -516,7 +516,7 @@ std::vector<Modular> convolve_arbitrary_mod(
 #line 5 "algebraic/runtime_modular.cpp"
 
 template <class Modulus>
-class modular {
+class runtime_modular {
 public:
   using value_type = uint32_t;
   using max_type = uint64_t;
@@ -539,20 +539,20 @@ private:
   value_type value;
 
 public:
-  modular(): value(0) { }
+  runtime_modular(): value(0) { }
   template <class T>
-  explicit modular(T value_): value(normalize(value_)) { }
+  explicit runtime_modular(T value_): value(normalize(value_)) { }
   template <class T>
   explicit operator T() { return static_cast<T>(value); }
 
   value_type get() const { return value; }
-  modular operator - () const { return modular(mod() - value); }
-  modular operator ~ () const { return inverse(); }
+  runtime_modular operator - () const { return runtime_modular(mod() - value); }
+  runtime_modular operator ~ () const { return inverse(); }
 
   value_type &extract() { return value; }
-  modular inverse() const { return power(mod() - 2); }
-  modular power(max_type exp) const {
-    modular res(1), mult(*this);
+  runtime_modular inverse() const { return power(mod() - 2); }
+  runtime_modular power(max_type exp) const {
+    runtime_modular res(1), mult(*this);
     while (exp > 0) {
       if (exp & 1) res *= mult;
       mult *= mult;
@@ -561,38 +561,35 @@ public:
     return res;
   }
 
-  modular operator + (const modular &rhs) const { return modular(*this) += rhs; }
-  modular& operator += (const modular &rhs) { 
+  runtime_modular operator + (const runtime_modular &rhs) const { return runtime_modular(*this) += rhs; }
+  runtime_modular& operator += (const runtime_modular &rhs) { 
     if ((value += rhs.value) >= mod()) value -= mod(); 
     return *this; 
   }
 
-  modular operator - (const modular &rhs) const { return modular(*this) -= rhs; }
-  modular& operator -= (const modular &rhs) { 
+  runtime_modular operator - (const runtime_modular &rhs) const { return runtime_modular(*this) -= rhs; }
+  runtime_modular& operator -= (const runtime_modular &rhs) { 
     if ((value += mod() - rhs.value) >= mod()) value -= mod(); 
     return *this; 
   }
 
-  modular operator * (const modular &rhs) const { return modular(*this) *= rhs; }
-  modular& operator *= (const modular &rhs) { 
+  runtime_modular operator * (const runtime_modular &rhs) const { return runtime_modular(*this) *= rhs; }
+  runtime_modular& operator *= (const runtime_modular &rhs) { 
     value = (max_type) value * rhs.value % mod();
     return *this;
   }
 
-  modular operator / (const modular &rhs) const { return modular(*this) /= rhs; }
-  modular& operator /= (const modular &rhs) { return (*this) *= rhs.inverse(); }
+  runtime_modular operator / (const runtime_modular &rhs) const { return runtime_modular(*this) /= rhs; }
+  runtime_modular& operator /= (const runtime_modular &rhs) { return (*this) *= rhs.inverse(); }
 
   bool zero() const { return value == 0; }
-  bool operator == (const modular &rhs) const { return value == rhs.value; }
-  bool operator != (const modular &rhs) const { return value != rhs.value; }
-  friend std::ostream& operator << (std::ostream &stream, const modular &rhs) {
+  bool operator == (const runtime_modular &rhs) const { return value == rhs.value; }
+  bool operator != (const runtime_modular &rhs) const { return value != rhs.value; }
+  friend std::ostream& operator << (std::ostream &stream, const runtime_modular &rhs) {
     return stream << rhs.value;
   }
 
 };
-
-struct modulus_type { static inline uint32_t value; };
-using m32 = modular<modulus_type>;
 #line 7 "test/ntt_arbitrary_mod.test.cpp"
 
 #line 12 "test/ntt_arbitrary_mod.test.cpp"

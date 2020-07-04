@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/fft.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-05 00:33:35+09:00
+    - Last commit date: 2020-07-05 00:39:17+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/problems/NTL_2_F">https://onlinejudge.u-aizu.ac.jp/problems/NTL_2_F</a>
@@ -205,7 +205,7 @@ public:
   void transform(std::vector<complex_type> &F) const {
     size_type logn = count_zero_right(M_size);
     for (size_type i = 0; i < M_size; ++i) {
-      sizesize_type_t j = bit_reverse_32(i) >> (32 - logn);
+      size_type j = bit_reverse_32(i) >> (32 - logn);
       if (i < j) {
         std::swap(F[i], F[j]);
       }
@@ -228,7 +228,7 @@ public:
   void inv_transform(std::vector<complex_type> &F) const {
     size_type logn = count_zero_right(M_size);
     for (size_type i = 0; i < M_size; ++i) {
-      sizesize_type_t j = bit_reverse_32(i) >> (32 - logn);
+      size_type j = bit_reverse_32(i) >> (32 - logn);
       if (i < j) {
         std::swap(F[i], F[j]);
       }

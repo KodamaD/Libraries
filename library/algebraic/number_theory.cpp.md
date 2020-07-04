@@ -25,20 +25,20 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: algebraic/number_theory.cpp
+# :heavy_check_mark: algebraic/number_theory.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/number_theory.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 16:35:04+09:00
+    - Last commit date: 2020-07-05 00:39:17+09:00
 
 
 
 
 ## Verified with
 
-* :x: <a href="../../verify/test/enumerate_factors.test.cpp.html">test/enumerate_factors.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/enumerate_factors.test.cpp.html">test/enumerate_factors.test.cpp</a>
 
 
 ## Code
@@ -122,6 +122,14 @@ namespace number_theory_detail {
 
   };
 
+  u64 gcd64(u64 a, u64 b) {
+    if (a == 0) return b;
+    if (b == 0) return a;
+    if (a < b) std::swap(a, b);
+    while (u64 r = a % b) a = b, b = r;
+    return b;
+  }
+
   bool test_prime(u64 a, u64 s, u64 d, u64 n) {
     m64::set_mod(n);
     m64 cur = m64(a).power(d);
@@ -169,7 +177,7 @@ namespace number_theory_detail {
       m64 x(initial);
       m64 y = transit(x);
       while (true) {
-        u64 g = std::gcd(dif_abs(x.get(), y.get()), n);
+        u64 g = number_theory_detail::gcd64(dif_abs(x.get(), y.get()), n);
         if (g == 1) {
           x = transit(x);
           y = transit(transit(y));
@@ -324,6 +332,14 @@ namespace number_theory_detail {
 
   };
 
+  u64 gcd64(u64 a, u64 b) {
+    if (a == 0) return b;
+    if (b == 0) return a;
+    if (a < b) std::swap(a, b);
+    while (u64 r = a % b) a = b, b = r;
+    return b;
+  }
+
   bool test_prime(u64 a, u64 s, u64 d, u64 n) {
     m64::set_mod(n);
     m64 cur = m64(a).power(d);
@@ -371,7 +387,7 @@ namespace number_theory_detail {
       m64 x(initial);
       m64 y = transit(x);
       while (true) {
-        u64 g = std::gcd(dif_abs(x.get(), y.get()), n);
+        u64 g = number_theory_detail::gcd64(dif_abs(x.get(), y.get()), n);
         if (g == 1) {
           x = transit(x);
           y = transit(transit(y));
