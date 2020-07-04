@@ -39,7 +39,7 @@ layout: default
 
 ## Depends on
 
-* :question: <a href="../../library/other/fast_io.cpp.html">other/fast_io.cpp</a>
+* :heavy_check_mark: <a href="../../library/other/fast_io.cpp.html">other/fast_io.cpp</a>
 
 
 ## Code

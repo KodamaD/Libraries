@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/lazy_propagation_segment_tree.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 17:01:08+09:00
+    - Last commit date: 2020-07-04 17:17:38+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/range_affine_range_sum">https://judge.yosupo.jp/problem/range_affine_range_sum</a>
@@ -39,9 +39,9 @@ layout: default
 
 ## Depends on
 
-* :question: <a href="../../library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
+* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
 * :heavy_check_mark: <a href="../../library/container/lazy_propagation_segment_tree.cpp.html">container/lazy_propagation_segment_tree.cpp</a>
-* :question: <a href="../../library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
+* :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
 
 
 ## Code
@@ -58,6 +58,7 @@ layout: default
 #include <utility>
 #include <iostream>
 #include <cstddef>
+#include <vector>
 
 using m32 = modular<998244353>;
 
@@ -395,7 +396,7 @@ public:
 #line 6 "test/lazy_propagation_segment_tree.test.cpp"
 
 #include <utility>
-#line 10 "test/lazy_propagation_segment_tree.test.cpp"
+#line 11 "test/lazy_propagation_segment_tree.test.cpp"
 
 using m32 = modular<998244353>;
 

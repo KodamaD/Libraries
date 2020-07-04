@@ -40,8 +40,8 @@ layout: default
 
 * :warning: <a href="library/algebraic/factorials.cpp.html">algebraic/factorials.cpp</a>
 * :warning: <a href="library/algebraic/fft.cpp.html">algebraic/fft.cpp</a>
-* :question: <a href="library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
-* :question: <a href="library/algebraic/ntt.cpp.html">algebraic/ntt.cpp</a>
+* :heavy_check_mark: <a href="library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
+* :heavy_check_mark: <a href="library/algebraic/ntt.cpp.html">algebraic/ntt.cpp</a>
 * :warning: <a href="library/algebraic/number_theory.cpp.html">algebraic/number_theory.cpp</a>
 * :warning: <a href="library/algebraic/runtime_modular.cpp.html">algebraic/runtime_modular.cpp</a>
 
@@ -56,7 +56,7 @@ layout: default
 * :heavy_check_mark: <a href="library/container/lazy_propagation_segment_tree.cpp.html">container/lazy_propagation_segment_tree.cpp</a>
 * :warning: <a href="library/container/li_chao_tree.cpp.html">container/li_chao_tree.cpp</a>
 * :warning: <a href="library/container/randomized_queue.cpp.html">container/randomized_queue.cpp</a>
-* :warning: <a href="library/container/segment_tree.cpp.html">container/segment_tree.cpp</a>
+* :heavy_check_mark: <a href="library/container/segment_tree.cpp.html">container/segment_tree.cpp</a>
 * :warning: <a href="library/container/sliding_window_aggregation.cpp.html">container/sliding_window_aggregation.cpp</a>
 * :warning: <a href="library/container/wavelet_matrix.cpp.html">container/wavelet_matrix.cpp</a>
 
@@ -83,9 +83,9 @@ layout: default
 
 ### other
 
-* :question: <a href="library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
+* :heavy_check_mark: <a href="library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
 * :warning: <a href="library/other/debug.cpp.html">other/debug.cpp</a>
-* :question: <a href="library/other/fast_io.cpp.html">other/fast_io.cpp</a>
+* :heavy_check_mark: <a href="library/other/fast_io.cpp.html">other/fast_io.cpp</a>
 * :warning: <a href="library/other/fix_point.cpp.html">other/fix_point.cpp</a>
 * :warning: <a href="library/other/gen_vec.cpp.html">other/gen_vec.cpp</a>
 * :warning: <a href="library/other/multi_array.cpp.html">other/multi_array.cpp</a>
@@ -105,7 +105,8 @@ layout: default
 
 * :heavy_check_mark: <a href="verify/test/fast_io.test.cpp.html">test/fast_io.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
-* :x: <a href="verify/test/ntt.arbitrary_mod.test.cpp.html">test/ntt.arbitrary_mod.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/ntt.arbitrary_mod.test.cpp.html">test/ntt.arbitrary_mod.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
 
 

@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :question: algebraic/modular.cpp
+# :heavy_check_mark: algebraic/modular.cpp
 
 <a href="../../index.html">Back to top page</a>
 
@@ -38,14 +38,15 @@ layout: default
 
 ## Required by
 
-* :question: <a href="ntt.cpp.html">algebraic/ntt.cpp</a>
+* :heavy_check_mark: <a href="ntt.cpp.html">algebraic/ntt.cpp</a>
 
 
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
-* :x: <a href="../../verify/test/ntt.arbitrary_mod.test.cpp.html">test/ntt.arbitrary_mod.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/ntt.arbitrary_mod.test.cpp.html">test/ntt.arbitrary_mod.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
 
 
 ## Code

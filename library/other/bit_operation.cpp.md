@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :question: other/bit_operation.cpp
+# :heavy_check_mark: other/bit_operation.cpp
 
 <a href="../../index.html">Back to top page</a>
 
@@ -39,7 +39,7 @@ layout: default
 ## Required by
 
 * :warning: <a href="../algebraic/fft.cpp.html">algebraic/fft.cpp</a>
-* :question: <a href="../algebraic/ntt.cpp.html">algebraic/ntt.cpp</a>
+* :heavy_check_mark: <a href="../algebraic/ntt.cpp.html">algebraic/ntt.cpp</a>
 * :warning: <a href="../container/dual_segment_tree.cpp.html">container/dual_segment_tree.cpp</a>
 * :warning: <a href="../container/fenwick_tree.cpp.html">container/fenwick_tree.cpp</a>
 * :heavy_check_mark: <a href="../container/lazy_propagation_segment_tree.cpp.html">container/lazy_propagation_segment_tree.cpp</a>
@@ -49,7 +49,7 @@ layout: default
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
-* :x: <a href="../../verify/test/ntt.arbitrary_mod.test.cpp.html">test/ntt.arbitrary_mod.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/ntt.arbitrary_mod.test.cpp.html">test/ntt.arbitrary_mod.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
 
 

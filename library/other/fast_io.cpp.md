@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :question: other/fast_io.cpp
+# :heavy_check_mark: other/fast_io.cpp
 
 <a href="../../index.html">Back to top page</a>
 
@@ -39,8 +39,6 @@ layout: default
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/fast_io.test.cpp.html">test/fast_io.test.cpp</a>
-* :x: <a href="../../verify/test/ntt.arbitrary_mod.test.cpp.html">test/ntt.arbitrary_mod.test.cpp</a>
-* :heavy_check_mark: <a href="../../verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
 
 
 ## Code
