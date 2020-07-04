@@ -39,9 +39,9 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
+* :question: <a href="../../library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
 * :heavy_check_mark: <a href="../../library/container/lazy_propagation_segment_tree.cpp.html">container/lazy_propagation_segment_tree.cpp</a>
-* :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
+* :question: <a href="../../library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
 
 
 ## Code

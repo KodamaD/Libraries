@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/ntt_arbitrary_mod.test.cpp
+# :x: test/ntt_arbitrary_mod.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/ntt_arbitrary_mod.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 21:26:32+09:00
+    - Last commit date: 2020-07-05 00:33:35+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/convolution_mod_1000000007">https://judge.yosupo.jp/problem/convolution_mod_1000000007</a>
@@ -39,10 +39,11 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
-* :heavy_check_mark: <a href="../../library/algebraic/ntt.cpp.html">algebraic/ntt.cpp</a>
-* :heavy_check_mark: <a href="../../library/algebraic/ntt_arbitrary.cpp.html">algebraic/ntt_arbitrary.cpp</a>
-* :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
+* :question: <a href="../../library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
+* :question: <a href="../../library/algebraic/ntt.cpp.html">algebraic/ntt.cpp</a>
+* :x: <a href="../../library/algebraic/ntt_arbitrary.cpp.html">algebraic/ntt_arbitrary.cpp</a>
+* :x: <a href="../../library/algebraic/runtime_modular.cpp.html">algebraic/runtime_modular.cpp</a>
+* :question: <a href="../../library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
 
 
 ## Code
@@ -54,28 +55,86 @@ layout: default
 #define PROBLEM "https://judge.yosupo.jp/problem/convolution_mod_1000000007"
 
 #include "../algebraic/ntt_arbitrary.cpp"
+#include "../algebraic/modular.cpp"
+#include "../algebraic/runtime_modular.cpp"
 
 #include <iostream>
 #include <vector>
+#include <cstddef>
+#include <cstdint>
+#include <cstdlib>
+
+namespace test1 {
 
 using m32 = modular<1000000007>;
+
+std::vector<uint32_t> run(const std::vector<uint32_t> &A_, const std::vector<uint32_t> &B_) {
+  std::vector<m32> A, B;
+  A.reserve(A_.size());
+  B.reserve(B_.size());
+  for (auto x: A_) {
+    A.emplace_back(x);
+  }
+  for (auto x: B_) {
+    B.emplace_back(x);
+  }
+  auto C = convolve_arbitrary_mod(A, B);
+  std::vector<uint32_t> res;
+  res.reserve(C.size());
+  for (auto x: C) {
+    res.push_back(x.get());
+  }
+  return res;
+}
+
+};
+
+namespace test2 {
+
+struct modulus_type { static inline uint32_t value; };
+using m32 = runtime_modular<modulus_type>;
+
+std::vector<uint32_t> run(const std::vector<uint32_t> &A_, const std::vector<uint32_t> &B_) {
+  modulus_type::value = 1000000007;
+  std::vector<m32> A, B;
+  A.reserve(A_.size());
+  B.reserve(B_.size());
+  for (auto x: A_) {
+    A.emplace_back(x);
+  }
+  for (auto x: B_) {
+    B.emplace_back(x);
+  }
+  auto C = convolve_arbitrary_mod(A, B);
+  std::vector<uint32_t> res;
+  res.reserve(C.size());
+  for (auto x: C) {
+    res.push_back(x.get());
+  }
+  return res;
+}
+
+};
 
 int main() {
   size_t N, M;
   std::cin >> N >> M;
-  std::vector<m32> A(N), B(M);
+  std::vector<uint32_t> A(N), B(M);
   for (auto &x: A) {
-    std::cin >> x.extract();
+    std::cin >> x;
   }
   for (auto &x: B) {
-    std::cin >> x.extract();
+    std::cin >> x;
   }
-  auto C = convolve_arbitrary_mod(A, B);
-  for (size_t i = 0; i < C.size(); ++i) {
-    std::cout << C[i];
-    std::cout << (i + 1 == C.size() ? '\n' : ' ');
+  auto C1 = test1::run(A, B);
+  auto C2 = test2::run(A, B);
+  if (C1 != C2) {
+    std::exit(EXIT_FAILURE);
   }
-  return 0;
+  for (size_t i = 0; i < C1.size(); ++i) {
+    std::cout << C1[i];
+    std::cout << (i + 1 == C1.size() ? '\n' : ' ');
+  }
 }
 
 ```
@@ -452,28 +511,164 @@ std::vector<Modular> convolve_arbitrary_mod(
   }
   return res;
 }
-#line 5 "test/ntt_arbitrary_mod.test.cpp"
+#line 2 "algebraic/runtime_modular.cpp"
 
-#line 8 "test/ntt_arbitrary_mod.test.cpp"
+#line 5 "algebraic/runtime_modular.cpp"
+
+template <class Modulus>
+class modular {
+public:
+  using value_type = uint32_t;
+  using max_type = uint64_t;
+  
+  static value_type mod() { return Modulus::value; } 
+  static value_type get_mod() { return Modulus::value;; }
+
+  template <class T>
+  static value_type normalize(T value_) {
+    if (value_ < 0) {
+      value_ = -value_;
+      value_ %= mod();
+      if (value_ == 0) return 0;
+      return mod() - value_;
+    }
+    return value_ % mod();
+  }
+
+private:
+  value_type value;
+
+public:
+  modular(): value(0) { }
+  template <class T>
+  explicit modular(T value_): value(normalize(value_)) { }
+  template <class T>
+  explicit operator T() { return static_cast<T>(value); }
+
+  value_type get() const { return value; }
+  modular operator - () const { return modular(mod() - value); }
+  modular operator ~ () const { return inverse(); }
+
+  value_type &extract() { return value; }
+  modular inverse() const { return power(mod() - 2); }
+  modular power(max_type exp) const {
+    modular res(1), mult(*this);
+    while (exp > 0) {
+      if (exp & 1) res *= mult;
+      mult *= mult;
+      exp >>= 1;
+    }
+    return res;
+  }
+
+  modular operator + (const modular &rhs) const { return modular(*this) += rhs; }
+  modular& operator += (const modular &rhs) { 
+    if ((value += rhs.value) >= mod()) value -= mod(); 
+    return *this; 
+  }
+
+  modular operator - (const modular &rhs) const { return modular(*this) -= rhs; }
+  modular& operator -= (const modular &rhs) { 
+    if ((value += mod() - rhs.value) >= mod()) value -= mod(); 
+    return *this; 
+  }
+
+  modular operator * (const modular &rhs) const { return modular(*this) *= rhs; }
+  modular& operator *= (const modular &rhs) { 
+    value = (max_type) value * rhs.value % mod();
+    return *this;
+  }
+
+  modular operator / (const modular &rhs) const { return modular(*this) /= rhs; }
+  modular& operator /= (const modular &rhs) { return (*this) *= rhs.inverse(); }
+
+  bool zero() const { return value == 0; }
+  bool operator == (const modular &rhs) const { return value == rhs.value; }
+  bool operator != (const modular &rhs) const { return value != rhs.value; }
+  friend std::ostream& operator << (std::ostream &stream, const modular &rhs) {
+    return stream << rhs.value;
+  }
+
+};
+
+struct modulus_type { static inline uint32_t value; };
+using m32 = modular<modulus_type>;
+#line 7 "test/ntt_arbitrary_mod.test.cpp"
+
+#line 12 "test/ntt_arbitrary_mod.test.cpp"
+#include <cstdlib>
+
+namespace test1 {
 
 using m32 = modular<1000000007>;
+
+std::vector<uint32_t> run(const std::vector<uint32_t> &A_, const std::vector<uint32_t> &B_) {
+  std::vector<m32> A, B;
+  A.reserve(A_.size());
+  B.reserve(B_.size());
+  for (auto x: A_) {
+    A.emplace_back(x);
+  }
+  for (auto x: B_) {
+    B.emplace_back(x);
+  }
+  auto C = convolve_arbitrary_mod(A, B);
+  std::vector<uint32_t> res;
+  res.reserve(C.size());
+  for (auto x: C) {
+    res.push_back(x.get());
+  }
+  return res;
+}
+
+};
+
+namespace test2 {
+
+struct modulus_type { static inline uint32_t value; };
+using m32 = runtime_modular<modulus_type>;
+
+std::vector<uint32_t> run(const std::vector<uint32_t> &A_, const std::vector<uint32_t> &B_) {
+  modulus_type::value = 1000000007;
+  std::vector<m32> A, B;
+  A.reserve(A_.size());
+  B.reserve(B_.size());
+  for (auto x: A_) {
+    A.emplace_back(x);
+  }
+  for (auto x: B_) {
+    B.emplace_back(x);
+  }
+  auto C = convolve_arbitrary_mod(A, B);
+  std::vector<uint32_t> res;
+  res.reserve(C.size());
+  for (auto x: C) {
+    res.push_back(x.get());
+  }
+  return res;
+}
+
+};
 
 int main() {
   size_t N, M;
   std::cin >> N >> M;
-  std::vector<m32> A(N), B(M);
+  std::vector<uint32_t> A(N), B(M);
   for (auto &x: A) {
-    std::cin >> x.extract();
+    std::cin >> x;
   }
   for (auto &x: B) {
-    std::cin >> x.extract();
+    std::cin >> x;
   }
-  auto C = convolve_arbitrary_mod(A, B);
-  for (size_t i = 0; i < C.size(); ++i) {
-    std::cout << C[i];
-    std::cout << (i + 1 == C.size() ? '\n' : ' ');
+  auto C1 = test1::run(A, B);
+  auto C2 = test2::run(A, B);
+  if (C1 != C2) {
+    std::exit(EXIT_FAILURE);
   }
-  return 0;
+  for (size_t i = 0; i < C1.size(); ++i) {
+    std::cout << C1[i];
+    std::cout << (i + 1 == C1.size() ? '\n' : ' ');
+  }
 }
 
 ```

@@ -38,13 +38,13 @@ layout: default
 
 ### algebraic
 
-* :warning: <a href="library/algebraic/factorials.cpp.html">algebraic/factorials.cpp</a>
-* :warning: <a href="library/algebraic/fft.cpp.html">algebraic/fft.cpp</a>
-* :heavy_check_mark: <a href="library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
-* :heavy_check_mark: <a href="library/algebraic/ntt.cpp.html">algebraic/ntt.cpp</a>
-* :heavy_check_mark: <a href="library/algebraic/ntt_arbitrary.cpp.html">algebraic/ntt_arbitrary.cpp</a>
-* :warning: <a href="library/algebraic/number_theory.cpp.html">algebraic/number_theory.cpp</a>
-* :warning: <a href="library/algebraic/runtime_modular.cpp.html">algebraic/runtime_modular.cpp</a>
+* :x: <a href="library/algebraic/factorials.cpp.html">algebraic/factorials.cpp</a>
+* :x: <a href="library/algebraic/fft.cpp.html">algebraic/fft.cpp</a>
+* :question: <a href="library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
+* :question: <a href="library/algebraic/ntt.cpp.html">algebraic/ntt.cpp</a>
+* :x: <a href="library/algebraic/ntt_arbitrary.cpp.html">algebraic/ntt_arbitrary.cpp</a>
+* :x: <a href="library/algebraic/number_theory.cpp.html">algebraic/number_theory.cpp</a>
+* :x: <a href="library/algebraic/runtime_modular.cpp.html">algebraic/runtime_modular.cpp</a>
 
 
 <div id="5f0b6ebc4bea10285ba2b8a6ce78b863"></div>
@@ -84,7 +84,7 @@ layout: default
 
 ### other
 
-* :heavy_check_mark: <a href="library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
+* :question: <a href="library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
 * :warning: <a href="library/other/debug.cpp.html">other/debug.cpp</a>
 * :heavy_check_mark: <a href="library/other/fast_io.cpp.html">other/fast_io.cpp</a>
 * :warning: <a href="library/other/fix_point.cpp.html">other/fix_point.cpp</a>
@@ -104,10 +104,13 @@ layout: default
 
 ## Verify Files
 
+* :x: <a href="verify/test/enumerate_factors.test.cpp.html">test/enumerate_factors.test.cpp</a>
+* :x: <a href="verify/test/factorials.test.cpp.html">test/factorials.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/fast_io.test.cpp.html">test/fast_io.test.cpp</a>
+* :x: <a href="verify/test/fft.test.cpp.html">test/fft.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/ntt_arbitrary_mod.test.cpp.html">test/ntt_arbitrary_mod.test.cpp</a>
+* :x: <a href="verify/test/ntt_arbitrary_mod.test.cpp.html">test/ntt_arbitrary_mod.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
 
 

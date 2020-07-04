@@ -25,25 +25,22 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: algebraic/fft.cpp
+# :x: test/fft.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
-* category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
-* <a href="{{ site.github.repository_url }}/blob/master/algebraic/fft.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 16:35:04+09:00
+* category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
+* <a href="{{ site.github.repository_url }}/blob/master/test/fft.test.cpp">View this file on GitHub</a>
+    - Last commit date: 2020-07-05 00:33:35+09:00
 
 
+* see: <a href="https://onlinejudge.u-aizu.ac.jp/problems/NTL_2_F">https://onlinejudge.u-aizu.ac.jp/problems/NTL_2_F</a>
 
 
 ## Depends on
 
-* :question: <a href="../other/bit_operation.cpp.html">other/bit_operation.cpp</a>
-
-
-## Verified with
-
-* :x: <a href="../../verify/test/fft.test.cpp.html">test/fft.test.cpp</a>
+* :x: <a href="../../library/algebraic/fft.cpp.html">algebraic/fft.cpp</a>
+* :question: <a href="../../library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
 
 
 ## Code
@@ -51,121 +48,63 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-#pragma once
 
-#include "../other/bit_operation.cpp"
-#include <cmath>
-#include <cstddef>
+#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/problems/NTL_2_F"
+
+#include "../algebraic/fft.cpp"
+
 #include <vector>
+#include <string>
+#include <iostream>
+#include <algorithm>
 #include <utility>
+#include <cstdint>
+#include <cstdlib>
 
-template <class T>
-class fast_fourier_transform {
-public:
-  using value_type = T;
-  using size_type = size_t;
-  static constexpr value_type pi = std::acos(value_type(-1.0));
-
-  struct complex_type {
-    value_type re, im;
-    constexpr complex_type(value_type re_ = 0, value_type im_ = 0): re(re_), im(im_) { }
-    constexpr complex_type operator + (const complex_type &rhs) const { 
-      return complex_type(re + rhs.re, im + rhs.im); 
+int main() {
+  std::string A, B;
+  std::cin >> A >> B;
+  bool negative = false;
+  auto fix = [&](std::string &&S) -> std::vector<uint32_t> {
+    if (S == "0") {
+      std::cout << "0\n";
+      std::exit(EXIT_SUCCESS);
     }
-    constexpr complex_type operator - (const complex_type &rhs) const { 
-      return complex_type(re - rhs.re, im - rhs.im); 
+    std::reverse(S.begin(), S.end());
+    if (S.back() == '-') {
+      negative ^= 1;
+      S.pop_back();
     }
-    constexpr complex_type operator * (const complex_type &rhs) const { 
-      return complex_type(re * rhs.re - im * rhs.im, re * rhs.im + im * rhs.re); 
-    }
-  };
-
-private:
-  size_type M_size;
-  std::vector<complex_type> M_root;
-
-public:
-  void reserve(size_type size) {
-    M_size = next_power_of_two(size);
-    M_root.assign(M_size + 1, complex_type());
-    for (size_type i = 0; i <= M_size; ++i) {
-      value_type angle = pi * value_type(2.0) / M_size * i;
-      M_root[i].re = std::cos(angle);
-      M_root[i].im = std::sin(angle);
-    }
-  }
-
-  void transform(std::vector<complex_type> &F) const {
-    size_type logn = count_zero_right(M_size);
-    for (size_type i = 0; i < M_size; ++i) {
-      sizesize_type_t j = bit_reverse_32(i) >> (32 - logn);
-      if (i < j) {
-        std::swap(F[i], F[j]);
-      }
-    }
-    size_type idx;
-    complex_type first, second;
-    for (size_type len = 1, bit = M_size >> 1; len < M_size; len <<= 1, bit >>= 1) {
-      for (size_type k = 0; k < M_size; k += (len << 1)) {
-        idx = 0;
-        for (size_type i = 0; i < len; ++i) {
-          first = F[i + k], second = F[(i + k) ^ len];
-          F[i + k] = M_root[0] * first + M_root[idx] * second;
-          F[(i + k) ^ len] = M_root[0] * first + M_root[idx + (M_size >> 1)] * second;
-          idx += bit;
-        }
-      }
-    }
-  }
-
-  void inv_transform(std::vector<complex_type> &F) const {
-    size_type logn = count_zero_right(M_size);
-    for (size_type i = 0; i < M_size; ++i) {
-      sizesize_type_t j = bit_reverse_32(i) >> (32 - logn);
-      if (i < j) {
-        std::swap(F[i], F[j]);
-      }
-    }
-    size_type idx;
-    complex_type first, second;
-    for (size_type len = 1, bit = M_size >> 1; len < M_size; len <<= 1, bit >>= 1) {
-      for (size_type k = 0; k < M_size; k += (len << 1)) {
-        idx = M_size;
-        for (size_type i = 0; i < len; ++i) {
-          first = F[i + k], second = F[(i + k) ^ len];
-          F[i + k] = M_root[0] * first + M_root[idx] * second;
-          F[(i + k) ^ len] = M_root[0] * first + M_root[idx - (M_size >> 1)] * second;
-          idx -= bit;
-        }
-      }
-    }
-  }
-
-  template <class U>
-  std::vector<U> convolve(const std::vector<U> &A, const std::vector<U> &B) {
-    size_type res_size = A.size() + B.size() - 1;
-    reserve(res_size);
-    std::vector<complex_type> C(M_size), D(M_size);
-    for (size_type i = 0; i < A.size(); ++i) {
-      C[i].re = static_cast<value_type>(A[i]);
-    }
-    for (size_type i = 0; i < B.size(); ++i) {
-      D[i].re = static_cast<value_type>(B[i]);
-    }
-    transform(C);
-    transform(D);
-    for (size_type i = 0; i < M_size; ++i) {
-      C[i] = C[i] * D[i];
-    }
-    inv_transform(C);
-    std::vector<U> res(res_size);
-    for (size_type i = 0; i < res_size; ++i) {
-      res[i] = static_cast<U>(C[i].re / M_size + value_type(0.5));
-    }
+    std::vector<uint32_t> res(S.size());
+    std::transform(S.begin(), S.end(), res.begin(), [&](auto c) {
+      return c - '0';
+    });
     return res;
+  };
+  fast_fourier_transform<double> fft;
+  auto C = fft.convolve(fix(std::move(A)), fix(std::move(B)));
+  std::vector<char> ans;
+  ans.reserve(C.size());
+  uint32_t sum = 0;
+  for (auto x: C) {
+    sum += x;
+    ans.push_back((sum % 10) + '0');
+    sum /= 10;
   }
-
-};
+  while (sum > 0) {
+    ans.push_back((sum % 10) + '0');
+    sum /= 10;
+  }
+  if (negative) {
+    ans.push_back('-');
+  }
+  std::reverse(ans.begin(), ans.end());
+  for (auto x: ans) {
+    std::cout << x;
+  }
+  std::cout << '\n';
+  return 0;
+}
 
 ```
 {% endraw %}
@@ -173,6 +112,10 @@ public:
 <a id="bundled"></a>
 {% raw %}
 ```cpp
+#line 1 "test/fft.test.cpp"
+
+#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/problems/NTL_2_F"
+
 #line 2 "algebraic/fft.cpp"
 
 #line 2 "other/bit_operation.cpp"
@@ -330,6 +273,59 @@ public:
   }
 
 };
+#line 5 "test/fft.test.cpp"
+
+#line 7 "test/fft.test.cpp"
+#include <string>
+#include <iostream>
+#include <algorithm>
+#line 12 "test/fft.test.cpp"
+#include <cstdlib>
+
+int main() {
+  std::string A, B;
+  std::cin >> A >> B;
+  bool negative = false;
+  auto fix = [&](std::string &&S) -> std::vector<uint32_t> {
+    if (S == "0") {
+      std::cout << "0\n";
+      std::exit(EXIT_SUCCESS);
+    }
+    std::reverse(S.begin(), S.end());
+    if (S.back() == '-') {
+      negative ^= 1;
+      S.pop_back();
+    }
+    std::vector<uint32_t> res(S.size());
+    std::transform(S.begin(), S.end(), res.begin(), [&](auto c) {
+      return c - '0';
+    });
+    return res;
+  };
+  fast_fourier_transform<double> fft;
+  auto C = fft.convolve(fix(std::move(A)), fix(std::move(B)));
+  std::vector<char> ans;
+  ans.reserve(C.size());
+  uint32_t sum = 0;
+  for (auto x: C) {
+    sum += x;
+    ans.push_back((sum % 10) + '0');
+    sum /= 10;
+  }
+  while (sum > 0) {
+    ans.push_back((sum % 10) + '0');
+    sum /= 10;
+  }
+  if (negative) {
+    ans.push_back('-');
+  }
+  std::reverse(ans.begin(), ans.end());
+  for (auto x: ans) {
+    std::cout << x;
+  }
+  std::cout << '\n';
+  return 0;
+}
 
 ```
 {% endraw %}

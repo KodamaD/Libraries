@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: algebraic/factorials.cpp
+# :x: algebraic/factorials.cpp
 
 <a href="../../index.html">Back to top page</a>
 
@@ -34,6 +34,11 @@ layout: default
     - Last commit date: 2020-07-04 16:35:04+09:00
 
 
+
+
+## Verified with
+
+* :x: <a href="../../verify/test/factorials.test.cpp.html">test/factorials.test.cpp</a>
 
 
 ## Code

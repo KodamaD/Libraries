@@ -38,7 +38,7 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../other/bit_operation.cpp.html">other/bit_operation.cpp</a>
+* :question: <a href="../other/bit_operation.cpp.html">other/bit_operation.cpp</a>
 
 
 ## Code
