@@ -1,7 +1,7 @@
 
 #define PROBLEM "https://judge.yosupo.jp/problem/convolution_mod_1000000007"
 
-#include "../algebraic/ntt.cpp"
+#include "../algebraic/ntt_arbitrary.cpp"
 
 #include <iostream>
 #include <vector>
