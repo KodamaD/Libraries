@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#b45cffe084dd3d20d928bee85e7b0f21">string</a>
 * <a href="{{ site.github.repository_url }}/blob/master/string/z_algorithm.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-05-06 17:40:04+09:00
+    - Last commit date: 2020-07-04 16:35:04+09:00
 
 
 
@@ -42,8 +42,12 @@ layout: default
 {% raw %}
 ```cpp
 
-template <class T>
-std::vector<size_t> z_algorithm(const T& str) {
+#pragma once
+#include <cstddef>
+#include <vector>
+
+template <class Container>
+std::vector<size_t> z_algorithm(const Container& str) {
   size_t size = str.size();
   std::vector<size_t> result(size);
   result[0] = size;
@@ -74,33 +78,14 @@ std::vector<size_t> z_algorithm(const T& str) {
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "string/z_algorithm.cpp"
-
-template <class T>
-std::vector<size_t> z_algorithm(const T& str) {
-  size_t size = str.size();
-  std::vector<size_t> result(size);
-  result[0] = size;
-  size_t i = 1, j = 0;
-  while (i < size) {
-    while (i + j < size && str[i + j] == str[j]) {
-      ++j;
-    }
-    result[i] = j;
-    if (j == 0) { 
-      ++i; 
-      continue; 
-    }
-    size_t k = 1;
-    while (i + k < size && k + result[k] < j) { 
-      result[i + k] = result[k];
-      ++k; 
-    }
-    i += k;
-    j -= k;
-  }
-  return result;
-}
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.8.3/x64/lib/python3.8/site-packages/onlinejudge_verify/docs.py", line 349, in write_contents
+    bundled_code = language.bundle(self.file_class.file_path, basedir=pathlib.Path.cwd())
+  File "/opt/hostedtoolcache/Python/3.8.3/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/cplusplus.py", line 185, in bundle
+    bundler.update(path)
+  File "/opt/hostedtoolcache/Python/3.8.3/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py", line 239, in update
+    raise BundleErrorAt(path, i + 1, "#pragma once found in a non-first line")
+onlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: string/z_algorithm.cpp: line 2: #pragma once found in a non-first line
 
 ```
 {% endraw %}

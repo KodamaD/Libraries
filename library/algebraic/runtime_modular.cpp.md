@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/runtime_modular.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-06-14 13:42:06+09:00
+    - Last commit date: 2020-07-04 16:35:04+09:00
 
 
 
@@ -41,6 +41,10 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#pragma once
+
+#include <cstdint>
+#include <iostream>
 
 template <class Modulus>
 class modular {
@@ -127,7 +131,10 @@ using m32 = modular<modulus_type>;
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "algebraic/runtime_modular.cpp"
+#line 2 "algebraic/runtime_modular.cpp"
+
+#include <cstdint>
+#include <iostream>
 
 template <class Modulus>
 class modular {

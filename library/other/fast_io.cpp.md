@@ -25,20 +25,22 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: other/fast_io.cpp
+# :question: other/fast_io.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/fast_io.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 00:02:38+09:00
+    - Last commit date: 2020-07-04 16:35:04+09:00
 
 
 
 
 ## Verified with
 
-* :heavy_check_mark: <a href="../../verify/test/fast_io.test.cpp.html">test/fast_io.test.cpp</a>
+* :x: <a href="../../verify/test/fast_io.test.cpp.html">test/fast_io.test.cpp</a>
+* :x: <a href="../../verify/test/ntt.arbitrary_mod.test.cpp.html">test/ntt.arbitrary_mod.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
 
 
 ## Code
@@ -46,6 +48,7 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#pragma once
 
 #include <cstddef>
 #include <cstdint>
@@ -236,9 +239,6 @@ namespace fast_io {
   };
 
 };
-
-fast_io::scanner cin;
-fast_io::printer cout;
 
 ```
 {% endraw %}
@@ -246,7 +246,7 @@ fast_io::printer cout;
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "other/fast_io.cpp"
+#line 2 "other/fast_io.cpp"
 
 #include <cstddef>
 #include <cstdint>
@@ -437,9 +437,6 @@ namespace fast_io {
   };
 
 };
-
-fast_io::scanner cin;
-fast_io::printer cout;
 
 ```
 {% endraw %}

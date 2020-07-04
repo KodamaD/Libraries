@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/number_theory.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-06-04 22:08:21+09:00
+    - Last commit date: 2020-07-04 16:35:04+09:00
 
 
 
@@ -41,8 +41,15 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#pragma once
 
-namespace detail {
+#include <cstddef>
+#include <cstdint>
+#include <utility>
+#include <vector>
+#include <algorithm>
+
+namespace number_theory_detail {
 
   using u32 = uint32_t;
   using u64 = uint64_t;
@@ -173,14 +180,14 @@ namespace detail {
 
 template <class T>
 bool is_prime(T x) {
-  return detail::miller_rabin(x);
+  return number_theory_detail::miller_rabin(x);
 }
 
 template <class T>
 std::vector<T> enumerate_factors(T n, bool sort = true) {
   if (n == 1) return { };
   if (is_prime(n)) return { n };
-  T d = detail::pollard_rho(n);
+  T d = number_theory_detail::pollard_rho(n);
   auto res = enumerate_factors(d);
   auto add = enumerate_factors(n / d);
   size_t size = res.size();
@@ -236,9 +243,15 @@ std::vector<T> enumerate_divisors(T n, bool sort = true) {
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "algebraic/number_theory.cpp"
+#line 2 "algebraic/number_theory.cpp"
 
-namespace detail {
+#include <cstddef>
+#include <cstdint>
+#include <utility>
+#include <vector>
+#include <algorithm>
+
+namespace number_theory_detail {
 
   using u32 = uint32_t;
   using u64 = uint64_t;
@@ -369,14 +382,14 @@ namespace detail {
 
 template <class T>
 bool is_prime(T x) {
-  return detail::miller_rabin(x);
+  return number_theory_detail::miller_rabin(x);
 }
 
 template <class T>
 std::vector<T> enumerate_factors(T n, bool sort = true) {
   if (n == 1) return { };
   if (is_prime(n)) return { n };
-  T d = detail::pollard_rho(n);
+  T d = number_theory_detail::pollard_rho(n);
   auto res = enumerate_factors(d);
   auto add = enumerate_factors(n / d);
   size_t size = res.size();

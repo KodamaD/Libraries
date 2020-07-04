@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/segment_tree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-02 22:24:52+09:00
+    - Last commit date: 2020-07-04 16:35:04+09:00
 
 
 
@@ -41,6 +41,12 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#pragma once
+
+#include <cstddef>
+#include <vector>
+#include <iterator>
+#include <algorithm>
 
 template <class Monoid>
 class segment_tree {
@@ -130,7 +136,12 @@ public:
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "container/segment_tree.cpp"
+#line 2 "container/segment_tree.cpp"
+
+#include <cstddef>
+#include <vector>
+#include <iterator>
+#include <algorithm>
 
 template <class Monoid>
 class segment_tree {

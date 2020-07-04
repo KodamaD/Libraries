@@ -25,15 +25,26 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: algebraic/modular.cpp
+# :question: algebraic/modular.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/modular.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-06-19 20:50:40+09:00
+    - Last commit date: 2020-07-04 16:35:04+09:00
 
 
+
+
+## Required by
+
+* :question: <a href="ntt.cpp.html">algebraic/ntt.cpp</a>
+
+
+## Verified with
+
+* :x: <a href="../../verify/test/ntt.arbitrary_mod.test.cpp.html">test/ntt.arbitrary_mod.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
 
 
 ## Code
@@ -41,6 +52,10 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#pragma once
+
+#include <cstdint>
+#include <iostream>
 
 template <uint32_t Modulus>
 class modular {
@@ -119,8 +134,6 @@ public:
   }
 
 };
-
-using m32 = modular<1000000007>;
 
 ```
 {% endraw %}
@@ -128,7 +141,10 @@ using m32 = modular<1000000007>;
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "algebraic/modular.cpp"
+#line 2 "algebraic/modular.cpp"
+
+#include <cstdint>
+#include <iostream>
 
 template <uint32_t Modulus>
 class modular {
@@ -207,8 +223,6 @@ public:
   }
 
 };
-
-using m32 = modular<1000000007>;
 
 ```
 {% endraw %}

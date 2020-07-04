@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#f8b0b924ebd7046dbfa85a856e4682c8">graph</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/heavy_light_decomposition.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-02 22:24:52+09:00
+    - Last commit date: 2020-07-04 16:35:04+09:00
 
 
 
@@ -41,36 +41,41 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#pragma once
+
+#include <cstdint>
+#include <vector>
+#include <utility>
 
 class heavy_light_decomposition {
 public:
   using size_type = int32_t;
 
 private:
-  std::vector<std::vector<size_type>> graph;
-  std::vector<size_type> size, parent, head;
-  size_type index;
+  std::vector<std::vector<size_type>> M_graph;
+  std::vector<size_type> M_size, M_paernt, M_head;
+  size_type M_index;
 
-  void calc_size(size_type u, size_type p) {
-    size[u] = 1;
-    for (size_type v: graph[u]) {
+  void M_calc_subtree(size_type u, size_type p) {
+    M_size[u] = 1;
+    for (size_type v: M_graph[u]) {
       if (v != p) {
-        calc_size(v, u);
-        size[u] += size[v];
+        M_calc_subtree(v, u);
+        M_size[u] += M_size[v];
       }
     }
   }
 
-  void decompose(size_type u, size_type p, size_type h) {
-    label[u] = index;
-    head[u] = h;
-    parent[u] = p;
-    ++index;
+  void M_decompose(size_type u, size_type p, size_type h) {
+    label[u] = M_index;
+    M_head[u] = h;
+    M_paernt[u] = p;
+    ++M_index;
     size_type max = -1, heavy = -1;
-    for (size_type v : graph[u]) {
+    for (size_type v : M_graph[u]) {
       if (v != p) {
-        if (max < size[v]) {
-          max = size[v];
+        if (max < M_size[v]) {
+          max = M_size[v];
           heavy = v;
         }
       }
@@ -78,10 +83,10 @@ private:
     if (heavy == -1) {
       return;
     }
-    decompose(heavy, u, h);
-    for (size_type v : graph[u]) {
+    M_decompose(heavy, u, h);
+    for (size_type v : M_graph[u]) {
       if (v != p && v != heavy) {
-        decompose(v, u, v);
+        M_decompose(v, u, v);
       }
     }
   }
@@ -90,56 +95,56 @@ public:
   std::vector<size_type> label;
 
   heavy_light_decomposition() { }
-  heavy_light_decomposition(size_type size_) { init(size_); }
+  explicit heavy_light_decomposition(size_type size) { initialize(size); }
 
-  void init(size_type size_) {
-    graph.assign(size_, { });
-    size.assign(size_, 0);
-    parent.assign(size_, 0);
-    head.assign(size_, 0);
-    label.assign(size_, 0);
+  void initialize(size_type size) {
+    M_graph.assign(size, { });
+    M_size.assign(size, 0);
+    M_paernt.assign(size, 0);
+    M_head.assign(size, 0);
+    label.assign(size, 0);
   }
 
   void add_edge(size_type u, size_type v) {
-    graph[u].push_back(v);
-    graph[v].push_back(u);
+    M_graph[u].push_back(v);
+    M_graph[v].push_back(u);
   }
 
-  void build() {
-    index = 0;
-    calc_size(0, -1);
-    decompose(0, -1, 0);
+  void build(size_type root = 0) {
+    M_index = 0;
+    M_calc_subtree(root, -1);
+    M_decompose(root, -1, root);
   }
 
-  template <class T> 
-  void each_edge(size_type u, size_type v, const T &func) const {
+  template <class Func> 
+  void each_edge(size_type u, size_type v, const Func &func) const {
     while (true) {
       if (label[u] > label[v]) {
         std::swap(u, v);
       }
-      if (head[u] == head[v]) {
+      if (M_head[u] == M_head[v]) {
         if (label[u] + 1 <= label[v]) {
           func(label[u] + 1, label[v]);
         }
         return;
       }
-      func(label[head[v]], label[v]);
-      v = parent[head[v]];
+      func(label[M_head[v]], label[v]);
+      v = M_paernt[M_head[v]];
     }
   }
 
-  template <class T> 
-  void each_vertex(size_type u, size_type v, const T &func) const {
+  template <class Func> 
+  void each_vertex(size_type u, size_type v, const Func &func) const {
     while (true) {
       if (label[u] > label[v]) {
         std::swap(u, v);
       }
-      if (head[u] == head[v]) {
+      if (M_head[u] == M_head[v]) {
         func(label[u], label[v]);
         return;
       }
-      func(label[head[v]], label[v]);
-      v = parent[head[v]];
+      func(label[M_head[v]], label[v]);
+      v = M_paernt[M_head[v]];
     }
   }
 
@@ -148,10 +153,10 @@ public:
       std::swap(u, v);
     }
     while (label[u] <= label[v]) {
-      if (head[u] == head[v]) {
+      if (M_head[u] == M_head[v]) {
         return u;
       }
-      v = parent[head[v]];
+      v = M_paernt[M_head[v]];
     }
     return v;
   }
@@ -164,37 +169,41 @@ public:
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "graph/heavy_light_decomposition.cpp"
+#line 2 "graph/heavy_light_decomposition.cpp"
+
+#include <cstdint>
+#include <vector>
+#include <utility>
 
 class heavy_light_decomposition {
 public:
   using size_type = int32_t;
 
 private:
-  std::vector<std::vector<size_type>> graph;
-  std::vector<size_type> size, parent, head;
-  size_type index;
+  std::vector<std::vector<size_type>> M_graph;
+  std::vector<size_type> M_size, M_paernt, M_head;
+  size_type M_index;
 
-  void calc_size(size_type u, size_type p) {
-    size[u] = 1;
-    for (size_type v: graph[u]) {
+  void M_calc_subtree(size_type u, size_type p) {
+    M_size[u] = 1;
+    for (size_type v: M_graph[u]) {
       if (v != p) {
-        calc_size(v, u);
-        size[u] += size[v];
+        M_calc_subtree(v, u);
+        M_size[u] += M_size[v];
       }
     }
   }
 
-  void decompose(size_type u, size_type p, size_type h) {
-    label[u] = index;
-    head[u] = h;
-    parent[u] = p;
-    ++index;
+  void M_decompose(size_type u, size_type p, size_type h) {
+    label[u] = M_index;
+    M_head[u] = h;
+    M_paernt[u] = p;
+    ++M_index;
     size_type max = -1, heavy = -1;
-    for (size_type v : graph[u]) {
+    for (size_type v : M_graph[u]) {
       if (v != p) {
-        if (max < size[v]) {
-          max = size[v];
+        if (max < M_size[v]) {
+          max = M_size[v];
           heavy = v;
         }
       }
@@ -202,10 +211,10 @@ private:
     if (heavy == -1) {
       return;
     }
-    decompose(heavy, u, h);
-    for (size_type v : graph[u]) {
+    M_decompose(heavy, u, h);
+    for (size_type v : M_graph[u]) {
       if (v != p && v != heavy) {
-        decompose(v, u, v);
+        M_decompose(v, u, v);
       }
     }
   }
@@ -214,56 +223,56 @@ public:
   std::vector<size_type> label;
 
   heavy_light_decomposition() { }
-  heavy_light_decomposition(size_type size_) { init(size_); }
+  explicit heavy_light_decomposition(size_type size) { initialize(size); }
 
-  void init(size_type size_) {
-    graph.assign(size_, { });
-    size.assign(size_, 0);
-    parent.assign(size_, 0);
-    head.assign(size_, 0);
-    label.assign(size_, 0);
+  void initialize(size_type size) {
+    M_graph.assign(size, { });
+    M_size.assign(size, 0);
+    M_paernt.assign(size, 0);
+    M_head.assign(size, 0);
+    label.assign(size, 0);
   }
 
   void add_edge(size_type u, size_type v) {
-    graph[u].push_back(v);
-    graph[v].push_back(u);
+    M_graph[u].push_back(v);
+    M_graph[v].push_back(u);
   }
 
-  void build() {
-    index = 0;
-    calc_size(0, -1);
-    decompose(0, -1, 0);
+  void build(size_type root = 0) {
+    M_index = 0;
+    M_calc_subtree(root, -1);
+    M_decompose(root, -1, root);
   }
 
-  template <class T> 
-  void each_edge(size_type u, size_type v, const T &func) const {
+  template <class Func> 
+  void each_edge(size_type u, size_type v, const Func &func) const {
     while (true) {
       if (label[u] > label[v]) {
         std::swap(u, v);
       }
-      if (head[u] == head[v]) {
+      if (M_head[u] == M_head[v]) {
         if (label[u] + 1 <= label[v]) {
           func(label[u] + 1, label[v]);
         }
         return;
       }
-      func(label[head[v]], label[v]);
-      v = parent[head[v]];
+      func(label[M_head[v]], label[v]);
+      v = M_paernt[M_head[v]];
     }
   }
 
-  template <class T> 
-  void each_vertex(size_type u, size_type v, const T &func) const {
+  template <class Func> 
+  void each_vertex(size_type u, size_type v, const Func &func) const {
     while (true) {
       if (label[u] > label[v]) {
         std::swap(u, v);
       }
-      if (head[u] == head[v]) {
+      if (M_head[u] == M_head[v]) {
         func(label[u], label[v]);
         return;
       }
-      func(label[head[v]], label[v]);
-      v = parent[head[v]];
+      func(label[M_head[v]], label[v]);
+      v = M_paernt[M_head[v]];
     }
   }
 
@@ -272,10 +281,10 @@ public:
       std::swap(u, v);
     }
     while (label[u] <= label[v]) {
-      if (head[u] == head[v]) {
+      if (M_head[u] == M_head[v]) {
         return u;
       }
-      v = parent[head[v]];
+      v = M_paernt[M_head[v]];
     }
     return v;
   }

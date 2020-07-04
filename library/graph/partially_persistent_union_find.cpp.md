@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#f8b0b924ebd7046dbfa85a856e4682c8">graph</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/partially_persistent_union_find.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-06-11 10:16:57+09:00
+    - Last commit date: 2020-07-04 16:35:04+09:00
 
 
 
@@ -41,6 +41,13 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#pragma once
+
+#include <cstddef>
+#include <cstdint>
+#include <vector>
+#include <utility>
+#include <algorithm>
 
 class partially_persistent_union_find {
 public:
@@ -120,7 +127,13 @@ public:
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "graph/partially_persistent_union_find.cpp"
+#line 2 "graph/partially_persistent_union_find.cpp"
+
+#include <cstddef>
+#include <cstdint>
+#include <vector>
+#include <utility>
+#include <algorithm>
 
 class partially_persistent_union_find {
 public:

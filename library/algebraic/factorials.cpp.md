@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/factorials.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-03 17:27:34+09:00
+    - Last commit date: 2020-07-04 16:35:04+09:00
 
 
 
@@ -41,6 +41,10 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#pragma once
+
+#include <cstddef>
+#include <array>
 
 template <class T, size_t N>
 class factorials {
@@ -75,7 +79,10 @@ public:
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "algebraic/factorials.cpp"
+#line 2 "algebraic/factorials.cpp"
+
+#include <cstddef>
+#include <array>
 
 template <class T, size_t N>
 class factorials {

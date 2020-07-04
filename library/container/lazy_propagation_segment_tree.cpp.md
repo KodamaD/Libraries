@@ -31,9 +31,14 @@ layout: default
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/lazy_propagation_segment_tree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-02 22:24:52+09:00
+    - Last commit date: 2020-07-04 16:35:04+09:00
 
 
+
+
+## Depends on
+
+* :question: <a href="../other/bit_operation.cpp.html">other/bit_operation.cpp</a>
 
 
 ## Code
@@ -41,6 +46,13 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#pragma once
+
+#include "../other/bit_operation.cpp"
+#include <cstddef>
+#include <vector>
+#include <iterator>
+#include <algorithm>
 
 template <class CombinedMonoid>
 class lazy_propagation_segment_tree {
@@ -62,13 +74,6 @@ private:
       const operator_type &lazy  = operator_monoid::identity()
     ): value(value), lazy(lazy) { }
   };
-  
-  static size_type S_lsb(const size_type index) {
-    return      __builtin_ctz(index);
-  }
-  static size_type S_msb(const size_type index) {
-    return 31 - __builtin_clz(index);
-  }
 
   static void S_apply(node_type &node, const operator_type &op, const size_type length) {
     node.value = structure::operation(node.value, op, length);
@@ -86,13 +91,13 @@ private:
   }
 
   void M_pushdown(const size_type index) {
-    const size_type lsb = S_lsb(index);
-    for (size_type story = S_msb(index); story != lsb; --story) {
+    const size_type lsb = count_zero_right(index);
+    for (size_type story = bit_width(index); story != lsb; --story) {
       M_propagate(index >> story, 1 << (story - 1));
     }
   }
   void M_pullup(size_type index) {
-    index >>= S_lsb(index);
+    index >>= count_zero_right(index);
     while (index != 1) {
       index >>= 1;
       M_fix_change(index);
@@ -173,7 +178,7 @@ public:
 
   void assign(size_type index, const value_type &val) {
     index += size();
-    for (size_type story = S_msb(index); story != 0; --story) {
+    for (size_type story = bit_width(index); story != 0; --story) {
       M_propagate(index >> story, 1 << (story - 1));
     }
     M_tree[index].value = val;
@@ -197,7 +202,54 @@ public:
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "container/lazy_propagation_segment_tree.cpp"
+#line 2 "container/lazy_propagation_segment_tree.cpp"
+
+#line 2 "other/bit_operation.cpp"
+
+#include <cstddef>
+#include <cstdint>
+
+constexpr size_t count_zero_right(const uint64_t x) {
+  return x == 0 ? 64 : __builtin_ctzll(x);
+}
+
+constexpr size_t count_zero_left(const uint64_t x) {
+  return x == 0 ? 64 : __builtin_clzll(x);
+}
+
+constexpr size_t bit_width(const uint64_t x) { 
+  return 64 - count_zero_left(x);
+}
+
+constexpr uint64_t most_significant_bit(const uint64_t x) {
+  return x == 0 ? 0 : uint64_t(1) << (bit_width(x) - 1);
+}
+
+constexpr uint64_t least_significant_bit(const uint64_t x) {
+  return x & (-x);
+}
+
+constexpr uint64_t next_power_of_two(const uint64_t x) {
+  return x == 0 ? 0 : most_significant_bit(2 * x - 1);
+}
+
+constexpr uint32_t bit_reverse_32(uint32_t x) {
+  constexpr uint32_t b16 = 0b00000000000000001111111111111111;
+  constexpr uint32_t  b8 = 0b00000000111111110000000011111111;
+  constexpr uint32_t  b4 = 0b00001111000011110000111100001111;
+  constexpr uint32_t  b2 = 0b00110011001100110011001100110011;
+  constexpr uint32_t  b1 = 0b01010101010101010101010101010101;
+  x = ((x >> 16) & b16) | ((x & b16) << 16);
+  x = ((x >>  8) &  b8) | ((x &  b8) <<  8);
+  x = ((x >>  4) &  b4) | ((x &  b4) <<  4);
+  x = ((x >>  2) &  b2) | ((x &  b2) <<  2);
+  x = ((x >>  1) &  b1) | ((x &  b1) <<  1);
+  return x;
+}
+#line 5 "container/lazy_propagation_segment_tree.cpp"
+#include <vector>
+#include <iterator>
+#include <algorithm>
 
 template <class CombinedMonoid>
 class lazy_propagation_segment_tree {
@@ -219,13 +271,6 @@ private:
       const operator_type &lazy  = operator_monoid::identity()
     ): value(value), lazy(lazy) { }
   };
-  
-  static size_type S_lsb(const size_type index) {
-    return      __builtin_ctz(index);
-  }
-  static size_type S_msb(const size_type index) {
-    return 31 - __builtin_clz(index);
-  }
 
   static void S_apply(node_type &node, const operator_type &op, const size_type length) {
     node.value = structure::operation(node.value, op, length);
@@ -243,13 +288,13 @@ private:
   }
 
   void M_pushdown(const size_type index) {
-    const size_type lsb = S_lsb(index);
-    for (size_type story = S_msb(index); story != lsb; --story) {
+    const size_type lsb = count_zero_right(index);
+    for (size_type story = bit_width(index); story != lsb; --story) {
       M_propagate(index >> story, 1 << (story - 1));
     }
   }
   void M_pullup(size_type index) {
-    index >>= S_lsb(index);
+    index >>= count_zero_right(index);
     while (index != 1) {
       index >>= 1;
       M_fix_change(index);
@@ -330,7 +375,7 @@ public:
 
   void assign(size_type index, const value_type &val) {
     index += size();
-    for (size_type story = S_msb(index); story != 0; --story) {
+    for (size_type story = bit_width(index); story != 0; --story) {
       M_propagate(index >> story, 1 << (story - 1));
     }
     M_tree[index].value = val;

@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/debug.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-03 23:58:07+09:00
+    - Last commit date: 2020-07-04 16:35:04+09:00
 
 
 
@@ -41,6 +41,7 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#pragma once
 
 #ifdef LOCAL
 #include <iostream>
@@ -210,7 +211,7 @@ struct debug_support {
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "other/debug.cpp"
+#line 2 "other/debug.cpp"
 
 #ifdef LOCAL
 #include <iostream>

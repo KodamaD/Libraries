@@ -31,9 +31,15 @@ layout: default
 
 * category: <a href="../../index.html#ed7daeb157cd9b31e53896ad3c771a26">geometry</a>
 * <a href="{{ site.github.repository_url }}/blob/master/geometry/constants.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-06-10 22:29:55+09:00
+    - Last commit date: 2020-07-04 16:35:04+09:00
 
 
+
+
+## Required by
+
+* :warning: <a href="figures.cpp.html">geometry/figures.cpp</a>
+* :warning: <a href="polygon.cpp.html">geometry/polygon.cpp</a>
 
 
 ## Code
@@ -41,6 +47,9 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#pragma once
+
+#include <cmath>
 
 template <class T>
 struct real_constant;
@@ -94,7 +103,9 @@ bool equal(T x, U y) {
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "geometry/constants.cpp"
+#line 2 "geometry/constants.cpp"
+
+#include <cmath>
 
 template <class T>
 struct real_constant;
