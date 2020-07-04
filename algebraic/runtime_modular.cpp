@@ -4,7 +4,7 @@
 #include <iostream>
 
 template <class Modulus>
-class modular {
+class runtime_modular {
 public:
   using value_type = uint32_t;
   using max_type = uint64_t;
@@ -27,20 +27,20 @@ private:
   value_type value;
 
 public:
-  modular(): value(0) { }
+  runtime_modular(): value(0) { }
   template <class T>
-  explicit modular(T value_): value(normalize(value_)) { }
+  explicit runtime_modular(T value_): value(normalize(value_)) { }
   template <class T>
   explicit operator T() { return static_cast<T>(value); }
 
   value_type get() const { return value; }
-  modular operator - () const { return modular(mod() - value); }
-  modular operator ~ () const { return inverse(); }
+  runtime_modular operator - () const { return runtime_modular(mod() - value); }
+  runtime_modular operator ~ () const { return inverse(); }
 
   value_type &extract() { return value; }
-  modular inverse() const { return power(mod() - 2); }
-  modular power(max_type exp) const {
-    modular res(1), mult(*this);
+  runtime_modular inverse() const { return power(mod() - 2); }
+  runtime_modular power(max_type exp) const {
+    runtime_modular res(1), mult(*this);
     while (exp > 0) {
       if (exp & 1) res *= mult;
       mult *= mult;
@@ -49,35 +49,32 @@ public:
     return res;
   }
 
-  modular operator + (const modular &rhs) const { return modular(*this) += rhs; }
-  modular& operator += (const modular &rhs) { 
+  runtime_modular operator + (const runtime_modular &rhs) const { return runtime_modular(*this) += rhs; }
+  runtime_modular& operator += (const runtime_modular &rhs) { 
     if ((value += rhs.value) >= mod()) value -= mod(); 
     return *this; 
   }
 
-  modular operator - (const modular &rhs) const { return modular(*this) -= rhs; }
-  modular& operator -= (const modular &rhs) { 
+  runtime_modular operator - (const runtime_modular &rhs) const { return runtime_modular(*this) -= rhs; }
+  runtime_modular& operator -= (const runtime_modular &rhs) { 
     if ((value += mod() - rhs.value) >= mod()) value -= mod(); 
     return *this; 
   }
 
-  modular operator * (const modular &rhs) const { return modular(*this) *= rhs; }
-  modular& operator *= (const modular &rhs) { 
+  runtime_modular operator * (const runtime_modular &rhs) const { return runtime_modular(*this) *= rhs; }
+  runtime_modular& operator *= (const runtime_modular &rhs) { 
     value = (max_type) value * rhs.value % mod();
     return *this;
   }
 
-  modular operator / (const modular &rhs) const { return modular(*this) /= rhs; }
-  modular& operator /= (const modular &rhs) { return (*this) *= rhs.inverse(); }
+  runtime_modular operator / (const runtime_modular &rhs) const { return runtime_modular(*this) /= rhs; }
+  runtime_modular& operator /= (const runtime_modular &rhs) { return (*this) *= rhs.inverse(); }
 
   bool zero() const { return value == 0; }
-  bool operator == (const modular &rhs) const { return value == rhs.value; }
-  bool operator != (const modular &rhs) const { return value != rhs.value; }
-  friend std::ostream& operator << (std::ostream &stream, const modular &rhs) {
+  bool operator == (const runtime_modular &rhs) const { return value == rhs.value; }
+  bool operator != (const runtime_modular &rhs) const { return value != rhs.value; }
+  friend std::ostream& operator << (std::ostream &stream, const runtime_modular &rhs) {
     return stream << rhs.value;
   }
 
 };
-
-struct modulus_type { static inline uint32_t value; };
-using m32 = modular<modulus_type>;
