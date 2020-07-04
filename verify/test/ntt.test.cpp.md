@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/ntt.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 17:17:38+09:00
+    - Last commit date: 2020-07-04 21:26:32+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/convolution_mod">https://judge.yosupo.jp/problem/convolution_mod</a>
@@ -266,27 +266,6 @@ namespace ntt_detail {
     return res;
   }
 
-  template <class OtherModular, class Modular>
-  constexpr OtherModular convert_mod(Modular x) {
-    return OtherModular(x.get());
-  }
-
-  template <class OtherModular, class Modular>
-  std::vector<OtherModular> convert_mod_vec(const std::vector<Modular> &vec) {
-    std::vector<OtherModular> res(vec.size());
-    std::transform(vec.cbegin(), vec.cend(), res.begin(), convert_mod<OtherModular, Modular>);
-    return res;
-  }
-
-  namespace garner_mod {
-    constexpr uint32_t m0 = 754974721;
-    constexpr uint32_t m1 = 167772161;
-    constexpr uint32_t m2 = 469762049;
-    constexpr uint64_t m0m1 = (uint64_t) m0 * m1;
-    constexpr auto im0_m1 = modular<m1>(m0).inverse();
-    constexpr auto im0m1_m2 = modular<m2>(m0m1).inverse();
-  };
-
   /*
     prime numbers for ntt
     [ 1051721729 ]  [ 2^20 ]
@@ -412,38 +391,7 @@ public:
     return A;
   }
 
-  template <class OtherModular, bool Same = false>
-  static std::vector<value_type> convolve_convert(
-    const std::vector<OtherModular> &A, 
-    const std::vector<OtherModular> &B) {
-    return convolve<Same>(
-      ntt_detail::convert_mod_vec<value_type>(A), 
-      ntt_detail::convert_mod_vec<value_type>(B)
-    );
-  }
-
 };
-
-template <class Modular, bool Same = false>
-std::vector<Modular> convolve_arbitrary_mod(
-  const std::vector<Modular> &A, 
-  const std::vector<Modular> &B) {
-  using namespace ntt_detail::garner_mod;
-  using ntt0 = number_theoretic_transform<modular<m0>>;
-  using ntt1 = number_theoretic_transform<modular<m1>>;
-  using ntt2 = number_theoretic_transform<modular<m2>>;
-  auto X = ntt0::convolve_convert<Modular, Same>(A, B);
-  auto Y = ntt1::convolve_convert<Modular, Same>(A, B);
-  auto Z = ntt2::convolve_convert<Modular, Same>(A, B);
-  size_t size = X.size();
-  std::vector<Modular> res(size);
-  for (size_t i = 0; i < size; ++i) {
-    uint32_t s = (uint32_t) X[i];
-    uint64_t t = (uint64_t) ((Y[i] - modular<m1>(s)) * im0_m1) * m0 + s;
-    res[i] = Modular((__uint128_t) ((Z[i] - modular<m2>(t)) * im0m1_m2) * m0m1 + t);
-  }
-  return res;
-}
 #line 5 "test/ntt.test.cpp"
 
 #line 8 "test/ntt.test.cpp"
