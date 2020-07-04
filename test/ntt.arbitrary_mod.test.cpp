@@ -2,13 +2,9 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/convolution_mod_1000000007"
 
 #include "../algebraic/ntt.cpp"
-#include "../other/fast_io.cpp"
 
 #include <iostream>
 #include <vector>
-
-fast_io::scanner cin;
-fast_io::printer cout;
 
 using m32 = modular<1000000007>;
 

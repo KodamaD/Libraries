@@ -7,6 +7,7 @@
 #include <utility>
 #include <iostream>
 #include <cstddef>
+#include <vector>
 
 using m32 = modular<998244353>;
 

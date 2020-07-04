@@ -2,7 +2,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/convolution_mod"
 
 #include "../algebraic/ntt.cpp"
-#include "../other/fast_io.cpp"
 
 #include <iostream>
 #include <vector>
