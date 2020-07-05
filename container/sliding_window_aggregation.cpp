@@ -57,3 +57,7 @@ public:
   }
 
 };
+
+/**
+ * @title Sliding Window Aggregation
+ */

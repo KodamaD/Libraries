@@ -59,3 +59,7 @@ std::vector<Modular> convolve_arbitrary_mod(
   }
   return res;
 }
+
+/**
+ * @title Number Theoretic Transform (arbitrary mod)
+ */

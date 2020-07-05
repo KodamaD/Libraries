@@ -62,3 +62,7 @@ public:
   }
 
 };
+
+/**
+ * @title Succinct Bit Vector
+ */

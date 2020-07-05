@@ -65,3 +65,7 @@ public:
   }
 
 };
+
+/**
+ * @title Randomized Queue
+ */

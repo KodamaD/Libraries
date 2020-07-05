@@ -109,3 +109,7 @@ public:
   }
 
 };
+
+/**
+ * @title Dual Segment Tree
+ */

@@ -86,3 +86,7 @@ public:
   }
 
 };
+
+/**
+ * @title Segment Tree
+ */

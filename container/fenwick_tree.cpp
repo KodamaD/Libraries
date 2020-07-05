@@ -49,3 +49,7 @@ public:
   }
 
 };
+
+/**
+ * @title Fenwick Tree
+ */

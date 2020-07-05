@@ -147,3 +147,7 @@ public:
   }
 
 };
+
+/**
+ * @title Lazy Propagation Segment Tree
+ */

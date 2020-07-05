@@ -201,3 +201,7 @@ std::vector<T> enumerate_divisors(T n, bool sort = true) {
   if (sort) std::sort(res.begin(), res.end());
   return res;
 }
+
+/**
+ * @title Number Theory
+ */

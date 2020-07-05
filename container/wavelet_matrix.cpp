@@ -122,3 +122,7 @@ public:
   }
 
 };
+
+/**
+ * @title Wavelet Matrix
+ */

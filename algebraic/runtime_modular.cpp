@@ -78,3 +78,7 @@ public:
   }
 
 };
+
+/**
+ * @title Modint (runtime-mod)
+ */

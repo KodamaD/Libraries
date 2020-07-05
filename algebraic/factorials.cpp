@@ -29,3 +29,7 @@ public:
   }
 
 };
+
+/**
+ * @title Factorial
+ */
