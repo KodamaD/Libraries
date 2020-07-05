@@ -99,7 +99,7 @@ layout: default
 
 * :warning: <a href="library/string/rolling_hash.cpp.html">string/rolling_hash.cpp</a>
 * :warning: <a href="library/string/suffix_array.cpp.html">string/suffix_array.cpp</a>
-* :warning: <a href="library/string/z_algorithm.cpp.html">string/z_algorithm.cpp</a>
+* :heavy_check_mark: <a href="library/string/z_algorithm.cpp.html">string/z_algorithm.cpp</a>
 
 
 ## Verify Files
@@ -115,5 +115,6 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/ntt_arbitrary_runtimemod.test.cpp.html">test/ntt_arbitrary_runtimemod.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/wavelet_matrix_quantile.test.cpp.html">test/wavelet_matrix_quantile.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/z_algorithm.test.cpp.html">test/z_algorithm.test.cpp</a>
 
 

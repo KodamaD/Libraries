@@ -25,20 +25,21 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: string/z_algorithm.cpp
+# :heavy_check_mark: test/z_algorithm.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
-* category: <a href="../../index.html#b45cffe084dd3d20d928bee85e7b0f21">string</a>
-* <a href="{{ site.github.repository_url }}/blob/master/string/z_algorithm.cpp">View this file on GitHub</a>
+* category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
+* <a href="{{ site.github.repository_url }}/blob/master/test/z_algorithm.test.cpp">View this file on GitHub</a>
     - Last commit date: 2020-07-05 10:33:15+09:00
 
 
+* see: <a href="https://judge.yosupo.jp/problem/zalgorithm">https://judge.yosupo.jp/problem/zalgorithm</a>
 
 
-## Verified with
+## Depends on
 
-* :heavy_check_mark: <a href="../../verify/test/z_algorithm.test.cpp.html">test/z_algorithm.test.cpp</a>
+* :heavy_check_mark: <a href="../../library/string/z_algorithm.cpp.html">string/z_algorithm.cpp</a>
 
 
 ## Code
@@ -46,44 +47,36 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-#pragma once
+
+#define PROBLEM "https://judge.yosupo.jp/problem/zalgorithm"
+
+#include "../string/z_algorithm.cpp"
 
 #include <cstddef>
 #include <vector>
+#include <string>
+#include <iostream>
 
-template <class InputIterator>
-std::vector<size_t> z_algorithm(InputIterator first, InputIterator last) {
-  std::vector<typename InputIterator::value_type> str(first, last);
-  const size_t size = str.size();
-  std::vector<size_t> result(size);
-  result[0] = size;
-  size_t i = 1, j = 0;
-  while (i < size) {
-    while (i + j < size && str[i + j] == str[j]) {
-      ++j;
-    }
-    result[i] = j;
-    if (j == 0) { 
-      ++i; 
-      continue; 
-    }
-    size_t k = 1;
-    while (i + k < size && k + result[k] < j) { 
-      result[i + k] = result[k];
-      ++k; 
-    }
-    i += k;
-    j -= k;
+int main() {
+  std::string S;
+  std::cin >> S;
+  auto ans = z_algorithm(S.begin(), S.end());
+  for (size_t i = 0; i < S.size(); ++i) {
+    std::cout << ans[i];
+    std::cout << (i + 1 == S.size() ? '\n' : ' ');
   }
-  return result;
+  return 0;
 }
-
 ```
 {% endraw %}
 
 <a id="bundled"></a>
 {% raw %}
 ```cpp
+#line 1 "test/z_algorithm.test.cpp"
+
+#define PROBLEM "https://judge.yosupo.jp/problem/zalgorithm"
+
 #line 2 "string/z_algorithm.cpp"
 
 #include <cstddef>
@@ -114,6 +107,22 @@ std::vector<size_t> z_algorithm(InputIterator first, InputIterator last) {
     j -= k;
   }
   return result;
+}
+#line 5 "test/z_algorithm.test.cpp"
+
+#line 8 "test/z_algorithm.test.cpp"
+#include <string>
+#include <iostream>
+
+int main() {
+  std::string S;
+  std::cin >> S;
+  auto ans = z_algorithm(S.begin(), S.end());
+  for (size_t i = 0; i < S.size(); ++i) {
+    std::cout << ans[i];
+    std::cout << (i + 1 == S.size() ? '\n' : ' ');
+  }
+  return 0;
 }
 
 ```
