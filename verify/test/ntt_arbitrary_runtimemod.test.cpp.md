@@ -25,12 +25,12 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/ntt_arbitrary_mod.test.cpp
+# :heavy_check_mark: test/ntt_arbitrary_runtimemod.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
-* <a href="{{ site.github.repository_url }}/blob/master/test/ntt_arbitrary_mod.test.cpp">View this file on GitHub</a>
+* <a href="{{ site.github.repository_url }}/blob/master/test/ntt_arbitrary_runtimemod.test.cpp">View this file on GitHub</a>
     - Last commit date: 2020-07-05 09:51:00+09:00
 
 
@@ -42,6 +42,7 @@ layout: default
 * :question: <a href="../../library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
 * :heavy_check_mark: <a href="../../library/algebraic/ntt.cpp.html">algebraic/ntt.cpp</a>
 * :heavy_check_mark: <a href="../../library/algebraic/ntt_arbitrary.cpp.html">algebraic/ntt_arbitrary.cpp</a>
+* :heavy_check_mark: <a href="../../library/algebraic/runtime_modular.cpp.html">algebraic/runtime_modular.cpp</a>
 * :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
 
 
@@ -53,16 +54,19 @@ layout: default
 
 #define PROBLEM "https://judge.yosupo.jp/problem/convolution_mod_1000000007"
 
-#include "../Library/algebraic/ntt_arbitrary.cpp"
-#include "../Library/algebraic/modular.cpp"
+#include "../algebraic/ntt_arbitrary.cpp"
+#include "../algebraic/runtime_modular.cpp"
 
 #include <iostream>
 #include <vector>
 #include <cstddef>
+#include <cstdint>
 
-using m32 = modular<1000000007>;
+struct modulus_type { static inline uint32_t value; };
+using m32 = runtime_modular<modulus_type>;
 
 int main() {
+  modulus_type::value = 1000000007;
   size_t N, M;
   std::cin >> N >> M;
   std::vector<m32> A(N), B(M);
@@ -86,7 +90,7 @@ int main() {
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "test/ntt_arbitrary_mod.test.cpp"
+#line 1 "test/ntt_arbitrary_runtimemod.test.cpp"
 
 #define PROBLEM "https://judge.yosupo.jp/problem/convolution_mod_1000000007"
 
@@ -454,13 +458,94 @@ std::vector<Modular> convolve_arbitrary_mod(
   }
   return res;
 }
-#line 6 "test/ntt_arbitrary_mod.test.cpp"
+#line 2 "algebraic/runtime_modular.cpp"
 
-#line 10 "test/ntt_arbitrary_mod.test.cpp"
+#line 5 "algebraic/runtime_modular.cpp"
 
-using m32 = modular<1000000007>;
+template <class Modulus>
+class runtime_modular {
+public:
+  using value_type = uint32_t;
+  using max_type = uint64_t;
+  
+  static value_type mod() { return Modulus::value; } 
+  static value_type get_mod() { return Modulus::value;; }
+
+  template <class T>
+  static value_type normalize(T value_) {
+    if (value_ < 0) {
+      value_ = -value_;
+      value_ %= mod();
+      if (value_ == 0) return 0;
+      return mod() - value_;
+    }
+    return value_ % mod();
+  }
+
+private:
+  value_type value;
+
+public:
+  runtime_modular(): value(0) { }
+  template <class T>
+  explicit runtime_modular(T value_): value(normalize(value_)) { }
+  template <class T>
+  explicit operator T() { return static_cast<T>(value); }
+
+  value_type get() const { return value; }
+  runtime_modular operator - () const { return runtime_modular(mod() - value); }
+  runtime_modular operator ~ () const { return inverse(); }
+
+  value_type &extract() { return value; }
+  runtime_modular inverse() const { return power(mod() - 2); }
+  runtime_modular power(max_type exp) const {
+    runtime_modular res(1), mult(*this);
+    while (exp > 0) {
+      if (exp & 1) res *= mult;
+      mult *= mult;
+      exp >>= 1;
+    }
+    return res;
+  }
+
+  runtime_modular operator + (const runtime_modular &rhs) const { return runtime_modular(*this) += rhs; }
+  runtime_modular& operator += (const runtime_modular &rhs) { 
+    if ((value += rhs.value) >= mod()) value -= mod(); 
+    return *this; 
+  }
+
+  runtime_modular operator - (const runtime_modular &rhs) const { return runtime_modular(*this) -= rhs; }
+  runtime_modular& operator -= (const runtime_modular &rhs) { 
+    if ((value += mod() - rhs.value) >= mod()) value -= mod(); 
+    return *this; 
+  }
+
+  runtime_modular operator * (const runtime_modular &rhs) const { return runtime_modular(*this) *= rhs; }
+  runtime_modular& operator *= (const runtime_modular &rhs) { 
+    value = (max_type) value * rhs.value % mod();
+    return *this;
+  }
+
+  runtime_modular operator / (const runtime_modular &rhs) const { return runtime_modular(*this) /= rhs; }
+  runtime_modular& operator /= (const runtime_modular &rhs) { return (*this) *= rhs.inverse(); }
+
+  bool zero() const { return value == 0; }
+  bool operator == (const runtime_modular &rhs) const { return value == rhs.value; }
+  bool operator != (const runtime_modular &rhs) const { return value != rhs.value; }
+  friend std::ostream& operator << (std::ostream &stream, const runtime_modular &rhs) {
+    return stream << rhs.value;
+  }
+
+};
+#line 6 "test/ntt_arbitrary_runtimemod.test.cpp"
+
+#line 11 "test/ntt_arbitrary_runtimemod.test.cpp"
+
+struct modulus_type { static inline uint32_t value; };
+using m32 = runtime_modular<modulus_type>;
 
 int main() {
+  modulus_type::value = 1000000007;
   size_t N, M;
   std::cin >> N >> M;
   std::vector<m32> A(N), B(M);
