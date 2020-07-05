@@ -1,16 +1,19 @@
 
 #define PROBLEM "https://judge.yosupo.jp/problem/convolution_mod_1000000007"
 
-#include "../Library/algebraic/ntt_arbitrary.cpp"
-#include "../Library/algebraic/modular.cpp"
+#include "../algebraic/ntt_arbitrary.cpp"
+#include "../algebraic/runtime_modular.cpp"
 
 #include <iostream>
 #include <vector>
 #include <cstddef>
+#include <cstdint>
 
-using m32 = modular<1000000007>;
+struct modulus_type { static inline uint32_t value; };
+using m32 = runtime_modular<modulus_type>;
 
 int main() {
+  modulus_type::value = 1000000007;
   size_t N, M;
   std::cin >> N >> M;
   std::vector<m32> A(N), B(M);
