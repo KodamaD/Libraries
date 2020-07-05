@@ -25,25 +25,22 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: container/fenwick_tree.cpp
+# :heavy_check_mark: test/fenwick_tree.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
-* category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
-* <a href="{{ site.github.repository_url }}/blob/master/container/fenwick_tree.cpp">View this file on GitHub</a>
+* category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
+* <a href="{{ site.github.repository_url }}/blob/master/test/fenwick_tree.test.cpp">View this file on GitHub</a>
     - Last commit date: 2020-07-05 13:21:35+09:00
 
 
+* see: <a href="https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_B">https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_B</a>
 
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../other/bit_operation.cpp.html">other/bit_operation.cpp</a>
-
-
-## Verified with
-
-* :heavy_check_mark: <a href="../../verify/test/fenwick_tree.test.cpp.html">test/fenwick_tree.test.cpp</a>
+* :heavy_check_mark: <a href="../../library/container/fenwick_tree.cpp.html">container/fenwick_tree.cpp</a>
+* :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
 
 
 ## Code
@@ -51,57 +48,36 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-#pragma once
 
-#include "../other/bit_operation.cpp"
+#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_B"
+
+#include "../container/fenwick_tree.cpp"
+
 #include <cstddef>
-#include <vector>
+#include <cstdint>
+#include <iostream>
 
-template <class T>
-class fenwick_tree {
-public:
-  using value_type = T;
-  using size_type = size_t;
-
-private:
-  std::vector<value_type> M_tree;
-
-public:
-  fenwick_tree() = default;
-  explicit fenwick_tree(size_type size) { initialize(size); }
-
-  void initialize(size_type size) {
-    M_tree.assign(size + 1, value_type{});
-  }
-
-  void add(size_type index, const value_type& x) {
-    ++index;
-    while (index <= size()) {
-      M_tree[index] += x;
-      index += least_significant_bit(index);
+int main() {
+  size_t N, Q;
+  std::cin >> N >> Q;
+  fenwick_tree<uint32_t> seg(N);
+  while (Q--) {
+    char type;
+    std::cin >> type;
+    if (type == '0') {
+      size_t x;
+      uint32_t y;
+      std::cin >> x >> y;
+      seg.add(x - 1, y);
+    }
+    else {
+      size_t x, y;
+      std::cin >> x >> y;
+      std::cout << seg.fold(x - 1, y) << '\n';
     }
   }
-
-  value_type get(size_type index) const {
-    ++index;
-    value_type res{};
-    while (index > 0) {
-      res += M_tree[index];
-      index -= least_significant_bit(index);
-    }
-    return res;
-  }
-  value_type fold(size_type l, size_type r) const {
-    if (l == 0 && r == 0) return value_type{};
-    if (l == 0) return get(r - 1);
-    return get(r - 1) - get(l - 1);
-  }
-
-  size_type size() const {
-    return M_tree.size() - 1;
-  }
-
-};
+  return 0;
+}
 
 ```
 {% endraw %}
@@ -109,6 +85,10 @@ public:
 <a id="bundled"></a>
 {% raw %}
 ```cpp
+#line 1 "test/fenwick_tree.test.cpp"
+
+#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_B"
+
 #line 2 "container/fenwick_tree.cpp"
 
 #line 2 "other/bit_operation.cpp"
@@ -201,6 +181,32 @@ public:
   }
 
 };
+#line 5 "test/fenwick_tree.test.cpp"
+
+#line 8 "test/fenwick_tree.test.cpp"
+#include <iostream>
+
+int main() {
+  size_t N, Q;
+  std::cin >> N >> Q;
+  fenwick_tree<uint32_t> seg(N);
+  while (Q--) {
+    char type;
+    std::cin >> type;
+    if (type == '0') {
+      size_t x;
+      uint32_t y;
+      std::cin >> x >> y;
+      seg.add(x - 1, y);
+    }
+    else {
+      size_t x, y;
+      std::cin >> x >> y;
+      std::cout << seg.fold(x - 1, y) << '\n';
+    }
+  }
+  return 0;
+}
 
 ```
 {% endraw %}

@@ -53,7 +53,7 @@ layout: default
 
 * :heavy_check_mark: <a href="library/container/bit_vector.cpp.html">container/bit_vector.cpp</a>
 * :warning: <a href="library/container/dual_segment_tree.cpp.html">container/dual_segment_tree.cpp</a>
-* :warning: <a href="library/container/fenwick_tree.cpp.html">container/fenwick_tree.cpp</a>
+* :heavy_check_mark: <a href="library/container/fenwick_tree.cpp.html">container/fenwick_tree.cpp</a>
 * :heavy_check_mark: <a href="library/container/lazy_propagation_segment_tree.cpp.html">container/lazy_propagation_segment_tree.cpp</a>
 * :warning: <a href="library/container/li_chao_tree.cpp.html">container/li_chao_tree.cpp</a>
 * :warning: <a href="library/container/randomized_queue.cpp.html">container/randomized_queue.cpp</a>
@@ -108,6 +108,7 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/enumerate_factors.test.cpp.html">test/enumerate_factors.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/factorials.test.cpp.html">test/factorials.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/fast_io.test.cpp.html">test/fast_io.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/fenwick_tree.test.cpp.html">test/fenwick_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/fft.test.cpp.html">test/fft.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
