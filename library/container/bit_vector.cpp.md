@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: container/bit_vector.cpp
+# :heavy_check_mark: container/bit_vector.cpp
 
 <a href="../../index.html">Back to top page</a>
 
@@ -38,7 +38,12 @@ layout: default
 
 ## Required by
 
-* :warning: <a href="wavelet_matrix.cpp.html">container/wavelet_matrix.cpp</a>
+* :heavy_check_mark: <a href="wavelet_matrix.cpp.html">container/wavelet_matrix.cpp</a>
+
+
+## Verified with
+
+* :heavy_check_mark: <a href="../../verify/test/wavelet_matrix_quantile.test.cpp.html">test/wavelet_matrix_quantile.test.cpp</a>
 
 
 ## Code

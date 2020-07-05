@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: test/factorials.test.cpp
+# :heavy_check_mark: test/factorials.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
@@ -39,8 +39,8 @@ layout: default
 
 ## Depends on
 
-* :x: <a href="../../library/algebraic/factorials.cpp.html">algebraic/factorials.cpp</a>
-* :question: <a href="../../library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
+* :heavy_check_mark: <a href="../../library/algebraic/factorials.cpp.html">algebraic/factorials.cpp</a>
+* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
 
 
 ## Code

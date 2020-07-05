@@ -39,7 +39,7 @@ layout: default
 
 ## Depends on
 
-* :question: <a href="../../library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
+* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
 * :heavy_check_mark: <a href="../../library/container/segment_tree.cpp.html">container/segment_tree.cpp</a>
 
 

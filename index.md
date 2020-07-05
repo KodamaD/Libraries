@@ -38,9 +38,9 @@ layout: default
 
 ### algebraic
 
-* :x: <a href="library/algebraic/factorials.cpp.html">algebraic/factorials.cpp</a>
+* :heavy_check_mark: <a href="library/algebraic/factorials.cpp.html">algebraic/factorials.cpp</a>
 * :heavy_check_mark: <a href="library/algebraic/fft.cpp.html">algebraic/fft.cpp</a>
-* :question: <a href="library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
+* :heavy_check_mark: <a href="library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
 * :heavy_check_mark: <a href="library/algebraic/ntt.cpp.html">algebraic/ntt.cpp</a>
 * :heavy_check_mark: <a href="library/algebraic/ntt_arbitrary.cpp.html">algebraic/ntt_arbitrary.cpp</a>
 * :heavy_check_mark: <a href="library/algebraic/number_theory.cpp.html">algebraic/number_theory.cpp</a>
@@ -51,7 +51,7 @@ layout: default
 
 ### container
 
-* :warning: <a href="library/container/bit_vector.cpp.html">container/bit_vector.cpp</a>
+* :heavy_check_mark: <a href="library/container/bit_vector.cpp.html">container/bit_vector.cpp</a>
 * :warning: <a href="library/container/dual_segment_tree.cpp.html">container/dual_segment_tree.cpp</a>
 * :warning: <a href="library/container/fenwick_tree.cpp.html">container/fenwick_tree.cpp</a>
 * :heavy_check_mark: <a href="library/container/lazy_propagation_segment_tree.cpp.html">container/lazy_propagation_segment_tree.cpp</a>
@@ -59,7 +59,7 @@ layout: default
 * :warning: <a href="library/container/randomized_queue.cpp.html">container/randomized_queue.cpp</a>
 * :heavy_check_mark: <a href="library/container/segment_tree.cpp.html">container/segment_tree.cpp</a>
 * :warning: <a href="library/container/sliding_window_aggregation.cpp.html">container/sliding_window_aggregation.cpp</a>
-* :warning: <a href="library/container/wavelet_matrix.cpp.html">container/wavelet_matrix.cpp</a>
+* :heavy_check_mark: <a href="library/container/wavelet_matrix.cpp.html">container/wavelet_matrix.cpp</a>
 
 
 <div id="ed7daeb157cd9b31e53896ad3c771a26"></div>
@@ -105,7 +105,7 @@ layout: default
 ## Verify Files
 
 * :heavy_check_mark: <a href="verify/test/enumerate_factors.test.cpp.html">test/enumerate_factors.test.cpp</a>
-* :x: <a href="verify/test/factorials.test.cpp.html">test/factorials.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/factorials.test.cpp.html">test/factorials.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/fast_io.test.cpp.html">test/fast_io.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/fft.test.cpp.html">test/fft.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
@@ -113,5 +113,6 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/ntt_arbitrary_mod.test.cpp.html">test/ntt_arbitrary_mod.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/ntt_arbitrary_runtimemod.test.cpp.html">test/ntt_arbitrary_runtimemod.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/wavelet_matrix_quantile.test.cpp.html">test/wavelet_matrix_quantile.test.cpp</a>
 
 
