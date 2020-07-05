@@ -43,7 +43,7 @@ layout: default
 * :heavy_check_mark: <a href="../../library/algebraic/ntt.cpp.html">algebraic/ntt.cpp</a>
 * :heavy_check_mark: <a href="../../library/algebraic/ntt_arbitrary.cpp.html">algebraic/ntt_arbitrary.cpp</a>
 * :heavy_check_mark: <a href="../../library/algebraic/runtime_modular.cpp.html">algebraic/runtime_modular.cpp</a>
-* :question: <a href="../../library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
+* :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
 
 
 ## Code

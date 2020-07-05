@@ -39,7 +39,7 @@ layout: default
 ## Depends on
 
 * :question: <a href="modular.cpp.html">algebraic/modular.cpp</a>
-* :question: <a href="../other/bit_operation.cpp.html">other/bit_operation.cpp</a>
+* :heavy_check_mark: <a href="../other/bit_operation.cpp.html">other/bit_operation.cpp</a>
 
 
 ## Required by

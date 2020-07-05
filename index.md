@@ -39,7 +39,7 @@ layout: default
 ### algebraic
 
 * :x: <a href="library/algebraic/factorials.cpp.html">algebraic/factorials.cpp</a>
-* :x: <a href="library/algebraic/fft.cpp.html">algebraic/fft.cpp</a>
+* :heavy_check_mark: <a href="library/algebraic/fft.cpp.html">algebraic/fft.cpp</a>
 * :question: <a href="library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
 * :heavy_check_mark: <a href="library/algebraic/ntt.cpp.html">algebraic/ntt.cpp</a>
 * :heavy_check_mark: <a href="library/algebraic/ntt_arbitrary.cpp.html">algebraic/ntt_arbitrary.cpp</a>
@@ -84,7 +84,7 @@ layout: default
 
 ### other
 
-* :question: <a href="library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
+* :heavy_check_mark: <a href="library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
 * :warning: <a href="library/other/debug.cpp.html">other/debug.cpp</a>
 * :heavy_check_mark: <a href="library/other/fast_io.cpp.html">other/fast_io.cpp</a>
 * :warning: <a href="library/other/fix_point.cpp.html">other/fix_point.cpp</a>
@@ -107,7 +107,7 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/enumerate_factors.test.cpp.html">test/enumerate_factors.test.cpp</a>
 * :x: <a href="verify/test/factorials.test.cpp.html">test/factorials.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/fast_io.test.cpp.html">test/fast_io.test.cpp</a>
-* :x: <a href="verify/test/fft.test.cpp.html">test/fft.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/fft.test.cpp.html">test/fft.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/ntt_arbitrary_mod.test.cpp.html">test/ntt_arbitrary_mod.test.cpp</a>
