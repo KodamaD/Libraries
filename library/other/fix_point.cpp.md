@@ -25,15 +25,26 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: other/fix_point.cpp
+# :heavy_check_mark: other/fix_point.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/fix_point.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 16:35:04+09:00
+    - Last commit date: 2020-07-05 10:24:52+09:00
 
 
+
+
+## Required by
+
+* :heavy_check_mark: <a href="../algebraic/number_theory.cpp.html">algebraic/number_theory.cpp</a>
+
+
+## Verified with
+
+* :heavy_check_mark: <a href="../../verify/test/enumerate_divisors.test.cpp.html">test/enumerate_divisors.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/enumerate_factors.test.cpp.html">test/enumerate_factors.test.cpp</a>
 
 
 ## Code
@@ -54,6 +65,11 @@ struct fix_point: private Func {
   }
 };
 
+template <class Func>
+constexpr decltype(auto) make_fix_point(Func &&func) {
+  return fix_point<Func>(std::forward<Func>(func));
+}
+
 ```
 {% endraw %}
 
@@ -72,6 +88,11 @@ struct fix_point: private Func {
     return Func::operator()(*this, std::forward<Args>(args)...);
   }
 };
+
+template <class Func>
+constexpr decltype(auto) make_fix_point(Func &&func) {
+  return fix_point<Func>(std::forward<Func>(func));
+}
 
 ```
 {% endraw %}

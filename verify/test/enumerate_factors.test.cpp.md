@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/enumerate_factors.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-05 00:39:17+09:00
+    - Last commit date: 2020-07-05 10:24:52+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/factorize">https://judge.yosupo.jp/problem/factorize</a>
@@ -40,6 +40,7 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="../../library/algebraic/number_theory.cpp.html">algebraic/number_theory.cpp</a>
+* :heavy_check_mark: <a href="../../library/other/fix_point.cpp.html">other/fix_point.cpp</a>
 
 
 ## Code
@@ -84,9 +85,27 @@ int main() {
 
 #line 2 "algebraic/number_theory.cpp"
 
+#line 2 "other/fix_point.cpp"
+
+#include <utility>
+
+template <class Func>
+struct fix_point: private Func {
+  explicit constexpr fix_point(Func &&func): Func(std::forward<Func>(func)) { }
+  template <class... Args>
+  constexpr decltype(auto) operator () (Args &&... args) const {
+    return Func::operator()(*this, std::forward<Args>(args)...);
+  }
+};
+
+template <class Func>
+constexpr decltype(auto) make_fix_point(Func &&func) {
+  return fix_point<Func>(std::forward<Func>(func));
+}
+#line 4 "algebraic/number_theory.cpp"
 #include <cstddef>
 #include <cstdint>
-#include <utility>
+#line 7 "algebraic/number_theory.cpp"
 #include <vector>
 #include <algorithm>
 
@@ -269,19 +288,18 @@ std::vector<T> enumerate_divisors(T n, bool sort = true) {
     size *= (e + 1);
   }
   res.reserve(size);
-  auto dfs = [&](auto dfs, size_t i, T x) -> void {
+  make_fix_point([&](auto dfs, size_t i, T x) -> void {
     if (i == factors.size()) {
       res.push_back(x);
       return;
     }
-    dfs(dfs, i + 1, x);
+    dfs(i + 1, x);
     auto [p, e] = factors[i];
     for (size_t j = 1; j <= e; ++j) {
       x *= p;
-      dfs(dfs, i + 1, x);
+      dfs(i + 1, x);
     }
-  };
-  dfs(dfs, 0, 1);
+  })(0, 1);
   if (sort) std::sort(res.begin(), res.end());
   return res;
 }

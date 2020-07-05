@@ -87,7 +87,7 @@ layout: default
 * :heavy_check_mark: <a href="library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
 * :warning: <a href="library/other/debug.cpp.html">other/debug.cpp</a>
 * :heavy_check_mark: <a href="library/other/fast_io.cpp.html">other/fast_io.cpp</a>
-* :warning: <a href="library/other/fix_point.cpp.html">other/fix_point.cpp</a>
+* :heavy_check_mark: <a href="library/other/fix_point.cpp.html">other/fix_point.cpp</a>
 * :warning: <a href="library/other/gen_vec.cpp.html">other/gen_vec.cpp</a>
 * :warning: <a href="library/other/multi_array.cpp.html">other/multi_array.cpp</a>
 * :warning: <a href="library/other/template.cpp.html">other/template.cpp</a>
@@ -104,6 +104,7 @@ layout: default
 
 ## Verify Files
 
+* :heavy_check_mark: <a href="verify/test/enumerate_divisors.test.cpp.html">test/enumerate_divisors.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/enumerate_factors.test.cpp.html">test/enumerate_factors.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/factorials.test.cpp.html">test/factorials.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/fast_io.test.cpp.html">test/fast_io.test.cpp</a>
