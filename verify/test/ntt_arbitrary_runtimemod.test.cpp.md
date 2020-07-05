@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/ntt_arbitrary_runtimemod.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-05 19:22:30+09:00
+    - Last commit date: 2020-07-05 19:42:48+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/convolution_mod_1000000007">https://judge.yosupo.jp/problem/convolution_mod_1000000007</a>
@@ -42,7 +42,7 @@ layout: default
 * :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
 * :heavy_check_mark: <a href="../../library/algebraic/ntt.cpp.html">Number Theoretic Transform</a>
 * :heavy_check_mark: <a href="../../library/algebraic/ntt_arbitrary.cpp.html">Number Theoretic Transform (arbitrary mod)</a>
-* :heavy_check_mark: <a href="../../library/algebraic/runtime_modular.cpp.html">Modint (runtime-mod)</a>
+* :heavy_check_mark: <a href="../../library/algebraic/runtime_modular.cpp.html">Modint (runtime mod)</a>
 * :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
 
 
@@ -481,7 +481,7 @@ public:
   using max_type = uint64_t;
   
   static value_type mod() { return Modulus::value; } 
-  static value_type get_mod() { return Modulus::value;; }
+  static value_type get_mod() { return Modulus::value; }
 
   template <class T>
   static value_type normalize(T value_) {
@@ -551,7 +551,7 @@ public:
 };
 
 /**
- * @title Modint (runtime-mod)
+ * @title Modint (runtime mod)
  */
 #line 6 "test/ntt_arbitrary_runtimemod.test.cpp"
 

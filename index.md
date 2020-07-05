@@ -44,7 +44,7 @@ layout: default
 * :heavy_check_mark: <a href="library/algebraic/ntt.cpp.html">Number Theoretic Transform</a>
 * :heavy_check_mark: <a href="library/algebraic/ntt_arbitrary.cpp.html">Number Theoretic Transform (arbitrary mod)</a>
 * :heavy_check_mark: <a href="library/algebraic/number_theory.cpp.html">Number Theory</a>
-* :heavy_check_mark: <a href="library/algebraic/runtime_modular.cpp.html">Modint (runtime-mod)</a>
+* :heavy_check_mark: <a href="library/algebraic/runtime_modular.cpp.html">Modint (runtime mod)</a>
 
 
 <div id="5f0b6ebc4bea10285ba2b8a6ce78b863"></div>
