@@ -38,13 +38,13 @@ layout: default
 
 ## Required by
 
-* :heavy_check_mark: <a href="../algebraic/fft.cpp.html">algebraic/fft.cpp</a>
-* :heavy_check_mark: <a href="../algebraic/ntt.cpp.html">algebraic/ntt.cpp</a>
-* :heavy_check_mark: <a href="../algebraic/ntt_arbitrary.cpp.html">algebraic/ntt_arbitrary.cpp</a>
-* :warning: <a href="../container/dual_segment_tree.cpp.html">container/dual_segment_tree.cpp</a>
-* :heavy_check_mark: <a href="../container/fenwick_tree.cpp.html">container/fenwick_tree.cpp</a>
-* :heavy_check_mark: <a href="../container/lazy_propagation_segment_tree.cpp.html">container/lazy_propagation_segment_tree.cpp</a>
-* :warning: <a href="../container/li_chao_tree.cpp.html">container/li_chao_tree.cpp</a>
+* :heavy_check_mark: <a href="../algebraic/fft.cpp.html">Fast Fourier Transform</a>
+* :heavy_check_mark: <a href="../algebraic/ntt.cpp.html">Number Theoretic Transform</a>
+* :heavy_check_mark: <a href="../algebraic/ntt_arbitrary.cpp.html">Number Theoretic Transform (arbitrary mod)</a>
+* :warning: <a href="../container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
+* :heavy_check_mark: <a href="../container/fenwick_tree.cpp.html">Fenwick Tree</a>
+* :heavy_check_mark: <a href="../container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
+* :warning: <a href="../container/li_chao_tree.cpp.html">Li-Chao Tree</a>
 
 
 ## Verified with

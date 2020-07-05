@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/fft.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-05 00:39:17+09:00
+    - Last commit date: 2020-07-05 19:22:30+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/problems/NTL_2_F">https://onlinejudge.u-aizu.ac.jp/problems/NTL_2_F</a>
@@ -39,7 +39,7 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/algebraic/fft.cpp.html">algebraic/fft.cpp</a>
+* :heavy_check_mark: <a href="../../library/algebraic/fft.cpp.html">Fast Fourier Transform</a>
 * :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
 
 
@@ -273,6 +273,10 @@ public:
   }
 
 };
+
+/**
+ * @title Fast Fourier Transform
+ */
 #line 5 "test/fft.test.cpp"
 
 #line 7 "test/fft.test.cpp"

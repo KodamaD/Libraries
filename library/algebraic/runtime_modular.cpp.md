@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: algebraic/runtime_modular.cpp
+# :heavy_check_mark: Modint (runtime-mod)
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/runtime_modular.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-05 00:39:17+09:00
+    - Last commit date: 2020-07-05 19:22:30+09:00
 
 
 
@@ -127,6 +127,9 @@ public:
 
 };
 
+/**
+ * @title Modint (runtime-mod)
+ */
 ```
 {% endraw %}
 
@@ -213,6 +216,10 @@ public:
   }
 
 };
+
+/**
+ * @title Modint (runtime-mod)
+ */
 
 ```
 {% endraw %}

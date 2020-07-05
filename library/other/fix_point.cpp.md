@@ -38,7 +38,7 @@ layout: default
 
 ## Required by
 
-* :heavy_check_mark: <a href="../algebraic/number_theory.cpp.html">algebraic/number_theory.cpp</a>
+* :heavy_check_mark: <a href="../algebraic/number_theory.cpp.html">Number Theory</a>
 
 
 ## Verified with

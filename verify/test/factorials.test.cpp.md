@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/factorials.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-05 00:33:35+09:00
+    - Last commit date: 2020-07-05 19:22:30+09:00
 
 
 * see: <a href="https://yukicoder.me/problems/no/117">https://yukicoder.me/problems/no/117</a>
@@ -39,8 +39,8 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/algebraic/factorials.cpp.html">algebraic/factorials.cpp</a>
-* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
+* :heavy_check_mark: <a href="../../library/algebraic/factorials.cpp.html">Factorial</a>
+* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
 
 
 ## Code
@@ -130,6 +130,10 @@ public:
   }
 
 };
+
+/**
+ * @title Factorial
+ */
 #line 2 "algebraic/modular.cpp"
 
 #include <cstdint>
@@ -212,6 +216,10 @@ public:
   }
 
 };
+
+/**
+ * @title Modint
+ */
 #line 6 "test/factorials.test.cpp"
 
 #line 9 "test/factorials.test.cpp"

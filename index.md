@@ -38,28 +38,28 @@ layout: default
 
 ### algebraic
 
-* :heavy_check_mark: <a href="library/algebraic/factorials.cpp.html">algebraic/factorials.cpp</a>
-* :heavy_check_mark: <a href="library/algebraic/fft.cpp.html">algebraic/fft.cpp</a>
-* :heavy_check_mark: <a href="library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
-* :heavy_check_mark: <a href="library/algebraic/ntt.cpp.html">algebraic/ntt.cpp</a>
-* :heavy_check_mark: <a href="library/algebraic/ntt_arbitrary.cpp.html">algebraic/ntt_arbitrary.cpp</a>
-* :heavy_check_mark: <a href="library/algebraic/number_theory.cpp.html">algebraic/number_theory.cpp</a>
-* :heavy_check_mark: <a href="library/algebraic/runtime_modular.cpp.html">algebraic/runtime_modular.cpp</a>
+* :heavy_check_mark: <a href="library/algebraic/factorials.cpp.html">Factorial</a>
+* :heavy_check_mark: <a href="library/algebraic/fft.cpp.html">Fast Fourier Transform</a>
+* :heavy_check_mark: <a href="library/algebraic/modular.cpp.html">Modint</a>
+* :heavy_check_mark: <a href="library/algebraic/ntt.cpp.html">Number Theoretic Transform</a>
+* :heavy_check_mark: <a href="library/algebraic/ntt_arbitrary.cpp.html">Number Theoretic Transform (arbitrary mod)</a>
+* :heavy_check_mark: <a href="library/algebraic/number_theory.cpp.html">Number Theory</a>
+* :heavy_check_mark: <a href="library/algebraic/runtime_modular.cpp.html">Modint (runtime-mod)</a>
 
 
 <div id="5f0b6ebc4bea10285ba2b8a6ce78b863"></div>
 
 ### container
 
-* :heavy_check_mark: <a href="library/container/bit_vector.cpp.html">container/bit_vector.cpp</a>
-* :warning: <a href="library/container/dual_segment_tree.cpp.html">container/dual_segment_tree.cpp</a>
-* :heavy_check_mark: <a href="library/container/fenwick_tree.cpp.html">container/fenwick_tree.cpp</a>
-* :heavy_check_mark: <a href="library/container/lazy_propagation_segment_tree.cpp.html">container/lazy_propagation_segment_tree.cpp</a>
-* :warning: <a href="library/container/li_chao_tree.cpp.html">container/li_chao_tree.cpp</a>
-* :warning: <a href="library/container/randomized_queue.cpp.html">container/randomized_queue.cpp</a>
-* :heavy_check_mark: <a href="library/container/segment_tree.cpp.html">container/segment_tree.cpp</a>
-* :warning: <a href="library/container/sliding_window_aggregation.cpp.html">container/sliding_window_aggregation.cpp</a>
-* :heavy_check_mark: <a href="library/container/wavelet_matrix.cpp.html">container/wavelet_matrix.cpp</a>
+* :heavy_check_mark: <a href="library/container/bit_vector.cpp.html">Succinct Bit Vector</a>
+* :warning: <a href="library/container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
+* :heavy_check_mark: <a href="library/container/fenwick_tree.cpp.html">Fenwick Tree</a>
+* :heavy_check_mark: <a href="library/container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
+* :warning: <a href="library/container/li_chao_tree.cpp.html">Li-Chao Tree</a>
+* :warning: <a href="library/container/randomized_queue.cpp.html">Randomized Queue</a>
+* :heavy_check_mark: <a href="library/container/segment_tree.cpp.html">Segment Tree</a>
+* :warning: <a href="library/container/sliding_window_aggregation.cpp.html">Sliding Window Aggregation</a>
+* :heavy_check_mark: <a href="library/container/wavelet_matrix.cpp.html">Wavelet Matrix</a>
 
 
 <div id="ed7daeb157cd9b31e53896ad3c771a26"></div>

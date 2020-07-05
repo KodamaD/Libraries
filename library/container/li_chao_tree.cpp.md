@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: container/li_chao_tree.cpp
+# :warning: Li-Chao Tree
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/li_chao_tree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 16:35:04+09:00
+    - Last commit date: 2020-07-05 19:22:30+09:00
 
 
 
@@ -155,6 +155,9 @@ public:
 
 };
 
+/**
+ * @title Li-Chao Tree
+ */
 ```
 {% endraw %}
 
@@ -310,6 +313,10 @@ public:
   }
 
 };
+
+/**
+ * @title Li-Chao Tree
+ */
 
 ```
 {% endraw %}

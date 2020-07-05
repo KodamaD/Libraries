@@ -25,20 +25,20 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: container/bit_vector.cpp
+# :heavy_check_mark: Succinct Bit Vector
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/bit_vector.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 16:35:04+09:00
+    - Last commit date: 2020-07-05 19:22:30+09:00
 
 
 
 
 ## Required by
 
-* :heavy_check_mark: <a href="wavelet_matrix.cpp.html">container/wavelet_matrix.cpp</a>
+* :heavy_check_mark: <a href="wavelet_matrix.cpp.html">Wavelet Matrix</a>
 
 
 ## Verified with
@@ -116,6 +116,9 @@ public:
 
 };
 
+/**
+ * @title Succinct Bit Vector
+ */
 ```
 {% endraw %}
 
@@ -186,6 +189,10 @@ public:
   }
 
 };
+
+/**
+ * @title Succinct Bit Vector
+ */
 
 ```
 {% endraw %}

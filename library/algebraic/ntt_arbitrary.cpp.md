@@ -25,21 +25,21 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: algebraic/ntt_arbitrary.cpp
+# :heavy_check_mark: Number Theoretic Transform (arbitrary mod)
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/ntt_arbitrary.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 21:26:32+09:00
+    - Last commit date: 2020-07-05 19:22:30+09:00
 
 
 
 
 ## Depends on
 
-* :heavy_check_mark: <a href="modular.cpp.html">algebraic/modular.cpp</a>
-* :heavy_check_mark: <a href="ntt.cpp.html">algebraic/ntt.cpp</a>
+* :heavy_check_mark: <a href="modular.cpp.html">Modint</a>
+* :heavy_check_mark: <a href="ntt.cpp.html">Number Theoretic Transform</a>
 * :heavy_check_mark: <a href="../other/bit_operation.cpp.html">other/bit_operation.cpp</a>
 
 
@@ -116,6 +116,9 @@ std::vector<Modular> convolve_arbitrary_mod(
   return res;
 }
 
+/**
+ * @title Number Theoretic Transform (arbitrary mod)
+ */
 ```
 {% endraw %}
 
@@ -208,6 +211,10 @@ public:
   }
 
 };
+
+/**
+ * @title Modint
+ */
 #line 2 "other/bit_operation.cpp"
 
 #include <cstddef>
@@ -428,6 +435,10 @@ public:
   }
 
 };
+
+/**
+ * @title Number Theoretic Transform
+ */
 #line 5 "algebraic/ntt_arbitrary.cpp"
 
 namespace ntt_arbitrary_detail {
@@ -486,6 +497,10 @@ std::vector<Modular> convolve_arbitrary_mod(
   }
   return res;
 }
+
+/**
+ * @title Number Theoretic Transform (arbitrary mod)
+ */
 
 ```
 {% endraw %}

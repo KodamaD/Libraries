@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/segment_tree.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 17:17:38+09:00
+    - Last commit date: 2020-07-05 19:22:30+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/point_set_range_composite">https://judge.yosupo.jp/problem/point_set_range_composite</a>
@@ -39,8 +39,8 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">algebraic/modular.cpp</a>
-* :heavy_check_mark: <a href="../../library/container/segment_tree.cpp.html">container/segment_tree.cpp</a>
+* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
+* :heavy_check_mark: <a href="../../library/container/segment_tree.cpp.html">Segment Tree</a>
 
 
 ## Code
@@ -197,6 +197,10 @@ public:
   }
 
 };
+
+/**
+ * @title Segment Tree
+ */
 #line 2 "algebraic/modular.cpp"
 
 #include <cstdint>
@@ -279,6 +283,10 @@ public:
   }
 
 };
+
+/**
+ * @title Modint
+ */
 #line 6 "test/segment_tree.test.cpp"
 
 #include <utility>

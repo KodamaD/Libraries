@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/enumerate_divisors.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-05 10:24:52+09:00
+    - Last commit date: 2020-07-05 19:22:30+09:00
 
 
 * see: <a href="https://yukicoder.me/problems/no/888">https://yukicoder.me/problems/no/888</a>
@@ -39,7 +39,7 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/algebraic/number_theory.cpp.html">algebraic/number_theory.cpp</a>
+* :heavy_check_mark: <a href="../../library/algebraic/number_theory.cpp.html">Number Theory</a>
 * :heavy_check_mark: <a href="../../library/other/fix_point.cpp.html">other/fix_point.cpp</a>
 
 
@@ -297,6 +297,10 @@ std::vector<T> enumerate_divisors(T n, bool sort = true) {
   if (sort) std::sort(res.begin(), res.end());
   return res;
 }
+
+/**
+ * @title Number Theory
+ */
 #line 5 "test/enumerate_divisors.test.cpp"
 
 #line 7 "test/enumerate_divisors.test.cpp"
