@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../other/fix_point.cpp"
 #include <cstddef>
 #include <cstdint>
 #include <utility>
@@ -185,19 +186,18 @@ std::vector<T> enumerate_divisors(T n, bool sort = true) {
     size *= (e + 1);
   }
   res.reserve(size);
-  auto dfs = [&](auto dfs, size_t i, T x) -> void {
+  make_fix_point([&](auto dfs, size_t i, T x) -> void {
     if (i == factors.size()) {
       res.push_back(x);
       return;
     }
-    dfs(dfs, i + 1, x);
+    dfs(i + 1, x);
     auto [p, e] = factors[i];
     for (size_t j = 1; j <= e; ++j) {
       x *= p;
-      dfs(dfs, i + 1, x);
+      dfs(i + 1, x);
     }
-  };
-  dfs(dfs, 0, 1);
+  })(0, 1);
   if (sort) std::sort(res.begin(), res.end());
   return res;
 }

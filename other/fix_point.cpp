@@ -10,3 +10,8 @@ struct fix_point: private Func {
     return Func::operator()(*this, std::forward<Args>(args)...);
   }
 };
+
+template <class Func>
+constexpr decltype(auto) make_fix_point(Func &&func) {
+  return fix_point<Func>(std::forward<Func>(func));
+}
