@@ -26,19 +26,18 @@ public:
   void construct(InputIterator first, InputIterator last) { 
     M_size = std::distance(first, last);
     std::vector<bool> bit(M_size);
+    std::vector<value_type> current(first, last);
     std::vector<value_type> next(M_size);
     for (size_type k = word_size; k--;) {
       auto l = next.begin(), r = next.rbegin();
-      auto cur = first;
       for (size_type i = 0; i < M_size; ++i) {
-        bit[i] = (*first) >> k & 1;
-        (bit[i] ? *(r++) : *(l++)) = (*first);
+        bit[i] = current[i] >> k & 1;
+        (bit[i] ? *(r++) : *(l++)) = current[i];
       }
       M_fid[k].construct(bit.begin(), bit.end());
       M_zero[k] = l - next.begin();
       std::reverse(next.rbegin(), r);
-      first = next.begin();
-      last = next.end();
+      current.swap(next);
     }
   }
 
