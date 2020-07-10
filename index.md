@@ -56,7 +56,7 @@ layout: default
 * :heavy_check_mark: <a href="library/container/fenwick_tree.cpp.html">Fenwick Tree</a>
 * :heavy_check_mark: <a href="library/container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
 * :warning: <a href="library/container/li_chao_tree.cpp.html">Li-Chao Tree</a>
-* :warning: <a href="library/container/matrix.cpp.html">container/matrix.cpp</a>
+* :warning: <a href="library/container/matrix.cpp.html">Matrix</a>
 * :warning: <a href="library/container/randomized_queue.cpp.html">Randomized Queue</a>
 * :heavy_check_mark: <a href="library/container/segment_tree.cpp.html">Segment Tree</a>
 * :warning: <a href="library/container/sliding_window_aggregation.cpp.html">Sliding Window Aggregation</a>

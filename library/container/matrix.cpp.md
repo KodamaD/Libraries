@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: container/matrix.cpp
+# :warning: Matrix
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/matrix.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-10 23:25:29+09:00
+    - Last commit date: 2020-07-10 23:59:47+09:00
 
 
 
@@ -165,6 +165,9 @@ public:
 
 };
 
+/**
+ * @title Matrix
+ */
 ```
 {% endraw %}
 
@@ -289,6 +292,10 @@ public:
   }
 
 };
+
+/**
+ * @title Matrix
+ */
 
 ```
 {% endraw %}

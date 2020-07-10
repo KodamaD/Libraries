@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/matrix_test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-10 23:51:49+09:00
+    - Last commit date: 2020-07-10 23:59:47+09:00
 
 
 * see: <a href="https://yukicoder.me/problems/no/1105">https://yukicoder.me/problems/no/1105</a>
@@ -40,7 +40,7 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="../algebraic/modular.cpp.html">Modint</a>
-* :warning: <a href="../container/matrix.cpp.html">container/matrix.cpp</a>
+* :warning: <a href="../container/matrix.cpp.html">Matrix</a>
 
 
 ## Code
@@ -306,6 +306,10 @@ public:
   }
 
 };
+
+/**
+ * @title Matrix
+ */
 #line 6 "test/matrix_test.cpp"
 
 #line 9 "test/matrix_test.cpp"
