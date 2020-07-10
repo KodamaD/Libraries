@@ -40,13 +40,13 @@ layout: default
 
 * :heavy_check_mark: <a href="ntt.cpp.html">Number Theoretic Transform</a>
 * :heavy_check_mark: <a href="ntt_arbitrary.cpp.html">Number Theoretic Transform (arbitrary mod)</a>
-* :warning: <a href="../test/matrix_test.cpp.html">test/matrix_test.cpp</a>
 
 
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/factorials.test.cpp.html">test/factorials.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/matrix.test.cpp.html">test/matrix.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/ntt_arbitrary_mod.test.cpp.html">test/ntt_arbitrary_mod.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/ntt_arbitrary_runtimemod.test.cpp.html">test/ntt_arbitrary_runtimemod.test.cpp</a>

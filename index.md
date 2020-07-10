@@ -56,7 +56,7 @@ layout: default
 * :heavy_check_mark: <a href="library/container/fenwick_tree.cpp.html">Fenwick Tree</a>
 * :heavy_check_mark: <a href="library/container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
 * :warning: <a href="library/container/li_chao_tree.cpp.html">Li-Chao Tree</a>
-* :warning: <a href="library/container/matrix.cpp.html">Matrix</a>
+* :heavy_check_mark: <a href="library/container/matrix.cpp.html">Matrix</a>
 * :warning: <a href="library/container/randomized_queue.cpp.html">Randomized Queue</a>
 * :heavy_check_mark: <a href="library/container/segment_tree.cpp.html">Segment Tree</a>
 * :warning: <a href="library/container/sliding_window_aggregation.cpp.html">Sliding Window Aggregation</a>
@@ -103,13 +103,6 @@ layout: default
 * :heavy_check_mark: <a href="library/string/z_algorithm.cpp.html">string/z_algorithm.cpp</a>
 
 
-<div id="098f6bcd4621d373cade4e832627b4f6"></div>
-
-### test
-
-* :warning: <a href="library/test/matrix_test.cpp.html">test/matrix_test.cpp</a>
-
-
 ## Verify Files
 
 * :heavy_check_mark: <a href="verify/test/enumerate_divisors.test.cpp.html">test/enumerate_divisors.test.cpp</a>
@@ -119,6 +112,7 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/fenwick_tree.test.cpp.html">test/fenwick_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/fft.test.cpp.html">test/fft.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/matrix.test.cpp.html">test/matrix.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/ntt_arbitrary_mod.test.cpp.html">test/ntt_arbitrary_mod.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/ntt_arbitrary_runtimemod.test.cpp.html">test/ntt_arbitrary_runtimemod.test.cpp</a>
