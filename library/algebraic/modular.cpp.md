@@ -40,6 +40,7 @@ layout: default
 
 * :heavy_check_mark: <a href="ntt.cpp.html">Number Theoretic Transform</a>
 * :heavy_check_mark: <a href="ntt_arbitrary.cpp.html">Number Theoretic Transform (arbitrary mod)</a>
+* :warning: <a href="../test/matrix_test.cpp.html">test/matrix_test.cpp</a>
 
 
 ## Verified with
