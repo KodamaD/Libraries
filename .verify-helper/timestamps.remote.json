@@ -6,6 +6,7 @@
 "test/fenwick_tree.test.cpp": "2020-07-05 19:22:30 +0900",
 "test/fft.test.cpp": "2020-07-05 19:22:30 +0900",
 "test/lazy_propagation_segment_tree.test.cpp": "2020-07-05 19:22:30 +0900",
+"test/matrix.test.cpp": "2020-07-11 00:00:50 +0900",
 "test/ntt.test.cpp": "2020-07-05 19:22:30 +0900",
 "test/ntt_arbitrary_mod.test.cpp": "2020-07-05 19:22:30 +0900",
 "test/ntt_arbitrary_runtimemod.test.cpp": "2020-07-05 19:42:48 +0900",
