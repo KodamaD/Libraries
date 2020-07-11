@@ -29,3 +29,7 @@ std::vector<size_t> z_algorithm(InputIterator first, InputIterator last) {
   }
   return result;
 }
+
+/**
+ * @title Z-Algorithm
+ */

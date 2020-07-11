@@ -4,16 +4,17 @@
 #include <cstdint>
 #include <vector>
 #include <string>
-#include <ctime>
+#include <chrono>
 
 template <class Base>
 class hash_string {
 public:
-  using mod_type = uint64_t;
+  using mod_type  = uint64_t;
   using base_type = uint32_t;
   using size_type = size_t;
+
   static constexpr mod_type mod = (mod_type(1) << 61) - 1;
-  static base_type base() { return Base::value; }
+  static base_type base() { return Base::value(); }
 
 private:
   std::string M_string;
@@ -21,9 +22,10 @@ private:
 
 public:
   hash_string() { initialize(); }
-  hash_string(const std::string &initial_) { construct(initial_);}
+  hash_string(const std::string &initial_) { construct(initial_); }
 
   void initialize() {
+    clear();
     M_string = "";
     M_power.assign(1, 1);
     M_hash.assign(1, 0);
@@ -45,16 +47,6 @@ public:
     }
   }
 
-  size_type size() const {
-    return M_string.size();
-  }
-  bool empty() const {
-    return M_string.empty();
-  }
-  const std::string &get() const {
-    return M_string;
-  }
-  
   mod_type hash(size_type l, size_type r) const {
     return (M_hash[r] + mod - ((__uint128_t) M_power[r - l] * M_hash[l]) % mod) % mod;
   }
@@ -67,7 +59,37 @@ public:
     return ok;
   }
 
+  const std::string &get() const {
+    return M_string;
+  }
+  size_type size() const {
+    return M_string.size();
+  }
+  bool empty() const {
+    return M_string.empty();
+  }
+  void clear() {
+    M_string.clear();
+    M_string.shrink_to_fit();
+    M_power.clear();
+    M_power.shrink_to_fit();
+    M_hash.clear();
+    M_hash.shrink_to_fit();
+  }
+
 };
 
-struct rolling_hash_base { static inline const uint32_t value = std::clock() ^ std::time(nullptr); };
+struct rolling_hash_base {
+  static uint32_t &value() {
+    static uint32_t base = [] {
+      auto time_point = std::chrono::system_clock::now();
+      return time_point.time_since_epoch().count();
+    }();
+    return base;
+  }
+};
 using rolling_hash = hash_string<rolling_hash_base>;
+
+/**
+ * @title Rolling Hash
+ */

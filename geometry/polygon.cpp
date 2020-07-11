@@ -1,6 +1,6 @@
 #pragma once
 
-#include "figures.cpp"
+#include "../geometry/figures.cpp"
 #include <cstddef>
 #include <vector>
 #include <numeric>
@@ -63,3 +63,7 @@ std::vector<size_t> convex_hull(const polygon<T> &poly) {
   res.shrink_to_fit();
   return res;
 }
+
+/**
+ * @title 2D Polygons
+ */

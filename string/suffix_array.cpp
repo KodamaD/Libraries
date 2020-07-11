@@ -5,22 +5,25 @@
 #include <numeric>
 #include <algorithm>
 
-template <class Container>
+template <class T>
 class suffix_array {
 public:
-  using container_type = Container;
-  using size_type = size_t;
+  using value_type = T;
+  using size_type  = size_t;
 
 private:
-  container_type M_data;
+  std::vector<value_type> M_data;
   std::vector<size_type> M_array, M_rank;
 
 public:
   suffix_array() = default;
-  explicit suffix_array(const container_type &data) { construct(data); } 
+  template <class InputIterator>
+  explicit suffix_array(InputIterator first, InputIterator last) { construct(first, last); } 
 
-  void construct(const container_type &data) { 
-    M_data = data;
+  template <class InputIterator>
+  void construct(InputIterator first, InputIterator last) { 
+    clear();
+    M_data = std::vector<typename InputIterator::value_type>(first, last);
     M_array.assign(size() + 1, 0);
     M_rank.assign(size() + 1, 0);
     M_array.front() = size();
@@ -47,9 +50,7 @@ public:
       for (size_type i = 1; i <= size(); ++i) {
         copy[M_array[i]] = copy[M_array[i - 1]] + (compare(M_array[i - 1], M_array[i]) ? 1 : 0);
       }
-      for (size_type i = 0; i <= size(); ++i) {
-        M_rank[i] = copy[i];
-      }
+      std::copy(copy.begin(), copy.end(), M_rank.begin());
     }
   }
 
@@ -59,11 +60,24 @@ public:
   size_type rank(size_type i) const {
     return M_rank[i];
   }
+
+  std::vector<value_type> &get() const {
+    return M_data;
+  }
   size_type size() const {
     return M_data.size();
   }
-  const container_type &get() const {
-    return M_data;
+  void clear() {
+    M_data.clear();
+    M_data.shrink_to_fit();
+    M_array.clear();
+    M_array.shrink_to_fit();
+    M_rank.clear();
+    M_rank.shrink_to_fit();
   }
 
 };
+
+/**
+ * @title Suffix Array
+ */

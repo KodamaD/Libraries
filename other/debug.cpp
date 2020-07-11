@@ -161,3 +161,7 @@ struct debug_support {
 #define show_c(...) ((void) 0)
 #define show_e() ((void) 0)
 #endif
+
+/**
+ * @title Debugger
+ */

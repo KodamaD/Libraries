@@ -15,3 +15,7 @@ struct multi_array_impl<T, N> {
 
 template <class T, size_t N, size_t... Seq>
 using multi_array = typename multi_array_impl<T, N, Seq...>::type; 
+
+/**
+ * @title Multi-Dimensional Array
+ */

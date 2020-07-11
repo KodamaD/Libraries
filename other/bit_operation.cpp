@@ -40,3 +40,7 @@ constexpr uint32_t bit_reverse_32(uint32_t x) {
   x = ((x >>  1) &  b1) | ((x &  b1) <<  1);
   return x;
 }
+
+/**
+ * @title Bit Operations
+ */

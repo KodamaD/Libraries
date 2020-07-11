@@ -189,3 +189,7 @@ namespace fast_io {
   };
 
 };
+
+/**
+ * @title Fast Input/Output
+ */
