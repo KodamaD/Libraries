@@ -25,20 +25,21 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: Union Find
+# :heavy_check_mark: test/union_find.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
-* category: <a href="../../index.html#f8b0b924ebd7046dbfa85a856e4682c8">graph</a>
-* <a href="{{ site.github.repository_url }}/blob/master/graph/union_find.cpp">View this file on GitHub</a>
+* category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
+* <a href="{{ site.github.repository_url }}/blob/master/test/union_find.test.cpp">View this file on GitHub</a>
     - Last commit date: 2020-07-11 19:42:18+09:00
 
 
+* see: <a href="https://judge.yosupo.jp/problem/unionfind">https://judge.yosupo.jp/problem/unionfind</a>
 
 
-## Verified with
+## Depends on
 
-* :heavy_check_mark: <a href="../../verify/test/union_find.test.cpp.html">test/union_find.test.cpp</a>
+* :heavy_check_mark: <a href="../../library/graph/union_find.cpp.html">Union Find</a>
 
 
 ## Code
@@ -46,92 +47,40 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-#pragma once
+
+#define PROBLEM "https://judge.yosupo.jp/problem/unionfind"
+
+#include "../graph/union_find.cpp"
 
 #include <cstddef>
-#include <vector>
-#include <utility>
+#include <iostream>
 
-class union_find {
-public:
-  using size_type = size_t;
-
-private:
-  class node_type {
-  public:
-    size_type parent, size;
-    node_type(size_type parent, size_type size): 
-      parent(parent), size(size) 
-    { }
-  };
-
-  size_type M_components;
-  std::vector<node_type> M_forest;
-
-public:
-  union_find() = default;
-  explicit union_find(size_type size) { initialize(size); }
-
-  void initialize(size_type size) {
-    clear();
-    M_components = size;
-    M_forest.reserve(size);
-    for (size_type index = 0; index < size; ++index) {
-      M_forest.emplace_back(index, 1);
+int main() {
+  size_t N, Q;
+  std::cin >> N >> Q;
+  union_find dsu(N);
+  while (Q--) {
+    size_t t, u, v;
+    std::cin >> t >> u >> v;
+    if (t == 0) {
+      dsu.unite(u, v);
+    }
+    else {
+      std::cout << dsu.same_component(u, v) << '\n';
     }
   }
+}
 
-  size_type find_parent(size_type node) {
-    size_type &parent = M_forest[node].parent;
-    if (node == parent) return node;
-    return parent = find_parent(parent);
-  }
-  size_type count_components() const { 
-    return M_components; 
-  }
-  size_type component_size(size_type node) { 
-    return M_forest[find_parent(node)].size;
-  }
-
-  bool unite(size_type node1, size_type node2) {
-    node1 = find_parent(node1);
-    node2 = find_parent(node2);
-    if (node1 == node2) return false;
-    if (M_forest[node1].size < M_forest[node2].size) {
-      std::swap(node1, node2);
-    }
-    M_forest[node1].size += M_forest[node2].size;
-    M_forest[node2].parent = node1;
-    --M_components;
-    return true;
-  }
-  bool same_component(size_type node1, size_type node2) { 
-    return find_parent(node1) == find_parent(node2); 
-  }
-
-  size_type size() const {
-    return M_forest.size();
-  }
-  bool empty() const {
-    return M_forest.empty();
-  }
-  void clear() {
-    M_components = 0;
-    M_forest.clear();
-    M_forest.shrink_to_fit();
-  }
-
-};
-
-/**
- * @title Union Find
- */
 ```
 {% endraw %}
 
 <a id="bundled"></a>
 {% raw %}
 ```cpp
+#line 1 "test/union_find.test.cpp"
+
+#define PROBLEM "https://judge.yosupo.jp/problem/unionfind"
+
 #line 2 "graph/union_find.cpp"
 
 #include <cstddef>
@@ -212,6 +161,26 @@ public:
 /**
  * @title Union Find
  */
+#line 5 "test/union_find.test.cpp"
+
+#line 7 "test/union_find.test.cpp"
+#include <iostream>
+
+int main() {
+  size_t N, Q;
+  std::cin >> N >> Q;
+  union_find dsu(N);
+  while (Q--) {
+    size_t t, u, v;
+    std::cin >> t >> u >> v;
+    if (t == 0) {
+      dsu.unite(u, v);
+    }
+    else {
+      std::cout << dsu.same_component(u, v) << '\n';
+    }
+  }
+}
 
 ```
 {% endraw %}

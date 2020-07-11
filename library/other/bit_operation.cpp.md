@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: other/bit_operation.cpp
+# :heavy_check_mark: Bit Operations
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/bit_operation.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 16:35:04+09:00
+    - Last commit date: 2020-07-11 19:42:18+09:00
 
 
 
@@ -41,14 +41,14 @@ layout: default
 * :heavy_check_mark: <a href="../algebraic/fft.cpp.html">Fast Fourier Transform</a>
 * :heavy_check_mark: <a href="../algebraic/ntt.cpp.html">Number Theoretic Transform</a>
 * :heavy_check_mark: <a href="../algebraic/ntt_arbitrary.cpp.html">Number Theoretic Transform (arbitrary mod)</a>
-* :warning: <a href="../container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
+* :heavy_check_mark: <a href="../container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
 * :heavy_check_mark: <a href="../container/fenwick_tree.cpp.html">Fenwick Tree</a>
 * :heavy_check_mark: <a href="../container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
-* :warning: <a href="../container/li_chao_tree.cpp.html">Li-Chao Tree</a>
 
 
 ## Verified with
 
+* :heavy_check_mark: <a href="../../verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/fenwick_tree.test.cpp.html">test/fenwick_tree.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/fft.test.cpp.html">test/fft.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
@@ -105,6 +105,9 @@ constexpr uint32_t bit_reverse_32(uint32_t x) {
   return x;
 }
 
+/**
+ * @title Bit Operations
+ */
 ```
 {% endraw %}
 
@@ -153,6 +156,10 @@ constexpr uint32_t bit_reverse_32(uint32_t x) {
   x = ((x >>  1) &  b1) | ((x &  b1) <<  1);
   return x;
 }
+
+/**
+ * @title Bit Operations
+ */
 
 ```
 {% endraw %}

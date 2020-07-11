@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/z_algorithm.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-05 10:33:15+09:00
+    - Last commit date: 2020-07-11 19:42:18+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/zalgorithm">https://judge.yosupo.jp/problem/zalgorithm</a>
@@ -39,7 +39,7 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/string/z_algorithm.cpp.html">string/z_algorithm.cpp</a>
+* :heavy_check_mark: <a href="../../library/string/z_algorithm.cpp.html">Z-Algorithm</a>
 
 
 ## Code
@@ -108,6 +108,10 @@ std::vector<size_t> z_algorithm(InputIterator first, InputIterator last) {
   }
   return result;
 }
+
+/**
+ * @title Z-Algorithm
+ */
 #line 5 "test/z_algorithm.test.cpp"
 
 #line 8 "test/z_algorithm.test.cpp"

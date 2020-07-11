@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: other/gen_vec.cpp
+# :warning: Multi-Dimensional Vector
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/gen_vec.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 16:35:04+09:00
+    - Last commit date: 2020-07-11 19:42:18+09:00
 
 
 
@@ -48,15 +48,18 @@ layout: default
 #include <type_traits>
 
 template <class T, size_t N, size_t I = 0>
-decltype(auto) gen_vec(const size_t (&)[N], typename std::enable_if<(I == N), const T&>::type value = T{}) { 
+decltype(auto) multi_vec(const size_t (&)[N], typename std::enable_if<(I == N), const T&>::type value = T{}) { 
   return value; 
 }
 
 template <class T, size_t N, size_t I = 0>
-decltype(auto) gen_vec(const size_t (&list)[N], typename std::enable_if<(I != N), const T&>::type value = T{}) { 
-  return std::vector(list[I], gen_vec<T, N, I + 1>(list, value)); 
+decltype(auto) multi_vec(const size_t (&list)[N], typename std::enable_if<(I != N), const T&>::type value = T{}) { 
+  return std::vector(list[I], multi_vec<T, N, I + 1>(list, value)); 
 }
 
+/**
+ * @title Multi-Dimensional Vector
+ */
 ```
 {% endraw %}
 
@@ -70,14 +73,18 @@ decltype(auto) gen_vec(const size_t (&list)[N], typename std::enable_if<(I != N)
 #include <type_traits>
 
 template <class T, size_t N, size_t I = 0>
-decltype(auto) gen_vec(const size_t (&)[N], typename std::enable_if<(I == N), const T&>::type value = T{}) { 
+decltype(auto) multi_vec(const size_t (&)[N], typename std::enable_if<(I == N), const T&>::type value = T{}) { 
   return value; 
 }
 
 template <class T, size_t N, size_t I = 0>
-decltype(auto) gen_vec(const size_t (&list)[N], typename std::enable_if<(I != N), const T&>::type value = T{}) { 
-  return std::vector(list[I], gen_vec<T, N, I + 1>(list, value)); 
+decltype(auto) multi_vec(const size_t (&list)[N], typename std::enable_if<(I != N), const T&>::type value = T{}) { 
+  return std::vector(list[I], multi_vec<T, N, I + 1>(list, value)); 
 }
+
+/**
+ * @title Multi-Dimensional Vector
+ */
 
 ```
 {% endraw %}

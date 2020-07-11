@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/ntt_arbitrary_runtimemod.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-05 19:42:48+09:00
+    - Last commit date: 2020-07-11 19:42:18+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/convolution_mod_1000000007">https://judge.yosupo.jp/problem/convolution_mod_1000000007</a>
@@ -43,7 +43,7 @@ layout: default
 * :heavy_check_mark: <a href="../../library/algebraic/ntt.cpp.html">Number Theoretic Transform</a>
 * :heavy_check_mark: <a href="../../library/algebraic/ntt_arbitrary.cpp.html">Number Theoretic Transform (arbitrary mod)</a>
 * :heavy_check_mark: <a href="../../library/algebraic/runtime_modular.cpp.html">Modint (runtime mod)</a>
-* :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
+* :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
 
 
 ## Code
@@ -226,6 +226,10 @@ constexpr uint32_t bit_reverse_32(uint32_t x) {
   x = ((x >>  1) &  b1) | ((x &  b1) <<  1);
   return x;
 }
+
+/**
+ * @title Bit Operations
+ */
 #line 6 "algebraic/ntt.cpp"
 #include <vector>
 #include <array>

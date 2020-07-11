@@ -52,10 +52,9 @@ layout: default
 ### container
 
 * :heavy_check_mark: <a href="library/container/bit_vector.cpp.html">Succinct Bit Vector</a>
-* :warning: <a href="library/container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
+* :heavy_check_mark: <a href="library/container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
 * :heavy_check_mark: <a href="library/container/fenwick_tree.cpp.html">Fenwick Tree</a>
 * :heavy_check_mark: <a href="library/container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
-* :warning: <a href="library/container/li_chao_tree.cpp.html">Li-Chao Tree</a>
 * :heavy_check_mark: <a href="library/container/matrix.cpp.html">Matrix</a>
 * :warning: <a href="library/container/randomized_queue.cpp.html">Randomized Queue</a>
 * :heavy_check_mark: <a href="library/container/segment_tree.cpp.html">Segment Tree</a>
@@ -67,9 +66,9 @@ layout: default
 
 ### geometry
 
-* :warning: <a href="library/geometry/constants.cpp.html">geometry/constants.cpp</a>
-* :warning: <a href="library/geometry/figures.cpp.html">geometry/figures.cpp</a>
-* :warning: <a href="library/geometry/polygon.cpp.html">geometry/polygon.cpp</a>
+* :warning: <a href="library/geometry/constants.cpp.html">Geometric Constants</a>
+* :warning: <a href="library/geometry/figures.cpp.html">2D Figures</a>
+* :warning: <a href="library/geometry/polygon.cpp.html">2D Polygons</a>
 
 
 <div id="f8b0b924ebd7046dbfa85a856e4682c8"></div>
@@ -78,33 +77,34 @@ layout: default
 
 * :warning: <a href="library/graph/heavy_light_decomposition.cpp.html">graph/heavy_light_decomposition.cpp</a>
 * :warning: <a href="library/graph/partially_persistent_union_find.cpp.html">graph/partially_persistent_union_find.cpp</a>
-* :warning: <a href="library/graph/union_find.cpp.html">graph/union_find.cpp</a>
+* :heavy_check_mark: <a href="library/graph/union_find.cpp.html">Union Find</a>
 
 
 <div id="795f3202b17cb6bc3d4b771d8c6c9eaf"></div>
 
 ### other
 
-* :heavy_check_mark: <a href="library/other/bit_operation.cpp.html">other/bit_operation.cpp</a>
-* :warning: <a href="library/other/debug.cpp.html">other/debug.cpp</a>
-* :heavy_check_mark: <a href="library/other/fast_io.cpp.html">other/fast_io.cpp</a>
-* :heavy_check_mark: <a href="library/other/fix_point.cpp.html">other/fix_point.cpp</a>
-* :warning: <a href="library/other/gen_vec.cpp.html">other/gen_vec.cpp</a>
-* :warning: <a href="library/other/multi_array.cpp.html">other/multi_array.cpp</a>
-* :warning: <a href="library/other/template.cpp.html">other/template.cpp</a>
+* :heavy_check_mark: <a href="library/other/bit_operation.cpp.html">Bit Operations</a>
+* :warning: <a href="library/other/debug.cpp.html">Debugger</a>
+* :heavy_check_mark: <a href="library/other/fast_io.cpp.html">Fast Input/Output</a>
+* :heavy_check_mark: <a href="library/other/fix_point.cpp.html">Lambda Recursion</a>
+* :warning: <a href="library/other/gen_vec.cpp.html">Multi-Dimensional Vector</a>
+* :warning: <a href="library/other/multi_array.cpp.html">Multi-Dimensional Array</a>
+* :warning: <a href="library/other/template.cpp.html">Template</a>
 
 
 <div id="b45cffe084dd3d20d928bee85e7b0f21"></div>
 
 ### string
 
-* :warning: <a href="library/string/rolling_hash.cpp.html">string/rolling_hash.cpp</a>
-* :warning: <a href="library/string/suffix_array.cpp.html">string/suffix_array.cpp</a>
-* :heavy_check_mark: <a href="library/string/z_algorithm.cpp.html">string/z_algorithm.cpp</a>
+* :warning: <a href="library/string/rolling_hash.cpp.html">Rolling Hash</a>
+* :heavy_check_mark: <a href="library/string/suffix_array.cpp.html">Suffix Array</a>
+* :heavy_check_mark: <a href="library/string/z_algorithm.cpp.html">Z-Algorithm</a>
 
 
 ## Verify Files
 
+* :heavy_check_mark: <a href="verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/enumerate_divisors.test.cpp.html">test/enumerate_divisors.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/enumerate_factors.test.cpp.html">test/enumerate_factors.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/factorials.test.cpp.html">test/factorials.test.cpp</a>
@@ -118,6 +118,8 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/ntt_arbitrary_runtimemod.test.cpp.html">test/ntt_arbitrary_runtimemod.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/sliding_window_aggregation.test.cpp.html">test/sliding_window_aggregation.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/suffix_array.test.cpp.html">test/suffix_array.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/union_find.test.cpp.html">test/union_find.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/wavelet_matrix_quantile.test.cpp.html">test/wavelet_matrix_quantile.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/z_algorithm.test.cpp.html">test/z_algorithm.test.cpp</a>
 

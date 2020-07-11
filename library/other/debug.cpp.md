@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: other/debug.cpp
+# :warning: Debugger
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/debug.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-11 09:55:13+09:00
+    - Last commit date: 2020-07-11 19:42:18+09:00
 
 
 
@@ -205,6 +205,9 @@ struct debug_support {
 #define show_e() ((void) 0)
 #endif
 
+/**
+ * @title Debugger
+ */
 ```
 {% endraw %}
 
@@ -374,6 +377,10 @@ struct debug_support {
 #define show_c(...) ((void) 0)
 #define show_e() ((void) 0)
 #endif
+
+/**
+ * @title Debugger
+ */
 
 ```
 {% endraw %}

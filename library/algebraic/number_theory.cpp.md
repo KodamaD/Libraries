@@ -31,14 +31,14 @@ layout: default
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/number_theory.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-05 19:22:30+09:00
+    - Last commit date: 2020-07-11 19:42:18+09:00
 
 
 
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../other/fix_point.cpp.html">other/fix_point.cpp</a>
+* :heavy_check_mark: <a href="../other/fix_point.cpp.html">Lambda Recursion</a>
 
 
 ## Verified with
@@ -284,6 +284,10 @@ template <class Func>
 constexpr decltype(auto) make_fix_point(Func &&func) {
   return fix_point<Func>(std::forward<Func>(func));
 }
+
+/**
+ * @title Lambda Recursion
+ */
 #line 4 "algebraic/number_theory.cpp"
 #include <cstddef>
 #include <cstdint>

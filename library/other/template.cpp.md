@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: other/template.cpp
+# :warning: Template
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-03 23:58:07+09:00
+    - Last commit date: 2020-07-11 19:42:18+09:00
 
 
 
@@ -104,6 +104,9 @@ int main() {
   return 0;
 }
 
+/**
+ * @title Template
+ */
 ```
 {% endraw %}
 
@@ -173,6 +176,10 @@ int main() {
   
   return 0;
 }
+
+/**
+ * @title Template
+ */
 
 ```
 {% endraw %}

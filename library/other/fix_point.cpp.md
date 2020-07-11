@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: other/fix_point.cpp
+# :heavy_check_mark: Lambda Recursion
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/fix_point.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-05 10:24:52+09:00
+    - Last commit date: 2020-07-11 19:42:18+09:00
 
 
 
@@ -70,6 +70,9 @@ constexpr decltype(auto) make_fix_point(Func &&func) {
   return fix_point<Func>(std::forward<Func>(func));
 }
 
+/**
+ * @title Lambda Recursion
+ */
 ```
 {% endraw %}
 
@@ -93,6 +96,10 @@ template <class Func>
 constexpr decltype(auto) make_fix_point(Func &&func) {
   return fix_point<Func>(std::forward<Func>(func));
 }
+
+/**
+ * @title Lambda Recursion
+ */
 
 ```
 {% endraw %}

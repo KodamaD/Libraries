@@ -25,25 +25,25 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: geometry/figures.cpp
+# :warning: 2D Figures
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#ed7daeb157cd9b31e53896ad3c771a26">geometry</a>
 * <a href="{{ site.github.repository_url }}/blob/master/geometry/figures.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 16:35:04+09:00
+    - Last commit date: 2020-07-11 19:42:18+09:00
 
 
 
 
 ## Depends on
 
-* :warning: <a href="constants.cpp.html">geometry/constants.cpp</a>
+* :warning: <a href="constants.cpp.html">Geometric Constants</a>
 
 
 ## Required by
 
-* :warning: <a href="polygon.cpp.html">geometry/polygon.cpp</a>
+* :warning: <a href="polygon.cpp.html">2D Polygons</a>
 
 
 ## Code
@@ -53,7 +53,7 @@ layout: default
 ```cpp
 #pragma once
 
-#include "constants.cpp"
+#include "../geometry/constants.cpp"
 
 template <class T>
 struct vector_type {
@@ -85,22 +85,31 @@ template <class T>
 std::ostream& operator << (std::ostream& os, const vector_type<T> &v) { return os << v.x << ' ' <<  v.y; }
 
 template <class T>
-T norm(const vector_type<T> &v) { return v.x * v.x + v.y * v.y; }
+T norm(const vector_type<T> &v) { 
+  return v.x * v.x + v.y * v.y; 
+}
 template <class T>
-T abs(const vector_type<T> &v) { return std::sqrt(norm(v)); }
+T absolute(const vector_type<T> &v) { 
+  return std::sqrt(norm(v));
+}
 template <class T>
-T argr(const vector_type<T> &v) {  
+T argument(const vector_type<T> &v) {  
   auto res = std::atan2(v.y, v.x); 
   return res < 0 ? res + 2 * real_constant<T>::pi() : res;
 }
+
 template <class T>
-T argd(const vector_type<T> &v) { return argr(v) * 180 / real_constant<T>::pi(); }
+T distance(const vector_type<T> &v, const vector_type<T> &u) { 
+  return absolute(v - u); 
+}
 template <class T>
-T distance(const vector_type<T> &v, const vector_type<T> &u) { return abs(v - u); }
+T dot(const vector_type<T> &v, const vector_type<T> &u) { 
+  return v.x * u.x + v.y * u.y; 
+}
 template <class T>
-T dot(const vector_type<T> &v, const vector_type<T> &u) { return v.x * u.x + v.y * u.y; }
-template <class T>
-T cross(const vector_type<T> &v, const vector_type<T> &u) { return v.x * u.y - v.y * u.x; }
+T cross(const vector_type<T> &v, const vector_type<T> &u) { 
+  return v.x * u.y - v.y * u.x; 
+}
 
 template <class T>
 size_t orthan(const vector_type<T> &v) {
@@ -109,6 +118,11 @@ size_t orthan(const vector_type<T> &v) {
   if (v.x < 0 && v.y <= 0) return 2;
   if (v.x >= 0 && v.y < 0) return 3;
   return 0;
+}
+
+template <class T>
+vector_type<T> polar(T rho, T theta = T()) {
+  return rho * vector_type<T>(std::cos(theta), std::sin(theta));
 }
 
 template <class T>
@@ -142,11 +156,17 @@ struct line_type {
 };
 
 template <class T>
-bool parallel(const line_type<T> &l, const line_type<T> &m) { return equal(l.a * m.b, l.b * m.a); };
+bool parallel(const line_type<T> &l, const line_type<T> &m) { 
+  return equal(l.a * m.b, l.b * m.a); 
+}
 template <class T>
-bool vertical(const line_type<T> &l, const line_type<T> &m) { return equal(l.a * m.a + l.b * m.b, 0); };
+bool vertical(const line_type<T> &l, const line_type<T> &m) { 
+  return equal(l.a * m.a + l.b * m.b, 0); 
+}
 template <class T>
-bool is_on(const line_type<T> &l, const vector_type<T> &v) { return equal(l.a * v.x + l.b * v.y + l.c, 0);}
+bool is_on(const line_type<T> &l, const vector_type<T> &v) { 
+  return equal(l.a * v.x + l.b * v.y + l.c, 0);
+}
 
 template <class T>
 vector_type<T> intersection(const line_type<T> &l, const line_type<T> &m) {
@@ -155,7 +175,9 @@ vector_type<T> intersection(const line_type<T> &l, const line_type<T> &m) {
   return vector_type<T>(x, y);
 }
 template <class T>
-vector_type<T> direction(const line_type<T> &l) { return vector_type<T>(-l.b, l.a); }
+vector_type<T> direction(const line_type<T> &l) { 
+  return vector_type<T>(-l.b, l.a); 
+}
 template <class T>
 vector_type<T> perpend(const line_type<T> &l, const vector_type<T> &v) {
   auto u = vector_type<T>(l.a, l.b);
@@ -174,7 +196,7 @@ vector_type<T> relfect(const line_type<T> &l, const vector_type<T> &v) {
 
 template <class T>
 T distance(const line_type<T> &l, const vector_type<T> &v) { 
-  return std::abs(l.a * v.x + l.b * v.y + l.c) / abs(vector_type<T>(l.a, l.b)); 
+  return std::abs(l.a * v.x + l.b * v.y + l.c) / absolute(vector_type<T>(l.a, l.b)); 
 }
 
 template <class T>
@@ -236,7 +258,7 @@ bool is_inside(const circle_type<T> &c, const vector_type<T> &v) {
 template <class T>
 std::vector<vector_type<T>> intersection(const circle_type<T> &c, const circle_type<T> &d) {
   auto v = d.cn - c.cn;
-  auto l = abs(v);
+  auto l = absolute(v);
   if (equal(l, 0)) return {};
   if (equal(l + c.rd + d.rd, std::max({ l, c.rd, d.rd }) * 2)) return { c.cn + v * (c.rd / l) };
   if (l + c.rd + d.rd < std::max({ l, c.rd, d.rd }) * 2) return {};
@@ -252,10 +274,13 @@ std::vector<vector_type<T>> intersection(const circle_type<T> &c, const line_typ
   if (is_on(c, v)) return { v };
   if (!is_inside(c, v)) return {};
   auto u = direction(l);
-  auto d = std::sqrt(c.rd * c.rd - norm(v - c.cn)) / abs(u);
+  auto d = std::sqrt(c.rd * c.rd - norm(v - c.cn)) / absolute(u);
   return { v + u * d, v - u * d };
 }
 
+/**
+ * @title 2D Figures
+ */
 ```
 {% endraw %}
 
@@ -288,6 +313,14 @@ struct real_constant<long double> {
 };
 
 template <>
+struct real_constant<__float128> {
+  using value_type = __float128;
+  static constexpr value_type infinity() { return 1e18; }
+  static constexpr value_type epsilon() { return 1e-10; }
+  static constexpr value_type pi() { return std::acos(-1.0L); }
+};
+
+template <>
 struct real_constant<int32_t> {
   using value_type = int32_t;
   static constexpr value_type infinity() { return 1e9; }
@@ -313,6 +346,19 @@ template <class T, class U>
 bool equal(T x, U y) {
   return leq(x, y) && geq(x, y);
 }
+
+template <class T>
+T to_radian(T deg) {
+  return deg * real_constant<T>::pi() / 180;
+}
+template <class T>
+T to_degree(T rad) {
+  return rad / real_constant<T>::pi() * 180;
+}
+
+/**
+ * @title Geometric Constants
+ */
 #line 4 "geometry/figures.cpp"
 
 template <class T>
@@ -345,22 +391,31 @@ template <class T>
 std::ostream& operator << (std::ostream& os, const vector_type<T> &v) { return os << v.x << ' ' <<  v.y; }
 
 template <class T>
-T norm(const vector_type<T> &v) { return v.x * v.x + v.y * v.y; }
+T norm(const vector_type<T> &v) { 
+  return v.x * v.x + v.y * v.y; 
+}
 template <class T>
-T abs(const vector_type<T> &v) { return std::sqrt(norm(v)); }
+T absolute(const vector_type<T> &v) { 
+  return std::sqrt(norm(v));
+}
 template <class T>
-T argr(const vector_type<T> &v) {  
+T argument(const vector_type<T> &v) {  
   auto res = std::atan2(v.y, v.x); 
   return res < 0 ? res + 2 * real_constant<T>::pi() : res;
 }
+
 template <class T>
-T argd(const vector_type<T> &v) { return argr(v) * 180 / real_constant<T>::pi(); }
+T distance(const vector_type<T> &v, const vector_type<T> &u) { 
+  return absolute(v - u); 
+}
 template <class T>
-T distance(const vector_type<T> &v, const vector_type<T> &u) { return abs(v - u); }
+T dot(const vector_type<T> &v, const vector_type<T> &u) { 
+  return v.x * u.x + v.y * u.y; 
+}
 template <class T>
-T dot(const vector_type<T> &v, const vector_type<T> &u) { return v.x * u.x + v.y * u.y; }
-template <class T>
-T cross(const vector_type<T> &v, const vector_type<T> &u) { return v.x * u.y - v.y * u.x; }
+T cross(const vector_type<T> &v, const vector_type<T> &u) { 
+  return v.x * u.y - v.y * u.x; 
+}
 
 template <class T>
 size_t orthan(const vector_type<T> &v) {
@@ -369,6 +424,11 @@ size_t orthan(const vector_type<T> &v) {
   if (v.x < 0 && v.y <= 0) return 2;
   if (v.x >= 0 && v.y < 0) return 3;
   return 0;
+}
+
+template <class T>
+vector_type<T> polar(T rho, T theta = T()) {
+  return rho * vector_type<T>(std::cos(theta), std::sin(theta));
 }
 
 template <class T>
@@ -402,11 +462,17 @@ struct line_type {
 };
 
 template <class T>
-bool parallel(const line_type<T> &l, const line_type<T> &m) { return equal(l.a * m.b, l.b * m.a); };
+bool parallel(const line_type<T> &l, const line_type<T> &m) { 
+  return equal(l.a * m.b, l.b * m.a); 
+}
 template <class T>
-bool vertical(const line_type<T> &l, const line_type<T> &m) { return equal(l.a * m.a + l.b * m.b, 0); };
+bool vertical(const line_type<T> &l, const line_type<T> &m) { 
+  return equal(l.a * m.a + l.b * m.b, 0); 
+}
 template <class T>
-bool is_on(const line_type<T> &l, const vector_type<T> &v) { return equal(l.a * v.x + l.b * v.y + l.c, 0);}
+bool is_on(const line_type<T> &l, const vector_type<T> &v) { 
+  return equal(l.a * v.x + l.b * v.y + l.c, 0);
+}
 
 template <class T>
 vector_type<T> intersection(const line_type<T> &l, const line_type<T> &m) {
@@ -415,7 +481,9 @@ vector_type<T> intersection(const line_type<T> &l, const line_type<T> &m) {
   return vector_type<T>(x, y);
 }
 template <class T>
-vector_type<T> direction(const line_type<T> &l) { return vector_type<T>(-l.b, l.a); }
+vector_type<T> direction(const line_type<T> &l) { 
+  return vector_type<T>(-l.b, l.a); 
+}
 template <class T>
 vector_type<T> perpend(const line_type<T> &l, const vector_type<T> &v) {
   auto u = vector_type<T>(l.a, l.b);
@@ -434,7 +502,7 @@ vector_type<T> relfect(const line_type<T> &l, const vector_type<T> &v) {
 
 template <class T>
 T distance(const line_type<T> &l, const vector_type<T> &v) { 
-  return std::abs(l.a * v.x + l.b * v.y + l.c) / abs(vector_type<T>(l.a, l.b)); 
+  return std::abs(l.a * v.x + l.b * v.y + l.c) / absolute(vector_type<T>(l.a, l.b)); 
 }
 
 template <class T>
@@ -496,7 +564,7 @@ bool is_inside(const circle_type<T> &c, const vector_type<T> &v) {
 template <class T>
 std::vector<vector_type<T>> intersection(const circle_type<T> &c, const circle_type<T> &d) {
   auto v = d.cn - c.cn;
-  auto l = abs(v);
+  auto l = absolute(v);
   if (equal(l, 0)) return {};
   if (equal(l + c.rd + d.rd, std::max({ l, c.rd, d.rd }) * 2)) return { c.cn + v * (c.rd / l) };
   if (l + c.rd + d.rd < std::max({ l, c.rd, d.rd }) * 2) return {};
@@ -512,9 +580,13 @@ std::vector<vector_type<T>> intersection(const circle_type<T> &c, const line_typ
   if (is_on(c, v)) return { v };
   if (!is_inside(c, v)) return {};
   auto u = direction(l);
-  auto d = std::sqrt(c.rd * c.rd - norm(v - c.cn)) / abs(u);
+  auto d = std::sqrt(c.rd * c.rd - norm(v - c.cn)) / absolute(u);
   return { v + u * d, v - u * d };
 }
+
+/**
+ * @title 2D Figures
+ */
 
 ```
 {% endraw %}

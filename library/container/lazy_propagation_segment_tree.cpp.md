@@ -31,14 +31,14 @@ layout: default
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/lazy_propagation_segment_tree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-05 19:22:30+09:00
+    - Last commit date: 2020-07-11 19:42:18+09:00
 
 
 
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../other/bit_operation.cpp.html">other/bit_operation.cpp</a>
+* :heavy_check_mark: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
 
 
 ## Verified with
@@ -254,6 +254,10 @@ constexpr uint32_t bit_reverse_32(uint32_t x) {
   x = ((x >>  1) &  b1) | ((x &  b1) <<  1);
   return x;
 }
+
+/**
+ * @title Bit Operations
+ */
 #line 5 "container/lazy_propagation_segment_tree.cpp"
 #include <vector>
 #include <iterator>

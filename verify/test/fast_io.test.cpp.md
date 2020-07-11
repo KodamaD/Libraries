@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/fast_io.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 16:43:37+09:00
+    - Last commit date: 2020-07-11 19:42:18+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/many_aplusb">https://judge.yosupo.jp/problem/many_aplusb</a>
@@ -39,7 +39,7 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/other/fast_io.cpp.html">other/fast_io.cpp</a>
+* :heavy_check_mark: <a href="../../library/other/fast_io.cpp.html">Fast Input/Output</a>
 
 
 ## Code
@@ -269,6 +269,10 @@ namespace fast_io {
   };
 
 };
+
+/**
+ * @title Fast Input/Output
+ */
 #line 5 "test/fast_io.test.cpp"
 
 #line 8 "test/fast_io.test.cpp"
