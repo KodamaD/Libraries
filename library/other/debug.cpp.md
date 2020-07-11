@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/debug.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 16:35:04+09:00
+    - Last commit date: 2020-07-11 09:55:13+09:00
 
 
 
@@ -131,13 +131,13 @@ struct debug_support {
     return std::string(str_width - s.size(), ' ') + s;
   }
 
-  template<typename T, typename _ = void>
+  template <class T, class U = void>
   struct has_iterator: public std::false_type {};
-  template<typename T>
+  template <class T>
   struct has_iterator<T, typename std::conditional<false, typename T::iterator, void>::type>: public std::true_type {};
 
   template <class T, class... Args>
-  typename std::enable_if<has_iterator<typename T::value_type>::value == true, std::string>::type 
+  typename std::enable_if<has_iterator<typename T::value_type>::value, std::string>::type 
   to_str_container(const T &x, const Args&... args) {
     std::string s;
     for (const auto &v: x) {
@@ -146,7 +146,7 @@ struct debug_support {
     return s + '\n';
   }
   template <class T, class... Args>
-  typename std::enable_if<has_iterator<typename T::value_type>::value == false, std::string>::type 
+  typename std::enable_if<!has_iterator<typename T::value_type>::value, std::string>::type 
   to_str_container(const T &x, const Args&... args) {
     std::string s = "{ ";
     bool f = false;
@@ -301,13 +301,13 @@ struct debug_support {
     return std::string(str_width - s.size(), ' ') + s;
   }
 
-  template<typename T, typename _ = void>
+  template <class T, class U = void>
   struct has_iterator: public std::false_type {};
-  template<typename T>
+  template <class T>
   struct has_iterator<T, typename std::conditional<false, typename T::iterator, void>::type>: public std::true_type {};
 
   template <class T, class... Args>
-  typename std::enable_if<has_iterator<typename T::value_type>::value == true, std::string>::type 
+  typename std::enable_if<has_iterator<typename T::value_type>::value, std::string>::type 
   to_str_container(const T &x, const Args&... args) {
     std::string s;
     for (const auto &v: x) {
@@ -316,7 +316,7 @@ struct debug_support {
     return s + '\n';
   }
   template <class T, class... Args>
-  typename std::enable_if<has_iterator<typename T::value_type>::value == false, std::string>::type 
+  typename std::enable_if<!has_iterator<typename T::value_type>::value, std::string>::type 
   to_str_container(const T &x, const Args&... args) {
     std::string s = "{ ";
     bool f = false;

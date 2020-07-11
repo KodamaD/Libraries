@@ -59,7 +59,7 @@ layout: default
 * :heavy_check_mark: <a href="library/container/matrix.cpp.html">Matrix</a>
 * :warning: <a href="library/container/randomized_queue.cpp.html">Randomized Queue</a>
 * :heavy_check_mark: <a href="library/container/segment_tree.cpp.html">Segment Tree</a>
-* :warning: <a href="library/container/sliding_window_aggregation.cpp.html">Sliding Window Aggregation</a>
+* :heavy_check_mark: <a href="library/container/sliding_window_aggregation.cpp.html">Sliding Window Aggregation</a>
 * :heavy_check_mark: <a href="library/container/wavelet_matrix.cpp.html">Wavelet Matrix</a>
 
 
@@ -117,6 +117,7 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/ntt_arbitrary_mod.test.cpp.html">test/ntt_arbitrary_mod.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/ntt_arbitrary_runtimemod.test.cpp.html">test/ntt_arbitrary_runtimemod.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/sliding_window_aggregation.test.cpp.html">test/sliding_window_aggregation.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/wavelet_matrix_quantile.test.cpp.html">test/wavelet_matrix_quantile.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/z_algorithm.test.cpp.html">test/z_algorithm.test.cpp</a>
 

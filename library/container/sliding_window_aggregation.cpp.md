@@ -25,15 +25,20 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: Sliding Window Aggregation
+# :heavy_check_mark: Sliding Window Aggregation
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/sliding_window_aggregation.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-05 19:22:30+09:00
+    - Last commit date: 2020-07-11 09:55:13+09:00
 
 
+
+
+## Verified with
+
+* :heavy_check_mark: <a href="../../verify/test/sliding_window_aggregation.test.cpp.html">test/sliding_window_aggregation.test.cpp</a>
 
 
 ## Code
@@ -45,6 +50,8 @@ layout: default
 
 #include <cstddef>
 #include <stack>
+#include <type_traits>
+#include <stdexcept>
 
 template <class SemiGroup>
 class sliding_window_aggregation {
@@ -55,27 +62,32 @@ public:
   using size_type       = size_t;
 
 private:
-  struct node_type {
+  template <class T, class U = void>
+  struct has_identity: public std::false_type {};
+  template <class T>
+  struct has_identity<T, typename std::conditional<false, decltype(T::identity()), void>::type>: public std::true_type {};
+
+  template <class T, typename std::enable_if<has_identity<T>::value, void>::type* = nullptr>
+  static typename T::type S_empty_exception() { return T::identity(); }
+  template <class T, typename std::enable_if<!has_identity<T>::value, void>::type* = nullptr>
+  static typename T::type S_empty_exception() { throw std::runtime_error("attempted to fold empty queue"); }
+
+  class node_type {
+  public:
     value_type value, sum;
     node_type(const value_type &value, const value_type &sum): value(value), sum(sum) { }
   };
+
   std::stack<node_type> M_front, M_back;
 
 public:
   sliding_window_aggregation(): M_front(), M_back() { }
 
   value_type fold() const {
+    if (empty()) return S_empty_exception<value_semigroup>();
     if (M_front.empty()) return M_back.top().sum;
     else if (M_back.empty()) return M_front.top().sum;
     return value_semigroup::operation(M_front.top().sum, M_back.top().sum);
-  }
-
-  size_type size() const {
-    return M_front.size() + M_back.size();
-  }
-  
-  bool empty() const {
-    return M_front.empty() && M_back.empty();
   }
 
   void push(const value_type &x) {
@@ -85,7 +97,6 @@ public:
       M_back.emplace(x, tmp);
     }
   }
-
   void pop() {
     if (M_front.empty()) {
       M_front.emplace(M_back.top().value, M_back.top().value);
@@ -97,6 +108,13 @@ public:
       }
     }
     M_front.pop();
+  }
+
+  size_type size() const {
+    return M_front.size() + M_back.size();
+  }
+  bool empty() const {
+    return M_front.empty() && M_back.empty();
   }
 
 };
@@ -114,6 +132,8 @@ public:
 
 #include <cstddef>
 #include <stack>
+#include <type_traits>
+#include <stdexcept>
 
 template <class SemiGroup>
 class sliding_window_aggregation {
@@ -124,27 +144,32 @@ public:
   using size_type       = size_t;
 
 private:
-  struct node_type {
+  template <class T, class U = void>
+  struct has_identity: public std::false_type {};
+  template <class T>
+  struct has_identity<T, typename std::conditional<false, decltype(T::identity()), void>::type>: public std::true_type {};
+
+  template <class T, typename std::enable_if<has_identity<T>::value, void>::type* = nullptr>
+  static typename T::type S_empty_exception() { return T::identity(); }
+  template <class T, typename std::enable_if<!has_identity<T>::value, void>::type* = nullptr>
+  static typename T::type S_empty_exception() { throw std::runtime_error("attempted to fold empty queue"); }
+
+  class node_type {
+  public:
     value_type value, sum;
     node_type(const value_type &value, const value_type &sum): value(value), sum(sum) { }
   };
+
   std::stack<node_type> M_front, M_back;
 
 public:
   sliding_window_aggregation(): M_front(), M_back() { }
 
   value_type fold() const {
+    if (empty()) return S_empty_exception<value_semigroup>();
     if (M_front.empty()) return M_back.top().sum;
     else if (M_back.empty()) return M_front.top().sum;
     return value_semigroup::operation(M_front.top().sum, M_back.top().sum);
-  }
-
-  size_type size() const {
-    return M_front.size() + M_back.size();
-  }
-  
-  bool empty() const {
-    return M_front.empty() && M_back.empty();
   }
 
   void push(const value_type &x) {
@@ -154,7 +179,6 @@ public:
       M_back.emplace(x, tmp);
     }
   }
-
   void pop() {
     if (M_front.empty()) {
       M_front.emplace(M_back.top().value, M_back.top().value);
@@ -166,6 +190,13 @@ public:
       }
     }
     M_front.pop();
+  }
+
+  size_type size() const {
+    return M_front.size() + M_back.size();
+  }
+  bool empty() const {
+    return M_front.empty() && M_back.empty();
   }
 
 };

@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/matrix.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-11 00:00:50+09:00
+    - Last commit date: 2020-07-11 09:55:13+09:00
 
 
 * see: <a href="https://yukicoder.me/problems/no/1105">https://yukicoder.me/problems/no/1105</a>
@@ -200,10 +200,10 @@ public:
 template <class SemiRing>
 class matrix {
 public:
-  using structure       = SemiRing;
-  using value_structure = typename SemiRing::value_structure;
-  using value_type      = typename SemiRing::value_structure::type;
-  using size_type       = size_t;
+  using structure      = SemiRing;
+  using value_semiring = typename SemiRing::value_structure;
+  using value_type     = typename SemiRing::value_structure::type;
+  using size_type      = size_t;
 
 private:
   std::vector<std::vector<value_type>> M_matrix;
@@ -211,11 +211,11 @@ private:
 public:
   matrix() = default;
   explicit matrix(size_type H, size_type W, 
-    const value_type &value = value_structure::addition_identity()) { initialize(H, W, value); }
+    const value_type &value = value_semiring::addition_identity()) { initialize(H, W, value); }
   explicit matrix(const std::vector<std::vector<value_type>> &cont) { construct(cont); }
   explicit matrix(const std::initializer_list<std::initializer_list<value_type>> &cont) { construct(cont); }
 
-  void initialize(size_type H, size_type W, const value_type &value = value_structure::addition_identity()) {
+  void initialize(size_type H, size_type W, const value_type &value = value_semiring::addition_identity()) {
     clear();
     M_matrix.assign(H, std::vector<value_type>(W, value));
   }
@@ -242,7 +242,7 @@ public:
   matrix& operator += (const matrix &rhs) { 
     for (size_type i = 0; i < height(); ++i) {
       for (size_type j = 0; j < width(); ++j) {
-        M_matrix[i][j] = value_structure::addition(M_matrix[i][j], rhs.M_matrix[i][j]);
+        M_matrix[i][j] = value_semiring::addition(M_matrix[i][j], rhs.M_matrix[i][j]);
       }
     }
     return *this;
@@ -254,8 +254,8 @@ public:
     for (size_type i = 0; i < height(); ++i) {
       for (size_type k = 0; k < width(); ++k) {
         for (size_type j = 0; j < rhs.width(); ++j) {
-          res.M_matrix[i][j] = value_structure::addition(res.M_matrix[i][j], 
-            value_structure::multiplication(M_matrix[i][k], rhs.M_matrix[k][j]));
+          res.M_matrix[i][j] = value_semiring::addition(res.M_matrix[i][j], 
+            value_semiring::multiplication(M_matrix[i][k], rhs.M_matrix[k][j]));
         }
       }
     }
@@ -266,7 +266,7 @@ public:
   matrix& operator *= (const value_type &rhs)  { 
     for (auto &vec: M_matrix) {
       for (auto &x: vec) {
-        x = value_structure::multiplication(x, rhs);
+        x = value_semiring::multiplication(x, rhs);
       }
     }
     return *this;
@@ -275,7 +275,7 @@ public:
   matrix power(uint64_t exp) const {
     matrix res(height(), width()), use(*this);
     for (size_type i = 0; i < height(); ++i) {
-      res[i][i] = value_structure::multiplication_identity();
+      res[i][i] = value_semiring::multiplication_identity();
     }
     while (exp > 0) {
       if (exp & 1) {

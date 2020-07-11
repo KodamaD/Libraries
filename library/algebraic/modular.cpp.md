@@ -51,6 +51,7 @@ layout: default
 * :heavy_check_mark: <a href="../../verify/test/ntt_arbitrary_mod.test.cpp.html">test/ntt_arbitrary_mod.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/ntt_arbitrary_runtimemod.test.cpp.html">test/ntt_arbitrary_runtimemod.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/sliding_window_aggregation.test.cpp.html">test/sliding_window_aggregation.test.cpp</a>
 
 
 ## Code
