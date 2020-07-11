@@ -88,13 +88,13 @@ struct debug_support {
     return std::string(str_width - s.size(), ' ') + s;
   }
 
-  template<typename T, typename _ = void>
+  template <class T, class U = void>
   struct has_iterator: public std::false_type {};
-  template<typename T>
+  template <class T>
   struct has_iterator<T, typename std::conditional<false, typename T::iterator, void>::type>: public std::true_type {};
 
   template <class T, class... Args>
-  typename std::enable_if<has_iterator<typename T::value_type>::value == true, std::string>::type 
+  typename std::enable_if<has_iterator<typename T::value_type>::value, std::string>::type 
   to_str_container(const T &x, const Args&... args) {
     std::string s;
     for (const auto &v: x) {
@@ -103,7 +103,7 @@ struct debug_support {
     return s + '\n';
   }
   template <class T, class... Args>
-  typename std::enable_if<has_iterator<typename T::value_type>::value == false, std::string>::type 
+  typename std::enable_if<!has_iterator<typename T::value_type>::value, std::string>::type 
   to_str_container(const T &x, const Args&... args) {
     std::string s = "{ ";
     bool f = false;
