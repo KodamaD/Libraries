@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/bit_operation.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-11 19:42:18+09:00
+    - Last commit date: 2020-07-12 13:43:20+09:00
 
 
 
@@ -67,6 +67,10 @@ layout: default
 #include <cstddef>
 #include <cstdint>
 
+constexpr size_t popcount(const uint64_t x) {
+  return __builtin_popcountll(x);
+}
+
 constexpr size_t count_zero_right(const uint64_t x) {
   return x == 0 ? 64 : __builtin_ctzll(x);
 }
@@ -92,16 +96,11 @@ constexpr uint64_t next_power_of_two(const uint64_t x) {
 }
 
 constexpr uint32_t bit_reverse_32(uint32_t x) {
-  constexpr uint32_t b16 = 0b00000000000000001111111111111111;
-  constexpr uint32_t  b8 = 0b00000000111111110000000011111111;
-  constexpr uint32_t  b4 = 0b00001111000011110000111100001111;
-  constexpr uint32_t  b2 = 0b00110011001100110011001100110011;
-  constexpr uint32_t  b1 = 0b01010101010101010101010101010101;
-  x = ((x >> 16) & b16) | ((x & b16) << 16);
-  x = ((x >>  8) &  b8) | ((x &  b8) <<  8);
-  x = ((x >>  4) &  b4) | ((x &  b4) <<  4);
-  x = ((x >>  2) &  b2) | ((x &  b2) <<  2);
-  x = ((x >>  1) &  b1) | ((x &  b1) <<  1);
+  x = ((x >> 1) & 0x55555555) | ((x & 0x55555555) << 1);
+  x = ((x >> 2) & 0x33333333) | ((x & 0x33333333) << 2);
+  x = ((x >> 4) & 0x0F0F0F0F) | ((x & 0x0F0F0F0F) << 4);
+  x = ((x >> 8) & 0x00FF00FF) | ((x & 0x00FF00FF) << 8);
+  x = ( x >> 16             ) | ( x               << 16);
   return x;
 }
 
@@ -119,6 +118,10 @@ constexpr uint32_t bit_reverse_32(uint32_t x) {
 #include <cstddef>
 #include <cstdint>
 
+constexpr size_t popcount(const uint64_t x) {
+  return __builtin_popcountll(x);
+}
+
 constexpr size_t count_zero_right(const uint64_t x) {
   return x == 0 ? 64 : __builtin_ctzll(x);
 }
@@ -144,16 +147,11 @@ constexpr uint64_t next_power_of_two(const uint64_t x) {
 }
 
 constexpr uint32_t bit_reverse_32(uint32_t x) {
-  constexpr uint32_t b16 = 0b00000000000000001111111111111111;
-  constexpr uint32_t  b8 = 0b00000000111111110000000011111111;
-  constexpr uint32_t  b4 = 0b00001111000011110000111100001111;
-  constexpr uint32_t  b2 = 0b00110011001100110011001100110011;
-  constexpr uint32_t  b1 = 0b01010101010101010101010101010101;
-  x = ((x >> 16) & b16) | ((x & b16) << 16);
-  x = ((x >>  8) &  b8) | ((x &  b8) <<  8);
-  x = ((x >>  4) &  b4) | ((x &  b4) <<  4);
-  x = ((x >>  2) &  b2) | ((x &  b2) <<  2);
-  x = ((x >>  1) &  b1) | ((x &  b1) <<  1);
+  x = ((x >> 1) & 0x55555555) | ((x & 0x55555555) << 1);
+  x = ((x >> 2) & 0x33333333) | ((x & 0x33333333) << 2);
+  x = ((x >> 4) & 0x0F0F0F0F) | ((x & 0x0F0F0F0F) << 4);
+  x = ((x >> 8) & 0x00FF00FF) | ((x & 0x00FF00FF) << 8);
+  x = ( x >> 16             ) | ( x               << 16);
   return x;
 }
 

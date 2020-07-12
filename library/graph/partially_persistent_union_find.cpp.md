@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: graph/partially_persistent_union_find.cpp
+# :warning: Partially Persistent Union Find
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#f8b0b924ebd7046dbfa85a856e4682c8">graph</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/partially_persistent_union_find.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-04 16:35:04+09:00
+    - Last commit date: 2020-07-12 13:43:20+09:00
 
 
 
@@ -44,83 +44,116 @@ layout: default
 #pragma once
 
 #include <cstddef>
-#include <cstdint>
 #include <vector>
 #include <utility>
 #include <algorithm>
 
 class partially_persistent_union_find {
 public:
-  using size_type = int32_t;
-  static constexpr size_type inf = std::numeric_limits<size_type>::max();
+  using size_type = size_t;
+  using time_type = size_t;
+
+  static time_type far_future() {
+    return -1;
+  }
 
 private:
-  size_type size, last;
-  std::vector<size_type> parent, updated, component;
-  std::vector<std::vector<std::pair<size_type, size_type>>> history;
+  class node_type {
+  public:
+    size_type parent;
+    time_type updated;
+    std::vector<time_type> history;
+    std::vector<size_type> size;
+    node_type(size_type parent):
+      parent(parent), updated(far_future()),
+      history(1, 0), size(1, 1)
+    { }
+  };
+
+  std::vector<node_type> M_forest;
+  std::vector<size_type> M_components;
 
 public:
   partially_persistent_union_find() = default;
-  partially_persistent_union_find(size_type size_) {
-    size = size_;
-    last = -1;
-    parent.assign(size_, 1);
-    updated.assign(size_, inf);
-    component.assign(1, size_);
-    history.assign(size_, { { -1, 1 } });
+  explicit partially_persistent_union_find(const size_type size) { initialize(size); }
+
+  void initialize(const size_type size) {
+    clear();
+    M_forest.reserve(size);
+    for (size_type index = 0; index < size; ++index) {
+      M_forest.emplace_back(index);
+    }
+    M_components.push_back(size);
   }
 
-  size_type find_parent(size_type x, size_type t) const {
-    if (updated[x] > t) {
-      return x;
-    }
-    return find_parent(parent[x], t);
+  size_type find_parent(const size_type node, const time_type time) const {
+    if (M_forest[node].updated > time) return node;
+    return find_parent(M_forest[node].parent, time);
   }
-  size_type when(size_type x, size_type y) const {
-    if (!same_component(x, y, last)) {
-      return inf;
-    }
-    size_type ok = last, ng = -1, md;
+  size_type count_components(const time_type time) const {
+    return M_components[std::min(now(), time)];
+  }
+  size_type component_size(size_type node, time_type time) const {
+    time = std::min(time, now());
+    node = find_parent(node, time);
+    const auto &history = M_forest[node].history;
+    auto index = std::lower_bound(history.cbegin(), history.cend(), time + 1) - history.cbegin() - 1;
+    return M_forest[node].size[index];
+  }
+
+  time_type when(const size_type node1, const size_type node2) const {
+    if (!same_component(node1, node2, now())) return far_future();
+    time_type ok = now(), ng = 0, md;
     while (ok - ng > 1) {
       md = (ok + ng) / 2;
-      (same_component(x, y, md) ? ok : ng) = md;
+      (same_component(node1, node2, md) ? ok : ng) = md;
     }
     return ok;
   }
 
-  size_type count_components(size_type t) const {
-    return component[std::min(t, last) + 1];
+  bool same_component(const size_type node1, const size_type node2, const time_type time) const {
+    return find_parent(node1, time) == find_parent(node2, time);
   }
-  size_type component_size(size_type x, size_type t) const {
-    x = find_parent(x, t);
-    return (--std::upper_bound(history[x].begin(), history[x].end(), std::make_pair(t, inf ))) -> second;
-  }
-
-  bool same_component(size_type x, size_type y, size_type t) const {
-    return find_parent(x, t) == find_parent(y, t);
-  }
-  bool unite(size_type x, size_type y) {
-    x = find_parent(x, last);
-    y = find_parent(y, last);
-    size_type tmp_size = component.size();
-    ++last;
-    if (x == y) {
-      component.push_back(tmp_size);
+  bool unite(size_type node1, size_type node2) {
+    node1 = find_parent(node1, now());
+    node2 = find_parent(node2, now());
+    size_type current = M_components.back();
+    if (node1 == node2) {
+      M_components.push_back(current);
       return false;
     }
-    if (parent[x] < parent[y]) {
-      std::swap(x, y);
-    }
-    parent[x] += parent[y];
-    parent[y] = x;
-    updated[y] = last;
-    component.push_back(tmp_size - 1);
-    history[x].emplace_back(last, parent[x]);
+    M_components.push_back(current - 1);
+    const size_type size1 = M_forest[node1].size.back();
+    const size_type size2 = M_forest[node2].size.back();
+    if (size1 < size2) std::swap(node1, node2);
+    M_forest[node1].history.push_back(now());
+    M_forest[node1].size.push_back(size1 + size2);
+    M_forest[node2].parent = node1;
+    M_forest[node2].updated = now();
     return true;
+  }
+
+  time_type now() const {
+    return M_components.size() - 1;
+  }
+  size_type size() const {
+    return M_forest.size();
+  }
+  bool empty() const {
+    return M_forest.empty();
+  }
+  void clear() {
+    M_forest.clear();
+    M_forest.shrink_to_fit();
+    M_components.clear();
+    M_components.shrink_to_fit();
   }
 
 };
 
+/**
+ * @title Partially Persistent Union Find
+ */
 ```
 {% endraw %}
 
@@ -130,82 +163,116 @@ public:
 #line 2 "graph/partially_persistent_union_find.cpp"
 
 #include <cstddef>
-#include <cstdint>
 #include <vector>
 #include <utility>
 #include <algorithm>
 
 class partially_persistent_union_find {
 public:
-  using size_type = int32_t;
-  static constexpr size_type inf = std::numeric_limits<size_type>::max();
+  using size_type = size_t;
+  using time_type = size_t;
+
+  static time_type far_future() {
+    return -1;
+  }
 
 private:
-  size_type size, last;
-  std::vector<size_type> parent, updated, component;
-  std::vector<std::vector<std::pair<size_type, size_type>>> history;
+  class node_type {
+  public:
+    size_type parent;
+    time_type updated;
+    std::vector<time_type> history;
+    std::vector<size_type> size;
+    node_type(size_type parent):
+      parent(parent), updated(far_future()),
+      history(1, 0), size(1, 1)
+    { }
+  };
+
+  std::vector<node_type> M_forest;
+  std::vector<size_type> M_components;
 
 public:
   partially_persistent_union_find() = default;
-  partially_persistent_union_find(size_type size_) {
-    size = size_;
-    last = -1;
-    parent.assign(size_, 1);
-    updated.assign(size_, inf);
-    component.assign(1, size_);
-    history.assign(size_, { { -1, 1 } });
+  explicit partially_persistent_union_find(const size_type size) { initialize(size); }
+
+  void initialize(const size_type size) {
+    clear();
+    M_forest.reserve(size);
+    for (size_type index = 0; index < size; ++index) {
+      M_forest.emplace_back(index);
+    }
+    M_components.push_back(size);
   }
 
-  size_type find_parent(size_type x, size_type t) const {
-    if (updated[x] > t) {
-      return x;
-    }
-    return find_parent(parent[x], t);
+  size_type find_parent(const size_type node, const time_type time) const {
+    if (M_forest[node].updated > time) return node;
+    return find_parent(M_forest[node].parent, time);
   }
-  size_type when(size_type x, size_type y) const {
-    if (!same_component(x, y, last)) {
-      return inf;
-    }
-    size_type ok = last, ng = -1, md;
+  size_type count_components(const time_type time) const {
+    return M_components[std::min(now(), time)];
+  }
+  size_type component_size(size_type node, time_type time) const {
+    time = std::min(time, now());
+    node = find_parent(node, time);
+    const auto &history = M_forest[node].history;
+    auto index = std::lower_bound(history.cbegin(), history.cend(), time + 1) - history.cbegin() - 1;
+    return M_forest[node].size[index];
+  }
+
+  time_type when(const size_type node1, const size_type node2) const {
+    if (!same_component(node1, node2, now())) return far_future();
+    time_type ok = now(), ng = 0, md;
     while (ok - ng > 1) {
       md = (ok + ng) / 2;
-      (same_component(x, y, md) ? ok : ng) = md;
+      (same_component(node1, node2, md) ? ok : ng) = md;
     }
     return ok;
   }
 
-  size_type count_components(size_type t) const {
-    return component[std::min(t, last) + 1];
+  bool same_component(const size_type node1, const size_type node2, const time_type time) const {
+    return find_parent(node1, time) == find_parent(node2, time);
   }
-  size_type component_size(size_type x, size_type t) const {
-    x = find_parent(x, t);
-    return (--std::upper_bound(history[x].begin(), history[x].end(), std::make_pair(t, inf ))) -> second;
-  }
-
-  bool same_component(size_type x, size_type y, size_type t) const {
-    return find_parent(x, t) == find_parent(y, t);
-  }
-  bool unite(size_type x, size_type y) {
-    x = find_parent(x, last);
-    y = find_parent(y, last);
-    size_type tmp_size = component.size();
-    ++last;
-    if (x == y) {
-      component.push_back(tmp_size);
+  bool unite(size_type node1, size_type node2) {
+    node1 = find_parent(node1, now());
+    node2 = find_parent(node2, now());
+    size_type current = M_components.back();
+    if (node1 == node2) {
+      M_components.push_back(current);
       return false;
     }
-    if (parent[x] < parent[y]) {
-      std::swap(x, y);
-    }
-    parent[x] += parent[y];
-    parent[y] = x;
-    updated[y] = last;
-    component.push_back(tmp_size - 1);
-    history[x].emplace_back(last, parent[x]);
+    M_components.push_back(current - 1);
+    const size_type size1 = M_forest[node1].size.back();
+    const size_type size2 = M_forest[node2].size.back();
+    if (size1 < size2) std::swap(node1, node2);
+    M_forest[node1].history.push_back(now());
+    M_forest[node1].size.push_back(size1 + size2);
+    M_forest[node2].parent = node1;
+    M_forest[node2].updated = now();
     return true;
   }
 
+  time_type now() const {
+    return M_components.size() - 1;
+  }
+  size_type size() const {
+    return M_forest.size();
+  }
+  bool empty() const {
+    return M_forest.empty();
+  }
+  void clear() {
+    M_forest.clear();
+    M_forest.shrink_to_fit();
+    M_components.clear();
+    M_components.shrink_to_fit();
+  }
+
 };
+
+/**
+ * @title Partially Persistent Union Find
+ */
 
 ```
 {% endraw %}

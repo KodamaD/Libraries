@@ -30,8 +30,8 @@ layout: default
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
-* <a href="{{ site.github.repository_url }}/blob/master/other/gen_vec.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-11 19:42:18+09:00
+* <a href="{{ site.github.repository_url }}/blob/master/other/multi_vec.cpp">View this file on GitHub</a>
+    - Last commit date: 2020-07-12 13:43:20+09:00
 
 
 
@@ -66,7 +66,7 @@ decltype(auto) multi_vec(const size_t (&list)[N], typename std::enable_if<(I != 
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 2 "other/gen_vec.cpp"
+#line 2 "other/multi_vec.cpp"
 
 #include <cstddef>
 #include <vector>

@@ -75,8 +75,8 @@ layout: default
 
 ### graph
 
-* :warning: <a href="library/graph/heavy_light_decomposition.cpp.html">graph/heavy_light_decomposition.cpp</a>
-* :warning: <a href="library/graph/partially_persistent_union_find.cpp.html">graph/partially_persistent_union_find.cpp</a>
+* :heavy_check_mark: <a href="library/graph/heavy_light_decomposition.cpp.html">Heavy-Light Decomposition</a>
+* :warning: <a href="library/graph/partially_persistent_union_find.cpp.html">Partially Persistent Union Find</a>
 * :heavy_check_mark: <a href="library/graph/union_find.cpp.html">Union Find</a>
 
 
@@ -88,8 +88,8 @@ layout: default
 * :warning: <a href="library/other/debug.cpp.html">Debugger</a>
 * :heavy_check_mark: <a href="library/other/fast_io.cpp.html">Fast Input/Output</a>
 * :heavy_check_mark: <a href="library/other/fix_point.cpp.html">Lambda Recursion</a>
-* :warning: <a href="library/other/gen_vec.cpp.html">Multi-Dimensional Vector</a>
 * :warning: <a href="library/other/multi_array.cpp.html">Multi-Dimensional Array</a>
+* :warning: <a href="library/other/multi_vec.cpp.html">Multi-Dimensional Vector</a>
 * :warning: <a href="library/other/template.cpp.html">Template</a>
 
 
@@ -111,6 +111,7 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/fast_io.test.cpp.html">test/fast_io.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/fenwick_tree.test.cpp.html">test/fenwick_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/fft.test.cpp.html">test/fft.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/heavy_light_decomposition.test.cpp.html">test/heavy_light_decomposition.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/matrix.test.cpp.html">test/matrix.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
