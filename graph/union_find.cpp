@@ -12,8 +12,8 @@ private:
   class node_type {
   public:
     size_type parent, size;
-    node_type(size_type parent, size_type size): 
-      parent(parent), size(size) 
+    node_type(size_type parent): 
+      parent(parent), size(1) 
     { }
   };
 
@@ -22,18 +22,18 @@ private:
 
 public:
   union_find() = default;
-  explicit union_find(size_type size) { initialize(size); }
+  explicit union_find(const size_type size) { initialize(size); }
 
-  void initialize(size_type size) {
+  void initialize(const size_type size) {
     clear();
     M_components = size;
     M_forest.reserve(size);
     for (size_type index = 0; index < size; ++index) {
-      M_forest.emplace_back(index, 1);
+      M_forest.emplace_back(index);
     }
   }
 
-  size_type find_parent(size_type node) {
+  size_type find_parent(const size_type node) {
     size_type &parent = M_forest[node].parent;
     if (node == parent) return node;
     return parent = find_parent(parent);
@@ -41,7 +41,7 @@ public:
   size_type count_components() const { 
     return M_components; 
   }
-  size_type component_size(size_type node) { 
+  size_type component_size(const size_type node) { 
     return M_forest[find_parent(node)].size;
   }
 
@@ -57,7 +57,7 @@ public:
     --M_components;
     return true;
   }
-  bool same_component(size_type node1, size_type node2) { 
+  bool same_component(const size_type node1, const size_type node2) { 
     return find_parent(node1) == find_parent(node2); 
   }
 
