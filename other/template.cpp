@@ -1,4 +1,8 @@
 
+/**
+ * @title Template
+ */
+
 #include <iostream>
 #include <algorithm>
 #include <utility>
@@ -60,7 +64,3 @@ int main() {
   
   return 0;
 }
-
-/**
- * @title Template
- */
