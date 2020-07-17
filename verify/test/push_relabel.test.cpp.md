@@ -25,22 +25,22 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: test/push_relabel.test.cpp
+# :heavy_check_mark: test/push_relabel.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/push_relabel.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-17 22:08:31+09:00
+    - Last commit date: 2020-07-17 22:30:38+09:00
 
 
-* see: <a href="https://yukicoder.me/problems/no/957">https://yukicoder.me/problems/no/957</a>
+* see: <a href="https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A">https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A</a>
 
 
 ## Depends on
 
-* :x: <a href="../../library/graph/network.cpp.html">Network</a>
-* :x: <a href="../../library/graph/push_relabel.cpp.html">Push Relabel</a>
+* :heavy_check_mark: <a href="../../library/graph/network.cpp.html">Network</a>
+* :heavy_check_mark: <a href="../../library/graph/push_relabel.cpp.html">Push Relabel</a>
 
 
 ## Code
@@ -49,7 +49,7 @@ layout: default
 {% raw %}
 ```cpp
 
-#define PROBLEM "https://yukicoder.me/problems/no/957"
+#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A"
 
 #include "../graph/network.cpp"
 #include "../graph/push_relabel.cpp"
@@ -59,37 +59,18 @@ layout: default
 #include <iostream>
 
 int main() {
-  size_t H, W;
-  std::cin >> H >> W;
-  network<flow_edge<int64_t>> graph;
-  const auto source = graph.add_vertex();
-  const auto sink = graph.add_vertex();
-  const auto row = graph.add_vertices(H);
-  const auto column = graph.add_vertices(W);
-  std::vector<int64_t> accum(H);
-  for (size_t i = 0; i < H; ++i) {
-    for (size_t j = 0; j < W; ++j) {
-      int32_t g;
-      std::cin >> g;
-      accum[i] += g;
-      graph.emplace_edge(row[i], column[j], g);
-    }
+  size_t V, E;
+  std::cin >> V >> E;
+  network<flow_edge<int32_t>> graph;
+  graph.add_vertices(V);
+  while (E--) {
+    size_t u, v;
+    std::cin >> u >> v;
+    int32_t c;
+    std::cin >> c;
+    graph.emplace_edge(u, v, c);
   }
-  int64_t sum = 0;
-  for (size_t i = 0; i < H; ++i) {
-    int64_t r;
-    std::cin >> r;
-    int64_t min = std::min(accum[i], r);
-    sum += r - min;
-    graph.emplace_edge(source, row[i], accum[i] - min);
-  }
-  for (size_t j = 0; j < W; ++j) {
-    int64_t r;
-    std::cin >> r;
-    sum += r;
-    graph.emplace_edge(column[j], sink, r);
-  }
-  std::cout << sum - push_relabel(graph).max_flow(source, sink) << '\n';
+  std::cout << push_relabel<decltype(graph)>(graph).max_flow(0, V - 1) << '\n';
   return 0;
 }
 
@@ -101,7 +82,7 @@ int main() {
 ```cpp
 #line 1 "test/push_relabel.test.cpp"
 
-#define PROBLEM "https://yukicoder.me/problems/no/957"
+#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A"
 
 #line 2 "graph/network.cpp"
 
@@ -123,12 +104,12 @@ protected:
 public:
   network() = default;
 
-  [[nodiscard]] vertex_type add_vertex() {
+  vertex_type add_vertex() {
     vertex_type res = M_graph.size();
     M_graph.push_back({ });
     return res;
   }
-  [[nodiscard]] std::vector<vertex_type> add_vertices(const size_type size) {
+  std::vector<vertex_type> add_vertices(const size_type size) {
     size_type cur = M_graph.size();
     std::vector<vertex_type> res(size);
     std::iota(res.begin(), res.end(), cur);
@@ -467,37 +448,18 @@ public:
 #include <iostream>
 
 int main() {
-  size_t H, W;
-  std::cin >> H >> W;
-  network<flow_edge<int64_t>> graph;
-  const auto source = graph.add_vertex();
-  const auto sink = graph.add_vertex();
-  const auto row = graph.add_vertices(H);
-  const auto column = graph.add_vertices(W);
-  std::vector<int64_t> accum(H);
-  for (size_t i = 0; i < H; ++i) {
-    for (size_t j = 0; j < W; ++j) {
-      int32_t g;
-      std::cin >> g;
-      accum[i] += g;
-      graph.emplace_edge(row[i], column[j], g);
-    }
+  size_t V, E;
+  std::cin >> V >> E;
+  network<flow_edge<int32_t>> graph;
+  graph.add_vertices(V);
+  while (E--) {
+    size_t u, v;
+    std::cin >> u >> v;
+    int32_t c;
+    std::cin >> c;
+    graph.emplace_edge(u, v, c);
   }
-  int64_t sum = 0;
-  for (size_t i = 0; i < H; ++i) {
-    int64_t r;
-    std::cin >> r;
-    int64_t min = std::min(accum[i], r);
-    sum += r - min;
-    graph.emplace_edge(source, row[i], accum[i] - min);
-  }
-  for (size_t j = 0; j < W; ++j) {
-    int64_t r;
-    std::cin >> r;
-    sum += r;
-    graph.emplace_edge(column[j], sink, r);
-  }
-  std::cout << sum - push_relabel(graph).max_flow(source, sink) << '\n';
+  std::cout << push_relabel<decltype(graph)>(graph).max_flow(0, V - 1) << '\n';
   return 0;
 }
 

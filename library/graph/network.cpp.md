@@ -25,20 +25,20 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: Network
+# :heavy_check_mark: Network
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#f8b0b924ebd7046dbfa85a856e4682c8">graph</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/network.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-17 22:08:31+09:00
+    - Last commit date: 2020-07-17 22:30:38+09:00
 
 
 
 
 ## Verified with
 
-* :x: <a href="../../verify/test/push_relabel.test.cpp.html">test/push_relabel.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/push_relabel.test.cpp.html">test/push_relabel.test.cpp</a>
 
 
 ## Code
@@ -66,12 +66,12 @@ protected:
 public:
   network() = default;
 
-  [[nodiscard]] vertex_type add_vertex() {
+  vertex_type add_vertex() {
     vertex_type res = M_graph.size();
     M_graph.push_back({ });
     return res;
   }
-  [[nodiscard]] std::vector<vertex_type> add_vertices(const size_type size) {
+  std::vector<vertex_type> add_vertices(const size_type size) {
     size_type cur = M_graph.size();
     std::vector<vertex_type> res(size);
     std::iota(res.begin(), res.end(), cur);
@@ -165,12 +165,12 @@ protected:
 public:
   network() = default;
 
-  [[nodiscard]] vertex_type add_vertex() {
+  vertex_type add_vertex() {
     vertex_type res = M_graph.size();
     M_graph.push_back({ });
     return res;
   }
-  [[nodiscard]] std::vector<vertex_type> add_vertices(const size_type size) {
+  std::vector<vertex_type> add_vertices(const size_type size) {
     size_type cur = M_graph.size();
     std::vector<vertex_type> res(size);
     std::iota(res.begin(), res.end(), cur);

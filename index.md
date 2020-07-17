@@ -76,9 +76,9 @@ layout: default
 ### graph
 
 * :heavy_check_mark: <a href="library/graph/heavy_light_decomposition.cpp.html">Heavy-Light Decomposition</a>
-* :x: <a href="library/graph/network.cpp.html">Network</a>
+* :heavy_check_mark: <a href="library/graph/network.cpp.html">Network</a>
 * :warning: <a href="library/graph/partially_persistent_union_find.cpp.html">Partially Persistent Union Find</a>
-* :x: <a href="library/graph/push_relabel.cpp.html">Push Relabel</a>
+* :heavy_check_mark: <a href="library/graph/push_relabel.cpp.html">Push Relabel</a>
 * :heavy_check_mark: <a href="library/graph/union_find.cpp.html">Union Find</a>
 
 
@@ -119,7 +119,7 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/ntt_arbitrary_mod.test.cpp.html">test/ntt_arbitrary_mod.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/ntt_arbitrary_runtimemod.test.cpp.html">test/ntt_arbitrary_runtimemod.test.cpp</a>
-* :x: <a href="verify/test/push_relabel.test.cpp.html">test/push_relabel.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/push_relabel.test.cpp.html">test/push_relabel.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/sliding_window_aggregation.test.cpp.html">test/sliding_window_aggregation.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/suffix_array.test.cpp.html">test/suffix_array.test.cpp</a>
