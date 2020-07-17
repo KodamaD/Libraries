@@ -18,12 +18,12 @@ protected:
 public:
   network() = default;
 
-  [[nodiscard]] vertex_type add_vertex() {
+  vertex_type add_vertex() {
     vertex_type res = M_graph.size();
     M_graph.push_back({ });
     return res;
   }
-  [[nodiscard]] std::vector<vertex_type> add_vertices(const size_type size) {
+  std::vector<vertex_type> add_vertices(const size_type size) {
     size_type cur = M_graph.size();
     std::vector<vertex_type> res(size);
     std::iota(res.begin(), res.end(), cur);
