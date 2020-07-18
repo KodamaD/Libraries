@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#f8b0b924ebd7046dbfa85a856e4682c8">graph</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/push_relabel.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-17 22:08:31+09:00
+    - Last commit date: 2020-07-18 13:53:23+09:00
 
 
 
@@ -163,27 +163,27 @@ private:
     node_type() = default;
   };
 
-  residual_edge &M_cur_edge(const vertex_type node) {
-    return M_graph[node].edges[M_graph[node].iter];
+  residual_edge &M_cur_edge(node_type &node) {
+    return node.edges[node.iter];
   }
   residual_edge &M_rev_edge(const residual_edge &edge) {
     return M_graph[edge.dest].edges[edge.rev];
   }
-  void M_push(const vertex_type node, residual_edge &edge) {
-    auto flow = std::min(M_graph[node].excess, edge.remain);
+  void M_push(node_type &node, residual_edge &edge) {
+    const auto flow = std::min(node.excess, edge.remain);
     edge.remain -= flow;
+    node.excess -= flow;
     M_rev_edge(edge).remain += flow;
-    M_graph[node].excess -= flow;
     M_graph[edge.dest].excess += flow;
   }
-  void M_relabel(const vertex_type node) {
+  void M_relabel(node_type &node) {
     height_type min = M_graph.size() + 1;
-    for (const auto &edge: M_graph[node].edges) {
+    for (const auto &edge: node.edges) {
       if (edge.remain > 0 && min > M_graph[edge.dest].height + 1) {
         min = M_graph[edge.dest].height + 1;
       }
     }
-    M_graph[node].height = min;
+    node.height = min;
   }
 
   std::vector<node_type> M_graph;
@@ -219,12 +219,12 @@ public:
       std::queue<vertex_type> queue;
       queue.push(sink);
       while (!queue.empty()) {
-        const auto node = queue.front();
+        const auto vert = queue.front();
         queue.pop();
-        for (const auto &edge: M_graph[node].edges) {
+        for (const auto &edge: M_graph[vert].edges) {
           if (M_rev_edge(edge).remain > 0) {
             if (M_graph[edge.dest].height == M_graph.size() + 1) {
-              M_graph[edge.dest].height = M_graph[node].height + 1;
+              M_graph[edge.dest].height = M_graph[vert].height + 1;
               queue.push(edge.dest);
             }
           }
@@ -235,7 +235,7 @@ public:
       }
       for (auto &edge: M_graph[source].edges) {
         M_graph[source].excess += edge.remain;
-        M_push(source, edge);
+        M_push(M_graph[source], edge);
       }
       M_graph[source].height = M_graph.size();
       min_gap = M_graph.size();
@@ -262,39 +262,41 @@ public:
         --max_active;
         continue;
       }
-      const auto node = active.top(max_active);
+      const auto vert = active.top(max_active);
+      auto &node = M_graph[vert];
       active.pop(max_active);
       while (true) {
         auto &edge = M_cur_edge(node);
-        if (edge.remain > 0 && M_graph[node].height == M_graph[edge.dest].height + 1) {
-          if (M_graph[edge.dest].excess == 0 && edge.dest != sink) {
-            active.push(M_graph[edge.dest].height, edge.dest);
-            max_active = std::max(max_active, M_graph[edge.dest].height);
+        const auto &dest = M_graph[edge.dest];
+        if (edge.remain > 0 && node.height == dest.height + 1) {
+          if (dest.excess == 0 && edge.dest != sink) {
+            active.push(dest.height, edge.dest);
+            max_active = std::max(max_active, dest.height);
           }
           M_push(node, edge);
-          if (M_graph[node].excess == 0) {
+          if (node.excess == 0) {
             break;
           }
         }
-        M_graph[node].iter++;
-        if (M_graph[node].iter == M_graph[node].edges.size()) {
-          M_graph[node].iter = 0;
-          if (level.more_than_one(M_graph[node].height)) {
-            level.erase(node);
+        node.iter++;
+        if (node.iter == node.edges.size()) {
+          node.iter = 0;
+          if (level.more_than_one(node.height)) {
+            level.erase(vert);
             M_relabel(node);
-            if (M_graph[node].height > min_gap) {
-              M_graph[node].height = M_graph.size() + 1;
+            if (node.height > min_gap) {
+              node.height = M_graph.size() + 1;
               break;
             }
-            if (M_graph[node].height == min_gap) {
+            if (node.height == min_gap) {
               ++min_gap;
             }
-            level.insert(M_graph[node].height, node);
+            level.insert(node.height, vert);
           }
           else {
-            for (height_type index = M_graph[node].height; index < min_gap; ++index) {
-              level.apply_all(index, [&](const vertex_type tmp) {
-                M_graph[tmp].height = M_graph.size() + 1;
+            for (height_type index = node.height; index < min_gap; ++index) {
+              level.apply_all(index, [&](const vertex_type vert) {
+                M_graph[vert].height = M_graph.size() + 1;
               });
               level.clear(index);
             }
@@ -435,27 +437,27 @@ private:
     node_type() = default;
   };
 
-  residual_edge &M_cur_edge(const vertex_type node) {
-    return M_graph[node].edges[M_graph[node].iter];
+  residual_edge &M_cur_edge(node_type &node) {
+    return node.edges[node.iter];
   }
   residual_edge &M_rev_edge(const residual_edge &edge) {
     return M_graph[edge.dest].edges[edge.rev];
   }
-  void M_push(const vertex_type node, residual_edge &edge) {
-    auto flow = std::min(M_graph[node].excess, edge.remain);
+  void M_push(node_type &node, residual_edge &edge) {
+    const auto flow = std::min(node.excess, edge.remain);
     edge.remain -= flow;
+    node.excess -= flow;
     M_rev_edge(edge).remain += flow;
-    M_graph[node].excess -= flow;
     M_graph[edge.dest].excess += flow;
   }
-  void M_relabel(const vertex_type node) {
+  void M_relabel(node_type &node) {
     height_type min = M_graph.size() + 1;
-    for (const auto &edge: M_graph[node].edges) {
+    for (const auto &edge: node.edges) {
       if (edge.remain > 0 && min > M_graph[edge.dest].height + 1) {
         min = M_graph[edge.dest].height + 1;
       }
     }
-    M_graph[node].height = min;
+    node.height = min;
   }
 
   std::vector<node_type> M_graph;
@@ -491,12 +493,12 @@ public:
       std::queue<vertex_type> queue;
       queue.push(sink);
       while (!queue.empty()) {
-        const auto node = queue.front();
+        const auto vert = queue.front();
         queue.pop();
-        for (const auto &edge: M_graph[node].edges) {
+        for (const auto &edge: M_graph[vert].edges) {
           if (M_rev_edge(edge).remain > 0) {
             if (M_graph[edge.dest].height == M_graph.size() + 1) {
-              M_graph[edge.dest].height = M_graph[node].height + 1;
+              M_graph[edge.dest].height = M_graph[vert].height + 1;
               queue.push(edge.dest);
             }
           }
@@ -507,7 +509,7 @@ public:
       }
       for (auto &edge: M_graph[source].edges) {
         M_graph[source].excess += edge.remain;
-        M_push(source, edge);
+        M_push(M_graph[source], edge);
       }
       M_graph[source].height = M_graph.size();
       min_gap = M_graph.size();
@@ -534,39 +536,41 @@ public:
         --max_active;
         continue;
       }
-      const auto node = active.top(max_active);
+      const auto vert = active.top(max_active);
+      auto &node = M_graph[vert];
       active.pop(max_active);
       while (true) {
         auto &edge = M_cur_edge(node);
-        if (edge.remain > 0 && M_graph[node].height == M_graph[edge.dest].height + 1) {
-          if (M_graph[edge.dest].excess == 0 && edge.dest != sink) {
-            active.push(M_graph[edge.dest].height, edge.dest);
-            max_active = std::max(max_active, M_graph[edge.dest].height);
+        const auto &dest = M_graph[edge.dest];
+        if (edge.remain > 0 && node.height == dest.height + 1) {
+          if (dest.excess == 0 && edge.dest != sink) {
+            active.push(dest.height, edge.dest);
+            max_active = std::max(max_active, dest.height);
           }
           M_push(node, edge);
-          if (M_graph[node].excess == 0) {
+          if (node.excess == 0) {
             break;
           }
         }
-        M_graph[node].iter++;
-        if (M_graph[node].iter == M_graph[node].edges.size()) {
-          M_graph[node].iter = 0;
-          if (level.more_than_one(M_graph[node].height)) {
-            level.erase(node);
+        node.iter++;
+        if (node.iter == node.edges.size()) {
+          node.iter = 0;
+          if (level.more_than_one(node.height)) {
+            level.erase(vert);
             M_relabel(node);
-            if (M_graph[node].height > min_gap) {
-              M_graph[node].height = M_graph.size() + 1;
+            if (node.height > min_gap) {
+              node.height = M_graph.size() + 1;
               break;
             }
-            if (M_graph[node].height == min_gap) {
+            if (node.height == min_gap) {
               ++min_gap;
             }
-            level.insert(M_graph[node].height, node);
+            level.insert(node.height, vert);
           }
           else {
-            for (height_type index = M_graph[node].height; index < min_gap; ++index) {
-              level.apply_all(index, [&](const vertex_type tmp) {
-                M_graph[tmp].height = M_graph.size() + 1;
+            for (height_type index = node.height; index < min_gap; ++index) {
+              level.apply_all(index, [&](const vertex_type vert) {
+                M_graph[vert].height = M_graph.size() + 1;
               });
               level.clear(index);
             }
