@@ -4,6 +4,7 @@
 #include <vector>
 #include <numeric>
 #include <utility>
+#include <type_traits>
 
 template <class Edge>
 class network {
@@ -18,30 +19,57 @@ protected:
 public:
   network() = default;
 
-  vertex_type add_vertex() {
+  template <bool ReturnsIndex = true>
+  typename std::enable_if<ReturnsIndex, vertex_type>::type add_vertex() {
     vertex_type res = M_graph.size();
     M_graph.push_back({ });
     return res;
   }
-  std::vector<vertex_type> add_vertices(const size_type size) {
+  template <bool ReturnsIndex = true>
+  typename std::enable_if<!ReturnsIndex, void>::type add_vertex() {
+    M_graph.push_back({ });
+  }
+
+  template <bool ReturnsIndices = true>
+  typename std::enable_if<ReturnsIndices, std::vector<vertex_type>>::type 
+  add_vertices(const size_type size) {
     size_type cur = M_graph.size();
     std::vector<vertex_type> res(size);
     std::iota(res.begin(), res.end(), cur);
     M_graph.resize(cur + size);
     return res;
   }
+  template <bool ReturnsIndices = true>
+  typename std::enable_if<!ReturnsIndices, void>::type 
+  add_vertices(const size_type size) {
+    size_type cur = M_graph.size();
+    M_graph.resize(cur + size);
+  }
   
-  void add_edge(const vertex_type src, const edge_type &edge) {
-    M_graph[src].push_back(edge);
+  void add_edge(const edge_type &edge) {
+    M_graph[edge.source].push_back(edge);
   }
   template <class... Args>
   void emplace_edge(const vertex_type src, Args&&... args) {
-    M_graph[src].emplace_back(std::forward<Args>(args)...);
+    M_graph[src].emplace_back(src, std::forward<Args>(args)...);
   }
 
+  std::vector<edge_type> &operator [] (const vertex_type vert) {
+    return M_graph[vert];
+  }
+  std::vector<edge_type> &at(const vertex_type vert) {
+    return M_graph.at(vert);
+  }
+  const std::vector<edge_type> &operator [] (const vertex_type vert) const {
+    return M_graph[vert];
+  }
+  const std::vector<edge_type> &at(const vertex_type vert) const {
+    return M_graph.at(vert);
+  }
   const std::vector<std::vector<edge_type>> &get() const {
     return M_graph;
   }
+
   size_type size() const {
     return M_graph.size();
   }
@@ -58,10 +86,13 @@ public:
 class base_edge {
 public:
   using vertex_type = size_t;
-  const vertex_type dest;
-  explicit base_edge(const vertex_type dest): 
-    dest(dest) 
+  const vertex_type source, dest;
+  explicit base_edge(const vertex_type source, const vertex_type dest): 
+    source(source), dest(dest) 
   { }
+  base_edge reverse() {
+    return base_edge(dest, source);
+  }
 };
 
 template <class Flow>
@@ -69,11 +100,23 @@ class flow_edge: public base_edge {
 public:
   using vertex_type = typename base_edge::vertex_type;
   using flow_type   = Flow;
-  const flow_type capacity;
   flow_type flow;
-  explicit flow_edge(const vertex_type dest, const flow_type capacity):
-    base_edge(dest), capacity(capacity), flow()
+  const flow_type capacity;
+  explicit flow_edge(const base_edge &edge, const flow_type capacity):
+    base_edge(edge), flow(0), capacity(capacity)
   { }
+  explicit flow_edge(const base_edge &edge, const flow_type flow, const flow_type capacity):
+    base_edge(edge), flow(flow), capacity(capacity)
+  { }
+  explicit flow_edge(const vertex_type source, const vertex_type dest, const flow_type capacity):
+    base_edge(source, dest), flow(0), capacity(capacity)
+  { }
+  explicit flow_edge(const vertex_type source, const vertex_type dest, const flow_type flow, const flow_type capacity):
+    base_edge(source, dest), flow(flow), capacity(capacity)
+  { }
+  flow_edge reverse() const {
+    return flow_edge(static_cast<base_edge>(*this).reverse(), capacity);
+  }
 };
 
 template <class Flow, class Cost>
@@ -83,9 +126,18 @@ public:
   using flow_type   = typename flow_edge<Flow>::flow_type;
   using cost_type   = Cost;
   const cost_type cost;
-  explicit flow_cost_edge(const vertex_type dest, const flow_type capacity, const cost_type cost):
-    flow_edge<Flow>(dest, capacity), cost(cost)
+  explicit flow_cost_edge(const flow_edge<Flow> &edge, const cost_type cost):
+    flow_edge<Flow>(edge), cost(cost)
   { }
+  explicit flow_cost_edge(const vertex_type source, const vertex_type dest, const flow_type capacity, const cost_type cost):
+    flow_edge<Flow>(source, dest, capacity), cost(cost)
+  { }
+  explicit flow_cost_edge(const vertex_type source, const vertex_type dest, const flow_type flow, const flow_type capacity, const cost_type cost):
+    flow_edge<Flow>(source, dest, flow, capacity), cost(cost)
+  { }
+  flow_cost_edge reverse() const {
+    return flow_cost_edge(static_cast<flow_edge<Flow>>(*this).reverse(), -cost);
+  }
 };
 
 /**

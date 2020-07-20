@@ -12,7 +12,7 @@ int main() {
   size_t V, E;
   std::cin >> V >> E;
   network<flow_edge<int32_t>> graph;
-  graph.add_vertices(V);
+  graph.add_vertices<false>(V);
   while (E--) {
     size_t u, v;
     std::cin >> u >> v;
