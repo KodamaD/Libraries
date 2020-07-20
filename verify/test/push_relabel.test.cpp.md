@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/push_relabel.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-18 13:53:23+09:00
+    - Last commit date: 2020-07-20 22:07:26+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A">https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A</a>
@@ -62,7 +62,7 @@ int main() {
   size_t V, E;
   std::cin >> V >> E;
   network<flow_edge<int32_t>> graph;
-  graph.add_vertices(V);
+  graph.add_vertices<false>(V);
   while (E--) {
     size_t u, v;
     std::cin >> u >> v;
@@ -90,6 +90,7 @@ int main() {
 #include <vector>
 #include <numeric>
 #include <utility>
+#include <type_traits>
 
 template <class Edge>
 class network {
@@ -104,30 +105,57 @@ protected:
 public:
   network() = default;
 
-  vertex_type add_vertex() {
+  template <bool ReturnsIndex = true>
+  typename std::enable_if<ReturnsIndex, vertex_type>::type add_vertex() {
     vertex_type res = M_graph.size();
     M_graph.push_back({ });
     return res;
   }
-  std::vector<vertex_type> add_vertices(const size_type size) {
+  template <bool ReturnsIndex = true>
+  typename std::enable_if<!ReturnsIndex, void>::type add_vertex() {
+    M_graph.push_back({ });
+  }
+
+  template <bool ReturnsIndices = true>
+  typename std::enable_if<ReturnsIndices, std::vector<vertex_type>>::type 
+  add_vertices(const size_type size) {
     size_type cur = M_graph.size();
     std::vector<vertex_type> res(size);
     std::iota(res.begin(), res.end(), cur);
     M_graph.resize(cur + size);
     return res;
   }
+  template <bool ReturnsIndices = true>
+  typename std::enable_if<!ReturnsIndices, void>::type 
+  add_vertices(const size_type size) {
+    size_type cur = M_graph.size();
+    M_graph.resize(cur + size);
+  }
   
-  void add_edge(const vertex_type src, const edge_type &edge) {
-    M_graph[src].push_back(edge);
+  void add_edge(const edge_type &edge) {
+    M_graph[edge.source].push_back(edge);
   }
   template <class... Args>
   void emplace_edge(const vertex_type src, Args&&... args) {
-    M_graph[src].emplace_back(std::forward<Args>(args)...);
+    M_graph[src].emplace_back(src, std::forward<Args>(args)...);
   }
 
+  std::vector<edge_type> &operator [] (const vertex_type vert) {
+    return M_graph[vert];
+  }
+  std::vector<edge_type> &at(const vertex_type vert) {
+    return M_graph.at(vert);
+  }
+  const std::vector<edge_type> &operator [] (const vertex_type vert) const {
+    return M_graph[vert];
+  }
+  const std::vector<edge_type> &at(const vertex_type vert) const {
+    return M_graph.at(vert);
+  }
   const std::vector<std::vector<edge_type>> &get() const {
     return M_graph;
   }
+
   size_type size() const {
     return M_graph.size();
   }
@@ -144,10 +172,13 @@ public:
 class base_edge {
 public:
   using vertex_type = size_t;
-  const vertex_type dest;
-  explicit base_edge(const vertex_type dest): 
-    dest(dest) 
+  const vertex_type source, dest;
+  explicit base_edge(const vertex_type source, const vertex_type dest): 
+    source(source), dest(dest) 
   { }
+  base_edge reverse() {
+    return base_edge(dest, source);
+  }
 };
 
 template <class Flow>
@@ -155,11 +186,23 @@ class flow_edge: public base_edge {
 public:
   using vertex_type = typename base_edge::vertex_type;
   using flow_type   = Flow;
-  const flow_type capacity;
   flow_type flow;
-  explicit flow_edge(const vertex_type dest, const flow_type capacity):
-    base_edge(dest), capacity(capacity), flow()
+  const flow_type capacity;
+  explicit flow_edge(const base_edge &edge, const flow_type capacity):
+    base_edge(edge), flow(0), capacity(capacity)
   { }
+  explicit flow_edge(const base_edge &edge, const flow_type flow, const flow_type capacity):
+    base_edge(edge), flow(flow), capacity(capacity)
+  { }
+  explicit flow_edge(const vertex_type source, const vertex_type dest, const flow_type capacity):
+    base_edge(source, dest), flow(0), capacity(capacity)
+  { }
+  explicit flow_edge(const vertex_type source, const vertex_type dest, const flow_type flow, const flow_type capacity):
+    base_edge(source, dest), flow(flow), capacity(capacity)
+  { }
+  flow_edge reverse() const {
+    return flow_edge(static_cast<base_edge>(*this).reverse(), capacity);
+  }
 };
 
 template <class Flow, class Cost>
@@ -169,9 +212,18 @@ public:
   using flow_type   = typename flow_edge<Flow>::flow_type;
   using cost_type   = Cost;
   const cost_type cost;
-  explicit flow_cost_edge(const vertex_type dest, const flow_type capacity, const cost_type cost):
-    flow_edge<Flow>(dest, capacity), cost(cost)
+  explicit flow_cost_edge(const flow_edge<Flow> &edge, const cost_type cost):
+    flow_edge<Flow>(edge), cost(cost)
   { }
+  explicit flow_cost_edge(const vertex_type source, const vertex_type dest, const flow_type capacity, const cost_type cost):
+    flow_edge<Flow>(source, dest, capacity), cost(cost)
+  { }
+  explicit flow_cost_edge(const vertex_type source, const vertex_type dest, const flow_type flow, const flow_type capacity, const cost_type cost):
+    flow_edge<Flow>(source, dest, flow, capacity), cost(cost)
+  { }
+  flow_cost_edge reverse() const {
+    return flow_cost_edge(static_cast<flow_edge<Flow>>(*this).reverse(), -cost);
+  }
 };
 
 /**
@@ -271,15 +323,12 @@ public:
   static_assert(std::is_integral<flow_type>::value, "invalid flow type :: non-integral");
 
 private:
-  class residual_edge {
+  class residual_edge: public edge_type {
   public:
-    const vertex_type dest;
-    flow_type remain;
     const size_type rev;
     const bool is_rev;
-    explicit residual_edge(const vertex_type dest, const flow_type remain, 
-      const size_type rev, const bool is_rev):
-      dest(dest), remain(remain), rev(rev), is_rev(is_rev)
+    explicit residual_edge(const edge_type &edge, const size_type rev, const bool is_rev):
+      edge_type(edge), rev(rev), is_rev(is_rev)
     { }
   };
 
@@ -292,27 +341,52 @@ private:
     node_type() = default;
   };
 
+  flow_type M_remain(const residual_edge &edge) {
+    return edge.capacity - edge.flow;
+  }
   residual_edge &M_cur_edge(node_type &node) {
     return node.edges[node.iter];
   }
   residual_edge &M_rev_edge(const residual_edge &edge) {
     return M_graph[edge.dest].edges[edge.rev];
   }
+
   void M_push(node_type &node, residual_edge &edge) {
-    const auto flow = std::min(node.excess, edge.remain);
-    edge.remain -= flow;
+    const auto flow = std::min(node.excess, M_remain(edge));
+    edge.flow += flow;
     node.excess -= flow;
-    M_rev_edge(edge).remain += flow;
+    M_rev_edge(edge).flow -= flow;
     M_graph[edge.dest].excess += flow;
   }
   void M_relabel(node_type &node) {
     height_type min = M_graph.size() + 1;
     for (const auto &edge: node.edges) {
-      if (edge.remain > 0 && min > M_graph[edge.dest].height + 1) {
+      if (M_remain(edge) > 0 && min > M_graph[edge.dest].height + 1) {
         min = M_graph[edge.dest].height + 1;
       }
     }
     node.height = min;
+  }
+
+  void M_reverse_bfs(const vertex_type source) {
+    for (auto &node: M_graph) {
+      node.height = M_graph.size() + 1;
+    }
+    M_graph[source].height = 0;
+    std::queue<vertex_type> queue;
+    queue.push(source);
+    while (!queue.empty()) {
+      const auto vert = queue.front();
+      queue.pop();
+      for (const auto &edge: M_graph[vert].edges) {
+        if (M_remain(M_rev_edge(edge)) > 0) {
+          if (M_graph[edge.dest].height == M_graph.size() + 1) {
+            M_graph[edge.dest].height = M_graph[vert].height + 1;
+            queue.push(edge.dest);
+          }
+        }
+      }
+    }
   }
 
   std::vector<node_type> M_graph;
@@ -324,46 +398,33 @@ public:
     M_graph.resize(graph.size());
     for (size_type src = 0; src < graph.size(); ++src) {
       for (const auto &edge: graph[src]) {
-        M_graph[src].edges.emplace_back(edge.dest, edge.capacity, M_graph[edge.dest].edges.size(), false);
-        M_graph[edge.dest].edges.emplace_back(src, 0, M_graph[src].edges.size() - 1, true);
+        M_graph[src].edges.emplace_back(edge, M_graph[edge.dest].edges.size(), false);
+        M_graph[edge.dest].edges.emplace_back(edge.reverse(), M_graph[src].edges.size() - 1, true);
       }
     }
   }
 
-  flow_type max_flow(const vertex_type source, const vertex_type sink) {
+  template <bool ValueOnly = true>
+  typename std::enable_if<ValueOnly, flow_type>::type
+  max_flow(const vertex_type source, const vertex_type sink) {
     push_relabel_detail::stack_helper active(M_graph.size());
     push_relabel_detail::list_helper level(M_graph.size());
     height_type min_gap, max_active;
     {
       for (auto &node: M_graph) {
         node.excess = 0;
-        node.height = M_graph.size() + 1;
         node.iter = 0;
         for (auto &edge: node.edges) {
-          if (edge.is_rev) edge.remain = 0;
-          else edge.remain = edge.remain + M_rev_edge(edge).remain;
+          if (!edge.is_rev) edge.flow = 0;
+          else edge.flow = edge.capacity;
         }
       }
-      M_graph[sink].height = 0;
-      std::queue<vertex_type> queue;
-      queue.push(sink);
-      while (!queue.empty()) {
-        const auto vert = queue.front();
-        queue.pop();
-        for (const auto &edge: M_graph[vert].edges) {
-          if (M_rev_edge(edge).remain > 0) {
-            if (M_graph[edge.dest].height == M_graph.size() + 1) {
-              M_graph[edge.dest].height = M_graph[vert].height + 1;
-              queue.push(edge.dest);
-            }
-          }
-        }
-      }
+      M_reverse_bfs(sink);
       if (M_graph[source].height == M_graph.size() + 1) {
         return 0;
       }
       for (auto &edge: M_graph[source].edges) {
-        M_graph[source].excess += edge.remain;
+        M_graph[source].excess += M_remain(edge);
         M_push(M_graph[source], edge);
       }
       M_graph[source].height = M_graph.size();
@@ -397,7 +458,7 @@ public:
       while (true) {
         auto &edge = M_cur_edge(node);
         const auto &dest = M_graph[edge.dest];
-        if (edge.remain > 0 && node.height == dest.height + 1) {
+        if (M_remain(edge) > 0 && node.height == dest.height + 1) {
           if (dest.excess == 0 && edge.dest != sink) {
             active.push(dest.height, edge.dest);
             max_active = std::max(max_active, dest.height);
@@ -423,7 +484,9 @@ public:
             level.insert(node.height, vert);
           }
           else {
-            for (height_type index = node.height; index < min_gap; ++index) {
+            const height_type old_gap = min_gap;
+            min_gap = node.height;
+            for (height_type index = node.height; index < old_gap; ++index) {
               level.apply_all(index, [&](const vertex_type vert) {
                 M_graph[vert].height = M_graph.size() + 1;
               });
@@ -437,6 +500,52 @@ public:
     }
     return M_graph[sink].excess;
   }
+
+  template <bool ValueOnly = true>
+  typename std::enable_if<!ValueOnly, std::pair<flow_type, network_type>>::type
+  max_flow(const vertex_type source, const vertex_type sink) {
+    const flow_type flow = max_flow<true>(source, sink);
+    std::queue<vertex_type> active;
+    M_reverse_bfs(source);
+    for (vertex_type index = 0; index < M_graph.size(); ++index) {
+      const auto &node = M_graph[index];
+      if (node.excess > 0 && node.height < M_graph.size() && index != sink) {
+        active.push(index);
+      }
+    }
+    while (!active.empty()) {
+      auto &node = M_graph[active.front()];
+      active.pop();
+      while (node.excess > 0) {
+        auto &edge = M_cur_edge(node);
+        const auto &dest = M_graph[edge.dest];
+        if (M_remain(edge) > 0 && node.height == dest.height + 1) {
+          if (dest.excess == 0 && edge.dest != source) {
+            active.push(edge.dest);
+          }
+          M_push(node, edge);
+          if (node.excess == 0) {
+            break;
+          }
+        }
+        node.iter++;
+        if (node.iter == node.edges.size()) {
+          node.iter = 0;
+          M_relabel(node);
+        }
+      }
+    }
+    network_type graph;
+    graph.add_vertices(M_graph.size());
+    for (size_type index = 0; index < M_graph.size(); ++index) {
+      for (const auto &edge: M_graph[index].edges) {
+        if (!edge.is_rev) {
+          graph.add_edge(static_cast<edge_type>(edge));
+        }
+      }
+    }
+    return std::make_pair(flow, std::move(graph));
+  } 
 
 };
 
@@ -453,7 +562,7 @@ int main() {
   size_t V, E;
   std::cin >> V >> E;
   network<flow_edge<int32_t>> graph;
-  graph.add_vertices(V);
+  graph.add_vertices<false>(V);
   while (E--) {
     size_t u, v;
     std::cin >> u >> v;
