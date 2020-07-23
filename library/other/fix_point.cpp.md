@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: Lambda Recursion
+# :question: Lambda Recursion
 
 <a href="../../index.html">Back to top page</a>
 
@@ -39,12 +39,12 @@ layout: default
 ## Required by
 
 * :heavy_check_mark: <a href="../algebraic/number_theory.cpp.html">Number Theory</a>
-* :heavy_check_mark: <a href="../graph/dinic.cpp.html">Dinic</a>
+* :x: <a href="../graph/dinic.cpp.html">Dinic</a>
 
 
 ## Verified with
 
-* :heavy_check_mark: <a href="../../verify/test/dinic.test.cpp.html">test/dinic.test.cpp</a>
+* :x: <a href="../../verify/test/dinic.test.cpp.html">test/dinic.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/enumerate_divisors.test.cpp.html">test/enumerate_divisors.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/enumerate_factors.test.cpp.html">test/enumerate_factors.test.cpp</a>
 

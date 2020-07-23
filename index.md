@@ -75,11 +75,11 @@ layout: default
 
 ### graph
 
-* :heavy_check_mark: <a href="library/graph/dinic.cpp.html">Dinic</a>
+* :x: <a href="library/graph/dinic.cpp.html">Dinic</a>
 * :heavy_check_mark: <a href="library/graph/heavy_light_decomposition.cpp.html">Heavy-Light Decomposition</a>
-* :heavy_check_mark: <a href="library/graph/network.cpp.html">Network</a>
+* :x: <a href="library/graph/network.cpp.html">Network</a>
 * :warning: <a href="library/graph/partially_persistent_union_find.cpp.html">Partially Persistent Union Find</a>
-* :heavy_check_mark: <a href="library/graph/push_relabel.cpp.html">Push Relabel</a>
+* :x: <a href="library/graph/push_relabel.cpp.html">Push Relabel</a>
 * :heavy_check_mark: <a href="library/graph/union_find.cpp.html">Union Find</a>
 
 
@@ -90,7 +90,7 @@ layout: default
 * :heavy_check_mark: <a href="library/other/bit_operation.cpp.html">Bit Operations</a>
 * :warning: <a href="library/other/debug.cpp.html">Debugger</a>
 * :heavy_check_mark: <a href="library/other/fast_io.cpp.html">Fast Input/Output</a>
-* :heavy_check_mark: <a href="library/other/fix_point.cpp.html">Lambda Recursion</a>
+* :question: <a href="library/other/fix_point.cpp.html">Lambda Recursion</a>
 * :warning: <a href="library/other/multi_array.cpp.html">Multi-Dimensional Array</a>
 * :warning: <a href="library/other/multi_vec.cpp.html">Multi-Dimensional Vector</a>
 * :warning: <a href="library/other/template.cpp.html">Template</a>
@@ -107,7 +107,7 @@ layout: default
 
 ## Verify Files
 
-* :heavy_check_mark: <a href="verify/test/dinic.test.cpp.html">test/dinic.test.cpp</a>
+* :x: <a href="verify/test/dinic.test.cpp.html">test/dinic.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/enumerate_divisors.test.cpp.html">test/enumerate_divisors.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/enumerate_factors.test.cpp.html">test/enumerate_factors.test.cpp</a>
@@ -121,7 +121,7 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/ntt_arbitrary_mod.test.cpp.html">test/ntt_arbitrary_mod.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/ntt_arbitrary_runtimemod.test.cpp.html">test/ntt_arbitrary_runtimemod.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/push_relabel.test.cpp.html">test/push_relabel.test.cpp</a>
+* :x: <a href="verify/test/push_relabel.test.cpp.html">test/push_relabel.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/sliding_window_aggregation.test.cpp.html">test/sliding_window_aggregation.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/suffix_array.test.cpp.html">test/suffix_array.test.cpp</a>

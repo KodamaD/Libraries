@@ -25,23 +25,23 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/dinic.test.cpp
+# :x: test/dinic.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/dinic.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-23 14:35:06+09:00
+    - Last commit date: 2020-07-23 23:44:02+09:00
 
 
-* see: <a href="https://judge.yosupo.jp/problem/bipartitematching">https://judge.yosupo.jp/problem/bipartitematching</a>
+* see: <a href="https://yukicoder.me/problems/no/1123">https://yukicoder.me/problems/no/1123</a>
 
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/graph/dinic.cpp.html">Dinic</a>
-* :heavy_check_mark: <a href="../../library/graph/network.cpp.html">Network</a>
-* :heavy_check_mark: <a href="../../library/other/fix_point.cpp.html">Lambda Recursion</a>
+* :x: <a href="../../library/graph/dinic.cpp.html">Dinic</a>
+* :x: <a href="../../library/graph/network.cpp.html">Network</a>
+* :question: <a href="../../library/other/fix_point.cpp.html">Lambda Recursion</a>
 
 
 ## Code
@@ -50,7 +50,7 @@ layout: default
 {% raw %}
 ```cpp
 
-#define PROBLEM "https://judge.yosupo.jp/problem/bipartitematching"
+#define PROBLEM "https://yukicoder.me/problems/no/1123"
 
 #include "../graph/network.cpp"
 #include "../graph/dinic.cpp"
@@ -58,35 +58,69 @@ layout: default
 #include <cstddef>
 #include <cstdint>
 #include <iostream>
+#include <vector>
 
 int main() {
-  size_t L, R, M;
-  std::cin >> L >> R >> M;
-  network<flow_edge<int32_t>> graph;
+  size_t H, W;
+  std::cin >> H >> W;
+  std::vector<uint32_t> A(H), B(W);
+  for (auto &x: A) {
+    std::cin >> x;
+  }
+  for (auto &x: B) {
+    std::cin >> x;
+  }
+  const auto sumA = std::accumulate(A.cbegin(), A.cend(), uint32_t(0));
+  const auto sumB = std::accumulate(B.cbegin(), B.cend(), uint32_t(0));
+  if (sumA != sumB) {
+    std::cout << ":(\n";
+    return 0;
+  }
+  size_t K;
+  std::cin >> K;
+  std::vector<std::vector<char>> ans(H, std::vector<char>(W, '.'));
+  while (K--) {
+    size_t x, y;
+    std::cin >> x >> y;
+    --x; --y;
+    ans[x][y] = 'x';
+  }
+  network<flow_edge<uint32_t>> graph;
   const auto S = graph.add_vertex();
   const auto T = graph.add_vertex();
-  const auto left = graph.add_vertices(L);
-  const auto right = graph.add_vertices(R);
-  while (M--) {
-    size_t u, v;
-    std::cin >> u >> v;
-    graph.emplace_edge(left[u], right[v], 1);
+  const auto left = graph.add_vertices(H);
+  const auto right = graph.add_vertices(W);
+  for (size_t i = 0; i < H; ++i) {
+    graph.emplace_edge(S, left[i], A[i]);
   }
-  for (size_t i = 0; i < L; ++i) {
-    graph.emplace_edge(S, left[i], 1);
+  for (size_t j = 0; j < W; ++j) {
+    graph.emplace_edge(right[j], T, B[j]);
   }
-  for (size_t i = 0; i < R; ++i) {
-    graph.emplace_edge(right[i], T, 1);
-  }
-  const auto [flow, built] = dinic(graph).max_flow<false>(S, T);
-  std::cout << flow << '\n';
-  for (size_t i = 0; i < L; ++i) {
-    for (const auto &edge: built[left[i]]) {
-      if (edge.flow > 0) {
-        std::cout << i << ' ' << right.to_index(edge.dest) << '\n';
-        break;
+  for (size_t i = 0; i < H; ++i) {
+    for (size_t j = 0; j < W; ++j) {
+      if (ans[i][j] != 'x') {
+        graph.emplace_edge(left[i], right[j], 1);
       }
     }
+  }
+  const auto [flow, result] = dinic(graph).max_flow<false>(S, T);
+  if (flow != sumA) {
+    std::cout << ":(\n";
+    return 0;
+  }
+  std::cout << "Yay!\n";
+  for (size_t i = 0; i < H; ++i) {
+    for (const auto &e: result[left[i]]) {
+      if (e.flow > 0) {
+        ans[i][right.to_index(e.dest)] = 'o';
+      }
+    }
+  }
+  for (const auto &vec: ans) {
+    for (auto x: vec) {
+      std::cout << x;
+    }
+    std::cout << '\n';
   }
   return 0;
 }
@@ -99,11 +133,12 @@ int main() {
 ```cpp
 #line 1 "test/dinic.test.cpp"
 
-#define PROBLEM "https://judge.yosupo.jp/problem/bipartitematching"
+#define PROBLEM "https://yukicoder.me/problems/no/1123"
 
 #line 2 "graph/network.cpp"
 
 #include <cstddef>
+#include <cstdint>
 #include <vector>
 #include <numeric>
 #include <utility>
@@ -118,17 +153,22 @@ public:
 
   class index_helper {
   private:
-    const size_type M_size;
+    const size_type M_stuff, M_size;
   public:
-    explicit index_helper(const size_type size): M_size(size) { }
+    explicit index_helper(const size_type stuff, const size_type size): 
+      M_stuff(stuff), M_size(size) 
+    { }
     vertex_type operator [] (const size_type index) const {
       return to_vertex(index);
     }
     vertex_type to_vertex(const size_type index) const {
-      return index + M_size;
+      return index + M_stuff;
     }
     size_type to_index(const vertex_type vert) const {
-      return vert - M_size;
+      return vert - M_stuff;
+    }
+    size_type size() const {
+      return M_size;
     }
   };
 
@@ -154,7 +194,7 @@ public:
   add_vertices(const size_type size) {
     size_type cur = M_graph.size();
     M_graph.resize(cur + size);
-    return index_helper(cur);
+    return index_helper(cur, size);
   }
   template <bool ReturnsIndices = true>
   typename std::enable_if<!ReturnsIndices, void>::type 
@@ -202,7 +242,7 @@ public:
 
 class base_edge {
 public:
-  using vertex_type = size_t;
+  using vertex_type = uint32_t;
   const vertex_type source, dest;
   explicit base_edge(const vertex_type source, const vertex_type dest): 
     source(source), dest(dest) 
@@ -232,7 +272,7 @@ public:
     base_edge(source, dest), flow(flow), capacity(capacity)
   { }
   flow_edge reverse() const {
-    return flow_edge(static_cast<base_edge>(*this).reverse(), capacity);
+    return flow_edge(static_cast<base_edge>(*this).reverse(), capacity - flow, capacity);
   }
 };
 
@@ -296,7 +336,7 @@ public:
   using edge_type    = typename Network::edge_type;
   using size_type    = typename Network::size_type;
   using flow_type    = typename Network::edge_type::flow_type;
-  using height_type  = size_t;
+  using height_type  = uint32_t;
 
   static_assert(std::is_integral<flow_type>::value, "invalid flow type :: non-integral");
 
@@ -366,8 +406,8 @@ public:
 
   template <bool ValueOnly = true>
   typename std::enable_if<ValueOnly, flow_type>::type
-  max_flow(const vertex_type source, const vertex_type sink) {
-    const auto dfs = fix_point([&](const auto dfs, 
+  max_flow(const vertex_type source, const vertex_type sink, const bool initialize_edges = false) {
+    const auto dfs = make_fix_point([&](const auto dfs, 
       const vertex_type vert, const flow_type flow) -> flow_type {
       if (vert == sink) return flow;
       auto &node = M_graph[vert];
@@ -387,8 +427,10 @@ public:
     flow_type max_capacity = 0;
     for (auto &node: M_graph) {
       for (auto &edge: node.edges) {
-        if (!edge.is_rev) edge.flow = 0;
-        else edge.flow = edge.capacity;
+        if (initialize_edges) {
+          if (!edge.is_rev) edge.flow = 0;
+          else edge.flow = edge.capacity;
+        }
         max_capacity = std::max(max_capacity, edge.capacity);
       }
     }
@@ -411,8 +453,8 @@ public:
 
   template <bool ValueOnly = true>
   typename std::enable_if<!ValueOnly, std::pair<flow_type, network_type>>::type
-  max_flow(const vertex_type source, const vertex_type sink) {
-    const auto flow = max_flow<true>(source, sink);
+  max_flow(const vertex_type source, const vertex_type sink, const bool initialize_edges = false) {
+    const auto flow = max_flow<true>(source, sink, initialize_edges);
     network_type graph;
     graph.template add_vertices <false>(M_graph.size());
     for (size_type index = 0; index < M_graph.size(); ++index) {
@@ -432,38 +474,71 @@ public:
  */
 #line 6 "test/dinic.test.cpp"
 
-#line 8 "test/dinic.test.cpp"
-#include <cstdint>
+#line 9 "test/dinic.test.cpp"
 #include <iostream>
+#line 11 "test/dinic.test.cpp"
 
 int main() {
-  size_t L, R, M;
-  std::cin >> L >> R >> M;
-  network<flow_edge<int32_t>> graph;
+  size_t H, W;
+  std::cin >> H >> W;
+  std::vector<uint32_t> A(H), B(W);
+  for (auto &x: A) {
+    std::cin >> x;
+  }
+  for (auto &x: B) {
+    std::cin >> x;
+  }
+  const auto sumA = std::accumulate(A.cbegin(), A.cend(), uint32_t(0));
+  const auto sumB = std::accumulate(B.cbegin(), B.cend(), uint32_t(0));
+  if (sumA != sumB) {
+    std::cout << ":(\n";
+    return 0;
+  }
+  size_t K;
+  std::cin >> K;
+  std::vector<std::vector<char>> ans(H, std::vector<char>(W, '.'));
+  while (K--) {
+    size_t x, y;
+    std::cin >> x >> y;
+    --x; --y;
+    ans[x][y] = 'x';
+  }
+  network<flow_edge<uint32_t>> graph;
   const auto S = graph.add_vertex();
   const auto T = graph.add_vertex();
-  const auto left = graph.add_vertices(L);
-  const auto right = graph.add_vertices(R);
-  while (M--) {
-    size_t u, v;
-    std::cin >> u >> v;
-    graph.emplace_edge(left[u], right[v], 1);
+  const auto left = graph.add_vertices(H);
+  const auto right = graph.add_vertices(W);
+  for (size_t i = 0; i < H; ++i) {
+    graph.emplace_edge(S, left[i], A[i]);
   }
-  for (size_t i = 0; i < L; ++i) {
-    graph.emplace_edge(S, left[i], 1);
+  for (size_t j = 0; j < W; ++j) {
+    graph.emplace_edge(right[j], T, B[j]);
   }
-  for (size_t i = 0; i < R; ++i) {
-    graph.emplace_edge(right[i], T, 1);
-  }
-  const auto [flow, built] = dinic(graph).max_flow<false>(S, T);
-  std::cout << flow << '\n';
-  for (size_t i = 0; i < L; ++i) {
-    for (const auto &edge: built[left[i]]) {
-      if (edge.flow > 0) {
-        std::cout << i << ' ' << right.to_index(edge.dest) << '\n';
-        break;
+  for (size_t i = 0; i < H; ++i) {
+    for (size_t j = 0; j < W; ++j) {
+      if (ans[i][j] != 'x') {
+        graph.emplace_edge(left[i], right[j], 1);
       }
     }
+  }
+  const auto [flow, result] = dinic(graph).max_flow<false>(S, T);
+  if (flow != sumA) {
+    std::cout << ":(\n";
+    return 0;
+  }
+  std::cout << "Yay!\n";
+  for (size_t i = 0; i < H; ++i) {
+    for (const auto &e: result[left[i]]) {
+      if (e.flow > 0) {
+        ans[i][right.to_index(e.dest)] = 'o';
+      }
+    }
+  }
+  for (const auto &vec: ans) {
+    for (auto x: vec) {
+      std::cout << x;
+    }
+    std::cout << '\n';
   }
   return 0;
 }

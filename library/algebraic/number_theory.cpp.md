@@ -38,7 +38,7 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../other/fix_point.cpp.html">Lambda Recursion</a>
+* :question: <a href="../other/fix_point.cpp.html">Lambda Recursion</a>
 
 
 ## Verified with
