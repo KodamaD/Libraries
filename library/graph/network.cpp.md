@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: Network
+# :heavy_check_mark: Network
 
 <a href="../../index.html">Back to top page</a>
 
@@ -38,14 +38,14 @@ layout: default
 
 ## Required by
 
-* :x: <a href="dinic.cpp.html">Dinic</a>
-* :x: <a href="push_relabel.cpp.html">Push Relabel</a>
+* :heavy_check_mark: <a href="dinic.cpp.html">Dinic</a>
+* :heavy_check_mark: <a href="push_relabel.cpp.html">Push Relabel</a>
 
 
 ## Verified with
 
-* :x: <a href="../../verify/test/dinic.test.cpp.html">test/dinic.test.cpp</a>
-* :x: <a href="../../verify/test/push_relabel.test.cpp.html">test/push_relabel.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/dinic.test.cpp.html">test/dinic.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/push_relabel.test.cpp.html">test/push_relabel.test.cpp</a>
 
 
 ## Code

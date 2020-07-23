@@ -40,7 +40,7 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="../../library/algebraic/number_theory.cpp.html">Number Theory</a>
-* :question: <a href="../../library/other/fix_point.cpp.html">Lambda Recursion</a>
+* :heavy_check_mark: <a href="../../library/other/fix_point.cpp.html">Lambda Recursion</a>
 
 
 ## Code

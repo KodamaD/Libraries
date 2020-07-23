@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: Dinic
+# :heavy_check_mark: Dinic
 
 <a href="../../index.html">Back to top page</a>
 
@@ -38,13 +38,13 @@ layout: default
 
 ## Depends on
 
-* :x: <a href="network.cpp.html">Network</a>
-* :question: <a href="../other/fix_point.cpp.html">Lambda Recursion</a>
+* :heavy_check_mark: <a href="network.cpp.html">Network</a>
+* :heavy_check_mark: <a href="../other/fix_point.cpp.html">Lambda Recursion</a>
 
 
 ## Verified with
 
-* :x: <a href="../../verify/test/dinic.test.cpp.html">test/dinic.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/dinic.test.cpp.html">test/dinic.test.cpp</a>
 
 
 ## Code
