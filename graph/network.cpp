@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <cstdint>
 #include <vector>
 #include <numeric>
 #include <utility>
@@ -15,17 +16,22 @@ public:
 
   class index_helper {
   private:
-    const size_type M_size;
+    const size_type M_stuff, M_size;
   public:
-    explicit index_helper(const size_type size): M_size(size) { }
+    explicit index_helper(const size_type stuff, const size_type size): 
+      M_stuff(stuff), M_size(size) 
+    { }
     vertex_type operator [] (const size_type index) const {
       return to_vertex(index);
     }
     vertex_type to_vertex(const size_type index) const {
-      return index + M_size;
+      return index + M_stuff;
     }
     size_type to_index(const vertex_type vert) const {
-      return vert - M_size;
+      return vert - M_stuff;
+    }
+    size_type size() const {
+      return M_size;
     }
   };
 
@@ -51,7 +57,7 @@ public:
   add_vertices(const size_type size) {
     size_type cur = M_graph.size();
     M_graph.resize(cur + size);
-    return index_helper(cur);
+    return index_helper(cur, size);
   }
   template <bool ReturnsIndices = true>
   typename std::enable_if<!ReturnsIndices, void>::type 
@@ -99,7 +105,7 @@ public:
 
 class base_edge {
 public:
-  using vertex_type = size_t;
+  using vertex_type = uint32_t;
   const vertex_type source, dest;
   explicit base_edge(const vertex_type source, const vertex_type dest): 
     source(source), dest(dest) 
@@ -129,7 +135,7 @@ public:
     base_edge(source, dest), flow(flow), capacity(capacity)
   { }
   flow_edge reverse() const {
-    return flow_edge(static_cast<base_edge>(*this).reverse(), capacity);
+    return flow_edge(static_cast<base_edge>(*this).reverse(), capacity - flow, capacity);
   }
 };
 

@@ -86,7 +86,7 @@ public:
   using edge_type    = typename Network::edge_type;
   using size_type    = typename Network::size_type;
   using flow_type    = typename Network::edge_type::flow_type;
-  using height_type  = size_t;
+  using height_type  = uint32_t;
 
   static_assert(std::is_integral<flow_type>::value, "invalid flow type :: non-integral");
 
@@ -174,7 +174,7 @@ public:
 
   template <bool ValueOnly = true>
   typename std::enable_if<ValueOnly, flow_type>::type
-  max_flow(const vertex_type source, const vertex_type sink) {
+  max_flow(const vertex_type source, const vertex_type sink, const bool initialize_edges = false) {
     push_relabel_detail::stack_helper active(M_graph.size());
     push_relabel_detail::list_helper level(M_graph.size());
     height_type min_gap, max_active;
@@ -182,8 +182,10 @@ public:
       node.excess = 0;
       node.iter = 0;
       for (auto &edge: node.edges) {
-        if (!edge.is_rev) edge.flow = 0;
-        else edge.flow = edge.capacity;
+        if (initialize_edges) {
+          if (!edge.is_rev) edge.flow = 0;
+          else edge.flow = edge.capacity;
+        }
       }
     }
     M_reverse_bfs(sink);
@@ -269,8 +271,8 @@ public:
 
   template <bool ValueOnly = true>
   typename std::enable_if<!ValueOnly, std::pair<flow_type, network_type>>::type
-  max_flow(const vertex_type source, const vertex_type sink) {
-    const auto flow = max_flow<true>(source, sink);
+  max_flow(const vertex_type source, const vertex_type sink, const bool initialize_edges = false) {
+    const auto flow = max_flow<true>(source, sink, initialize_edges);
     std::queue<vertex_type> active;
     M_reverse_bfs(source);
     for (vertex_type index = 0; index < M_graph.size(); ++index) {

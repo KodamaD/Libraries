@@ -14,7 +14,7 @@ public:
   using edge_type    = typename Network::edge_type;
   using size_type    = typename Network::size_type;
   using flow_type    = typename Network::edge_type::flow_type;
-  using height_type  = size_t;
+  using height_type  = uint32_t;
 
   static_assert(std::is_integral<flow_type>::value, "invalid flow type :: non-integral");
 
@@ -84,8 +84,8 @@ public:
 
   template <bool ValueOnly = true>
   typename std::enable_if<ValueOnly, flow_type>::type
-  max_flow(const vertex_type source, const vertex_type sink) {
-    const auto dfs = fix_point([&](const auto dfs, 
+  max_flow(const vertex_type source, const vertex_type sink, const bool initialize_edges = false) {
+    const auto dfs = make_fix_point([&](const auto dfs, 
       const vertex_type vert, const flow_type flow) -> flow_type {
       if (vert == sink) return flow;
       auto &node = M_graph[vert];
@@ -105,8 +105,10 @@ public:
     flow_type max_capacity = 0;
     for (auto &node: M_graph) {
       for (auto &edge: node.edges) {
-        if (!edge.is_rev) edge.flow = 0;
-        else edge.flow = edge.capacity;
+        if (initialize_edges) {
+          if (!edge.is_rev) edge.flow = 0;
+          else edge.flow = edge.capacity;
+        }
         max_capacity = std::max(max_capacity, edge.capacity);
       }
     }
@@ -129,8 +131,8 @@ public:
 
   template <bool ValueOnly = true>
   typename std::enable_if<!ValueOnly, std::pair<flow_type, network_type>>::type
-  max_flow(const vertex_type source, const vertex_type sink) {
-    const auto flow = max_flow<true>(source, sink);
+  max_flow(const vertex_type source, const vertex_type sink, const bool initialize_edges = false) {
+    const auto flow = max_flow<true>(source, sink, initialize_edges);
     network_type graph;
     graph.template add_vertices <false>(M_graph.size());
     for (size_type index = 0; index < M_graph.size(); ++index) {
