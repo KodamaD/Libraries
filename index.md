@@ -75,6 +75,7 @@ layout: default
 
 ### graph
 
+* :heavy_check_mark: <a href="library/graph/dinic.cpp.html">Dinic</a>
 * :heavy_check_mark: <a href="library/graph/heavy_light_decomposition.cpp.html">Heavy-Light Decomposition</a>
 * :heavy_check_mark: <a href="library/graph/network.cpp.html">Network</a>
 * :warning: <a href="library/graph/partially_persistent_union_find.cpp.html">Partially Persistent Union Find</a>
@@ -106,6 +107,7 @@ layout: default
 
 ## Verify Files
 
+* :heavy_check_mark: <a href="verify/test/dinic.test.cpp.html">test/dinic.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/enumerate_divisors.test.cpp.html">test/enumerate_divisors.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/enumerate_factors.test.cpp.html">test/enumerate_factors.test.cpp</a>

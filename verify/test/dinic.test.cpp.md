@@ -25,22 +25,23 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/push_relabel.test.cpp
+# :heavy_check_mark: test/dinic.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
-* <a href="{{ site.github.repository_url }}/blob/master/test/push_relabel.test.cpp">View this file on GitHub</a>
+* <a href="{{ site.github.repository_url }}/blob/master/test/dinic.test.cpp">View this file on GitHub</a>
     - Last commit date: 2020-07-23 14:35:06+09:00
 
 
-* see: <a href="https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A">https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A</a>
+* see: <a href="https://judge.yosupo.jp/problem/bipartitematching">https://judge.yosupo.jp/problem/bipartitematching</a>
 
 
 ## Depends on
 
+* :heavy_check_mark: <a href="../../library/graph/dinic.cpp.html">Dinic</a>
 * :heavy_check_mark: <a href="../../library/graph/network.cpp.html">Network</a>
-* :heavy_check_mark: <a href="../../library/graph/push_relabel.cpp.html">Push Relabel</a>
+* :heavy_check_mark: <a href="../../library/other/fix_point.cpp.html">Lambda Recursion</a>
 
 
 ## Code
@@ -49,28 +50,44 @@ layout: default
 {% raw %}
 ```cpp
 
-#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A"
+#define PROBLEM "https://judge.yosupo.jp/problem/bipartitematching"
 
 #include "../graph/network.cpp"
-#include "../graph/push_relabel.cpp"
+#include "../graph/dinic.cpp"
 
 #include <cstddef>
 #include <cstdint>
 #include <iostream>
 
 int main() {
-  size_t V, E;
-  std::cin >> V >> E;
+  size_t L, R, M;
+  std::cin >> L >> R >> M;
   network<flow_edge<int32_t>> graph;
-  graph.add_vertices<false>(V);
-  while (E--) {
+  const auto S = graph.add_vertex();
+  const auto T = graph.add_vertex();
+  const auto left = graph.add_vertices(L);
+  const auto right = graph.add_vertices(R);
+  while (M--) {
     size_t u, v;
     std::cin >> u >> v;
-    int32_t c;
-    std::cin >> c;
-    graph.emplace_edge(u, v, c);
+    graph.emplace_edge(left[u], right[v], 1);
   }
-  std::cout << push_relabel<decltype(graph)>(graph).max_flow(0, V - 1) << '\n';
+  for (size_t i = 0; i < L; ++i) {
+    graph.emplace_edge(S, left[i], 1);
+  }
+  for (size_t i = 0; i < R; ++i) {
+    graph.emplace_edge(right[i], T, 1);
+  }
+  const auto [flow, built] = dinic(graph).max_flow<false>(S, T);
+  std::cout << flow << '\n';
+  for (size_t i = 0; i < L; ++i) {
+    for (const auto &edge: built[left[i]]) {
+      if (edge.flow > 0) {
+        std::cout << i << ' ' << right.to_index(edge.dest) << '\n';
+        break;
+      }
+    }
+  }
   return 0;
 }
 
@@ -80,9 +97,9 @@ int main() {
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "test/push_relabel.test.cpp"
+#line 1 "test/dinic.test.cpp"
 
-#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A"
+#define PROBLEM "https://judge.yosupo.jp/problem/bipartitematching"
 
 #line 2 "graph/network.cpp"
 
@@ -243,88 +260,36 @@ public:
 /**
  * @title Network
  */
-#line 2 "graph/push_relabel.cpp"
+#line 2 "graph/dinic.cpp"
 
 #include <queue>
 #include <algorithm>
 
-#line 7 "graph/push_relabel.cpp"
+#line 2 "other/fix_point.cpp"
 
-namespace push_relabel_detail {
+#line 4 "other/fix_point.cpp"
 
-  class stack_helper {
-  private:
-    const size_t M_size;
-    std::vector<size_t> M_stack;
-  public:
-    explicit stack_helper(const size_t size):
-      M_size(size), M_stack(size * 2)
-    { clear(); }
-    size_t top(const size_t height) const {
-      return M_stack[M_size + height];
-    }
-    bool empty(const size_t height) const { 
-      return M_stack[M_size + height] == M_size + height; 
-    }
-    void pop(const size_t height) {
-      M_stack[M_size + height] = M_stack[M_stack[M_size + height]];
-    }
-    void push(const size_t height, const size_t node) {
-      M_stack[node] = M_stack[M_size + height];
-      M_stack[M_size + height] = node;
-    }
-    void clear() {
-      std::iota(M_stack.begin() + M_size, M_stack.end(), M_size);
-    }
-  };
-
-  class list_helper {
-  private:
-    const size_t M_size;
-    std::vector<std::pair<size_t, size_t>> M_list;
-  public:
-    explicit list_helper(const size_t size):
-      M_size(size), M_list(size * 2)
-    { clear(); }
-    bool empty(const size_t height) {
-      return M_list[M_size + height].second == M_size + height;
-    }
-    bool more_than_one(const size_t height) {
-      return M_list[M_size + height].first != M_list[M_size + height].second;
-    }
-    void insert(const size_t height, const size_t node) {
-      M_list[node].first = M_list[M_size + height].first;
-      M_list[node].second = M_size + height;
-      M_list[M_list[M_size + height].first].second = node;
-      M_list[M_size + height].first = node;
-    }
-    void erase(const size_t node) {
-      M_list[M_list[node].first].second = M_list[node].second;
-      M_list[M_list[node].second].first = M_list[node].first;
-    }
-    void clear() {
-      for (size_t index = M_size; index < M_size * 2; ++index) {
-        M_list[index].first = M_list[index].second = index;
-      }
-    }
-    void clear(const size_t height) {
-      const size_t index = M_size + height;
-      M_list[index].first = M_list[index].second = index;
-    }
-    template <class Func>
-    void apply_all(const size_t height, Func &&func) {
-      size_t index = M_list[M_size + height].second;
-      while (index < M_size) {
-        func(index);
-        index = M_list[index].second;
-      }
-    }
-  };
-
+template <class Func>
+struct fix_point: private Func {
+  explicit constexpr fix_point(Func &&func): Func(std::forward<Func>(func)) { }
+  template <class... Args>
+  constexpr decltype(auto) operator () (Args &&... args) const {
+    return Func::operator()(*this, std::forward<Args>(args)...);
+  }
 };
 
+template <class Func>
+constexpr decltype(auto) make_fix_point(Func &&func) {
+  return fix_point<Func>(std::forward<Func>(func));
+}
+
+/**
+ * @title Lambda Recursion
+ */
+#line 8 "graph/dinic.cpp"
+
 template <class Network>
-class push_relabel {
+class dinic {
 public:
   using network_type = Network;
   using vertex_type  = typename Network::vertex_type;
@@ -348,8 +313,7 @@ private:
   class node_type {
   public:
     std::vector<residual_edge> edges;
-    flow_type excess;
-    height_type height;
+    height_type level;
     size_type iter;
     node_type() = default;
   };
@@ -364,37 +328,20 @@ private:
     return M_graph[edge.dest].edges[edge.rev];
   }
 
-  void M_push(node_type &node, residual_edge &edge) {
-    const auto flow = std::min(node.excess, M_remain(edge));
-    edge.flow += flow;
-    node.excess -= flow;
-    M_rev_edge(edge).flow -= flow;
-    M_graph[edge.dest].excess += flow;
-  }
-  void M_relabel(node_type &node) {
-    height_type min = M_graph.size() + 1;
-    for (const auto &edge: node.edges) {
-      if (M_remain(edge) > 0 && min > M_graph[edge.dest].height + 1) {
-        min = M_graph[edge.dest].height + 1;
-      }
-    }
-    node.height = min;
-  }
-
-  void M_reverse_bfs(const vertex_type source) {
+  void M_bfs(const vertex_type source) {
     for (auto &node: M_graph) {
-      node.height = M_graph.size() + 1;
+      node.level = M_graph.size() + 1;
     }
-    M_graph[source].height = 0;
+    M_graph[source].level = 0;
     std::queue<vertex_type> queue;
     queue.push(source);
     while (!queue.empty()) {
       const auto vert = queue.front();
       queue.pop();
       for (const auto &edge: M_graph[vert].edges) {
-        if (M_remain(M_rev_edge(edge)) > 0) {
-          if (M_graph[edge.dest].height == M_graph.size() + 1) {
-            M_graph[edge.dest].height = M_graph[vert].height + 1;
+        if (M_remain(edge) > 0) {
+          if (M_graph[edge.dest].level == M_graph.size() + 1) {
+            M_graph[edge.dest].level = M_graph[vert].level + 1;
             queue.push(edge.dest);
           }
         }
@@ -405,8 +352,8 @@ private:
   std::vector<node_type> M_graph;
 
 public:
-  push_relabel() = default;
-  explicit push_relabel(const network_type &net) {
+  dinic() = default;
+  explicit dinic(const network_type &net) {
     const auto &graph = net.get();
     M_graph.resize(graph.size());
     for (size_type src = 0; src < graph.size(); ++src) {
@@ -420,132 +367,52 @@ public:
   template <bool ValueOnly = true>
   typename std::enable_if<ValueOnly, flow_type>::type
   max_flow(const vertex_type source, const vertex_type sink) {
-    push_relabel_detail::stack_helper active(M_graph.size());
-    push_relabel_detail::list_helper level(M_graph.size());
-    height_type min_gap, max_active;
+    const auto dfs = fix_point([&](const auto dfs, 
+      const vertex_type vert, const flow_type flow) -> flow_type {
+      if (vert == sink) return flow;
+      auto &node = M_graph[vert];
+      for (; node.iter < node.edges.size(); ++node.iter) {
+        auto &edge = M_cur_edge(node);
+        if (M_remain(edge) > 0 && node.level < M_graph[edge.dest].level) {
+          const auto push = dfs(edge.dest, std::min(flow, M_remain(edge)));
+          if (push > 0) {
+            edge.flow += push;
+            M_rev_edge(edge).flow -= push;
+            return push;
+          }
+        }
+      }
+      return 0;
+    });
+    flow_type max_capacity = 0;
     for (auto &node: M_graph) {
-      node.excess = 0;
-      node.iter = 0;
       for (auto &edge: node.edges) {
         if (!edge.is_rev) edge.flow = 0;
         else edge.flow = edge.capacity;
+        max_capacity = std::max(max_capacity, edge.capacity);
       }
     }
-    M_reverse_bfs(sink);
-    if (M_graph[source].height == M_graph.size() + 1) {
-      return 0;
-    }
-    for (auto &edge: M_graph[source].edges) {
-      M_graph[source].excess += M_remain(edge);
-      M_push(M_graph[source], edge);
-    }
-    M_graph[source].height = M_graph.size();
-    min_gap = M_graph.size();
-    max_active = 0;
-    for (size_type index = 0; index < M_graph.size(); ++index) {
-      const auto &node = M_graph[index];
-      if (node.height < M_graph.size()) {
-        if (node.excess > 0 && index != sink) {
-          active.push(node.height, index);
-          max_active = std::max(max_active, node.height);
-        }
-        level.insert(node.height, index);
+    flow_type flow = 0;
+    while (true) {
+      M_bfs(source);
+      if (M_graph[sink].level == M_graph.size() + 1) {
+        return flow;
+      }
+      for (auto &node: M_graph) {
+        node.iter = 0;
+      }
+      flow_type push;
+      while ((push = dfs(source, max_capacity)) > 0) {
+        flow += push;
       }
     }
-    for (size_type index = 0; index < M_graph.size(); ++index) {
-      if (level.empty(index)) {
-        min_gap = index;
-        break;
-      }
-    }
-    while (max_active > 0) {
-      if (active.empty(max_active)) {
-        --max_active;
-        continue;
-      }
-      const auto vert = active.top(max_active);
-      auto &node = M_graph[vert];
-      active.pop(max_active);
-      while (true) {
-        auto &edge = M_cur_edge(node);
-        const auto &dest = M_graph[edge.dest];
-        if (M_remain(edge) > 0 && node.height == dest.height + 1) {
-          if (dest.excess == 0 && edge.dest != sink) {
-            active.push(dest.height, edge.dest);
-            max_active = std::max(max_active, dest.height);
-          }
-          M_push(node, edge);
-          if (node.excess == 0) {
-            break;
-          }
-        }
-        node.iter++;
-        if (node.iter == node.edges.size()) {
-          node.iter = 0;
-          if (level.more_than_one(node.height)) {
-            level.erase(vert);
-            M_relabel(node);
-            if (node.height > min_gap) {
-              node.height = M_graph.size() + 1;
-              break;
-            }
-            if (node.height == min_gap) {
-              min_gap++;
-            }
-            level.insert(node.height, vert);
-          }
-          else {
-            const height_type old_gap = min_gap;
-            min_gap = node.height;
-            for (height_type index = node.height; index < old_gap; ++index) {
-              level.apply_all(index, [&](const vertex_type vert) {
-                M_graph[vert].height = M_graph.size() + 1;
-              });
-              level.clear(index);
-            }
-            break;
-          }
-        }
-      }
-      max_active = std::min(max_active, min_gap - 1);
-    }
-    return M_graph[sink].excess;
+    return flow;
   }
 
   template <bool ValueOnly = true>
   typename std::enable_if<!ValueOnly, std::pair<flow_type, network_type>>::type
   max_flow(const vertex_type source, const vertex_type sink) {
     const auto flow = max_flow<true>(source, sink);
-    std::queue<vertex_type> active;
-    M_reverse_bfs(source);
-    for (vertex_type index = 0; index < M_graph.size(); ++index) {
-      const auto &node = M_graph[index];
-      if (node.excess > 0 && node.height < M_graph.size() && index != sink) {
-        active.push(index);
-      }
-    }
-    while (!active.empty()) {
-      auto &node = M_graph[active.front()];
-      active.pop();
-      while (node.excess > 0) {
-        auto &edge = M_cur_edge(node);
-        const auto &dest = M_graph[edge.dest];
-        if (M_remain(edge) > 0 && node.height == dest.height + 1) {
-          if (dest.excess == 0 && edge.dest != source) {
-            active.push(edge.dest);
-          }
-          M_push(node, edge);
-          if (node.excess == 0) {
-            break;
-          }
-        }
-        node.iter++;
-        if (node.iter == node.edges.size()) {
-          node.iter = 0;
-          M_relabel(node);
-        }
-      }
-    }
     network_type graph;
     graph.template add_vertices <false>(M_graph.size());
     for (size_type index = 0; index < M_graph.size(); ++index) {
@@ -556,32 +423,48 @@ public:
       }
     }
     return std::make_pair(flow, std::move(graph));
-  } 
+  }
 
 };
 
 /**
- * @title Push Relabel
+ * @title Dinic
  */
-#line 6 "test/push_relabel.test.cpp"
+#line 6 "test/dinic.test.cpp"
 
-#line 8 "test/push_relabel.test.cpp"
+#line 8 "test/dinic.test.cpp"
 #include <cstdint>
 #include <iostream>
 
 int main() {
-  size_t V, E;
-  std::cin >> V >> E;
+  size_t L, R, M;
+  std::cin >> L >> R >> M;
   network<flow_edge<int32_t>> graph;
-  graph.add_vertices<false>(V);
-  while (E--) {
+  const auto S = graph.add_vertex();
+  const auto T = graph.add_vertex();
+  const auto left = graph.add_vertices(L);
+  const auto right = graph.add_vertices(R);
+  while (M--) {
     size_t u, v;
     std::cin >> u >> v;
-    int32_t c;
-    std::cin >> c;
-    graph.emplace_edge(u, v, c);
+    graph.emplace_edge(left[u], right[v], 1);
   }
-  std::cout << push_relabel<decltype(graph)>(graph).max_flow(0, V - 1) << '\n';
+  for (size_t i = 0; i < L; ++i) {
+    graph.emplace_edge(S, left[i], 1);
+  }
+  for (size_t i = 0; i < R; ++i) {
+    graph.emplace_edge(right[i], T, 1);
+  }
+  const auto [flow, built] = dinic(graph).max_flow<false>(S, T);
+  std::cout << flow << '\n';
+  for (size_t i = 0; i < L; ++i) {
+    for (const auto &edge: built[left[i]]) {
+      if (edge.flow > 0) {
+        std::cout << i << ' ' << right.to_index(edge.dest) << '\n';
+        break;
+      }
+    }
+  }
   return 0;
 }
 

@@ -31,13 +31,20 @@ layout: default
 
 * category: <a href="../../index.html#f8b0b924ebd7046dbfa85a856e4682c8">graph</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/network.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-20 22:07:26+09:00
+    - Last commit date: 2020-07-23 14:35:06+09:00
 
 
+
+
+## Required by
+
+* :heavy_check_mark: <a href="dinic.cpp.html">Dinic</a>
+* :heavy_check_mark: <a href="push_relabel.cpp.html">Push Relabel</a>
 
 
 ## Verified with
 
+* :heavy_check_mark: <a href="../../verify/test/dinic.test.cpp.html">test/dinic.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/push_relabel.test.cpp.html">test/push_relabel.test.cpp</a>
 
 
@@ -61,6 +68,22 @@ public:
   using edge_type   = Edge;
   using size_type   = size_t;
 
+  class index_helper {
+  private:
+    const size_type M_size;
+  public:
+    explicit index_helper(const size_type size): M_size(size) { }
+    vertex_type operator [] (const size_type index) const {
+      return to_vertex(index);
+    }
+    vertex_type to_vertex(const size_type index) const {
+      return index + M_size;
+    }
+    size_type to_index(const vertex_type vert) const {
+      return vert - M_size;
+    }
+  };
+
 protected:
   std::vector<std::vector<edge_type>> M_graph;
 
@@ -79,13 +102,11 @@ public:
   }
 
   template <bool ReturnsIndices = true>
-  typename std::enable_if<ReturnsIndices, std::vector<vertex_type>>::type 
+  typename std::enable_if<ReturnsIndices, index_helper>::type 
   add_vertices(const size_type size) {
     size_type cur = M_graph.size();
-    std::vector<vertex_type> res(size);
-    std::iota(res.begin(), res.end(), cur);
     M_graph.resize(cur + size);
-    return res;
+    return index_helper(cur);
   }
   template <bool ReturnsIndices = true>
   typename std::enable_if<!ReturnsIndices, void>::type 
@@ -212,6 +233,22 @@ public:
   using edge_type   = Edge;
   using size_type   = size_t;
 
+  class index_helper {
+  private:
+    const size_type M_size;
+  public:
+    explicit index_helper(const size_type size): M_size(size) { }
+    vertex_type operator [] (const size_type index) const {
+      return to_vertex(index);
+    }
+    vertex_type to_vertex(const size_type index) const {
+      return index + M_size;
+    }
+    size_type to_index(const vertex_type vert) const {
+      return vert - M_size;
+    }
+  };
+
 protected:
   std::vector<std::vector<edge_type>> M_graph;
 
@@ -230,13 +267,11 @@ public:
   }
 
   template <bool ReturnsIndices = true>
-  typename std::enable_if<ReturnsIndices, std::vector<vertex_type>>::type 
+  typename std::enable_if<ReturnsIndices, index_helper>::type 
   add_vertices(const size_type size) {
     size_type cur = M_graph.size();
-    std::vector<vertex_type> res(size);
-    std::iota(res.begin(), res.end(), cur);
     M_graph.resize(cur + size);
-    return res;
+    return index_helper(cur);
   }
   template <bool ReturnsIndices = true>
   typename std::enable_if<!ReturnsIndices, void>::type 
