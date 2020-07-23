@@ -13,6 +13,22 @@ public:
   using edge_type   = Edge;
   using size_type   = size_t;
 
+  class index_helper {
+  private:
+    const size_type M_size;
+  public:
+    explicit index_helper(const size_type size): M_size(size) { }
+    vertex_type operator [] (const size_type index) const {
+      return to_vertex(index);
+    }
+    vertex_type to_vertex(const size_type index) const {
+      return index + M_size;
+    }
+    size_type to_index(const vertex_type vert) const {
+      return vert - M_size;
+    }
+  };
+
 protected:
   std::vector<std::vector<edge_type>> M_graph;
 
@@ -31,13 +47,11 @@ public:
   }
 
   template <bool ReturnsIndices = true>
-  typename std::enable_if<ReturnsIndices, std::vector<vertex_type>>::type 
+  typename std::enable_if<ReturnsIndices, index_helper>::type 
   add_vertices(const size_type size) {
     size_type cur = M_graph.size();
-    std::vector<vertex_type> res(size);
-    std::iota(res.begin(), res.end(), cur);
     M_graph.resize(cur + size);
-    return res;
+    return index_helper(cur);
   }
   template <bool ReturnsIndices = true>
   typename std::enable_if<!ReturnsIndices, void>::type 

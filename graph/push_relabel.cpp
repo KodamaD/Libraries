@@ -1,12 +1,9 @@
 #pragma once
 
-#include <cstddef>
-#include <vector>
 #include <queue>
 #include <algorithm>
-#include <numeric>
-#include <utility>
-#include <type_traits>
+
+#include "../graph/network.cpp"
 
 namespace push_relabel_detail {
 
@@ -181,41 +178,39 @@ public:
     push_relabel_detail::stack_helper active(M_graph.size());
     push_relabel_detail::list_helper level(M_graph.size());
     height_type min_gap, max_active;
-    {
-      for (auto &node: M_graph) {
-        node.excess = 0;
-        node.iter = 0;
-        for (auto &edge: node.edges) {
-          if (!edge.is_rev) edge.flow = 0;
-          else edge.flow = edge.capacity;
+    for (auto &node: M_graph) {
+      node.excess = 0;
+      node.iter = 0;
+      for (auto &edge: node.edges) {
+        if (!edge.is_rev) edge.flow = 0;
+        else edge.flow = edge.capacity;
+      }
+    }
+    M_reverse_bfs(sink);
+    if (M_graph[source].height == M_graph.size() + 1) {
+      return 0;
+    }
+    for (auto &edge: M_graph[source].edges) {
+      M_graph[source].excess += M_remain(edge);
+      M_push(M_graph[source], edge);
+    }
+    M_graph[source].height = M_graph.size();
+    min_gap = M_graph.size();
+    max_active = 0;
+    for (size_type index = 0; index < M_graph.size(); ++index) {
+      const auto &node = M_graph[index];
+      if (node.height < M_graph.size()) {
+        if (node.excess > 0 && index != sink) {
+          active.push(node.height, index);
+          max_active = std::max(max_active, node.height);
         }
+        level.insert(node.height, index);
       }
-      M_reverse_bfs(sink);
-      if (M_graph[source].height == M_graph.size() + 1) {
-        return 0;
-      }
-      for (auto &edge: M_graph[source].edges) {
-        M_graph[source].excess += M_remain(edge);
-        M_push(M_graph[source], edge);
-      }
-      M_graph[source].height = M_graph.size();
-      min_gap = M_graph.size();
-      max_active = 0;
-      for (size_type index = 0; index < M_graph.size(); ++index) {
-        const auto &node = M_graph[index];
-        if (node.height < M_graph.size()) {
-          if (node.excess > 0 && index != sink) {
-            active.push(node.height, index);
-            max_active = std::max(max_active, node.height);
-          }
-          level.insert(node.height, index);
-        }
-      }
-      for (size_type index = 0; index < M_graph.size(); ++index) {
-        if (level.empty(index)) {
-          min_gap = index;
-          break;
-        }
+    }
+    for (size_type index = 0; index < M_graph.size(); ++index) {
+      if (level.empty(index)) {
+        min_gap = index;
+        break;
       }
     }
     while (max_active > 0) {
@@ -250,7 +245,7 @@ public:
               break;
             }
             if (node.height == min_gap) {
-              ++min_gap;
+              min_gap++;
             }
             level.insert(node.height, vert);
           }
@@ -275,7 +270,7 @@ public:
   template <bool ValueOnly = true>
   typename std::enable_if<!ValueOnly, std::pair<flow_type, network_type>>::type
   max_flow(const vertex_type source, const vertex_type sink) {
-    const flow_type flow = max_flow<true>(source, sink);
+    const auto flow = max_flow<true>(source, sink);
     std::queue<vertex_type> active;
     M_reverse_bfs(source);
     for (vertex_type index = 0; index < M_graph.size(); ++index) {
@@ -307,7 +302,7 @@ public:
       }
     }
     network_type graph;
-    graph.add_vertices(M_graph.size());
+    graph.template add_vertices <false>(M_graph.size());
     for (size_type index = 0; index < M_graph.size(); ++index) {
       for (const auto &edge: M_graph[index].edges) {
         if (!edge.is_rev) {
