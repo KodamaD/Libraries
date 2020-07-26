@@ -31,9 +31,14 @@ layout: default
 
 * category: <a href="../../index.html#b45cffe084dd3d20d928bee85e7b0f21">string</a>
 * <a href="{{ site.github.repository_url }}/blob/master/string/rolling_hash.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-11 19:42:18+09:00
+    - Last commit date: 2020-07-26 17:47:10+09:00
 
 
+
+
+## Depends on
+
+* :warning: <a href="../other/random_number.cpp.html">Random Number</a>
 
 
 ## Code
@@ -43,29 +48,32 @@ layout: default
 ```cpp
 #pragma once
 
+#include "../other/random_number.cpp"
 #include <cstddef>
 #include <cstdint>
 #include <vector>
 #include <string>
 #include <chrono>
 
-template <class Base>
-class hash_string {
+class rolling_hash {
 public:
   using mod_type  = uint64_t;
   using base_type = uint32_t;
   using size_type = size_t;
 
-  static constexpr mod_type mod = (mod_type(1) << 61) - 1;
-  static base_type base() { return Base::value(); }
-
 private:
   std::string M_string;
   std::vector<mod_type> M_power, M_hash;
 
+  static constexpr mod_type S_mod = (mod_type(1) << 61) - 1;
+  static base_type S_base() { 
+    static const base_type value = engine();
+    return value;
+  }
+
 public:
-  hash_string() { initialize(); }
-  hash_string(const std::string &initial_) { construct(initial_); }
+  rolling_hash() { initialize(); }
+  rolling_hash(const std::string &initial_) { construct(initial_); }
 
   void initialize() {
     clear();
@@ -85,13 +93,13 @@ public:
     M_power.resize(next_size + 1);
     M_hash.resize(next_size + 1);
     for (size_type i = cur_size; i < next_size; ++i) {
-      M_power[i + 1] = (__uint128_t) M_power[i] * base() % mod;
-      M_hash[i + 1] = ((__uint128_t) M_hash[i] * base() + M_string[i]) % mod;
+      M_power[i + 1] = (__uint128_t) M_power[i] * S_base() % S_mod;
+      M_hash[i + 1] = ((__uint128_t) M_hash[i] * S_base() + M_string[i]) % S_mod;
     }
   }
 
   mod_type hash(size_type l, size_type r) const {
-    return (M_hash[r] + mod - ((__uint128_t) M_power[r - l] * M_hash[l]) % mod) % mod;
+    return (M_hash[r] + S_mod - ((__uint128_t) M_power[r - l] * M_hash[l]) % S_mod) % S_mod;
   }
   size_type lcp(size_type l, size_type r) const {
     size_type ok = 0, ng = std::min(M_string.size() - l, M_string.size() - r) + 1;
@@ -121,17 +129,6 @@ public:
   }
 
 };
-
-struct rolling_hash_base {
-  static uint32_t &value() {
-    static uint32_t base = [] {
-      auto time_point = std::chrono::system_clock::now();
-      return time_point.time_since_epoch().count();
-    }();
-    return base;
-  }
-};
-using rolling_hash = hash_string<rolling_hash_base>;
 
 /**
  * @title Rolling Hash
@@ -144,29 +141,80 @@ using rolling_hash = hash_string<rolling_hash_base>;
 ```cpp
 #line 2 "string/rolling_hash.cpp"
 
-#include <cstddef>
+#line 1 "other/random_number.cpp"
+
 #include <cstdint>
+#include <random>
+#include <chrono>
+#include <array>
+
+uint64_t engine() {
+  const auto rotate = [](const uint64_t x, const size_t k) {
+    return (x << k) | (x >> (64 - k));
+  };
+  static auto array = [] {
+    uint64_t seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::array<uint64_t, 4> res{};
+    for (size_t index = 0; index < 4; index++) {
+      uint64_t value = (seed += 0x9e3779b97f4a7c15);
+      value = (value ^ (value >> 30)) * 0xbf58476d1ce4e5b9;
+      value = (value ^ (value >> 27)) * 0x94d049bb133111eb;
+      res[index] = value ^ (value >> 31);
+    }
+    return res;
+  }();
+	const uint64_t result = rotate(array[1] * 5, 7) * 9;
+	const uint64_t old_value = array[1] << 17;
+	array[2] ^= array[0];
+	array[3] ^= array[1];
+	array[1] ^= array[2];
+	array[0] ^= array[3];
+	array[2] ^= old_value;
+	array[3] = rotate(array[3], 45);
+	return result;
+}
+
+template <class Integer>
+Integer random_integer(Integer lower, Integer upper) {
+  static std::default_random_engine gen(engine());
+  return std::uniform_int_distribution<Integer>(lower, upper)(gen);
+}
+
+template <class Real>
+Real random_real(Real lower, Real upper) {
+  static std::default_random_engine gen(engine());
+  return std::uniform_real_distribution<Real>(lower, upper)(gen);
+}
+
+/** 
+ * @title Random Number
+ */
+#line 4 "string/rolling_hash.cpp"
+#include <cstddef>
+#line 6 "string/rolling_hash.cpp"
 #include <vector>
 #include <string>
-#include <chrono>
+#line 9 "string/rolling_hash.cpp"
 
-template <class Base>
-class hash_string {
+class rolling_hash {
 public:
   using mod_type  = uint64_t;
   using base_type = uint32_t;
   using size_type = size_t;
 
-  static constexpr mod_type mod = (mod_type(1) << 61) - 1;
-  static base_type base() { return Base::value(); }
-
 private:
   std::string M_string;
   std::vector<mod_type> M_power, M_hash;
 
+  static constexpr mod_type S_mod = (mod_type(1) << 61) - 1;
+  static base_type S_base() { 
+    static const base_type value = engine();
+    return value;
+  }
+
 public:
-  hash_string() { initialize(); }
-  hash_string(const std::string &initial_) { construct(initial_); }
+  rolling_hash() { initialize(); }
+  rolling_hash(const std::string &initial_) { construct(initial_); }
 
   void initialize() {
     clear();
@@ -186,13 +234,13 @@ public:
     M_power.resize(next_size + 1);
     M_hash.resize(next_size + 1);
     for (size_type i = cur_size; i < next_size; ++i) {
-      M_power[i + 1] = (__uint128_t) M_power[i] * base() % mod;
-      M_hash[i + 1] = ((__uint128_t) M_hash[i] * base() + M_string[i]) % mod;
+      M_power[i + 1] = (__uint128_t) M_power[i] * S_base() % S_mod;
+      M_hash[i + 1] = ((__uint128_t) M_hash[i] * S_base() + M_string[i]) % S_mod;
     }
   }
 
   mod_type hash(size_type l, size_type r) const {
-    return (M_hash[r] + mod - ((__uint128_t) M_power[r - l] * M_hash[l]) % mod) % mod;
+    return (M_hash[r] + S_mod - ((__uint128_t) M_power[r - l] * M_hash[l]) % S_mod) % S_mod;
   }
   size_type lcp(size_type l, size_type r) const {
     size_type ok = 0, ng = std::min(M_string.size() - l, M_string.size() - r) + 1;
@@ -222,17 +270,6 @@ public:
   }
 
 };
-
-struct rolling_hash_base {
-  static uint32_t &value() {
-    static uint32_t base = [] {
-      auto time_point = std::chrono::system_clock::now();
-      return time_point.time_since_epoch().count();
-    }();
-    return base;
-  }
-};
-using rolling_hash = hash_string<rolling_hash_base>;
 
 /**
  * @title Rolling Hash

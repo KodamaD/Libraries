@@ -39,7 +39,6 @@ layout: default
 ### algebraic
 
 * :heavy_check_mark: <a href="library/algebraic/factorials.cpp.html">Factorial</a>
-* :heavy_check_mark: <a href="library/algebraic/fft.cpp.html">Fast Fourier Transform</a>
 * :heavy_check_mark: <a href="library/algebraic/modular.cpp.html">Modint</a>
 * :heavy_check_mark: <a href="library/algebraic/ntt.cpp.html">Number Theoretic Transform</a>
 * :heavy_check_mark: <a href="library/algebraic/ntt_arbitrary.cpp.html">Number Theoretic Transform (arbitrary mod)</a>
@@ -88,12 +87,13 @@ layout: default
 ### other
 
 * :heavy_check_mark: <a href="library/other/bit_operation.cpp.html">Bit Operations</a>
-* :warning: <a href="library/other/debug.cpp.html">Debugger</a>
 * :heavy_check_mark: <a href="library/other/fast_io.cpp.html">Fast Input/Output</a>
 * :heavy_check_mark: <a href="library/other/fix_point.cpp.html">Lambda Recursion</a>
 * :warning: <a href="library/other/multi_array.cpp.html">Multi-Dimensional Array</a>
 * :warning: <a href="library/other/multi_vec.cpp.html">Multi-Dimensional Vector</a>
+* :warning: <a href="library/other/random_number.cpp.html">Random Number</a>
 * :warning: <a href="library/other/template.cpp.html">Template</a>
+* :warning: <a href="library/other/time_measurement.cpp.html">Time Measurement</a>
 
 
 <div id="b45cffe084dd3d20d928bee85e7b0f21"></div>
@@ -114,7 +114,6 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/factorials.test.cpp.html">test/factorials.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/fast_io.test.cpp.html">test/fast_io.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/fenwick_tree.test.cpp.html">test/fenwick_tree.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/fft.test.cpp.html">test/fft.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/heavy_light_decomposition.test.cpp.html">test/heavy_light_decomposition.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/matrix.test.cpp.html">test/matrix.test.cpp</a>
