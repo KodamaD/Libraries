@@ -1,28 +1,31 @@
 #pragma once
 
+#include "../other/random_number.cpp"
 #include <cstddef>
 #include <cstdint>
 #include <vector>
 #include <string>
 #include <chrono>
 
-template <class Base>
-class hash_string {
+class rolling_hash {
 public:
   using mod_type  = uint64_t;
   using base_type = uint32_t;
   using size_type = size_t;
 
-  static constexpr mod_type mod = (mod_type(1) << 61) - 1;
-  static base_type base() { return Base::value(); }
-
 private:
   std::string M_string;
   std::vector<mod_type> M_power, M_hash;
 
+  static constexpr mod_type S_mod = (mod_type(1) << 61) - 1;
+  static base_type S_base() { 
+    static const base_type value = engine();
+    return value;
+  }
+
 public:
-  hash_string() { initialize(); }
-  hash_string(const std::string &initial_) { construct(initial_); }
+  rolling_hash() { initialize(); }
+  rolling_hash(const std::string &initial_) { construct(initial_); }
 
   void initialize() {
     clear();
@@ -42,13 +45,13 @@ public:
     M_power.resize(next_size + 1);
     M_hash.resize(next_size + 1);
     for (size_type i = cur_size; i < next_size; ++i) {
-      M_power[i + 1] = (__uint128_t) M_power[i] * base() % mod;
-      M_hash[i + 1] = ((__uint128_t) M_hash[i] * base() + M_string[i]) % mod;
+      M_power[i + 1] = (__uint128_t) M_power[i] * S_base() % S_mod;
+      M_hash[i + 1] = ((__uint128_t) M_hash[i] * S_base() + M_string[i]) % S_mod;
     }
   }
 
   mod_type hash(size_type l, size_type r) const {
-    return (M_hash[r] + mod - ((__uint128_t) M_power[r - l] * M_hash[l]) % mod) % mod;
+    return (M_hash[r] + S_mod - ((__uint128_t) M_power[r - l] * M_hash[l]) % S_mod) % S_mod;
   }
   size_type lcp(size_type l, size_type r) const {
     size_type ok = 0, ng = std::min(M_string.size() - l, M_string.size() - r) + 1;
@@ -78,17 +81,6 @@ public:
   }
 
 };
-
-struct rolling_hash_base {
-  static uint32_t &value() {
-    static uint32_t base = [] {
-      auto time_point = std::chrono::system_clock::now();
-      return time_point.time_since_epoch().count();
-    }();
-    return base;
-  }
-};
-using rolling_hash = hash_string<rolling_hash_base>;
 
 /**
  * @title Rolling Hash
