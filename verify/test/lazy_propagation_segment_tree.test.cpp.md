@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: test/lazy_propagation_segment_tree.test.cpp
+# :heavy_check_mark: test/lazy_propagation_segment_tree.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/lazy_propagation_segment_tree.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-01 22:24:08+09:00
+    - Last commit date: 2020-08-01 22:40:49+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/range_affine_range_sum">https://judge.yosupo.jp/problem/range_affine_range_sum</a>
@@ -39,9 +39,9 @@ layout: default
 
 ## Depends on
 
-* :question: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
-* :x: <a href="../../library/container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
-* :question: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
+* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
+* :heavy_check_mark: <a href="../../library/container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
+* :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
 
 
 ## Code
@@ -60,7 +60,7 @@ layout: default
 #include <cstddef>
 #include <vector>
 
-using m32 = modular<998244353>;
+using m32 = mint32_t<998244353>;
 
 struct lst_monoid {
   struct value_structure {
@@ -414,7 +414,7 @@ using rmint32_t = modular<runtime_mod>;
 #include <utility>
 #line 11 "test/lazy_propagation_segment_tree.test.cpp"
 
-using m32 = modular<998244353>;
+using m32 = mint32_t<998244353>;
 
 struct lst_monoid {
   struct value_structure {

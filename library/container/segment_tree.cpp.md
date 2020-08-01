@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: Segment Tree
+# :heavy_check_mark: Segment Tree
 
 <a href="../../index.html">Back to top page</a>
 
@@ -38,7 +38,7 @@ layout: default
 
 ## Verified with
 
-* :x: <a href="../../verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
 
 
 ## Code

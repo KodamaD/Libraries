@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: test/matrix.test.cpp
+# :heavy_check_mark: test/matrix.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/matrix.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-01 22:24:08+09:00
+    - Last commit date: 2020-08-01 22:40:49+09:00
 
 
 * see: <a href="https://yukicoder.me/problems/no/1105">https://yukicoder.me/problems/no/1105</a>
@@ -39,8 +39,8 @@ layout: default
 
 ## Depends on
 
-* :question: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
-* :x: <a href="../../library/container/matrix.cpp.html">Matrix</a>
+* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
+* :heavy_check_mark: <a href="../../library/container/matrix.cpp.html">Matrix</a>
 
 
 ## Code
@@ -57,7 +57,7 @@ layout: default
 #include <iostream>
 #include <cstdint>
 
-using m32 = modular<1000000007>;
+using m32 = mint32_t<1000000007>;
 
 struct semiring {
   struct value_structure {
@@ -319,7 +319,7 @@ public:
 
 #line 9 "test/matrix.test.cpp"
 
-using m32 = modular<1000000007>;
+using m32 = mint32_t<1000000007>;
 
 struct semiring {
   struct value_structure {

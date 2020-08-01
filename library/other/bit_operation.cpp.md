@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :question: Bit Operations
+# :heavy_check_mark: Bit Operations
 
 <a href="../../index.html">Back to top page</a>
 
@@ -41,14 +41,14 @@ layout: default
 * :heavy_check_mark: <a href="../algebraic/ntt.cpp.html">Number Theoretic Transform</a>
 * :heavy_check_mark: <a href="../container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
 * :heavy_check_mark: <a href="../container/fenwick_tree.cpp.html">Fenwick Tree</a>
-* :x: <a href="../container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
+* :heavy_check_mark: <a href="../container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
 
 
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/fenwick_tree.test.cpp.html">test/fenwick_tree.test.cpp</a>
-* :x: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
 
 
