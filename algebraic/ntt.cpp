@@ -76,7 +76,7 @@ template <class Modular>
 class number_theoretic_transform {
 public:
   using value_type = Modular;
-  static constexpr uint32_t mod = Modular::get_mod();
+  static constexpr uint32_t mod = Modular::mod();
   static constexpr uint32_t prim = ntt_detail::calc_primitive_root(mod);
 
 private:
@@ -165,7 +165,7 @@ public:
   template <bool Same = false, typename std::enable_if<Same, void>::type* = nullptr>
   static std::vector<value_type> convolve(
     std::vector<value_type> A,
-    [[maybe_unused]] const std::vector<value_type> &B) {
+    const std::vector<value_type>&) {
     if (A.empty()) return { };
     size_t res_size = 2 * A.size() - 1;
     size_t fix_size = next_power_of_two(res_size);

@@ -1,7 +1,7 @@
 
 #define PROBLEM "https://yukicoder.me/problems/no/888"
 
-#include "../algebraic/number_theory.cpp"
+#include "../algebraic/fact_prime.cpp"
 
 #include <cstdint>
 #include <iostream>

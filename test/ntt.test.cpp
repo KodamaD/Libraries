@@ -6,7 +6,7 @@
 #include <iostream>
 #include <vector>
 
-using m32 = modular<998244353>;
+using m32 = mint32_t<998244353>;
 
 int main() {
   size_t N, M;

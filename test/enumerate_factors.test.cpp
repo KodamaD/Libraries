@@ -1,7 +1,7 @@
 
 #define PROBLEM "https://judge.yosupo.jp/problem/factorize"
 
-#include "../algebraic/number_theory.cpp"
+#include "../algebraic/fact_prime.cpp"
 
 #include <cstddef>
 #include <cstdint>

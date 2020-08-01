@@ -19,15 +19,15 @@ uint64_t engine() {
     }
     return res;
   }();
-	const uint64_t result = rotate(array[1] * 5, 7) * 9;
-	const uint64_t old_value = array[1] << 17;
-	array[2] ^= array[0];
-	array[3] ^= array[1];
-	array[1] ^= array[2];
-	array[0] ^= array[3];
-	array[2] ^= old_value;
-	array[3] = rotate(array[3], 45);
-	return result;
+  const uint64_t result = rotate(array[1] * 5, 7) * 9;
+  const uint64_t old_value = array[1] << 17;
+  array[2] ^= array[0];
+  array[3] ^= array[1];
+  array[1] ^= array[2];
+  array[0] ^= array[3];
+  array[2] ^= old_value;
+  array[3] = rotate(array[3], 45);
+  return result;
 }
 
 template <class Integer>

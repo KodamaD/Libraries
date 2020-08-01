@@ -10,47 +10,9 @@
 #include <vector>
 #include <array>
 
-template <class T, class U>
-inline bool chmin(T &lhs, const U &rhs) {
-  if (lhs > rhs) { lhs = rhs; return true; }
-  return false;
-}
-
-template <class T, class U>
-inline bool chmax(T &lhs, const U &rhs) {
-  if (lhs < rhs) { lhs = rhs; return true; }
-  return false;
-}
-
-struct range {
-  using itr = int64_t;
-  struct iterator {
-    itr i;
-    constexpr iterator(itr i_) noexcept : i(i_) { }
-    constexpr void operator ++ () noexcept { ++i; }
-    constexpr itr operator * () const noexcept { return i; }
-    constexpr bool operator != (iterator x) const noexcept { return i != x.i; }
-  };
-  const iterator l, r;
-  constexpr range(itr l_, itr r_) noexcept : l(l_), r(std::max(l_, r_)) { }
-  constexpr iterator begin() const noexcept { return l; }
-  constexpr iterator end() const noexcept { return r; }
-};
-
-struct revrange {
-  using itr = int64_t;
-  struct iterator {
-    itr i;
-    constexpr iterator(itr i_) noexcept : i(i_) { }
-    constexpr void operator ++ () noexcept { --i; }
-    constexpr itr operator * () const noexcept { return i; }
-    constexpr bool operator != (iterator x) const noexcept { return i != x.i; }
-  };
-  const iterator l, r;
-  constexpr revrange(itr l_, itr r_) noexcept : l(l_ - 1), r(std::max(l_, r_) - 1) { }
-  constexpr iterator begin() const noexcept { return r; }
-  constexpr iterator end() const noexcept { return l; }
-};
+#include "/Users/kodamankod/Desktop/Programming/Library/other/chmin_chmax.cpp"
+#include "/Users/kodamankod/Desktop/Programming/Library/other/range.cpp"
+#include "/Users/kodamankod/Desktop/Programming/Library/other/rev.cpp"
 
 using i32 = int32_t;
 using i64 = int64_t;
