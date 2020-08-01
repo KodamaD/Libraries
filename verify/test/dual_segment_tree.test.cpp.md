@@ -40,7 +40,7 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="../../library/container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
-* :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
+* :question: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
 
 
 ## Code

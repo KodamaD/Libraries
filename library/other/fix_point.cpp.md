@@ -38,7 +38,7 @@ layout: default
 
 ## Required by
 
-* :heavy_check_mark: <a href="../algebraic/number_theory.cpp.html">Number Theory</a>
+* :heavy_check_mark: <a href="../algebraic/fact_prime.cpp.html">Primes/Factors</a>
 * :heavy_check_mark: <a href="../graph/dinic.cpp.html">Dinic</a>
 
 

@@ -31,27 +31,20 @@ layout: default
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/ntt.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-12 13:43:20+09:00
+    - Last commit date: 2020-08-01 22:24:08+09:00
 
 
 
 
 ## Depends on
 
-* :heavy_check_mark: <a href="modular.cpp.html">Modint</a>
-* :heavy_check_mark: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
-
-
-## Required by
-
-* :heavy_check_mark: <a href="ntt_arbitrary.cpp.html">Number Theoretic Transform (arbitrary mod)</a>
+* :question: <a href="modular.cpp.html">Modint</a>
+* :question: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
 
 
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
-* :heavy_check_mark: <a href="../../verify/test/ntt_arbitrary_mod.test.cpp.html">test/ntt_arbitrary_mod.test.cpp</a>
-* :heavy_check_mark: <a href="../../verify/test/ntt_arbitrary_runtimemod.test.cpp.html">test/ntt_arbitrary_runtimemod.test.cpp</a>
 
 
 ## Code
@@ -137,7 +130,7 @@ template <class Modular>
 class number_theoretic_transform {
 public:
   using value_type = Modular;
-  static constexpr uint32_t mod = Modular::get_mod();
+  static constexpr uint32_t mod = Modular::mod();
   static constexpr uint32_t prim = ntt_detail::calc_primitive_root(mod);
 
 private:
@@ -226,7 +219,7 @@ public:
   template <bool Same = false, typename std::enable_if<Same, void>::type* = nullptr>
   static std::vector<value_type> convolve(
     std::vector<value_type> A,
-    [[maybe_unused]] const std::vector<value_type> &B) {
+    const std::vector<value_type>&) {
     if (A.empty()) return { };
     size_t res_size = 2 * A.size() - 1;
     size_t fix_size = next_power_of_two(res_size);
@@ -258,26 +251,22 @@ public:
 #include <cstdint>
 #include <iostream>
 
-template <uint32_t Modulus>
+template <class Modulus>
 class modular {
 public:
   using value_type = uint32_t;
-  using max_type = uint64_t;
-
-  static constexpr value_type mod = Modulus;
-  static constexpr value_type get_mod() noexcept { return mod; }
-  static_assert(mod >= 2, "invalid mod :: smaller than 2");
-  static_assert(mod < (value_type(1) << 31), "invalid mod :: over 2^31");
+  using cover_type = uint64_t;
+  static constexpr value_type mod() { return Modulus::value(); }
 
   template <class T>
   static constexpr value_type normalize(T value_) noexcept {
     if (value_ < 0) {
       value_ = -value_;
-      value_ %= mod;
+      value_ %= mod();
       if (value_ == 0) return 0;
-      return mod - value_;
+      return mod() - value_;
     }
-    return value_ % mod;
+    return value_ % mod();
   }
 
 private:
@@ -291,12 +280,12 @@ public:
   explicit constexpr operator T() const noexcept { return static_cast<T>(value); }
 
   constexpr value_type get() const noexcept { return value; }
-  constexpr modular operator - () const noexcept { return modular(mod - value); }
+  constexpr modular operator - () const noexcept { return modular(mod() - value); }
   constexpr modular operator ~ () const noexcept { return inverse(); }
 
   constexpr value_type &extract() noexcept { return value; }
-  constexpr modular inverse() const noexcept { return power(mod - 2); }
-  constexpr modular power(max_type exp) const noexcept {
+  constexpr modular inverse() const noexcept { return power(mod() - 2); }
+  constexpr modular power(cover_type exp) const noexcept {
     modular res(1), mult(*this);
     while (exp > 0) {
       if (exp & 1) res *= mult;
@@ -308,19 +297,19 @@ public:
 
   constexpr modular operator + (const modular &rhs) const noexcept { return modular(*this) += rhs; }
   constexpr modular& operator += (const modular &rhs) noexcept { 
-    if ((value += rhs.value) >= mod) value -= mod; 
+    if ((value += rhs.value) >= mod()) value -= mod(); 
     return *this; 
   }
 
   constexpr modular operator - (const modular &rhs) const noexcept { return modular(*this) -= rhs; }
   constexpr modular& operator -= (const modular &rhs) noexcept { 
-    if ((value += mod - rhs.value) >= mod) value -= mod; 
+    if ((value += mod() - rhs.value) >= mod()) value -= mod(); 
     return *this; 
   }
 
   constexpr modular operator * (const modular &rhs) const noexcept { return modular(*this) *= rhs; }
   constexpr modular& operator *= (const modular &rhs) noexcept { 
-    value = (max_type) value * rhs.value % mod;
+    value = (cover_type) value * rhs.value % mod();
     return *this;
   }
 
@@ -330,11 +319,20 @@ public:
   constexpr bool zero() const noexcept { return value == 0; }
   constexpr bool operator == (const modular &rhs) const noexcept { return value == rhs.value; }
   constexpr bool operator != (const modular &rhs) const noexcept { return value != rhs.value; }
-  friend std::ostream& operator << (std::ostream &stream, const modular &rhs) {
-    return stream << rhs.value;
-  }
+
+  friend std::ostream& operator << (std::ostream &stream, const modular &rhs) { return stream << rhs.value; }
+  friend constexpr modular power(modular val, cover_type exp) noexcept { return val.power(exp); }
+  friend constexpr modular inverse(modular val) noexcept { return val.inverse(); }
 
 };
+
+template <uint32_t Val>
+struct modulus { static constexpr uint32_t value() noexcept { return Val; } };
+template <uint32_t Val>
+using mint32_t = modular<modulus<Val>>;
+
+struct runtime_mod { static uint32_t &value() noexcept { static uint32_t val = 0; return val; } };
+using rmint32_t = modular<runtime_mod>;
 
 /**
  * @title Modint
@@ -458,7 +456,7 @@ template <class Modular>
 class number_theoretic_transform {
 public:
   using value_type = Modular;
-  static constexpr uint32_t mod = Modular::get_mod();
+  static constexpr uint32_t mod = Modular::mod();
   static constexpr uint32_t prim = ntt_detail::calc_primitive_root(mod);
 
 private:
@@ -547,7 +545,7 @@ public:
   template <bool Same = false, typename std::enable_if<Same, void>::type* = nullptr>
   static std::vector<value_type> convolve(
     std::vector<value_type> A,
-    [[maybe_unused]] const std::vector<value_type> &B) {
+    const std::vector<value_type>&) {
     if (A.empty()) return { };
     size_t res_size = 2 * A.size() - 1;
     size_t fix_size = next_power_of_two(res_size);

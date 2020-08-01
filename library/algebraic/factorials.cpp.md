@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: Factorial
+# :x: Factorial
 
 <a href="../../index.html">Back to top page</a>
 
@@ -38,7 +38,7 @@ layout: default
 
 ## Verified with
 
-* :heavy_check_mark: <a href="../../verify/test/factorials.test.cpp.html">test/factorials.test.cpp</a>
+* :x: <a href="../../verify/test/factorials.test.cpp.html">test/factorials.test.cpp</a>
 
 
 ## Code

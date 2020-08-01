@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: Number Theory
+# :heavy_check_mark: Primes/Factors
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
-* <a href="{{ site.github.repository_url }}/blob/master/algebraic/number_theory.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-11 19:42:18+09:00
+* <a href="{{ site.github.repository_url }}/blob/master/algebraic/fact_prime.cpp">View this file on GitHub</a>
+    - Last commit date: 2020-08-01 22:24:08+09:00
 
 
 
@@ -61,23 +61,19 @@ layout: default
 #include <vector>
 #include <algorithm>
 
-namespace number_theory_detail {
+namespace fact_prime_detail {
 
-  using u32 = uint32_t;
-  using u64 = uint64_t;
-  using u128 = __uint128_t;
-
-  class m64 {
+  class mod64 {
   public:
-    static inline u64 mod;
+    static inline uint64_t mod;
 
-    static void set_mod(u64 x) {
+    static void set_mod(uint64_t x) {
       mod = x;
-      encode = -u128(mod) % mod;
+      encode = -__uint128_t(mod) % mod;
       decode = [] {
-        u64 res = 0, cur = 0;
+        uint64_t res = 0, cur = 0;
         for (size_t i = 0; i < 64; ++i) {
-          if (!(cur & 1)) { res += u64(1) << i; cur += mod; }
+          if (!(cur & 1)) { res += uint64_t(1) << i; cur += mod; }
           cur >>= 1;
         }
         return res;
@@ -85,27 +81,27 @@ namespace number_theory_detail {
     }
 
   private:
-    static inline u64 encode;
-    static inline u64 decode;
+    static inline uint64_t encode;
+    static inline uint64_t decode;
 
-    static u64 reduce(u128 x) {
-      u64 res = u64((u128(u64(x) * decode) * mod + x) >> 64);
+    static uint64_t reduce(__uint128_t x) {
+      uint64_t res = uint64_t((__uint128_t(uint64_t(x) * decode) * mod + x) >> 64);
       return res >= mod ? res - mod : res;
     }
 
-    u64 value;
+    uint64_t value;
 
   public:
-    m64(): value(0) { }
-    explicit m64(u64 x): value(reduce((u128) x * encode)) { }
+    mod64(): value(0) { }
+    explicit mod64(uint64_t x): value(reduce((__uint128_t) x * encode)) { }
 
-    u64 get() const {
-      u64 res = reduce(value);
+    uint64_t get() const {
+      uint64_t res = reduce(value);
       return res >= mod ? res - mod : res;
     }
 
-    m64 power(u64 exp) const {
-      m64 res(1), mult(*this);
+    mod64 power(uint64_t exp) const {
+      mod64 res(1), mult(*this);
       while (exp > 0) {
         if (exp & 1) res *= mult;
         mult *= mult;
@@ -114,34 +110,34 @@ namespace number_theory_detail {
       return res;
     }
 
-    m64 operator + (const m64 &rhs) const { return m64(*this) += rhs; }
-    m64& operator += (const m64 &rhs) { 
+    mod64 operator + (const mod64 &rhs) const { return mod64(*this) += rhs; }
+    mod64& operator += (const mod64 &rhs) { 
       if ((value += rhs.value) >= mod) value -= mod;
       return *this; 
     }
-    m64 operator * (const m64 &rhs) const { return m64(*this) *= rhs; }
-    m64& operator *= (const m64 &rhs) { 
-      value = reduce((u128) value * rhs.value);
+    mod64 operator * (const mod64 &rhs) const { return mod64(*this) *= rhs; }
+    mod64& operator *= (const mod64 &rhs) { 
+      value = reduce((__uint128_t) value * rhs.value);
       return *this;
     }
-    bool operator == (const m64 &rhs) const { return value == rhs.value; }
-    bool operator != (const m64 &rhs) const { return value != rhs.value; }
+    bool operator == (const mod64 &rhs) const { return value == rhs.value; }
+    bool operator != (const mod64 &rhs) const { return value != rhs.value; }
 
   };
 
-  u64 gcd64(u64 a, u64 b) {
+  uint64_t gcd64(uint64_t a, uint64_t b) {
     if (a == 0) return b;
     if (b == 0) return a;
     if (a < b) std::swap(a, b);
-    while (u64 r = a % b) a = b, b = r;
+    while (uint64_t r = a % b) a = b, b = r;
     return b;
   }
 
-  bool test_prime(u64 a, u64 s, u64 d, u64 n) {
-    m64::set_mod(n);
-    m64 cur = m64(a).power(d);
-    if (cur == m64(1)) return true;
-    m64 bad(n - 1);
+  bool test_prime(uint64_t a, uint64_t s, uint64_t d, uint64_t n) {
+    mod64::set_mod(n);
+    mod64 cur = mod64(a).power(d);
+    if (cur == mod64(1)) return true;
+    mod64 bad(n - 1);
     for (size_t i = 0; i < s; ++i) {
       if (cur == bad) return true;
       cur *= cur;
@@ -154,7 +150,7 @@ namespace number_theory_detail {
     if (n <= 1) return false;
     if (n == 2) return true;
     if (!(n & 1)) return false;
-    u64 d = n - 1, s = 0;
+    uint64_t d = n - 1, s = 0;
     while (!(d & 1)) { d >>= 1; ++s; }
     if (n < 4759123141) {
       for (auto p: { 2, 7, 61 }) {
@@ -174,17 +170,17 @@ namespace number_theory_detail {
   template <class T>
   T pollard_rho(T n) {
     if (!(n & 1)) return 2;
-    m64::set_mod(n);
-    m64 add(1);
-    auto transit = [&add](m64 m) { return m * m + add; };
-    auto dif_abs = [](u64 x, u64 y) { return x > y ? x - y : y - x; };
-    u64 initial = 0;
+    mod64::set_mod(n);
+    mod64 add(1);
+    const auto transit = [&add](mod64 m) { return m * m + add; };
+    const auto dif_abs = [](uint64_t x, uint64_t y) { return x > y ? x - y : y - x; };
+    uint64_t initial = 0;
     while (true) {
       ++initial;
-      m64 x(initial);
-      m64 y = transit(x);
+      mod64 x(initial);
+      mod64 y = transit(x);
       while (true) {
-        u64 g = number_theory_detail::gcd64(dif_abs(x.get(), y.get()), n);
+        uint64_t g = fact_prime_detail::gcd64(dif_abs(x.get(), y.get()), n);
         if (g == 1) {
           x = transit(x);
           y = transit(transit(y));
@@ -200,14 +196,14 @@ namespace number_theory_detail {
 
 template <class T>
 bool is_prime(T x) {
-  return number_theory_detail::miller_rabin(x);
+  return fact_prime_detail::miller_rabin(x);
 }
 
 template <class T>
 std::vector<T> enumerate_factors(T n, bool sort = true) {
   if (n == 1) return { };
   if (is_prime(n)) return { n };
-  T d = number_theory_detail::pollard_rho(n);
+  T d = fact_prime_detail::pollard_rho(n);
   auto res = enumerate_factors(d);
   auto add = enumerate_factors(n / d);
   size_t size = res.size();
@@ -257,7 +253,7 @@ std::vector<T> enumerate_divisors(T n, bool sort = true) {
 }
 
 /**
- * @title Number Theory
+ * @title Primes/Factors
  */
 ```
 {% endraw %}
@@ -265,7 +261,7 @@ std::vector<T> enumerate_divisors(T n, bool sort = true) {
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 2 "algebraic/number_theory.cpp"
+#line 2 "algebraic/fact_prime.cpp"
 
 #line 2 "other/fix_point.cpp"
 
@@ -288,30 +284,26 @@ constexpr decltype(auto) make_fix_point(Func &&func) {
 /**
  * @title Lambda Recursion
  */
-#line 4 "algebraic/number_theory.cpp"
+#line 4 "algebraic/fact_prime.cpp"
 #include <cstddef>
 #include <cstdint>
-#line 7 "algebraic/number_theory.cpp"
+#line 7 "algebraic/fact_prime.cpp"
 #include <vector>
 #include <algorithm>
 
-namespace number_theory_detail {
+namespace fact_prime_detail {
 
-  using u32 = uint32_t;
-  using u64 = uint64_t;
-  using u128 = __uint128_t;
-
-  class m64 {
+  class mod64 {
   public:
-    static inline u64 mod;
+    static inline uint64_t mod;
 
-    static void set_mod(u64 x) {
+    static void set_mod(uint64_t x) {
       mod = x;
-      encode = -u128(mod) % mod;
+      encode = -__uint128_t(mod) % mod;
       decode = [] {
-        u64 res = 0, cur = 0;
+        uint64_t res = 0, cur = 0;
         for (size_t i = 0; i < 64; ++i) {
-          if (!(cur & 1)) { res += u64(1) << i; cur += mod; }
+          if (!(cur & 1)) { res += uint64_t(1) << i; cur += mod; }
           cur >>= 1;
         }
         return res;
@@ -319,27 +311,27 @@ namespace number_theory_detail {
     }
 
   private:
-    static inline u64 encode;
-    static inline u64 decode;
+    static inline uint64_t encode;
+    static inline uint64_t decode;
 
-    static u64 reduce(u128 x) {
-      u64 res = u64((u128(u64(x) * decode) * mod + x) >> 64);
+    static uint64_t reduce(__uint128_t x) {
+      uint64_t res = uint64_t((__uint128_t(uint64_t(x) * decode) * mod + x) >> 64);
       return res >= mod ? res - mod : res;
     }
 
-    u64 value;
+    uint64_t value;
 
   public:
-    m64(): value(0) { }
-    explicit m64(u64 x): value(reduce((u128) x * encode)) { }
+    mod64(): value(0) { }
+    explicit mod64(uint64_t x): value(reduce((__uint128_t) x * encode)) { }
 
-    u64 get() const {
-      u64 res = reduce(value);
+    uint64_t get() const {
+      uint64_t res = reduce(value);
       return res >= mod ? res - mod : res;
     }
 
-    m64 power(u64 exp) const {
-      m64 res(1), mult(*this);
+    mod64 power(uint64_t exp) const {
+      mod64 res(1), mult(*this);
       while (exp > 0) {
         if (exp & 1) res *= mult;
         mult *= mult;
@@ -348,34 +340,34 @@ namespace number_theory_detail {
       return res;
     }
 
-    m64 operator + (const m64 &rhs) const { return m64(*this) += rhs; }
-    m64& operator += (const m64 &rhs) { 
+    mod64 operator + (const mod64 &rhs) const { return mod64(*this) += rhs; }
+    mod64& operator += (const mod64 &rhs) { 
       if ((value += rhs.value) >= mod) value -= mod;
       return *this; 
     }
-    m64 operator * (const m64 &rhs) const { return m64(*this) *= rhs; }
-    m64& operator *= (const m64 &rhs) { 
-      value = reduce((u128) value * rhs.value);
+    mod64 operator * (const mod64 &rhs) const { return mod64(*this) *= rhs; }
+    mod64& operator *= (const mod64 &rhs) { 
+      value = reduce((__uint128_t) value * rhs.value);
       return *this;
     }
-    bool operator == (const m64 &rhs) const { return value == rhs.value; }
-    bool operator != (const m64 &rhs) const { return value != rhs.value; }
+    bool operator == (const mod64 &rhs) const { return value == rhs.value; }
+    bool operator != (const mod64 &rhs) const { return value != rhs.value; }
 
   };
 
-  u64 gcd64(u64 a, u64 b) {
+  uint64_t gcd64(uint64_t a, uint64_t b) {
     if (a == 0) return b;
     if (b == 0) return a;
     if (a < b) std::swap(a, b);
-    while (u64 r = a % b) a = b, b = r;
+    while (uint64_t r = a % b) a = b, b = r;
     return b;
   }
 
-  bool test_prime(u64 a, u64 s, u64 d, u64 n) {
-    m64::set_mod(n);
-    m64 cur = m64(a).power(d);
-    if (cur == m64(1)) return true;
-    m64 bad(n - 1);
+  bool test_prime(uint64_t a, uint64_t s, uint64_t d, uint64_t n) {
+    mod64::set_mod(n);
+    mod64 cur = mod64(a).power(d);
+    if (cur == mod64(1)) return true;
+    mod64 bad(n - 1);
     for (size_t i = 0; i < s; ++i) {
       if (cur == bad) return true;
       cur *= cur;
@@ -388,7 +380,7 @@ namespace number_theory_detail {
     if (n <= 1) return false;
     if (n == 2) return true;
     if (!(n & 1)) return false;
-    u64 d = n - 1, s = 0;
+    uint64_t d = n - 1, s = 0;
     while (!(d & 1)) { d >>= 1; ++s; }
     if (n < 4759123141) {
       for (auto p: { 2, 7, 61 }) {
@@ -408,17 +400,17 @@ namespace number_theory_detail {
   template <class T>
   T pollard_rho(T n) {
     if (!(n & 1)) return 2;
-    m64::set_mod(n);
-    m64 add(1);
-    auto transit = [&add](m64 m) { return m * m + add; };
-    auto dif_abs = [](u64 x, u64 y) { return x > y ? x - y : y - x; };
-    u64 initial = 0;
+    mod64::set_mod(n);
+    mod64 add(1);
+    const auto transit = [&add](mod64 m) { return m * m + add; };
+    const auto dif_abs = [](uint64_t x, uint64_t y) { return x > y ? x - y : y - x; };
+    uint64_t initial = 0;
     while (true) {
       ++initial;
-      m64 x(initial);
-      m64 y = transit(x);
+      mod64 x(initial);
+      mod64 y = transit(x);
       while (true) {
-        u64 g = number_theory_detail::gcd64(dif_abs(x.get(), y.get()), n);
+        uint64_t g = fact_prime_detail::gcd64(dif_abs(x.get(), y.get()), n);
         if (g == 1) {
           x = transit(x);
           y = transit(transit(y));
@@ -434,14 +426,14 @@ namespace number_theory_detail {
 
 template <class T>
 bool is_prime(T x) {
-  return number_theory_detail::miller_rabin(x);
+  return fact_prime_detail::miller_rabin(x);
 }
 
 template <class T>
 std::vector<T> enumerate_factors(T n, bool sort = true) {
   if (n == 1) return { };
   if (is_prime(n)) return { n };
-  T d = number_theory_detail::pollard_rho(n);
+  T d = fact_prime_detail::pollard_rho(n);
   auto res = enumerate_factors(d);
   auto add = enumerate_factors(n / d);
   size_t size = res.size();
@@ -491,7 +483,7 @@ std::vector<T> enumerate_divisors(T n, bool sort = true) {
 }
 
 /**
- * @title Number Theory
+ * @title Primes/Factors
  */
 
 ```

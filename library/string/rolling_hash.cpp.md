@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#b45cffe084dd3d20d928bee85e7b0f21">string</a>
 * <a href="{{ site.github.repository_url }}/blob/master/string/rolling_hash.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-26 17:47:10+09:00
+    - Last commit date: 2020-08-01 22:24:08+09:00
 
 
 
@@ -163,15 +163,15 @@ uint64_t engine() {
     }
     return res;
   }();
-	const uint64_t result = rotate(array[1] * 5, 7) * 9;
-	const uint64_t old_value = array[1] << 17;
-	array[2] ^= array[0];
-	array[3] ^= array[1];
-	array[1] ^= array[2];
-	array[0] ^= array[3];
-	array[2] ^= old_value;
-	array[3] = rotate(array[3], 45);
-	return result;
+  const uint64_t result = rotate(array[1] * 5, 7) * 9;
+  const uint64_t old_value = array[1] << 17;
+  array[2] ^= array[0];
+  array[3] ^= array[1];
+  array[1] ^= array[2];
+  array[0] ^= array[3];
+  array[2] ^= old_value;
+  array[3] = rotate(array[3], 45);
+  return result;
 }
 
 template <class Integer>

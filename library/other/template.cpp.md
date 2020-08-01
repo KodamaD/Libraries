@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/template.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-14 16:35:50+09:00
+    - Last commit date: 1970-01-01 00:00:00+00:00
 
 
 
@@ -53,47 +53,9 @@ layout: default
 #include <vector>
 #include <array>
 
-template <class T, class U>
-inline bool chmin(T &lhs, const U &rhs) {
-  if (lhs > rhs) { lhs = rhs; return true; }
-  return false;
-}
-
-template <class T, class U>
-inline bool chmax(T &lhs, const U &rhs) {
-  if (lhs < rhs) { lhs = rhs; return true; }
-  return false;
-}
-
-struct range {
-  using itr = int64_t;
-  struct iterator {
-    itr i;
-    constexpr iterator(itr i_) noexcept : i(i_) { }
-    constexpr void operator ++ () noexcept { ++i; }
-    constexpr itr operator * () const noexcept { return i; }
-    constexpr bool operator != (iterator x) const noexcept { return i != x.i; }
-  };
-  const iterator l, r;
-  constexpr range(itr l_, itr r_) noexcept : l(l_), r(std::max(l_, r_)) { }
-  constexpr iterator begin() const noexcept { return l; }
-  constexpr iterator end() const noexcept { return r; }
-};
-
-struct revrange {
-  using itr = int64_t;
-  struct iterator {
-    itr i;
-    constexpr iterator(itr i_) noexcept : i(i_) { }
-    constexpr void operator ++ () noexcept { --i; }
-    constexpr itr operator * () const noexcept { return i; }
-    constexpr bool operator != (iterator x) const noexcept { return i != x.i; }
-  };
-  const iterator l, r;
-  constexpr revrange(itr l_, itr r_) noexcept : l(l_ - 1), r(std::max(l_, r_) - 1) { }
-  constexpr iterator begin() const noexcept { return r; }
-  constexpr iterator end() const noexcept { return l; }
-};
+#include "/Users/kodamankod/Desktop/Programming/Library/other/chmin_chmax.cpp"
+#include "/Users/kodamankod/Desktop/Programming/Library/other/range.cpp"
+#include "/Users/kodamankod/Desktop/Programming/Library/other/rev.cpp"
 
 using i32 = int32_t;
 using i64 = int64_t;
@@ -114,73 +76,16 @@ int main() {
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "other/template.cpp"
-
-/**
- * @title Template
- */
-
-#include <iostream>
-#include <algorithm>
-#include <utility>
-#include <numeric>
-#include <vector>
-#include <array>
-
-template <class T, class U>
-inline bool chmin(T &lhs, const U &rhs) {
-  if (lhs > rhs) { lhs = rhs; return true; }
-  return false;
-}
-
-template <class T, class U>
-inline bool chmax(T &lhs, const U &rhs) {
-  if (lhs < rhs) { lhs = rhs; return true; }
-  return false;
-}
-
-struct range {
-  using itr = int64_t;
-  struct iterator {
-    itr i;
-    constexpr iterator(itr i_) noexcept : i(i_) { }
-    constexpr void operator ++ () noexcept { ++i; }
-    constexpr itr operator * () const noexcept { return i; }
-    constexpr bool operator != (iterator x) const noexcept { return i != x.i; }
-  };
-  const iterator l, r;
-  constexpr range(itr l_, itr r_) noexcept : l(l_), r(std::max(l_, r_)) { }
-  constexpr iterator begin() const noexcept { return l; }
-  constexpr iterator end() const noexcept { return r; }
-};
-
-struct revrange {
-  using itr = int64_t;
-  struct iterator {
-    itr i;
-    constexpr iterator(itr i_) noexcept : i(i_) { }
-    constexpr void operator ++ () noexcept { --i; }
-    constexpr itr operator * () const noexcept { return i; }
-    constexpr bool operator != (iterator x) const noexcept { return i != x.i; }
-  };
-  const iterator l, r;
-  constexpr revrange(itr l_, itr r_) noexcept : l(l_ - 1), r(std::max(l_, r_) - 1) { }
-  constexpr iterator begin() const noexcept { return r; }
-  constexpr iterator end() const noexcept { return l; }
-};
-
-using i32 = int32_t;
-using i64 = int64_t;
-using u32 = uint32_t;
-using u64 = uint64_t;
-
-constexpr i32 inf32 = (i32(1) << 30) - 1;
-constexpr i64 inf64 = (i64(1) << 62) - 1;
-
-int main() {
-  
-  return 0;
-}
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/docs.py", line 349, in write_contents
+    bundled_code = language.bundle(self.file_class.file_path, basedir=pathlib.Path.cwd())
+  File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/cplusplus.py", line 185, in bundle
+    bundler.update(path)
+  File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py", line 307, in update
+    self.update(self._resolve(pathlib.Path(included), included_from=path))
+  File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py", line 187, in _resolve
+    raise BundleErrorAt(path, -1, "no such header")
+onlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: /Users/kodamankod/Desktop/Programming/Library/other/chmin_chmax.cpp: line -1: no such header
 
 ```
 {% endraw %}
