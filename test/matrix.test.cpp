@@ -7,7 +7,7 @@
 #include <iostream>
 #include <cstdint>
 
-using m32 = modular<1000000007>;
+using m32 = mint32_t<1000000007>;
 
 struct semiring {
   struct value_structure {

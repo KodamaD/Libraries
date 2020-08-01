@@ -7,7 +7,7 @@
 #include <cstddef>
 #include <iostream>
 
-using m32 = modular<1000000007>;
+using m32 = mint32_t<1000000007>;
 factorials<m32, 2000000> fact;
 
 m32 comb(size_t N, size_t K) {

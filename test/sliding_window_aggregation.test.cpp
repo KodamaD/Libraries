@@ -9,7 +9,7 @@
 #include <cstdint>
 #include <vector>
 
-using m32 = modular<998244353>;
+using m32 = mint32_t<998244353>;
 
 struct st_monoid {
   struct value_structure {
