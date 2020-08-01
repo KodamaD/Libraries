@@ -6,7 +6,6 @@
 "test/factorials.test.cpp": "2020-07-05 19:22:30 +0900",
 "test/fast_io.test.cpp": "2020-07-11 19:42:18 +0900",
 "test/fenwick_tree.test.cpp": "2020-07-12 13:43:20 +0900",
-"test/fft.test.cpp": "2020-07-12 13:43:20 +0900",
 "test/heavy_light_decomposition.test.cpp": "2020-07-12 13:43:20 +0900",
 "test/lazy_propagation_segment_tree.test.cpp": "2020-07-12 13:43:20 +0900",
 "test/matrix.test.cpp": "2020-07-11 09:55:13 +0900",
