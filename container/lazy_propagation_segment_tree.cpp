@@ -43,13 +43,13 @@ private:
   }
 
   void M_pushdown(const size_type index) {
-    const size_type lsb = count_zero_right(index);
+    const size_type lsb = bit_ctzr(index);
     for (size_type story = bit_width(index); story != lsb; --story) {
       M_propagate(index >> story, 1 << (story - 1));
     }
   }
   void M_pullup(size_type index) {
-    index >>= count_zero_right(index);
+    index >>= bit_ctzr(index);
     while (index != 1) {
       index >>= 1;
       M_fix_change(index);

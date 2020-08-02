@@ -27,7 +27,7 @@ private:
   }
 
   void M_pushdown(const size_type index) {
-    const size_type lsb = count_zero_right(index);
+    const size_type lsb = bit_ctzr(index);
     for (size_type story = bit_width(index); story != lsb; --story) {
       M_propagate(index >> story);
     }

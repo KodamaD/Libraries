@@ -25,7 +25,7 @@ public:
     ++index;
     while (index <= size()) {
       M_tree[index] += x;
-      index += least_significant_bit(index);
+      index += bit_lsb(index);
     }
   }
 
@@ -34,7 +34,7 @@ public:
     value_type res{};
     while (index > 0) {
       res += M_tree[index];
-      index -= least_significant_bit(index);
+      index -= bit_lsb(index);
     }
     return res;
   }

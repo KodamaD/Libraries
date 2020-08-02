@@ -10,7 +10,7 @@
 
 namespace ntt_detail {
 
-  constexpr uint32_t calc_primitive_root(uint32_t mod) {
+  constexpr uint32_t primitive_root(uint32_t mod) {
     std::array<uint32_t, 32> exp{};
     uint32_t cur = mod - 1;
     size_t size = 0;
@@ -45,7 +45,7 @@ namespace ntt_detail {
   };
 
   template <size_t N, class T>
-  constexpr std::array<T, N> calculate_roots(T omega) {
+  constexpr std::array<T, N> compute_roots(T omega) {
     std::array<T, N> res;
     res[N - 1] = omega;
     for (size_t i = N - 1; i > 0; --i) {
@@ -77,21 +77,21 @@ class number_theoretic_transform {
 public:
   using value_type = Modular;
   static constexpr uint32_t mod = Modular::mod();
-  static constexpr uint32_t prim = ntt_detail::calc_primitive_root(mod);
+  static constexpr uint32_t prim = ntt_detail::primitive_root(mod);
 
 private:
-  static constexpr size_t level = count_zero_right(mod - 1);
+  static constexpr size_t level = bit_ctzr(mod - 1);
   static constexpr value_type unit = value_type(1);
   static constexpr value_type omega = value_type(prim).power((mod - 1) >> level); 
-  static constexpr auto roots = ntt_detail::calculate_roots<level>(omega);
-  static constexpr auto inv_roots = ntt_detail::calculate_roots<level>(omega.inverse());
+  static constexpr auto roots = ntt_detail::compute_roots<level>(omega);
+  static constexpr auto inv_roots = ntt_detail::compute_roots<level>(omega.inverse());
 
 public:
   static void transform(std::vector<value_type> &F) {
     size_t size = F.size();
-    size_t logn = count_zero_right(size);
+    size_t logn = bit_ctzr(size);
     for (size_t i = 0; i < size; ++i) {
-      size_t j = bit_reverse_32(i) >> (32 - logn);
+      size_t j = bit_rev(i) >> (64 - logn);
       if (i < j) {
         std::swap(F[i], F[j]);
       }
@@ -115,9 +115,9 @@ public:
 
   static void inv_transform(std::vector<value_type> &F) {
     size_t size = F.size();
-    size_t logn = count_zero_right(size);
+    size_t logn = bit_ctzr(size);
     for (size_t i = 0; i < size; ++i) {
-      size_t j = bit_reverse_32(i) >> (32 - logn);
+      size_t j = bit_rev(i) >> (32 - logn);
       if (i < j) {
         std::swap(F[i], F[j]);
       }
@@ -149,7 +149,7 @@ public:
     std::vector<value_type> B) {
     if (A.empty() || B.empty()) return { };
     size_t res_size = A.size() + B.size() - 1;
-    size_t fix_size = next_power_of_two(res_size);
+    size_t fix_size = bit_cover(res_size);
     A.resize(fix_size);
     B.resize(fix_size);
     transform(A);
@@ -168,7 +168,7 @@ public:
     const std::vector<value_type>&) {
     if (A.empty()) return { };
     size_t res_size = 2 * A.size() - 1;
-    size_t fix_size = next_power_of_two(res_size);
+    size_t fix_size = bit_cover(res_size);
     A.resize(fix_size);
     transform(A);
     for (size_t i = 0; i < fix_size; ++i) {
