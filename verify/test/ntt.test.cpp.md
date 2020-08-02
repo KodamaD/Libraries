@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/ntt.test.cpp
+# :x: test/ntt.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/ntt.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-01 22:24:08+09:00
+    - Last commit date: 2020-08-02 12:04:05+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/convolution_mod">https://judge.yosupo.jp/problem/convolution_mod</a>
@@ -39,9 +39,9 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
-* :heavy_check_mark: <a href="../../library/algebraic/ntt.cpp.html">Number Theoretic Transform</a>
-* :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
+* :question: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
+* :x: <a href="../../library/algebraic/ntt.cpp.html">Number Theoretic Transform</a>
+* :question: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
 
 
 ## Code
@@ -186,40 +186,41 @@ using rmint32_t = modular<runtime_mod>;
 #include <cstddef>
 #line 5 "other/bit_operation.cpp"
 
-constexpr size_t popcount(const uint64_t x) {
+constexpr size_t bit_ppc(const uint64_t x) {
   return __builtin_popcountll(x);
 }
 
-constexpr size_t count_zero_right(const uint64_t x) {
+constexpr size_t bit_ctzr(const uint64_t x) {
   return x == 0 ? 64 : __builtin_ctzll(x);
 }
 
-constexpr size_t count_zero_left(const uint64_t x) {
+constexpr size_t bit_ctzl(const uint64_t x) {
   return x == 0 ? 64 : __builtin_clzll(x);
 }
 
 constexpr size_t bit_width(const uint64_t x) { 
-  return 64 - count_zero_left(x);
+  return 64 - bit_ctzl(x);
 }
 
-constexpr uint64_t most_significant_bit(const uint64_t x) {
+constexpr uint64_t bit_msb(const uint64_t x) {
   return x == 0 ? 0 : uint64_t(1) << (bit_width(x) - 1);
 }
 
-constexpr uint64_t least_significant_bit(const uint64_t x) {
+constexpr uint64_t bit_lsb(const uint64_t x) {
   return x & (-x);
 }
 
-constexpr uint64_t next_power_of_two(const uint64_t x) {
-  return x == 0 ? 0 : most_significant_bit(2 * x - 1);
+constexpr uint64_t bit_cover(const uint64_t x) {
+  return x == 0 ? 0 : bit_msb(2 * x - 1);
 }
 
-constexpr uint32_t bit_reverse_32(uint32_t x) {
-  x = ((x >> 1) & 0x55555555) | ((x & 0x55555555) << 1);
-  x = ((x >> 2) & 0x33333333) | ((x & 0x33333333) << 2);
-  x = ((x >> 4) & 0x0F0F0F0F) | ((x & 0x0F0F0F0F) << 4);
-  x = ((x >> 8) & 0x00FF00FF) | ((x & 0x00FF00FF) << 8);
-  x = ( x >> 16             ) | ( x               << 16);
+constexpr uint64_t bit_rev(uint64_t x) {
+  x = ((x >> 1) & 0x5555555555555555) | ((x & 0x5555555555555555) << 1);
+  x = ((x >> 2) & 0x3333333333333333) | ((x & 0x3333333333333333) << 2);
+  x = ((x >> 4) & 0x0F0F0F0F0F0F0F0F) | ((x & 0x0F0F0F0F0F0F0F0F) << 4);
+  x = ((x >> 8) & 0x00FF00FF00FF00FF) | ((x & 0x00FF00FF00FF00FF) << 8);
+  x = ((x >> 16) & 0x0000FFFF0000FFFF) | ((x & 0x0000FFFF0000FFFF) << 16);
+  x = (x >> 32) | (x << 32);
   return x;
 }
 
@@ -234,7 +235,7 @@ constexpr uint32_t bit_reverse_32(uint32_t x) {
 
 namespace ntt_detail {
 
-  constexpr uint32_t calc_primitive_root(uint32_t mod) {
+  constexpr uint32_t primitive_root(uint32_t mod) {
     std::array<uint32_t, 32> exp{};
     uint32_t cur = mod - 1;
     size_t size = 0;
@@ -269,7 +270,7 @@ namespace ntt_detail {
   };
 
   template <size_t N, class T>
-  constexpr std::array<T, N> calculate_roots(T omega) {
+  constexpr std::array<T, N> compute_roots(T omega) {
     std::array<T, N> res;
     res[N - 1] = omega;
     for (size_t i = N - 1; i > 0; --i) {
@@ -301,21 +302,21 @@ class number_theoretic_transform {
 public:
   using value_type = Modular;
   static constexpr uint32_t mod = Modular::mod();
-  static constexpr uint32_t prim = ntt_detail::calc_primitive_root(mod);
+  static constexpr uint32_t prim = ntt_detail::primitive_root(mod);
 
 private:
-  static constexpr size_t level = count_zero_right(mod - 1);
+  static constexpr size_t level = bit_ctzr(mod - 1);
   static constexpr value_type unit = value_type(1);
   static constexpr value_type omega = value_type(prim).power((mod - 1) >> level); 
-  static constexpr auto roots = ntt_detail::calculate_roots<level>(omega);
-  static constexpr auto inv_roots = ntt_detail::calculate_roots<level>(omega.inverse());
+  static constexpr auto roots = ntt_detail::compute_roots<level>(omega);
+  static constexpr auto inv_roots = ntt_detail::compute_roots<level>(omega.inverse());
 
 public:
   static void transform(std::vector<value_type> &F) {
     size_t size = F.size();
-    size_t logn = count_zero_right(size);
+    size_t logn = bit_ctzr(size);
     for (size_t i = 0; i < size; ++i) {
-      size_t j = bit_reverse_32(i) >> (32 - logn);
+      size_t j = bit_rev(i) >> (64 - logn);
       if (i < j) {
         std::swap(F[i], F[j]);
       }
@@ -339,9 +340,9 @@ public:
 
   static void inv_transform(std::vector<value_type> &F) {
     size_t size = F.size();
-    size_t logn = count_zero_right(size);
+    size_t logn = bit_ctzr(size);
     for (size_t i = 0; i < size; ++i) {
-      size_t j = bit_reverse_32(i) >> (32 - logn);
+      size_t j = bit_rev(i) >> (32 - logn);
       if (i < j) {
         std::swap(F[i], F[j]);
       }
@@ -373,7 +374,7 @@ public:
     std::vector<value_type> B) {
     if (A.empty() || B.empty()) return { };
     size_t res_size = A.size() + B.size() - 1;
-    size_t fix_size = next_power_of_two(res_size);
+    size_t fix_size = bit_cover(res_size);
     A.resize(fix_size);
     B.resize(fix_size);
     transform(A);
@@ -392,7 +393,7 @@ public:
     const std::vector<value_type>&) {
     if (A.empty()) return { };
     size_t res_size = 2 * A.size() - 1;
-    size_t fix_size = next_power_of_two(res_size);
+    size_t fix_size = bit_cover(res_size);
     A.resize(fix_size);
     transform(A);
     for (size_t i = 0; i < fix_size; ++i) {

@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/fenwick_tree.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-12 13:43:20+09:00
+    - Last commit date: 2020-08-02 12:04:05+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_B">https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_B</a>
@@ -40,7 +40,7 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="../../library/container/fenwick_tree.cpp.html">Fenwick Tree</a>
-* :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
+* :question: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
 
 
 ## Code
@@ -96,40 +96,41 @@ int main() {
 #include <cstddef>
 #include <cstdint>
 
-constexpr size_t popcount(const uint64_t x) {
+constexpr size_t bit_ppc(const uint64_t x) {
   return __builtin_popcountll(x);
 }
 
-constexpr size_t count_zero_right(const uint64_t x) {
+constexpr size_t bit_ctzr(const uint64_t x) {
   return x == 0 ? 64 : __builtin_ctzll(x);
 }
 
-constexpr size_t count_zero_left(const uint64_t x) {
+constexpr size_t bit_ctzl(const uint64_t x) {
   return x == 0 ? 64 : __builtin_clzll(x);
 }
 
 constexpr size_t bit_width(const uint64_t x) { 
-  return 64 - count_zero_left(x);
+  return 64 - bit_ctzl(x);
 }
 
-constexpr uint64_t most_significant_bit(const uint64_t x) {
+constexpr uint64_t bit_msb(const uint64_t x) {
   return x == 0 ? 0 : uint64_t(1) << (bit_width(x) - 1);
 }
 
-constexpr uint64_t least_significant_bit(const uint64_t x) {
+constexpr uint64_t bit_lsb(const uint64_t x) {
   return x & (-x);
 }
 
-constexpr uint64_t next_power_of_two(const uint64_t x) {
-  return x == 0 ? 0 : most_significant_bit(2 * x - 1);
+constexpr uint64_t bit_cover(const uint64_t x) {
+  return x == 0 ? 0 : bit_msb(2 * x - 1);
 }
 
-constexpr uint32_t bit_reverse_32(uint32_t x) {
-  x = ((x >> 1) & 0x55555555) | ((x & 0x55555555) << 1);
-  x = ((x >> 2) & 0x33333333) | ((x & 0x33333333) << 2);
-  x = ((x >> 4) & 0x0F0F0F0F) | ((x & 0x0F0F0F0F) << 4);
-  x = ((x >> 8) & 0x00FF00FF) | ((x & 0x00FF00FF) << 8);
-  x = ( x >> 16             ) | ( x               << 16);
+constexpr uint64_t bit_rev(uint64_t x) {
+  x = ((x >> 1) & 0x5555555555555555) | ((x & 0x5555555555555555) << 1);
+  x = ((x >> 2) & 0x3333333333333333) | ((x & 0x3333333333333333) << 2);
+  x = ((x >> 4) & 0x0F0F0F0F0F0F0F0F) | ((x & 0x0F0F0F0F0F0F0F0F) << 4);
+  x = ((x >> 8) & 0x00FF00FF00FF00FF) | ((x & 0x00FF00FF00FF00FF) << 8);
+  x = ((x >> 16) & 0x0000FFFF0000FFFF) | ((x & 0x0000FFFF0000FFFF) << 16);
+  x = (x >> 32) | (x << 32);
   return x;
 }
 
@@ -160,7 +161,7 @@ public:
     ++index;
     while (index <= size()) {
       M_tree[index] += x;
-      index += least_significant_bit(index);
+      index += bit_lsb(index);
     }
   }
 
@@ -169,7 +170,7 @@ public:
     value_type res{};
     while (index > 0) {
       res += M_tree[index];
-      index -= least_significant_bit(index);
+      index -= bit_lsb(index);
     }
     return res;
   }

@@ -40,7 +40,7 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="../../library/algebraic/factorials.cpp.html">Factorial</a>
-* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
+* :question: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
 
 
 ## Code
