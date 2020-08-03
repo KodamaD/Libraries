@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../other/monoid.cpp"
 #include <cstddef>
 #include <stack>
 #include <type_traits>
@@ -14,15 +15,10 @@ public:
   using size_type       = size_t;
 
 private:
-  template <class T, class U = void>
-  struct has_identity: public std::false_type {};
-  template <class T>
-  struct has_identity<T, typename std::conditional<false, decltype(T::identity()), void>::type>: public std::true_type {};
-
   template <class T, typename std::enable_if<has_identity<T>::value, void>::type* = nullptr>
   static typename T::type S_empty_exception() { return T::identity(); }
   template <class T, typename std::enable_if<!has_identity<T>::value, void>::type* = nullptr>
-  static typename T::type S_empty_exception() { throw std::runtime_error("attempted to fold empty queue"); }
+  [[noreturn]] static typename T::type S_empty_exception() { throw std::runtime_error("attempted to fold empty queue"); }
 
   class node_type {
   public:

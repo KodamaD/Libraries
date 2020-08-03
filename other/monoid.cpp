@@ -1,6 +1,7 @@
 
 #include <type_traits>
 #include <utility>
+#include <stdexcept>
 
 template <class T, class = void>
 class has_identity: public std::false_type { };
@@ -30,7 +31,10 @@ public:
   };
 
   static constexpr type convert(const typename T::type &value) { return type(value); }
-  static constexpr typename T::type revert(const type &value) { return value.value; }
+  static constexpr typename T::type revert(const type &value) { 
+    if (!value.state) throw std::runtime_error("attempted to revert identity to non-monoid"); 
+    return value.value; 
+  }
 
   static constexpr type identity() { return type(); }
   static constexpr type operation(const type &v1, const type &v2) {
@@ -55,7 +59,7 @@ public:
     const typename value_structure::type    &val,
     const typename operator_structure::type &op,
     Args&&... args) {
-    return T::opration(val, op, std::forward<Args>(args)...);
+    return T::operation(val, op, std::forward<Args>(args)...);
   }
 
 };
