@@ -25,26 +25,26 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: Lazy Propagation Segment Tree
+# :heavy_check_mark: Lazy Propagation Segment Tree
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/lazy_propagation_segment_tree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 12:07:15+09:00
+    - Last commit date: 2020-08-03 12:32:12+09:00
 
 
 
 
 ## Depends on
 
-* :question: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
-* :question: <a href="../other/monoid.cpp.html">other/monoid.cpp</a>
+* :heavy_check_mark: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
+* :heavy_check_mark: <a href="../other/monoid.cpp.html">other/monoid.cpp</a>
 
 
 ## Verified with
 
-* :x: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
 
 
 ## Code
@@ -269,6 +269,7 @@ constexpr uint64_t bit_rev(uint64_t x) {
 
 #include <type_traits>
 #include <utility>
+#include <stdexcept>
 
 template <class T, class = void>
 class has_identity: public std::false_type { };
@@ -298,7 +299,10 @@ public:
   };
 
   static constexpr type convert(const typename T::type &value) { return type(value); }
-  static constexpr typename T::type revert(const type &value) { return value.value; }
+  static constexpr typename T::type revert(const type &value) { 
+    if (!value.state) throw std::runtime_error("attempted to revert identity to non-monoid"); 
+    return value.value; 
+  }
 
   static constexpr type identity() { return type(); }
   static constexpr type operation(const type &v1, const type &v2) {
@@ -323,7 +327,7 @@ public:
     const typename value_structure::type    &val,
     const typename operator_structure::type &op,
     Args&&... args) {
-    return T::opration(val, op, std::forward<Args>(args)...);
+    return T::operation(val, op, std::forward<Args>(args)...);
   }
 
 };

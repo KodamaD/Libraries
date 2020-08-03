@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :question: other/monoid.cpp
+# :heavy_check_mark: other/monoid.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/monoid.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 12:07:15+09:00
+    - Last commit date: 2020-08-03 12:32:12+09:00
 
 
 
@@ -39,15 +39,17 @@ layout: default
 ## Required by
 
 * :heavy_check_mark: <a href="../container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
-* :x: <a href="../container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
+* :heavy_check_mark: <a href="../container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
 * :heavy_check_mark: <a href="../container/segment_tree.cpp.html">Segment Tree</a>
+* :heavy_check_mark: <a href="../container/sliding_window_aggregation.cpp.html">Sliding Window Aggregation</a>
 
 
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
-* :x: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/sliding_window_aggregation.test.cpp.html">test/sliding_window_aggregation.test.cpp</a>
 
 
 ## Code
@@ -58,6 +60,7 @@ layout: default
 
 #include <type_traits>
 #include <utility>
+#include <stdexcept>
 
 template <class T, class = void>
 class has_identity: public std::false_type { };
@@ -87,7 +90,10 @@ public:
   };
 
   static constexpr type convert(const typename T::type &value) { return type(value); }
-  static constexpr typename T::type revert(const type &value) { return value.value; }
+  static constexpr typename T::type revert(const type &value) { 
+    if (!value.state) throw std::runtime_error("attempted to revert identity to non-monoid"); 
+    return value.value; 
+  }
 
   static constexpr type identity() { return type(); }
   static constexpr type operation(const type &v1, const type &v2) {
@@ -112,7 +118,7 @@ public:
     const typename value_structure::type    &val,
     const typename operator_structure::type &op,
     Args&&... args) {
-    return T::opration(val, op, std::forward<Args>(args)...);
+    return T::operation(val, op, std::forward<Args>(args)...);
   }
 
 };
@@ -147,6 +153,7 @@ using fixed_combined_monoid = fixed_combined_monoid_impl<T, has_identity<typenam
 
 #include <type_traits>
 #include <utility>
+#include <stdexcept>
 
 template <class T, class = void>
 class has_identity: public std::false_type { };
@@ -176,7 +183,10 @@ public:
   };
 
   static constexpr type convert(const typename T::type &value) { return type(value); }
-  static constexpr typename T::type revert(const type &value) { return value.value; }
+  static constexpr typename T::type revert(const type &value) { 
+    if (!value.state) throw std::runtime_error("attempted to revert identity to non-monoid"); 
+    return value.value; 
+  }
 
   static constexpr type identity() { return type(); }
   static constexpr type operation(const type &v1, const type &v2) {
@@ -201,7 +211,7 @@ public:
     const typename value_structure::type    &val,
     const typename operator_structure::type &op,
     Args&&... args) {
-    return T::opration(val, op, std::forward<Args>(args)...);
+    return T::operation(val, op, std::forward<Args>(args)...);
   }
 
 };

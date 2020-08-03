@@ -40,7 +40,7 @@ layout: default
 
 * :heavy_check_mark: <a href="library/algebraic/fact_prime.cpp.html">Primes/Factors</a>
 * :heavy_check_mark: <a href="library/algebraic/factorials.cpp.html">Factorial</a>
-* :question: <a href="library/algebraic/modular.cpp.html">Modint</a>
+* :heavy_check_mark: <a href="library/algebraic/modular.cpp.html">Modint</a>
 * :heavy_check_mark: <a href="library/algebraic/ntt.cpp.html">Number Theoretic Transform</a>
 
 
@@ -51,7 +51,7 @@ layout: default
 * :heavy_check_mark: <a href="library/container/bit_vector.cpp.html">Succinct Bit Vector</a>
 * :heavy_check_mark: <a href="library/container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
 * :heavy_check_mark: <a href="library/container/fenwick_tree.cpp.html">Fenwick Tree</a>
-* :x: <a href="library/container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
+* :heavy_check_mark: <a href="library/container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
 * :heavy_check_mark: <a href="library/container/matrix.cpp.html">Matrix</a>
 * :warning: <a href="library/container/randomized_queue.cpp.html">Randomized Queue</a>
 * :heavy_check_mark: <a href="library/container/segment_tree.cpp.html">Segment Tree</a>
@@ -84,11 +84,11 @@ layout: default
 
 ### other
 
-* :question: <a href="library/other/bit_operation.cpp.html">Bit Operations</a>
+* :heavy_check_mark: <a href="library/other/bit_operation.cpp.html">Bit Operations</a>
 * :warning: <a href="library/other/chmin_chmax.cpp.html">Chmin/Chmax</a>
 * :heavy_check_mark: <a href="library/other/fast_io.cpp.html">Fast Input/Output</a>
 * :heavy_check_mark: <a href="library/other/fix_point.cpp.html">Lambda Recursion</a>
-* :question: <a href="library/other/monoid.cpp.html">other/monoid.cpp</a>
+* :heavy_check_mark: <a href="library/other/monoid.cpp.html">other/monoid.cpp</a>
 * :warning: <a href="library/other/multi_array.cpp.html">Multi-Dimensional Array</a>
 * :warning: <a href="library/other/multi_vec.cpp.html">Multi-Dimensional Vector</a>
 * :warning: <a href="library/other/random_number.cpp.html">Random Number</a>
@@ -117,7 +117,7 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/fast_io.test.cpp.html">test/fast_io.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/fenwick_tree.test.cpp.html">test/fenwick_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/heavy_light_decomposition.test.cpp.html">test/heavy_light_decomposition.test.cpp</a>
-* :x: <a href="verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/matrix.test.cpp.html">test/matrix.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/push_relabel.test.cpp.html">test/push_relabel.test.cpp</a>
