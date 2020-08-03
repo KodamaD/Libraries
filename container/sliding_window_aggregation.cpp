@@ -18,7 +18,7 @@ private:
   template <class T, typename std::enable_if<has_identity<T>::value, void>::type* = nullptr>
   static typename T::type S_empty_exception() { return T::identity(); }
   template <class T, typename std::enable_if<!has_identity<T>::value, void>::type* = nullptr>
-  [[noreturn]] static typename T::type S_empty_exception() { throw std::runtime_error("attempted to fold empty queue"); }
+  [[noreturn]] static typename T::type S_empty_exception() { throw std::runtime_error("attempted to fold an empty queue"); }
 
   class node_type {
   public:
