@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: Number Theoretic Transform
+# :heavy_check_mark: Number Theoretic Transform
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/ntt.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-02 12:04:05+09:00
+    - Last commit date: 2020-08-03 12:07:15+09:00
 
 
 
@@ -44,7 +44,7 @@ layout: default
 
 ## Verified with
 
-* :x: <a href="../../verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
 
 
 ## Code
@@ -171,7 +171,7 @@ public:
     size_t size = F.size();
     size_t logn = bit_ctzr(size);
     for (size_t i = 0; i < size; ++i) {
-      size_t j = bit_rev(i) >> (32 - logn);
+      size_t j = bit_rev(i) >> (64 - logn);
       if (i < j) {
         std::swap(F[i], F[j]);
       }
@@ -498,7 +498,7 @@ public:
     size_t size = F.size();
     size_t logn = bit_ctzr(size);
     for (size_t i = 0; i < size; ++i) {
-      size_t j = bit_rev(i) >> (32 - logn);
+      size_t j = bit_rev(i) >> (64 - logn);
       if (i < j) {
         std::swap(F[i], F[j]);
       }

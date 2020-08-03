@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: test/ntt.test.cpp
+# :heavy_check_mark: test/ntt.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/ntt.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-02 12:04:05+09:00
+    - Last commit date: 2020-08-03 12:07:15+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/convolution_mod">https://judge.yosupo.jp/problem/convolution_mod</a>
@@ -40,7 +40,7 @@ layout: default
 ## Depends on
 
 * :question: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
-* :x: <a href="../../library/algebraic/ntt.cpp.html">Number Theoretic Transform</a>
+* :heavy_check_mark: <a href="../../library/algebraic/ntt.cpp.html">Number Theoretic Transform</a>
 * :question: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
 
 
@@ -342,7 +342,7 @@ public:
     size_t size = F.size();
     size_t logn = bit_ctzr(size);
     for (size_t i = 0; i < size; ++i) {
-      size_t j = bit_rev(i) >> (32 - logn);
+      size_t j = bit_rev(i) >> (64 - logn);
       if (i < j) {
         std::swap(F[i], F[j]);
       }

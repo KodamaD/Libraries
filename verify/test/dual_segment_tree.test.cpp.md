@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/dual_segment_tree.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-02 12:04:05+09:00
+    - Last commit date: 2020-08-03 12:07:15+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_D">https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_D</a>
@@ -41,6 +41,7 @@ layout: default
 
 * :heavy_check_mark: <a href="../../library/container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
 * :question: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
+* :question: <a href="../../library/other/monoid.cpp.html">other/monoid.cpp</a>
 
 
 ## Code
@@ -63,28 +64,15 @@ struct dst_monoid {
     using type = uint32_t;
   };
   struct operator_structure {
-    class type {
-      using base_type  = uint32_t;
-      using usage_type = bool;
-    public:
-      base_type  value;
-      usage_type available; 
-      explicit type(): value(base_type{}), available(false) { }
-      type(const base_type& value): value(value), available(true) { }
-      operator base_type() const { return value; }
-    };
-    static type identity() { return type(); }
-    static type operation(const type& v1, const type& v2) { 
-      if (!v1.available) return v2;
-      if (!v2.available) return v1;
+    using type = uint32_t;
+    static type operation(const type&, const type &v2) {
       return v2;
     }
   };
   static typename value_structure::type operation(
-    const typename value_structure::type    &val,
+    const typename value_structure::type    &,
     const typename operator_structure::type &op) {
-    if (!op.available) return val;
-    return op.value;
+    return op;
   }
 };
 
@@ -173,7 +161,89 @@ constexpr uint64_t bit_rev(uint64_t x) {
 /**
  * @title Bit Operations
  */
-#line 5 "container/dual_segment_tree.cpp"
+#line 1 "other/monoid.cpp"
+
+#include <type_traits>
+#include <utility>
+
+template <class T, class = void>
+class has_identity: public std::false_type { };
+
+template <class T>
+class has_identity<T, typename std::conditional<false, decltype(T::identity()), void>::type>: public std::true_type { };
+
+template <class T, bool HasIdentity>
+class fixed_monoid_impl: public T {
+public:
+  static constexpr typename T::type convert(const typename T::type &value) { return value; }
+  static constexpr typename T::type revert(const typename T::type &value) { return value; }
+
+};
+
+template <class T>
+class fixed_monoid_impl<T, false>: private T {
+public:
+  class type {
+  public:
+    typename T::type value;
+    bool state;
+  
+    explicit constexpr type(): value(typename T::type { }), state(false) { }
+    explicit constexpr type(const typename T::type &value): value(value), state(true) { }
+
+  };
+
+  static constexpr type convert(const typename T::type &value) { return type(value); }
+  static constexpr typename T::type revert(const type &value) { return value.value; }
+
+  static constexpr type identity() { return type(); }
+  static constexpr type operation(const type &v1, const type &v2) {
+    if (!v1.state) return v2;
+    if (!v2.state) return v1;
+    return type(T::operation(v1.value, v2.value));
+  }
+
+};
+
+template <class T>
+using fixed_monoid = fixed_monoid_impl<T, has_identity<T>::value>;
+
+template <class T, bool HasIdentity>
+class fixed_combined_monoid_impl {
+public:
+  using value_structure    = typename T::value_structure;
+  using operator_structure = fixed_monoid<typename T::operator_structure>;
+
+  template <class... Args>
+  static constexpr typename value_structure::type operation(
+    const typename value_structure::type    &val,
+    const typename operator_structure::type &op,
+    Args&&... args) {
+    return T::opration(val, op, std::forward<Args>(args)...);
+  }
+
+};
+
+template <class T>
+class fixed_combined_monoid_impl<T, false> {
+public:
+  using value_structure    = typename T::value_structure;
+  using operator_structure = fixed_monoid<typename T::operator_structure>;
+
+  template <class... Args>
+  static constexpr typename value_structure::type operation(
+    const typename value_structure::type    &val,
+    const typename operator_structure::type &op,
+    Args&&... args) {
+    if (!op.state) return val;
+    return T::operation(val, op.value, std::forward<Args>(args)...);
+  }
+
+};
+
+template <class T>
+using fixed_combined_monoid = fixed_combined_monoid_impl<T, has_identity<typename T::operator_structure>::value>;
+#line 6 "container/dual_segment_tree.cpp"
 #include <vector>
 #include <iterator>
 #include <algorithm>
@@ -188,14 +258,18 @@ public:
   using size_type       = size_t;
 
 private:
-  static void S_apply(operator_type &op, const operator_type &add) {
-    op = operator_monoid::operation(op, add);
+  using fixed_structure       = fixed_combined_monoid<structure>;
+  using fixed_operator_monoid = typename fixed_structure::operator_structure;
+  using fixed_operator_type   = typename fixed_operator_monoid::type;
+
+  static void S_apply(fixed_operator_type &op, const fixed_operator_type &add) {
+    op = fixed_operator_monoid::operation(op, add);
   }
 
   void M_propagate(const size_type index) {
     S_apply(M_tree[index << 1 | 0], M_tree[index]);
     S_apply(M_tree[index << 1 | 1], M_tree[index]);
-    M_tree[index] = operator_monoid::identity();
+    M_tree[index] = fixed_operator_monoid::identity();
   }
 
   void M_pushdown(const size_type index) {
@@ -206,7 +280,7 @@ private:
   }
 
   std::vector<value_type> M_leaves; 
-  std::vector<operator_type> M_tree;
+  std::vector<fixed_operator_type> M_tree;
 
 public:
   dual_segment_tree() = default;
@@ -217,7 +291,7 @@ public:
   void initialize(const size_type size) {
     clear();
     M_leaves.assign(size, value_type{});
-    M_tree.assign(size << 1, operator_monoid::identity());
+    M_tree.assign(size << 1, fixed_operator_monoid::identity());
   }
 
   template <class InputIterator>
@@ -226,21 +300,22 @@ public:
     const size_type size = std::distance(first, last);
     M_leaves.reserve(size);
     std::copy(first, last, std::back_inserter(M_leaves));
-    M_tree.assign(size << 1, operator_monoid::identity());
+    M_tree.assign(size << 1, fixed_operator_monoid::identity());
   }
 
   value_type at(size_type index) const {
     const size_type index_c = index;
     index += size();
-    operator_type op = M_tree[index];
+    fixed_operator_type op = M_tree[index];
     while (index != 1) {
       index >>= 1;
       S_apply(op, M_tree[index]);
     }
-    return structure::operation(M_leaves[index_c], op);
+    return fixed_structure::operation(M_leaves[index_c], op);
   }
 
-  void operate(size_type first, size_type last, const operator_type &op) {
+  void operate(size_type first, size_type last, const operator_type &op_) {
+    const auto op = fixed_operator_monoid::convert(op_);
     first += size();
     last  += size();
     M_pushdown(first);
@@ -265,7 +340,7 @@ public:
     for (size_type story = bit_width(index); story != 0; --story) {
       M_propagate(index >> story);
     }
-    M_tree[index] = operator_monoid::identity();
+    M_tree[index] = fixed_operator_monoid::identity();
     M_leaves[index_c] = val;
   }
 
@@ -295,28 +370,15 @@ struct dst_monoid {
     using type = uint32_t;
   };
   struct operator_structure {
-    class type {
-      using base_type  = uint32_t;
-      using usage_type = bool;
-    public:
-      base_type  value;
-      usage_type available; 
-      explicit type(): value(base_type{}), available(false) { }
-      type(const base_type& value): value(value), available(true) { }
-      operator base_type() const { return value; }
-    };
-    static type identity() { return type(); }
-    static type operation(const type& v1, const type& v2) { 
-      if (!v1.available) return v2;
-      if (!v2.available) return v1;
+    using type = uint32_t;
+    static type operation(const type&, const type &v2) {
       return v2;
     }
   };
   static typename value_structure::type operation(
-    const typename value_structure::type    &val,
+    const typename value_structure::type    &,
     const typename operator_structure::type &op) {
-    if (!op.available) return val;
-    return op.value;
+    return op;
   }
 };
 

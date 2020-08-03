@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#f8b0b924ebd7046dbfa85a856e4682c8">graph</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/dinic.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-23 23:44:02+09:00
+    - Last commit date: 2020-08-03 12:07:15+09:00
 
 
 
@@ -139,7 +139,7 @@ public:
   template <bool ValueOnly = true>
   typename std::enable_if<ValueOnly, flow_type>::type
   max_flow(const vertex_type source, const vertex_type sink, const bool initialize_edges = false) {
-    const auto dfs = make_fix_point([&](const auto dfs, 
+    const auto dfs = fix_point([&](const auto dfs, 
       const vertex_type vert, const flow_type flow) -> flow_type {
       if (vert == sink) return flow;
       auto &node = M_graph[vert];
@@ -385,8 +385,8 @@ public:
 #line 4 "other/fix_point.cpp"
 
 template <class Func>
-struct fix_point: private Func {
-  explicit constexpr fix_point(Func &&func): Func(std::forward<Func>(func)) { }
+struct fix_point_impl: private Func {
+  explicit constexpr fix_point_impl(Func &&func): Func(std::forward<Func>(func)) { }
   template <class... Args>
   constexpr decltype(auto) operator () (Args &&... args) const {
     return Func::operator()(*this, std::forward<Args>(args)...);
@@ -394,8 +394,8 @@ struct fix_point: private Func {
 };
 
 template <class Func>
-constexpr decltype(auto) make_fix_point(Func &&func) {
-  return fix_point<Func>(std::forward<Func>(func));
+constexpr decltype(auto) fix_point(Func &&func) {
+  return fix_point_impl<Func>(std::forward<Func>(func));
 }
 
 /**
@@ -482,7 +482,7 @@ public:
   template <bool ValueOnly = true>
   typename std::enable_if<ValueOnly, flow_type>::type
   max_flow(const vertex_type source, const vertex_type sink, const bool initialize_edges = false) {
-    const auto dfs = make_fix_point([&](const auto dfs, 
+    const auto dfs = fix_point([&](const auto dfs, 
       const vertex_type vert, const flow_type flow) -> flow_type {
       if (vert == sink) return flow;
       auto &node = M_graph[vert];

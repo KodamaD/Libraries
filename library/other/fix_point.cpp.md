@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/fix_point.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-11 19:42:18+09:00
+    - Last commit date: 2020-08-03 12:07:15+09:00
 
 
 
@@ -59,8 +59,8 @@ layout: default
 #include <utility>
 
 template <class Func>
-struct fix_point: private Func {
-  explicit constexpr fix_point(Func &&func): Func(std::forward<Func>(func)) { }
+struct fix_point_impl: private Func {
+  explicit constexpr fix_point_impl(Func &&func): Func(std::forward<Func>(func)) { }
   template <class... Args>
   constexpr decltype(auto) operator () (Args &&... args) const {
     return Func::operator()(*this, std::forward<Args>(args)...);
@@ -68,8 +68,8 @@ struct fix_point: private Func {
 };
 
 template <class Func>
-constexpr decltype(auto) make_fix_point(Func &&func) {
-  return fix_point<Func>(std::forward<Func>(func));
+constexpr decltype(auto) fix_point(Func &&func) {
+  return fix_point_impl<Func>(std::forward<Func>(func));
 }
 
 /**
@@ -86,8 +86,8 @@ constexpr decltype(auto) make_fix_point(Func &&func) {
 #include <utility>
 
 template <class Func>
-struct fix_point: private Func {
-  explicit constexpr fix_point(Func &&func): Func(std::forward<Func>(func)) { }
+struct fix_point_impl: private Func {
+  explicit constexpr fix_point_impl(Func &&func): Func(std::forward<Func>(func)) { }
   template <class... Args>
   constexpr decltype(auto) operator () (Args &&... args) const {
     return Func::operator()(*this, std::forward<Args>(args)...);
@@ -95,8 +95,8 @@ struct fix_point: private Func {
 };
 
 template <class Func>
-constexpr decltype(auto) make_fix_point(Func &&func) {
-  return fix_point<Func>(std::forward<Func>(func));
+constexpr decltype(auto) fix_point(Func &&func) {
+  return fix_point_impl<Func>(std::forward<Func>(func));
 }
 
 /**

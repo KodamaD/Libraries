@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/enumerate_divisors.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-01 22:24:08+09:00
+    - Last commit date: 2020-08-03 12:07:15+09:00
 
 
 * see: <a href="https://yukicoder.me/problems/no/888">https://yukicoder.me/problems/no/888</a>
@@ -84,8 +84,8 @@ int main() {
 #include <utility>
 
 template <class Func>
-struct fix_point: private Func {
-  explicit constexpr fix_point(Func &&func): Func(std::forward<Func>(func)) { }
+struct fix_point_impl: private Func {
+  explicit constexpr fix_point_impl(Func &&func): Func(std::forward<Func>(func)) { }
   template <class... Args>
   constexpr decltype(auto) operator () (Args &&... args) const {
     return Func::operator()(*this, std::forward<Args>(args)...);
@@ -93,8 +93,8 @@ struct fix_point: private Func {
 };
 
 template <class Func>
-constexpr decltype(auto) make_fix_point(Func &&func) {
-  return fix_point<Func>(std::forward<Func>(func));
+constexpr decltype(auto) fix_point(Func &&func) {
+  return fix_point_impl<Func>(std::forward<Func>(func));
 }
 
 /**
@@ -282,7 +282,7 @@ std::vector<T> enumerate_divisors(T n, bool sort = true) {
     size *= (e + 1);
   }
   res.reserve(size);
-  make_fix_point([&](auto dfs, size_t i, T x) -> void {
+  fix_point([&](auto dfs, size_t i, T x) -> void {
     if (i == factors.size()) {
       res.push_back(x);
       return;
