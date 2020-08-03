@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../other/bit_operation.cpp"
+#include "../other/monoid.cpp"
 #include <cstddef>
 #include <vector>
 #include <iterator>
@@ -16,14 +17,18 @@ public:
   using size_type       = size_t;
 
 private:
-  static void S_apply(operator_type &op, const operator_type &add) {
-    op = operator_monoid::operation(op, add);
+  using fixed_structure       = fixed_combined_monoid<structure>;
+  using fixed_operator_monoid = typename fixed_structure::operator_structure;
+  using fixed_operator_type   = typename fixed_operator_monoid::type;
+
+  static void S_apply(fixed_operator_type &op, const fixed_operator_type &add) {
+    op = fixed_operator_monoid::operation(op, add);
   }
 
   void M_propagate(const size_type index) {
     S_apply(M_tree[index << 1 | 0], M_tree[index]);
     S_apply(M_tree[index << 1 | 1], M_tree[index]);
-    M_tree[index] = operator_monoid::identity();
+    M_tree[index] = fixed_operator_monoid::identity();
   }
 
   void M_pushdown(const size_type index) {
@@ -34,7 +39,7 @@ private:
   }
 
   std::vector<value_type> M_leaves; 
-  std::vector<operator_type> M_tree;
+  std::vector<fixed_operator_type> M_tree;
 
 public:
   dual_segment_tree() = default;
@@ -45,7 +50,7 @@ public:
   void initialize(const size_type size) {
     clear();
     M_leaves.assign(size, value_type{});
-    M_tree.assign(size << 1, operator_monoid::identity());
+    M_tree.assign(size << 1, fixed_operator_monoid::identity());
   }
 
   template <class InputIterator>
@@ -54,21 +59,22 @@ public:
     const size_type size = std::distance(first, last);
     M_leaves.reserve(size);
     std::copy(first, last, std::back_inserter(M_leaves));
-    M_tree.assign(size << 1, operator_monoid::identity());
+    M_tree.assign(size << 1, fixed_operator_monoid::identity());
   }
 
   value_type at(size_type index) const {
     const size_type index_c = index;
     index += size();
-    operator_type op = M_tree[index];
+    fixed_operator_type op = M_tree[index];
     while (index != 1) {
       index >>= 1;
       S_apply(op, M_tree[index]);
     }
-    return structure::operation(M_leaves[index_c], op);
+    return fixed_structure::operation(M_leaves[index_c], op);
   }
 
-  void operate(size_type first, size_type last, const operator_type &op) {
+  void operate(size_type first, size_type last, const operator_type &op_) {
+    const auto op = fixed_operator_monoid::convert(op_);
     first += size();
     last  += size();
     M_pushdown(first);
@@ -93,7 +99,7 @@ public:
     for (size_type story = bit_width(index); story != 0; --story) {
       M_propagate(index >> story);
     }
-    M_tree[index] = operator_monoid::identity();
+    M_tree[index] = fixed_operator_monoid::identity();
     M_leaves[index_c] = val;
   }
 

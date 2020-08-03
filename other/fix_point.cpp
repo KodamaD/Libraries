@@ -3,8 +3,8 @@
 #include <utility>
 
 template <class Func>
-struct fix_point: private Func {
-  explicit constexpr fix_point(Func &&func): Func(std::forward<Func>(func)) { }
+struct fix_point_impl: private Func {
+  explicit constexpr fix_point_impl(Func &&func): Func(std::forward<Func>(func)) { }
   template <class... Args>
   constexpr decltype(auto) operator () (Args &&... args) const {
     return Func::operator()(*this, std::forward<Args>(args)...);
@@ -12,8 +12,8 @@ struct fix_point: private Func {
 };
 
 template <class Func>
-constexpr decltype(auto) make_fix_point(Func &&func) {
-  return fix_point<Func>(std::forward<Func>(func));
+constexpr decltype(auto) fix_point(Func &&func) {
+  return fix_point_impl<Func>(std::forward<Func>(func));
 }
 
 /**

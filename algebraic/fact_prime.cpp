@@ -182,7 +182,7 @@ std::vector<T> enumerate_divisors(T n, bool sort = true) {
     size *= (e + 1);
   }
   res.reserve(size);
-  make_fix_point([&](auto dfs, size_t i, T x) -> void {
+  fix_point([&](auto dfs, size_t i, T x) -> void {
     if (i == factors.size()) {
       res.push_back(x);
       return;

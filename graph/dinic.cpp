@@ -85,7 +85,7 @@ public:
   template <bool ValueOnly = true>
   typename std::enable_if<ValueOnly, flow_type>::type
   max_flow(const vertex_type source, const vertex_type sink, const bool initialize_edges = false) {
-    const auto dfs = make_fix_point([&](const auto dfs, 
+    const auto dfs = fix_point([&](const auto dfs, 
       const vertex_type vert, const flow_type flow) -> flow_type {
       if (vert == sink) return flow;
       auto &node = M_graph[vert];

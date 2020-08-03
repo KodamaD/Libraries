@@ -13,28 +13,15 @@ struct dst_monoid {
     using type = uint32_t;
   };
   struct operator_structure {
-    class type {
-      using base_type  = uint32_t;
-      using usage_type = bool;
-    public:
-      base_type  value;
-      usage_type available; 
-      explicit type(): value(base_type{}), available(false) { }
-      type(const base_type& value): value(value), available(true) { }
-      operator base_type() const { return value; }
-    };
-    static type identity() { return type(); }
-    static type operation(const type& v1, const type& v2) { 
-      if (!v1.available) return v2;
-      if (!v2.available) return v1;
+    using type = uint32_t;
+    static type operation(const type&, const type &v2) {
       return v2;
     }
   };
   static typename value_structure::type operation(
-    const typename value_structure::type    &val,
+    const typename value_structure::type    &,
     const typename operator_structure::type &op) {
-    if (!op.available) return val;
-    return op.value;
+    return op;
   }
 };
 

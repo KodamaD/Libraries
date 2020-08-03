@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../other/bit_operation.cpp"
+#include "../other/monoid.cpp"
 #include <cstddef>
 #include <vector>
 #include <iterator>
@@ -17,25 +18,29 @@ public:
   using size_type       = size_t;
 
 private:
+  using fixed_structure       = fixed_combined_monoid<structure>;
+  using fixed_operator_monoid = typename fixed_structure::operator_structure;
+  using fixed_operator_type   = typename fixed_operator_monoid::type;
+
   class node_type {
   public:
     value_type    value;
-    operator_type lazy;
+    fixed_operator_type lazy;
     node_type(
       const value_type    &value = value_monoid::identity(),
-      const operator_type &lazy  = operator_monoid::identity()
+      const fixed_operator_type &lazy  = fixed_operator_monoid::identity()
     ): value(value), lazy(lazy) { }
   };
 
-  static void S_apply(node_type &node, const operator_type &op, const size_type length) {
-    node.value = structure::operation(node.value, op, length);
-    node.lazy  = operator_monoid::operation(node.lazy, op);
+  static void S_apply(node_type &node, const fixed_operator_type &op, const size_type length) {
+    node.value = fixed_structure::operation(node.value, op, length);
+    node.lazy  = fixed_operator_monoid::operation(node.lazy, op);
   }
 
   void M_propagate(const size_type index, const size_type length) {
     S_apply(M_tree[index << 1 | 0], M_tree[index].lazy, length);
     S_apply(M_tree[index << 1 | 1], M_tree[index].lazy, length);
-    M_tree[index].lazy = operator_monoid::identity();
+    M_tree[index].lazy = fixed_operator_monoid::identity();
   }
   void M_fix_change(const size_type index) {
     M_tree[index].value = 
@@ -76,7 +81,7 @@ public:
     M_tree.reserve(size << 1);
     M_tree.assign(size, node_type());
     for (; first != last; ++first) {
-      M_tree.emplace_back(*first, operator_monoid::identity());
+      M_tree.emplace_back(*first, fixed_operator_monoid::identity());
     }
     for (size_type index = size - 1; index != 0; --index) {
       M_fix_change(index);
@@ -105,7 +110,8 @@ public:
     return value_monoid::operation(fold_l, fold_r);
   }
 
-  void operate(size_type first, size_type last, const operator_type &op) {
+  void operate(size_type first, size_type last, const operator_type &op_) {
+    const auto op = fixed_operator_monoid::convert(op_);
     first += size();
     last  += size();
     M_pushdown(first);
@@ -134,7 +140,7 @@ public:
       M_propagate(index >> story, 1 << (story - 1));
     }
     M_tree[index].value = val;
-    M_tree[index].lazy  = operator_monoid::identity();
+    M_tree[index].lazy  = fixed_operator_monoid::identity();
   }
 
   void clear() {

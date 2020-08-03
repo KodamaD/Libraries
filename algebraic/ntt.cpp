@@ -117,7 +117,7 @@ public:
     size_t size = F.size();
     size_t logn = bit_ctzr(size);
     for (size_t i = 0; i < size; ++i) {
-      size_t j = bit_rev(i) >> (32 - logn);
+      size_t j = bit_rev(i) >> (64 - logn);
       if (i < j) {
         std::swap(F[i], F[j]);
       }

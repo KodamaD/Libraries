@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../other/monoid.cpp"
 #include <cstddef>
 #include <vector>
 #include <iterator>
@@ -14,10 +15,13 @@ public:
   using size_type    = size_t;
 
 private:
-  std::vector<value_type> M_tree;
+  using fixed_value_monoid = fixed_monoid<value_monoid>;
+  using fixed_value_type   = typename fixed_value_monoid::type;
+
+  std::vector<fixed_value_type> M_tree;
 
   void M_fix_change(const size_type index) {
-    M_tree[index] = value_monoid::operation(M_tree[index << 1 | 0], M_tree[index << 1 | 1]);
+    M_tree[index] = fixed_value_monoid::operation(M_tree[index << 1 | 0], M_tree[index << 1 | 1]);
   }
 
 public:
@@ -28,7 +32,7 @@ public:
 
   void initialize(const size_type size) {
     clear();
-    M_tree.assign(size << 1, value_monoid::identity());
+    M_tree.assign(size << 1, fixed_value_monoid::identity());
   }
 
   template <class InputIterator>
@@ -36,8 +40,10 @@ public:
     clear();
     const size_type size = std::distance(first, last);
     M_tree.reserve(size << 1);
-    M_tree.assign(size, value_monoid::identity());
-    std::copy(first, last, std::back_inserter(M_tree));
+    M_tree.assign(size, fixed_value_monoid::identity());
+    std::transform(first, last, std::back_inserter(M_tree), [&](const value_type &value) {
+      return fixed_value_monoid::convert(value);
+    });
     for (size_type index = size - 1; index != 0; --index) {
       M_fix_change(index);
     }
@@ -45,35 +51,35 @@ public:
 
   void assign(size_type index, const value_type &value) {
     index += size();
-    M_tree[index] = value;
+    M_tree[index] = fixed_value_monoid::convert(value);
     while (index != 1) {
       index >>= 1;
       M_fix_change(index);
     } 
   }
 
-  const value_type& at(size_type index) const { 
-    return M_tree[index + size()];
+  value_type at(const size_type index) const { 
+    return fixed_value_monoid::revert(M_tree[index + size()]);
   }
 
   value_type fold(size_type first, size_type last) const {
     first += size();
     last += size();
-    value_type fold_l = value_monoid::identity();
-    value_type fold_r = value_monoid::identity();
+    fixed_value_type fold_l = fixed_value_monoid::identity();
+    fixed_value_type fold_r = fixed_value_monoid::identity();
     while (first != last) {
       if (first & 1) {
-        fold_l = value_monoid::operation(fold_l, M_tree[first]);
+        fold_l = fixed_value_monoid::operation(fold_l, M_tree[first]);
         ++first;
       }
       if (last & 1) {
         --last;
-        fold_r = value_monoid::operation(M_tree[last], fold_r);      
+        fold_r = fixed_value_monoid::operation(M_tree[last], fold_r);      
       }
       first >>= 1;
       last  >>= 1;
     }
-    return value_monoid::operation(fold_l, fold_r);
+    return fixed_value_monoid::revert(fixed_value_monoid::operation(fold_l, fold_r));
   }
 
   void clear() {
