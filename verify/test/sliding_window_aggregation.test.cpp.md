@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/sliding_window_aggregation.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 12:32:12+09:00
+    - Last commit date: 2020-08-03 17:09:36+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/queue_operate_all_composite">https://judge.yosupo.jp/problem/queue_operate_all_composite</a>
@@ -195,6 +195,10 @@ public:
 
 template <class T>
 using fixed_combined_monoid = fixed_combined_monoid_impl<T, has_identity<typename T::operator_structure>::value>;
+
+/**
+ * Monoid Utility
+ */
 #line 4 "container/sliding_window_aggregation.cpp"
 #include <cstddef>
 #include <stack>
@@ -213,7 +217,7 @@ private:
   template <class T, typename std::enable_if<has_identity<T>::value, void>::type* = nullptr>
   static typename T::type S_empty_exception() { return T::identity(); }
   template <class T, typename std::enable_if<!has_identity<T>::value, void>::type* = nullptr>
-  [[noreturn]] static typename T::type S_empty_exception() { throw std::runtime_error("attempted to fold empty queue"); }
+  [[noreturn]] static typename T::type S_empty_exception() { throw std::runtime_error("attempted to fold an empty queue"); }
 
   class node_type {
   public:

@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/lazy_propagation_segment_tree.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 12:32:12+09:00
+    - Last commit date: 2020-08-03 17:09:36+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/range_affine_range_sum">https://judge.yosupo.jp/problem/range_affine_range_sum</a>
@@ -256,6 +256,10 @@ public:
 
 template <class T>
 using fixed_combined_monoid = fixed_combined_monoid_impl<T, has_identity<typename T::operator_structure>::value>;
+
+/**
+ * Monoid Utility
+ */
 #line 6 "container/lazy_propagation_segment_tree.cpp"
 #include <vector>
 #include <iterator>

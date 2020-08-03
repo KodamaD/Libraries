@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/monoid.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 12:32:12+09:00
+    - Last commit date: 2020-08-03 17:09:36+09:00
 
 
 
@@ -143,6 +143,9 @@ public:
 template <class T>
 using fixed_combined_monoid = fixed_combined_monoid_impl<T, has_identity<typename T::operator_structure>::value>;
 
+/**
+ * Monoid Utility
+ */
 ```
 {% endraw %}
 
@@ -235,6 +238,10 @@ public:
 
 template <class T>
 using fixed_combined_monoid = fixed_combined_monoid_impl<T, has_identity<typename T::operator_structure>::value>;
+
+/**
+ * Monoid Utility
+ */
 
 ```
 {% endraw %}
