@@ -31,13 +31,14 @@ layout: default
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/random_number.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-01 22:24:08+09:00
+    - Last commit date: 2020-08-05 18:30:10+09:00
 
 
 
 
 ## Required by
 
+* :warning: <a href="../container/randomized_queue.cpp.html">Randomized Queue</a>
 * :warning: <a href="../string/rolling_hash.cpp.html">Rolling Hash</a>
 
 
@@ -46,6 +47,7 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#pragma once
 
 #include <cstdint>
 #include <random>
@@ -53,11 +55,11 @@ layout: default
 #include <array>
 
 uint64_t engine() {
-  const auto rotate = [](const uint64_t x, const size_t k) {
+  static const auto rotate = [](const uint64_t x, const size_t k) {
     return (x << k) | (x >> (64 - k));
   };
   static auto array = [] {
-    uint64_t seed = std::chrono::system_clock::now().time_since_epoch().count();
+    uint64_t seed = static_cast<uint64_t>(std::chrono::system_clock::now().time_since_epoch().count());
     std::array<uint64_t, 4> res{};
     for (size_t index = 0; index < 4; index++) {
       uint64_t value = (seed += 0x9e3779b97f4a7c15);
@@ -99,7 +101,7 @@ Real random_real(Real lower, Real upper) {
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "other/random_number.cpp"
+#line 2 "other/random_number.cpp"
 
 #include <cstdint>
 #include <random>
@@ -107,11 +109,11 @@ Real random_real(Real lower, Real upper) {
 #include <array>
 
 uint64_t engine() {
-  const auto rotate = [](const uint64_t x, const size_t k) {
+  static const auto rotate = [](const uint64_t x, const size_t k) {
     return (x << k) | (x >> (64 - k));
   };
   static auto array = [] {
-    uint64_t seed = std::chrono::system_clock::now().time_since_epoch().count();
+    uint64_t seed = static_cast<uint64_t>(std::chrono::system_clock::now().time_since_epoch().count());
     std::array<uint64_t, 4> res{};
     for (size_t index = 0; index < 4; index++) {
       uint64_t value = (seed += 0x9e3779b97f4a7c15);

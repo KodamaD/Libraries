@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/int_operation.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-05 16:08:23+09:00
+    - Last commit date: 2020-08-05 18:30:10+09:00
 
 
 
@@ -41,6 +41,7 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#pragma once
 
 #include <cstdint>
 #include <type_traits>
@@ -114,7 +115,7 @@ ipower(T x, uint64_t e) {
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "other/int_operation.cpp"
+#line 2 "other/int_operation.cpp"
 
 #include <cstdint>
 #include <type_traits>

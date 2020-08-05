@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#ed7daeb157cd9b31e53896ad3c771a26">geometry</a>
 * <a href="{{ site.github.repository_url }}/blob/master/geometry/polygon.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-11 19:42:18+09:00
+    - Last commit date: 2020-08-05 18:30:10+09:00
 
 
 
@@ -50,6 +50,7 @@ layout: default
 #pragma once
 
 #include "../geometry/figures.cpp"
+
 #include <cstddef>
 #include <vector>
 #include <numeric>
@@ -425,6 +426,7 @@ std::vector<vector_type<T>> intersection(const circle_type<T> &c, const line_typ
  * @title 2D Figures
  */
 #line 4 "geometry/polygon.cpp"
+
 #include <cstddef>
 #include <vector>
 #include <numeric>

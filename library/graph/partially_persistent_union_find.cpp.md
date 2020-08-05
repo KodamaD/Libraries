@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#f8b0b924ebd7046dbfa85a856e4682c8">graph</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/partially_persistent_union_find.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-12 13:43:20+09:00
+    - Last commit date: 2020-08-05 18:30:10+09:00
 
 
 
@@ -54,7 +54,7 @@ public:
   using time_type = size_t;
 
   static time_type far_future() {
-    return -1;
+    return static_cast<time_type>(-1);
   }
 
 private:
@@ -173,7 +173,7 @@ public:
   using time_type = size_t;
 
   static time_type far_future() {
-    return -1;
+    return static_cast<time_type>(-1);
   }
 
 private:

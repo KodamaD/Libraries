@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#f8b0b924ebd7046dbfa85a856e4682c8">graph</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/push_relabel.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-23 23:44:02+09:00
+    - Last commit date: 2020-08-05 18:30:10+09:00
 
 
 
@@ -53,10 +53,10 @@ layout: default
 ```cpp
 #pragma once
 
+#include "../graph/network.cpp"
+
 #include <queue>
 #include <algorithm>
-
-#include "../graph/network.cpp"
 
 namespace push_relabel_detail {
 
@@ -381,9 +381,6 @@ public:
 ```cpp
 #line 2 "graph/push_relabel.cpp"
 
-#include <queue>
-#include <algorithm>
-
 #line 2 "graph/network.cpp"
 
 #include <cstddef>
@@ -549,7 +546,10 @@ public:
 /**
  * @title Network
  */
-#line 7 "graph/push_relabel.cpp"
+#line 4 "graph/push_relabel.cpp"
+
+#include <queue>
+#include <algorithm>
 
 namespace push_relabel_detail {
 

@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/segment_tree.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-05 16:08:23+09:00
+    - Last commit date: 2020-08-05 18:30:10+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/point_set_range_composite">https://judge.yosupo.jp/problem/point_set_range_composite</a>
@@ -112,7 +112,7 @@ int main() {
 
 #line 2 "container/segment_tree.cpp"
 
-#line 1 "other/monoid.cpp"
+#line 2 "other/monoid.cpp"
 
 #include <type_traits>
 #include <utility>
@@ -123,6 +123,15 @@ class has_identity: public std::false_type { };
 
 template <class T>
 class has_identity<T, typename std::conditional<false, decltype(T::identity()), void>::type>: public std::true_type { };
+
+template <class T>
+constexpr typename std::enable_if<has_identity<T>::value, typename T::type>::type empty_exception() {
+  return T::identity();
+}
+template <class T>
+[[noreturn]] constexpr typename std::enable_if<!has_identity<T>::value, typename T::type>::type empty_exception() {
+  throw std::runtime_error("type T has no identity");
+}
 
 template <class T, bool HasIdentity>
 class fixed_monoid_impl: public T {
@@ -203,6 +212,7 @@ using fixed_combined_monoid = fixed_combined_monoid_impl<T, has_identity<typenam
  * @title Monoid Utility
  */
 #line 4 "container/segment_tree.cpp"
+
 #include <cstddef>
 #include <vector>
 #include <iterator>

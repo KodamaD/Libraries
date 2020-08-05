@@ -25,12 +25,12 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: Dual Segment Tree
+# :heavy_check_mark: Disjoint Sparse Table
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
-* <a href="{{ site.github.repository_url }}/blob/master/container/dual_segment_tree.cpp">View this file on GitHub</a>
+* <a href="{{ site.github.repository_url }}/blob/master/container/disjoint_sparse_table.cpp">View this file on GitHub</a>
     - Last commit date: 2020-08-05 18:30:10+09:00
 
 
@@ -42,9 +42,14 @@ layout: default
 * :heavy_check_mark: <a href="../other/monoid.cpp.html">Monoid Utility</a>
 
 
+## Required by
+
+* :heavy_check_mark: <a href="dst_tree.cpp.html">DST Tree</a>
+
+
 ## Verified with
 
-* :heavy_check_mark: <a href="../../verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/dst_tree.test.cpp.html">test/dst_tree.test.cpp</a>
 
 
 ## Code
@@ -59,120 +64,72 @@ layout: default
 
 #include <cstddef>
 #include <vector>
-#include <iterator>
-#include <algorithm>
 
-template <class CombinedMonoid>
-class dual_segment_tree {
+template <class SemiGroup>
+class disjoint_sparse_table {
 public:
-  using structure       = CombinedMonoid;
-  using value_type      = typename CombinedMonoid::value_structure::type;
-  using operator_monoid = typename CombinedMonoid::operator_structure;
-  using operator_type   = typename CombinedMonoid::operator_structure::type;
+  using structure       = SemiGroup;
+  using value_semigroup = typename SemiGroup::value_structure;
+  using value_type      = typename SemiGroup::value_structure::type;
   using size_type       = size_t;
 
 private:
-  using fixed_structure       = fixed_combined_monoid<structure>;
-  using fixed_operator_monoid = typename fixed_structure::operator_structure;
-  using fixed_operator_type   = typename fixed_operator_monoid::type;
 
-  static void S_apply(fixed_operator_type &op, const fixed_operator_type &add) {
-    op = fixed_operator_monoid::operation(op, add);
-  }
-
-  void M_propagate(const size_type index) {
-    S_apply(M_tree[index << 1 | 0], M_tree[index]);
-    S_apply(M_tree[index << 1 | 1], M_tree[index]);
-    M_tree[index] = fixed_operator_monoid::identity();
-  }
-
-  void M_pushdown(const size_type index) {
-    const size_type lsb = bit_ctzr(index);
-    for (size_type story = bit_width(index); story != lsb; --story) {
-      M_propagate(index >> story);
-    }
-  }
-
-  std::vector<value_type> M_leaves; 
-  std::vector<fixed_operator_type> M_tree;
+  std::vector<std::vector<value_type>> M_table;
 
 public:
-  dual_segment_tree() = default;
-  explicit dual_segment_tree(const size_type size) { initialize(size); }
+  disjoint_sparse_table() = default;
   template <class InputIterator>
-  explicit dual_segment_tree(InputIterator first, InputIterator last) { construct(first, last); }
-
-  void initialize(const size_type size) {
-    clear();
-    M_leaves.assign(size, value_type{});
-    M_tree.assign(size << 1, fixed_operator_monoid::identity());
-  }
+  explicit disjoint_sparse_table(InputIterator first, InputIterator last) { construct(first, last); }
 
   template <class InputIterator>
   void construct(InputIterator first, InputIterator last) {
     clear();
     const size_type size = std::distance(first, last);
-    M_leaves.reserve(size);
-    std::copy(first, last, std::back_inserter(M_leaves));
-    M_tree.assign(size << 1, fixed_operator_monoid::identity());
-  }
-
-  value_type at(size_type index) const {
-    const size_type index_c = index;
-    index += size();
-    fixed_operator_type op = M_tree[index];
-    while (index != 1) {
-      index >>= 1;
-      S_apply(op, M_tree[index]);
-    }
-    return fixed_structure::operation(M_leaves[index_c], op);
-  }
-
-  void operate(size_type first, size_type last, const operator_type &op_) {
-    const auto op = fixed_operator_monoid::convert(op_);
-    first += size();
-    last  += size();
-    M_pushdown(first);
-    M_pushdown(last);
-    while (first != last) {
-      if (first & 1) {
-        S_apply(M_tree[first], op);
-        ++first;
+    const size_type height = bit_width(size);
+    M_table.resize(height, std::vector<value_type>(size));
+    M_table.front() = std::vector<value_type>(first, last);
+    for (size_type story = 1; story < height; ++story) {
+      const size_type bit = (1 << story);
+      for (size_type left = 0; left < size; left += (bit << 1)) {
+        const size_type mid = (left + bit < size ? left + bit : size);
+        M_table[story][mid - 1] = M_table[0][mid - 1];
+        for (size_type i = mid - 1; i-- != left;) {
+          M_table[story][i] = value_semigroup::operation(M_table[0][i], M_table[story][i + 1]);
+        }
+        if (mid >= size) continue;
+        const size_type right = (mid + bit < size ? mid + bit : size);
+        M_table[story][mid] = M_table[0][mid];
+        for (size_type i = mid + 1; i != right; ++i) {
+          M_table[story][i] = value_semigroup::operation(M_table[story][i - 1], M_table[0][i]);
+        }
       }
-      if (last & 1) {
-        --last;
-        S_apply(M_tree[last], op);
-      }
-      first >>= 1;
-      last  >>= 1;
     }
   }
 
-  void assign(size_type index, const value_type &val) {
-    const size_type index_c = index;
-    index += size();
-    for (size_type story = bit_width(index); story != 0; --story) {
-      M_propagate(index >> story);
-    }
-    M_tree[index] = fixed_operator_monoid::identity();
-    M_leaves[index_c] = val;
+  value_type fold(const size_type first, size_type last) const {
+    if (first == last) return empty_exception<value_semigroup>();
+    if (first == --last) return M_table[0][first];
+    const size_type height = bit_width(first ^ last) - 1;
+    return value_semigroup::operation(M_table[height][first], M_table[height][last]);
   }
 
   void clear() {
-    M_leaves.clear();
-    M_leaves.shrink_to_fit();
-    M_tree.clear();
-    M_tree.shrink_to_fit();
+    M_table.clear();
+    M_table.shrink_to_fit();
   }
-
-  size_type size() const { 
-    return M_leaves.size();
+  size_type size() const {
+    if (M_table.empty()) return 0;
+    return M_table.front().size();
+  }
+  bool empty() const {
+    return M_table.empty();
   }
 
 };
 
 /**
- * @title Dual Segment Tree
+ * @title Disjoint Sparse Table
  */
 ```
 {% endraw %}
@@ -180,7 +137,7 @@ public:
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 2 "container/dual_segment_tree.cpp"
+#line 2 "container/disjoint_sparse_table.cpp"
 
 #line 2 "other/bit_operation.cpp"
 
@@ -327,124 +284,76 @@ using fixed_combined_monoid = fixed_combined_monoid_impl<T, has_identity<typenam
 /**
  * @title Monoid Utility
  */
-#line 5 "container/dual_segment_tree.cpp"
+#line 5 "container/disjoint_sparse_table.cpp"
 
-#line 7 "container/dual_segment_tree.cpp"
+#line 7 "container/disjoint_sparse_table.cpp"
 #include <vector>
-#include <iterator>
-#include <algorithm>
 
-template <class CombinedMonoid>
-class dual_segment_tree {
+template <class SemiGroup>
+class disjoint_sparse_table {
 public:
-  using structure       = CombinedMonoid;
-  using value_type      = typename CombinedMonoid::value_structure::type;
-  using operator_monoid = typename CombinedMonoid::operator_structure;
-  using operator_type   = typename CombinedMonoid::operator_structure::type;
+  using structure       = SemiGroup;
+  using value_semigroup = typename SemiGroup::value_structure;
+  using value_type      = typename SemiGroup::value_structure::type;
   using size_type       = size_t;
 
 private:
-  using fixed_structure       = fixed_combined_monoid<structure>;
-  using fixed_operator_monoid = typename fixed_structure::operator_structure;
-  using fixed_operator_type   = typename fixed_operator_monoid::type;
 
-  static void S_apply(fixed_operator_type &op, const fixed_operator_type &add) {
-    op = fixed_operator_monoid::operation(op, add);
-  }
-
-  void M_propagate(const size_type index) {
-    S_apply(M_tree[index << 1 | 0], M_tree[index]);
-    S_apply(M_tree[index << 1 | 1], M_tree[index]);
-    M_tree[index] = fixed_operator_monoid::identity();
-  }
-
-  void M_pushdown(const size_type index) {
-    const size_type lsb = bit_ctzr(index);
-    for (size_type story = bit_width(index); story != lsb; --story) {
-      M_propagate(index >> story);
-    }
-  }
-
-  std::vector<value_type> M_leaves; 
-  std::vector<fixed_operator_type> M_tree;
+  std::vector<std::vector<value_type>> M_table;
 
 public:
-  dual_segment_tree() = default;
-  explicit dual_segment_tree(const size_type size) { initialize(size); }
+  disjoint_sparse_table() = default;
   template <class InputIterator>
-  explicit dual_segment_tree(InputIterator first, InputIterator last) { construct(first, last); }
-
-  void initialize(const size_type size) {
-    clear();
-    M_leaves.assign(size, value_type{});
-    M_tree.assign(size << 1, fixed_operator_monoid::identity());
-  }
+  explicit disjoint_sparse_table(InputIterator first, InputIterator last) { construct(first, last); }
 
   template <class InputIterator>
   void construct(InputIterator first, InputIterator last) {
     clear();
     const size_type size = std::distance(first, last);
-    M_leaves.reserve(size);
-    std::copy(first, last, std::back_inserter(M_leaves));
-    M_tree.assign(size << 1, fixed_operator_monoid::identity());
-  }
-
-  value_type at(size_type index) const {
-    const size_type index_c = index;
-    index += size();
-    fixed_operator_type op = M_tree[index];
-    while (index != 1) {
-      index >>= 1;
-      S_apply(op, M_tree[index]);
-    }
-    return fixed_structure::operation(M_leaves[index_c], op);
-  }
-
-  void operate(size_type first, size_type last, const operator_type &op_) {
-    const auto op = fixed_operator_monoid::convert(op_);
-    first += size();
-    last  += size();
-    M_pushdown(first);
-    M_pushdown(last);
-    while (first != last) {
-      if (first & 1) {
-        S_apply(M_tree[first], op);
-        ++first;
+    const size_type height = bit_width(size);
+    M_table.resize(height, std::vector<value_type>(size));
+    M_table.front() = std::vector<value_type>(first, last);
+    for (size_type story = 1; story < height; ++story) {
+      const size_type bit = (1 << story);
+      for (size_type left = 0; left < size; left += (bit << 1)) {
+        const size_type mid = (left + bit < size ? left + bit : size);
+        M_table[story][mid - 1] = M_table[0][mid - 1];
+        for (size_type i = mid - 1; i-- != left;) {
+          M_table[story][i] = value_semigroup::operation(M_table[0][i], M_table[story][i + 1]);
+        }
+        if (mid >= size) continue;
+        const size_type right = (mid + bit < size ? mid + bit : size);
+        M_table[story][mid] = M_table[0][mid];
+        for (size_type i = mid + 1; i != right; ++i) {
+          M_table[story][i] = value_semigroup::operation(M_table[story][i - 1], M_table[0][i]);
+        }
       }
-      if (last & 1) {
-        --last;
-        S_apply(M_tree[last], op);
-      }
-      first >>= 1;
-      last  >>= 1;
     }
   }
 
-  void assign(size_type index, const value_type &val) {
-    const size_type index_c = index;
-    index += size();
-    for (size_type story = bit_width(index); story != 0; --story) {
-      M_propagate(index >> story);
-    }
-    M_tree[index] = fixed_operator_monoid::identity();
-    M_leaves[index_c] = val;
+  value_type fold(const size_type first, size_type last) const {
+    if (first == last) return empty_exception<value_semigroup>();
+    if (first == --last) return M_table[0][first];
+    const size_type height = bit_width(first ^ last) - 1;
+    return value_semigroup::operation(M_table[height][first], M_table[height][last]);
   }
 
   void clear() {
-    M_leaves.clear();
-    M_leaves.shrink_to_fit();
-    M_tree.clear();
-    M_tree.shrink_to_fit();
+    M_table.clear();
+    M_table.shrink_to_fit();
   }
-
-  size_type size() const { 
-    return M_leaves.size();
+  size_type size() const {
+    if (M_table.empty()) return 0;
+    return M_table.front().size();
+  }
+  bool empty() const {
+    return M_table.empty();
   }
 
 };
 
 /**
- * @title Dual Segment Tree
+ * @title Disjoint Sparse Table
  */
 
 ```

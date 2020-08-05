@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/lazy_propagation_segment_tree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-05 16:08:23+09:00
+    - Last commit date: 2020-08-05 18:30:10+09:00
 
 
 
@@ -56,6 +56,7 @@ layout: default
 
 #include "../other/bit_operation.cpp"
 #include "../other/monoid.cpp"
+
 #include <cstddef>
 #include <vector>
 #include <iterator>
@@ -265,7 +266,7 @@ constexpr uint64_t bit_rev(uint64_t x) {
 /**
  * @title Bit Operations
  */
-#line 1 "other/monoid.cpp"
+#line 2 "other/monoid.cpp"
 
 #include <type_traits>
 #include <utility>
@@ -276,6 +277,15 @@ class has_identity: public std::false_type { };
 
 template <class T>
 class has_identity<T, typename std::conditional<false, decltype(T::identity()), void>::type>: public std::true_type { };
+
+template <class T>
+constexpr typename std::enable_if<has_identity<T>::value, typename T::type>::type empty_exception() {
+  return T::identity();
+}
+template <class T>
+[[noreturn]] constexpr typename std::enable_if<!has_identity<T>::value, typename T::type>::type empty_exception() {
+  throw std::runtime_error("type T has no identity");
+}
 
 template <class T, bool HasIdentity>
 class fixed_monoid_impl: public T {
@@ -355,7 +365,9 @@ using fixed_combined_monoid = fixed_combined_monoid_impl<T, has_identity<typenam
 /**
  * @title Monoid Utility
  */
-#line 6 "container/lazy_propagation_segment_tree.cpp"
+#line 5 "container/lazy_propagation_segment_tree.cpp"
+
+#line 7 "container/lazy_propagation_segment_tree.cpp"
 #include <vector>
 #include <iterator>
 #include <algorithm>

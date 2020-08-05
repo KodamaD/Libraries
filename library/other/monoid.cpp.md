@@ -31,13 +31,15 @@ layout: default
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/monoid.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-05 16:08:23+09:00
+    - Last commit date: 2020-08-05 18:30:10+09:00
 
 
 
 
 ## Required by
 
+* :heavy_check_mark: <a href="../container/disjoint_sparse_table.cpp.html">Disjoint Sparse Table</a>
+* :heavy_check_mark: <a href="../container/dst_tree.cpp.html">DST Tree</a>
 * :heavy_check_mark: <a href="../container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
 * :heavy_check_mark: <a href="../container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
 * :heavy_check_mark: <a href="../container/segment_tree.cpp.html">Segment Tree</a>
@@ -46,6 +48,7 @@ layout: default
 
 ## Verified with
 
+* :heavy_check_mark: <a href="../../verify/test/dst_tree.test.cpp.html">test/dst_tree.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
@@ -57,6 +60,7 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#pragma once
 
 #include <type_traits>
 #include <utility>
@@ -67,6 +71,15 @@ class has_identity: public std::false_type { };
 
 template <class T>
 class has_identity<T, typename std::conditional<false, decltype(T::identity()), void>::type>: public std::true_type { };
+
+template <class T>
+constexpr typename std::enable_if<has_identity<T>::value, typename T::type>::type empty_exception() {
+  return T::identity();
+}
+template <class T>
+[[noreturn]] constexpr typename std::enable_if<!has_identity<T>::value, typename T::type>::type empty_exception() {
+  throw std::runtime_error("type T has no identity");
+}
 
 template <class T, bool HasIdentity>
 class fixed_monoid_impl: public T {
@@ -152,7 +165,7 @@ using fixed_combined_monoid = fixed_combined_monoid_impl<T, has_identity<typenam
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "other/monoid.cpp"
+#line 2 "other/monoid.cpp"
 
 #include <type_traits>
 #include <utility>
@@ -163,6 +176,15 @@ class has_identity: public std::false_type { };
 
 template <class T>
 class has_identity<T, typename std::conditional<false, decltype(T::identity()), void>::type>: public std::true_type { };
+
+template <class T>
+constexpr typename std::enable_if<has_identity<T>::value, typename T::type>::type empty_exception() {
+  return T::identity();
+}
+template <class T>
+[[noreturn]] constexpr typename std::enable_if<!has_identity<T>::value, typename T::type>::type empty_exception() {
+  throw std::runtime_error("type T has no identity");
+}
 
 template <class T, bool HasIdentity>
 class fixed_monoid_impl: public T {

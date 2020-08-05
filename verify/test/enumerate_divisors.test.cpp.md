@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/enumerate_divisors.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 12:07:15+09:00
+    - Last commit date: 2020-08-05 18:30:10+09:00
 
 
 * see: <a href="https://yukicoder.me/problems/no/888">https://yukicoder.me/problems/no/888</a>
@@ -101,9 +101,10 @@ constexpr decltype(auto) fix_point(Func &&func) {
  * @title Lambda Recursion
  */
 #line 4 "algebraic/fact_prime.cpp"
+
 #include <cstddef>
 #include <cstdint>
-#line 7 "algebraic/fact_prime.cpp"
+#line 8 "algebraic/fact_prime.cpp"
 #include <vector>
 #include <algorithm>
 

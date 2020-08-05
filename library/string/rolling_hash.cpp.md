@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#b45cffe084dd3d20d928bee85e7b0f21">string</a>
 * <a href="{{ site.github.repository_url }}/blob/master/string/rolling_hash.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-01 22:24:08+09:00
+    - Last commit date: 2020-08-05 18:30:10+09:00
 
 
 
@@ -141,7 +141,7 @@ public:
 ```cpp
 #line 2 "string/rolling_hash.cpp"
 
-#line 1 "other/random_number.cpp"
+#line 2 "other/random_number.cpp"
 
 #include <cstdint>
 #include <random>
@@ -149,11 +149,11 @@ public:
 #include <array>
 
 uint64_t engine() {
-  const auto rotate = [](const uint64_t x, const size_t k) {
+  static const auto rotate = [](const uint64_t x, const size_t k) {
     return (x << k) | (x >> (64 - k));
   };
   static auto array = [] {
-    uint64_t seed = std::chrono::system_clock::now().time_since_epoch().count();
+    uint64_t seed = static_cast<uint64_t>(std::chrono::system_clock::now().time_since_epoch().count());
     std::array<uint64_t, 4> res{};
     for (size_t index = 0; index < 4; index++) {
       uint64_t value = (seed += 0x9e3779b97f4a7c15);

@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/ntt.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-05 16:08:23+09:00
+    - Last commit date: 2020-08-05 18:30:10+09:00
 
 
 
@@ -56,6 +56,7 @@ layout: default
 
 #include "../algebraic/modular.cpp"
 #include "../other/bit_operation.cpp"
+
 #include <cstddef>
 #include <vector>
 #include <array>
@@ -383,7 +384,9 @@ constexpr uint64_t bit_rev(uint64_t x) {
 /**
  * @title Bit Operations
  */
-#line 6 "algebraic/ntt.cpp"
+#line 5 "algebraic/ntt.cpp"
+
+#line 7 "algebraic/ntt.cpp"
 #include <vector>
 #include <array>
 #include <utility>

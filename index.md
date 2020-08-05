@@ -49,6 +49,8 @@ layout: default
 ### container
 
 * :heavy_check_mark: <a href="library/container/bit_vector.cpp.html">Succinct Bit Vector</a>
+* :heavy_check_mark: <a href="library/container/disjoint_sparse_table.cpp.html">Disjoint Sparse Table</a>
+* :heavy_check_mark: <a href="library/container/dst_tree.cpp.html">DST Tree</a>
 * :heavy_check_mark: <a href="library/container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
 * :heavy_check_mark: <a href="library/container/fenwick_tree.cpp.html">Fenwick Tree</a>
 * :heavy_check_mark: <a href="library/container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
@@ -111,6 +113,7 @@ layout: default
 ## Verify Files
 
 * :heavy_check_mark: <a href="verify/test/dinic.test.cpp.html">test/dinic.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/dst_tree.test.cpp.html">test/dst_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/enumerate_divisors.test.cpp.html">test/enumerate_divisors.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/enumerate_factors.test.cpp.html">test/enumerate_factors.test.cpp</a>

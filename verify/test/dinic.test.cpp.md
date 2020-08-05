@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/dinic.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 12:07:15+09:00
+    - Last commit date: 2020-08-05 18:30:10+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/bipartitematching">https://judge.yosupo.jp/problem/bipartitematching</a>
@@ -268,9 +268,6 @@ public:
  */
 #line 2 "graph/dinic.cpp"
 
-#include <queue>
-#include <algorithm>
-
 #line 2 "other/fix_point.cpp"
 
 #line 4 "other/fix_point.cpp"
@@ -292,7 +289,10 @@ constexpr decltype(auto) fix_point(Func &&func) {
 /**
  * @title Lambda Recursion
  */
-#line 8 "graph/dinic.cpp"
+#line 5 "graph/dinic.cpp"
+
+#include <queue>
+#include <algorithm>
 
 template <class Network>
 class dinic {

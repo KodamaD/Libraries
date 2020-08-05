@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/wavelet_matrix.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-05 19:22:30+09:00
+    - Last commit date: 2020-08-05 18:30:10+09:00
 
 
 
@@ -54,6 +54,7 @@ layout: default
 #pragma once
 
 #include "../container/bit_vector.cpp"
+
 #include <array>
 #include <algorithm>
 
@@ -256,6 +257,7 @@ public:
  * @title Succinct Bit Vector
  */
 #line 4 "container/wavelet_matrix.cpp"
+
 #include <array>
 #include <algorithm>
 

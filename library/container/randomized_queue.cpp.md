@@ -31,9 +31,14 @@ layout: default
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/randomized_queue.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-05 19:22:30+09:00
+    - Last commit date: 2020-08-05 18:30:10+09:00
 
 
+
+
+## Depends on
+
+* :warning: <a href="../other/random_number.cpp.html">Random Number</a>
 
 
 ## Code
@@ -42,6 +47,8 @@ layout: default
 {% raw %}
 ```cpp
 #pragma once
+
+#include "../other/random_number.cpp"
 
 #include <cstddef>
 #include <cstdint>
@@ -55,13 +62,6 @@ public:
   using value_type = T;
   using size_type = size_t;
 
-  static uint64_t engine() {
-    static uint64_t current = 7511168;
-    current ^= (current << 9);
-    current ^= (current >> 7);
-    return current;
-  }
-  
 private:
   std::vector<value_type> M_data;
 
@@ -120,8 +120,58 @@ public:
 ```cpp
 #line 2 "container/randomized_queue.cpp"
 
-#include <cstddef>
+#line 2 "other/random_number.cpp"
+
 #include <cstdint>
+#include <random>
+#include <chrono>
+#include <array>
+
+uint64_t engine() {
+  static const auto rotate = [](const uint64_t x, const size_t k) {
+    return (x << k) | (x >> (64 - k));
+  };
+  static auto array = [] {
+    uint64_t seed = static_cast<uint64_t>(std::chrono::system_clock::now().time_since_epoch().count());
+    std::array<uint64_t, 4> res{};
+    for (size_t index = 0; index < 4; index++) {
+      uint64_t value = (seed += 0x9e3779b97f4a7c15);
+      value = (value ^ (value >> 30)) * 0xbf58476d1ce4e5b9;
+      value = (value ^ (value >> 27)) * 0x94d049bb133111eb;
+      res[index] = value ^ (value >> 31);
+    }
+    return res;
+  }();
+  const uint64_t result = rotate(array[1] * 5, 7) * 9;
+  const uint64_t old_value = array[1] << 17;
+  array[2] ^= array[0];
+  array[3] ^= array[1];
+  array[1] ^= array[2];
+  array[0] ^= array[3];
+  array[2] ^= old_value;
+  array[3] = rotate(array[3], 45);
+  return result;
+}
+
+template <class Integer>
+Integer random_integer(Integer lower, Integer upper) {
+  static std::default_random_engine gen(engine());
+  return std::uniform_int_distribution<Integer>(lower, upper)(gen);
+}
+
+template <class Real>
+Real random_real(Real lower, Real upper) {
+  static std::default_random_engine gen(engine());
+  return std::uniform_real_distribution<Real>(lower, upper)(gen);
+}
+
+/** 
+ * @title Random Number
+ */
+#line 4 "container/randomized_queue.cpp"
+
+#include <cstddef>
+#line 7 "container/randomized_queue.cpp"
 #include <vector>
 #include <iterator>
 #include <algorithm>
@@ -132,13 +182,6 @@ public:
   using value_type = T;
   using size_type = size_t;
 
-  static uint64_t engine() {
-    static uint64_t current = 7511168;
-    current ^= (current << 9);
-    current ^= (current >> 7);
-    return current;
-  }
-  
 private:
   std::vector<value_type> M_data;
 

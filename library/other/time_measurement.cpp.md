@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/time_measurement.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-26 17:47:10+09:00
+    - Last commit date: 2020-08-05 18:30:10+09:00
 
 
 
@@ -41,6 +41,7 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#pragma once
 
 #include <chrono>
 #include <cstdint>
@@ -80,7 +81,7 @@ public:
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "other/time_measurement.cpp"
+#line 2 "other/time_measurement.cpp"
 
 #include <chrono>
 #include <cstdint>

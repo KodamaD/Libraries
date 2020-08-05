@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/fenwick_tree.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-02 12:04:05+09:00
+    - Last commit date: 2020-08-05 18:30:10+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_B">https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_B</a>
@@ -137,7 +137,9 @@ constexpr uint64_t bit_rev(uint64_t x) {
 /**
  * @title Bit Operations
  */
-#line 5 "container/fenwick_tree.cpp"
+#line 4 "container/fenwick_tree.cpp"
+
+#line 6 "container/fenwick_tree.cpp"
 #include <vector>
 
 template <class T>

@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/push_relabel.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-23 23:54:16+09:00
+    - Last commit date: 2020-08-05 18:30:10+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A">https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A</a>
@@ -251,10 +251,10 @@ public:
  */
 #line 2 "graph/push_relabel.cpp"
 
+#line 4 "graph/push_relabel.cpp"
+
 #include <queue>
 #include <algorithm>
-
-#line 7 "graph/push_relabel.cpp"
 
 namespace push_relabel_detail {
 

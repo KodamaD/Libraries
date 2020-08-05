@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#f8b0b924ebd7046dbfa85a856e4682c8">graph</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/dinic.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 12:07:15+09:00
+    - Last commit date: 2020-08-05 18:30:10+09:00
 
 
 
@@ -54,11 +54,11 @@ layout: default
 ```cpp
 #pragma once
 
-#include <queue>
-#include <algorithm>
-
 #include "../graph/network.cpp"
 #include "../other/fix_point.cpp"
+
+#include <queue>
+#include <algorithm>
 
 template <class Network>
 class dinic {
@@ -211,9 +211,6 @@ public:
 {% raw %}
 ```cpp
 #line 2 "graph/dinic.cpp"
-
-#include <queue>
-#include <algorithm>
 
 #line 2 "graph/network.cpp"
 
@@ -401,7 +398,10 @@ constexpr decltype(auto) fix_point(Func &&func) {
 /**
  * @title Lambda Recursion
  */
-#line 8 "graph/dinic.cpp"
+#line 5 "graph/dinic.cpp"
+
+#include <queue>
+#include <algorithm>
 
 template <class Network>
 class dinic {

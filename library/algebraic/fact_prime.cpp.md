@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/fact_prime.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 12:07:15+09:00
+    - Last commit date: 2020-08-05 18:30:10+09:00
 
 
 
@@ -55,6 +55,7 @@ layout: default
 #pragma once
 
 #include "../other/fix_point.cpp"
+
 #include <cstddef>
 #include <cstdint>
 #include <utility>
@@ -285,9 +286,10 @@ constexpr decltype(auto) fix_point(Func &&func) {
  * @title Lambda Recursion
  */
 #line 4 "algebraic/fact_prime.cpp"
+
 #include <cstddef>
 #include <cstdint>
-#line 7 "algebraic/fact_prime.cpp"
+#line 8 "algebraic/fact_prime.cpp"
 #include <vector>
 #include <algorithm>
 

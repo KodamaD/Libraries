@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/fenwick_tree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-02 12:04:05+09:00
+    - Last commit date: 2020-08-05 18:30:10+09:00
 
 
 
@@ -54,6 +54,7 @@ layout: default
 #pragma once
 
 #include "../other/bit_operation.cpp"
+
 #include <cstddef>
 #include <vector>
 
@@ -160,7 +161,9 @@ constexpr uint64_t bit_rev(uint64_t x) {
 /**
  * @title Bit Operations
  */
-#line 5 "container/fenwick_tree.cpp"
+#line 4 "container/fenwick_tree.cpp"
+
+#line 6 "container/fenwick_tree.cpp"
 #include <vector>
 
 template <class T>
