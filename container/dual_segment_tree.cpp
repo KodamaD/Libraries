@@ -2,6 +2,7 @@
 
 #include "../other/bit_operation.cpp"
 #include "../other/monoid.cpp"
+
 #include <cstddef>
 #include <vector>
 #include <iterator>

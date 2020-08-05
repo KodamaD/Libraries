@@ -1,10 +1,10 @@
 #pragma once
 
-#include <queue>
-#include <algorithm>
-
 #include "../graph/network.cpp"
 #include "../other/fix_point.cpp"
+
+#include <queue>
+#include <algorithm>
 
 template <class Network>
 class dinic {

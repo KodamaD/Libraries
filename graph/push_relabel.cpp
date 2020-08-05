@@ -1,9 +1,9 @@
 #pragma once
 
+#include "../graph/network.cpp"
+
 #include <queue>
 #include <algorithm>
-
-#include "../graph/network.cpp"
 
 namespace push_relabel_detail {
 

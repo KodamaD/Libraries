@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../other/fix_point.cpp"
+
 #include <cstddef>
 #include <cstdint>
 #include <utility>

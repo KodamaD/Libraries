@@ -1,3 +1,4 @@
+#pragma once
 
 #include <cstdint>
 #include <random>
@@ -5,11 +6,11 @@
 #include <array>
 
 uint64_t engine() {
-  const auto rotate = [](const uint64_t x, const size_t k) {
+  static const auto rotate = [](const uint64_t x, const size_t k) {
     return (x << k) | (x >> (64 - k));
   };
   static auto array = [] {
-    uint64_t seed = std::chrono::system_clock::now().time_since_epoch().count();
+    uint64_t seed = static_cast<uint64_t>(std::chrono::system_clock::now().time_since_epoch().count());
     std::array<uint64_t, 4> res{};
     for (size_t index = 0; index < 4; index++) {
       uint64_t value = (seed += 0x9e3779b97f4a7c15);

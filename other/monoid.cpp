@@ -1,3 +1,4 @@
+#pragma once
 
 #include <type_traits>
 #include <utility>
@@ -8,6 +9,15 @@ class has_identity: public std::false_type { };
 
 template <class T>
 class has_identity<T, typename std::conditional<false, decltype(T::identity()), void>::type>: public std::true_type { };
+
+template <class T>
+constexpr typename std::enable_if<has_identity<T>::value, typename T::type>::type empty_exception() {
+  return T::identity();
+}
+template <class T>
+[[noreturn]] constexpr typename std::enable_if<!has_identity<T>::value, typename T::type>::type empty_exception() {
+  throw std::runtime_error("type T has no identity");
+}
 
 template <class T, bool HasIdentity>
 class fixed_monoid_impl: public T {

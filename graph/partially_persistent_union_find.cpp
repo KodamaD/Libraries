@@ -11,7 +11,7 @@ public:
   using time_type = size_t;
 
   static time_type far_future() {
-    return -1;
+    return static_cast<time_type>(-1);
   }
 
 private:

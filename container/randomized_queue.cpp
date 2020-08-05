@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../other/random_number.cpp"
+
 #include <cstddef>
 #include <cstdint>
 #include <vector>
@@ -12,13 +14,6 @@ public:
   using value_type = T;
   using size_type = size_t;
 
-  static uint64_t engine() {
-    static uint64_t current = 7511168;
-    current ^= (current << 9);
-    current ^= (current >> 7);
-    return current;
-  }
-  
 private:
   std::vector<value_type> M_data;
 

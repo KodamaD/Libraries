@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../other/monoid.cpp"
+
 #include <cstddef>
 #include <vector>
 #include <iterator>

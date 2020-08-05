@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../other/bit_operation.cpp"
+
 #include <cstddef>
 #include <vector>
 

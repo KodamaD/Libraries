@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../container/bit_vector.cpp"
+
 #include <array>
 #include <algorithm>
 

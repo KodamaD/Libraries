@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../geometry/figures.cpp"
+
 #include <cstddef>
 #include <vector>
 #include <numeric>

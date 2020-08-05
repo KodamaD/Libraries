@@ -1,10 +1,9 @@
 #pragma once
 
 #include "../other/monoid.cpp"
+
 #include <cstddef>
 #include <stack>
-#include <type_traits>
-#include <stdexcept>
 
 template <class SemiGroup>
 class sliding_window_aggregation {
@@ -15,11 +14,6 @@ public:
   using size_type       = size_t;
 
 private:
-  template <class T, typename std::enable_if<has_identity<T>::value, void>::type* = nullptr>
-  static typename T::type S_empty_exception() { return T::identity(); }
-  template <class T, typename std::enable_if<!has_identity<T>::value, void>::type* = nullptr>
-  [[noreturn]] static typename T::type S_empty_exception() { throw std::runtime_error("attempted to fold an empty queue"); }
-
   class node_type {
   public:
     value_type value, sum;
@@ -32,7 +26,7 @@ public:
   sliding_window_aggregation(): M_front(), M_back() { }
 
   value_type fold() const {
-    if (empty()) return S_empty_exception<value_semigroup>();
+    if (empty()) return empty_exception<value_semigroup>();
     if (M_front.empty()) return M_back.top().sum;
     else if (M_back.empty()) return M_front.top().sum;
     return value_semigroup::operation(M_front.top().sum, M_back.top().sum);
