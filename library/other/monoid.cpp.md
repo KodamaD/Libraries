@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: other/monoid.cpp
+# :heavy_check_mark: Monoid Utility
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/monoid.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 17:09:36+09:00
+    - Last commit date: 2020-08-05 16:08:23+09:00
 
 
 
@@ -144,7 +144,7 @@ template <class T>
 using fixed_combined_monoid = fixed_combined_monoid_impl<T, has_identity<typename T::operator_structure>::value>;
 
 /**
- * Monoid Utility
+ * @title Monoid Utility
  */
 ```
 {% endraw %}
@@ -240,7 +240,7 @@ template <class T>
 using fixed_combined_monoid = fixed_combined_monoid_impl<T, has_identity<typename T::operator_structure>::value>;
 
 /**
- * Monoid Utility
+ * @title Monoid Utility
  */
 
 ```

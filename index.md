@@ -88,7 +88,8 @@ layout: default
 * :warning: <a href="library/other/chmin_chmax.cpp.html">Chmin/Chmax</a>
 * :heavy_check_mark: <a href="library/other/fast_io.cpp.html">Fast Input/Output</a>
 * :heavy_check_mark: <a href="library/other/fix_point.cpp.html">Lambda Recursion</a>
-* :heavy_check_mark: <a href="library/other/monoid.cpp.html">other/monoid.cpp</a>
+* :warning: <a href="library/other/int_operation.cpp.html">Integer Operations</a>
+* :heavy_check_mark: <a href="library/other/monoid.cpp.html">Monoid Utility</a>
 * :warning: <a href="library/other/multi_array.cpp.html">Multi-Dimensional Array</a>
 * :warning: <a href="library/other/multi_vec.cpp.html">Multi-Dimensional Vector</a>
 * :warning: <a href="library/other/random_number.cpp.html">Random Number</a>

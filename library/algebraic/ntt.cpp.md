@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/ntt.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 12:07:15+09:00
+    - Last commit date: 2020-08-05 16:08:23+09:00
 
 
 
@@ -327,9 +327,9 @@ public:
 };
 
 template <uint32_t Val>
-struct modulus { static constexpr uint32_t value() noexcept { return Val; } };
+struct modulus_impl { static constexpr uint32_t value() noexcept { return Val; } };
 template <uint32_t Val>
-using mint32_t = modular<modulus<Val>>;
+using mint32_t = modular<modulus_impl<Val>>;
 
 struct runtime_mod { static uint32_t &value() noexcept { static uint32_t val = 0; return val; } };
 using rmint32_t = modular<runtime_mod>;

@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/dual_segment_tree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 17:09:36+09:00
+    - Last commit date: 2020-08-05 16:08:23+09:00
 
 
 
@@ -39,7 +39,7 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
-* :heavy_check_mark: <a href="../other/monoid.cpp.html">other/monoid.cpp</a>
+* :heavy_check_mark: <a href="../other/monoid.cpp.html">Monoid Utility</a>
 
 
 ## Verified with
@@ -315,7 +315,7 @@ template <class T>
 using fixed_combined_monoid = fixed_combined_monoid_impl<T, has_identity<typename T::operator_structure>::value>;
 
 /**
- * Monoid Utility
+ * @title Monoid Utility
  */
 #line 6 "container/dual_segment_tree.cpp"
 #include <vector>

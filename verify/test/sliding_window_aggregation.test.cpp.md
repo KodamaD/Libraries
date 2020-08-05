@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/sliding_window_aggregation.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-03 17:09:36+09:00
+    - Last commit date: 2020-08-05 16:08:23+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/queue_operate_all_composite">https://judge.yosupo.jp/problem/queue_operate_all_composite</a>
@@ -41,7 +41,7 @@ layout: default
 
 * :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
 * :heavy_check_mark: <a href="../../library/container/sliding_window_aggregation.cpp.html">Sliding Window Aggregation</a>
-* :heavy_check_mark: <a href="../../library/other/monoid.cpp.html">other/monoid.cpp</a>
+* :heavy_check_mark: <a href="../../library/other/monoid.cpp.html">Monoid Utility</a>
 
 
 ## Code
@@ -197,7 +197,7 @@ template <class T>
 using fixed_combined_monoid = fixed_combined_monoid_impl<T, has_identity<typename T::operator_structure>::value>;
 
 /**
- * Monoid Utility
+ * @title Monoid Utility
  */
 #line 4 "container/sliding_window_aggregation.cpp"
 #include <cstddef>
@@ -350,9 +350,9 @@ public:
 };
 
 template <uint32_t Val>
-struct modulus { static constexpr uint32_t value() noexcept { return Val; } };
+struct modulus_impl { static constexpr uint32_t value() noexcept { return Val; } };
 template <uint32_t Val>
-using mint32_t = modular<modulus<Val>>;
+using mint32_t = modular<modulus_impl<Val>>;
 
 struct runtime_mod { static uint32_t &value() noexcept { static uint32_t val = 0; return val; } };
 using rmint32_t = modular<runtime_mod>;
