@@ -85,5 +85,5 @@ template <class T>
 using fixed_combined_monoid = fixed_combined_monoid_impl<T, has_identity<typename T::operator_structure>::value>;
 
 /**
- * Monoid Utility
+ * @title Monoid Utility
  */
