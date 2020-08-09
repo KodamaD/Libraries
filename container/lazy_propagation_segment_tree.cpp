@@ -142,6 +142,10 @@ public:
     }
     M_tree[index].value = val;
     M_tree[index].lazy  = fixed_operator_monoid::identity();
+    while (index != 1) {
+      index >>= 1;
+      M_fix_change(index);
+    }
   }
 
   void clear() {
