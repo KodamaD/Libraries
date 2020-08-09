@@ -77,17 +77,8 @@ public:
   std::vector<edge_type> &operator [] (const vertex_type vert) {
     return M_graph[vert];
   }
-  std::vector<edge_type> &at(const vertex_type vert) {
-    return M_graph.at(vert);
-  }
   const std::vector<edge_type> &operator [] (const vertex_type vert) const {
     return M_graph[vert];
-  }
-  const std::vector<edge_type> &at(const vertex_type vert) const {
-    return M_graph.at(vert);
-  }
-  const std::vector<std::vector<edge_type>> &get() const {
-    return M_graph;
   }
 
   size_type size() const {

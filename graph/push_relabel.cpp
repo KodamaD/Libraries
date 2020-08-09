@@ -162,10 +162,9 @@ private:
 public:
   push_relabel() = default;
   explicit push_relabel(const network_type &net) {
-    const auto &graph = net.get();
-    M_graph.resize(graph.size());
-    for (size_type src = 0; src < graph.size(); ++src) {
-      for (const auto &edge: graph[src]) {
+    M_graph.resize(net.size());
+    for (size_type src = 0; src < net.size(); ++src) {
+      for (const auto &edge: net[src]) {
         M_graph[src].edges.emplace_back(edge, M_graph[edge.dest].edges.size(), false);
         M_graph[edge.dest].edges.emplace_back(edge.reverse(), M_graph[src].edges.size() - 1, true);
       }
