@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/dinic.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-05 18:30:10+09:00
+    - Last commit date: 2020-08-09 10:53:47+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/bipartitematching">https://judge.yosupo.jp/problem/bipartitematching</a>
@@ -180,17 +180,8 @@ public:
   std::vector<edge_type> &operator [] (const vertex_type vert) {
     return M_graph[vert];
   }
-  std::vector<edge_type> &at(const vertex_type vert) {
-    return M_graph.at(vert);
-  }
   const std::vector<edge_type> &operator [] (const vertex_type vert) const {
     return M_graph[vert];
-  }
-  const std::vector<edge_type> &at(const vertex_type vert) const {
-    return M_graph.at(vert);
-  }
-  const std::vector<std::vector<edge_type>> &get() const {
-    return M_graph;
   }
 
   size_type size() const {
@@ -360,10 +351,9 @@ private:
 public:
   dinic() = default;
   explicit dinic(const network_type &net) {
-    const auto &graph = net.get();
-    M_graph.resize(graph.size());
-    for (size_type src = 0; src < graph.size(); ++src) {
-      for (const auto &edge: graph[src]) {
+    M_graph.resize(net.size());
+    for (size_type src = 0; src < net.size(); ++src) {
+      for (const auto &edge: net[src]) {
         M_graph[src].edges.emplace_back(edge, M_graph[edge.dest].edges.size(), false);
         M_graph[edge.dest].edges.emplace_back(edge.reverse(), M_graph[src].edges.size() - 1, true);
       }

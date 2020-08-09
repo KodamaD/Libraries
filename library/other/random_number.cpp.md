@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/random_number.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-05 18:30:10+09:00
+    - Last commit date: 2020-08-09 10:53:47+09:00
 
 
 
@@ -53,6 +53,7 @@ layout: default
 #include <random>
 #include <chrono>
 #include <array>
+#include <type_traits>
 
 uint64_t engine() {
   static const auto rotate = [](const uint64_t x, const size_t k) {
@@ -81,13 +82,13 @@ uint64_t engine() {
 }
 
 template <class Integer>
-Integer random_integer(Integer lower, Integer upper) {
+typename std::enable_if<std::is_integral<Integer>::value, Integer>::type random_number(Integer lower, Integer upper) {
   static std::default_random_engine gen(engine());
   return std::uniform_int_distribution<Integer>(lower, upper)(gen);
 }
 
 template <class Real>
-Real random_real(Real lower, Real upper) {
+typename std::enable_if<!std::is_integral<Real>::value, Real>::type random_number(Real lower, Real upper) {
   static std::default_random_engine gen(engine());
   return std::uniform_real_distribution<Real>(lower, upper)(gen);
 }
@@ -107,6 +108,7 @@ Real random_real(Real lower, Real upper) {
 #include <random>
 #include <chrono>
 #include <array>
+#include <type_traits>
 
 uint64_t engine() {
   static const auto rotate = [](const uint64_t x, const size_t k) {
@@ -135,13 +137,13 @@ uint64_t engine() {
 }
 
 template <class Integer>
-Integer random_integer(Integer lower, Integer upper) {
+typename std::enable_if<std::is_integral<Integer>::value, Integer>::type random_number(Integer lower, Integer upper) {
   static std::default_random_engine gen(engine());
   return std::uniform_int_distribution<Integer>(lower, upper)(gen);
 }
 
 template <class Real>
-Real random_real(Real lower, Real upper) {
+typename std::enable_if<!std::is_integral<Real>::value, Real>::type random_number(Real lower, Real upper) {
   static std::default_random_engine gen(engine());
   return std::uniform_real_distribution<Real>(lower, upper)(gen);
 }

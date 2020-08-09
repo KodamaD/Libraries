@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#f8b0b924ebd7046dbfa85a856e4682c8">graph</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/network.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-23 23:44:02+09:00
+    - Last commit date: 2020-08-09 10:53:47+09:00
 
 
 
@@ -132,17 +132,8 @@ public:
   std::vector<edge_type> &operator [] (const vertex_type vert) {
     return M_graph[vert];
   }
-  std::vector<edge_type> &at(const vertex_type vert) {
-    return M_graph.at(vert);
-  }
   const std::vector<edge_type> &operator [] (const vertex_type vert) const {
     return M_graph[vert];
-  }
-  const std::vector<edge_type> &at(const vertex_type vert) const {
-    return M_graph.at(vert);
-  }
-  const std::vector<std::vector<edge_type>> &get() const {
-    return M_graph;
   }
 
   size_type size() const {
@@ -303,17 +294,8 @@ public:
   std::vector<edge_type> &operator [] (const vertex_type vert) {
     return M_graph[vert];
   }
-  std::vector<edge_type> &at(const vertex_type vert) {
-    return M_graph.at(vert);
-  }
   const std::vector<edge_type> &operator [] (const vertex_type vert) const {
     return M_graph[vert];
-  }
-  const std::vector<edge_type> &at(const vertex_type vert) const {
-    return M_graph.at(vert);
-  }
-  const std::vector<std::vector<edge_type>> &get() const {
-    return M_graph;
   }
 
   size_type size() const {
