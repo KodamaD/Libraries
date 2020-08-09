@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/lazy_propagation_segment_tree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-05 18:30:10+09:00
+    - Last commit date: 2020-08-09 15:41:08+09:00
 
 
 
@@ -196,6 +196,10 @@ public:
     }
     M_tree[index].value = val;
     M_tree[index].lazy  = fixed_operator_monoid::identity();
+    while (index != 1) {
+      index >>= 1;
+      M_fix_change(index);
+    }
   }
 
   void clear() {
@@ -506,6 +510,10 @@ public:
     }
     M_tree[index].value = val;
     M_tree[index].lazy  = fixed_operator_monoid::identity();
+    while (index != 1) {
+      index >>= 1;
+      M_fix_change(index);
+    }
   }
 
   void clear() {

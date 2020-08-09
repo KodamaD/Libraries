@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/lazy_propagation_segment_tree.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-05 18:30:10+09:00
+    - Last commit date: 2020-08-09 15:41:08+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/range_affine_range_sum">https://judge.yosupo.jp/problem/range_affine_range_sum</a>
@@ -410,6 +410,10 @@ public:
     }
     M_tree[index].value = val;
     M_tree[index].lazy  = fixed_operator_monoid::identity();
+    while (index != 1) {
+      index >>= 1;
+      M_fix_change(index);
+    }
   }
 
   void clear() {
