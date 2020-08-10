@@ -7,7 +7,7 @@
 template <class T>
 class rev_impl {
 public:
-  using iterator = typename std::decay<T>::type::reverse_iterator;
+  using iterator = decltype(std::rbegin(std::declval<T>()));
 
 private:
   const iterator M_begin;
