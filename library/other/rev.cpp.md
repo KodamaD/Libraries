@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/rev.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-01 22:24:08+09:00
+    - Last commit date: 2020-08-10 11:08:49+09:00
 
 
 
@@ -50,7 +50,7 @@ layout: default
 template <class T>
 class rev_impl {
 public:
-  using iterator = typename std::decay<T>::type::reverse_iterator;
+  using iterator = decltype(std::rbegin(std::declval<T>()));
 
 private:
   const iterator M_begin;
@@ -86,7 +86,7 @@ constexpr decltype(auto) rev(T &&cont) {
 template <class T>
 class rev_impl {
 public:
-  using iterator = typename std::decay<T>::type::reverse_iterator;
+  using iterator = decltype(std::rbegin(std::declval<T>()));
 
 private:
   const iterator M_begin;
