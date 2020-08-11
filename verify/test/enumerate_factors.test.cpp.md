@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/enumerate_factors.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-05 18:30:10+09:00
+    - Last commit date: 2020-08-11 15:45:19+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/factorize">https://judge.yosupo.jp/problem/factorize</a>
@@ -116,9 +116,9 @@ constexpr decltype(auto) fix_point(Func &&func) {
 
 namespace fact_prime_detail {
 
-  class mod64 {
+  class mint64_t {
   public:
-    static inline uint64_t mod;
+    static uint64_t mod;
 
     static void set_mod(uint64_t x) {
       mod = x;
@@ -134,8 +134,8 @@ namespace fact_prime_detail {
     }
 
   private:
-    static inline uint64_t encode;
-    static inline uint64_t decode;
+    static uint64_t encode;
+    static uint64_t decode;
 
     static uint64_t reduce(__uint128_t x) {
       uint64_t res = uint64_t((__uint128_t(uint64_t(x) * decode) * mod + x) >> 64);
@@ -145,16 +145,16 @@ namespace fact_prime_detail {
     uint64_t value;
 
   public:
-    mod64(): value(0) { }
-    explicit mod64(uint64_t x): value(reduce((__uint128_t) x * encode)) { }
+    mint64_t(): value(0) { }
+    explicit mint64_t(uint64_t x): value(reduce((__uint128_t) x * encode)) { }
 
     uint64_t get() const {
       uint64_t res = reduce(value);
       return res >= mod ? res - mod : res;
     }
 
-    mod64 power(uint64_t exp) const {
-      mod64 res(1), mult(*this);
+    mint64_t power(uint64_t exp) const {
+      mint64_t res(1), mult(*this);
       while (exp > 0) {
         if (exp & 1) res *= mult;
         mult *= mult;
@@ -163,20 +163,24 @@ namespace fact_prime_detail {
       return res;
     }
 
-    mod64 operator + (const mod64 &rhs) const { return mod64(*this) += rhs; }
-    mod64& operator += (const mod64 &rhs) { 
+    mint64_t operator + (const mint64_t &rhs) const { return mint64_t(*this) += rhs; }
+    mint64_t& operator += (const mint64_t &rhs) { 
       if ((value += rhs.value) >= mod) value -= mod;
       return *this; 
     }
-    mod64 operator * (const mod64 &rhs) const { return mod64(*this) *= rhs; }
-    mod64& operator *= (const mod64 &rhs) { 
+    mint64_t operator * (const mint64_t &rhs) const { return mint64_t(*this) *= rhs; }
+    mint64_t& operator *= (const mint64_t &rhs) { 
       value = reduce((__uint128_t) value * rhs.value);
       return *this;
     }
-    bool operator == (const mod64 &rhs) const { return value == rhs.value; }
-    bool operator != (const mod64 &rhs) const { return value != rhs.value; }
+    bool operator == (const mint64_t &rhs) const { return value == rhs.value; }
+    bool operator != (const mint64_t &rhs) const { return value != rhs.value; }
 
   };
+
+  uint64_t mint64_t::mod;
+  uint64_t mint64_t::encode;
+  uint64_t mint64_t::decode;
 
   uint64_t gcd64(uint64_t a, uint64_t b) {
     if (a == 0) return b;
@@ -187,10 +191,10 @@ namespace fact_prime_detail {
   }
 
   bool test_prime(uint64_t a, uint64_t s, uint64_t d, uint64_t n) {
-    mod64::set_mod(n);
-    mod64 cur = mod64(a).power(d);
-    if (cur == mod64(1)) return true;
-    mod64 bad(n - 1);
+    mint64_t::set_mod(n);
+    mint64_t cur = mint64_t(a).power(d);
+    if (cur == mint64_t(1)) return true;
+    mint64_t bad(n - 1);
     for (size_t i = 0; i < s; ++i) {
       if (cur == bad) return true;
       cur *= cur;
@@ -223,15 +227,15 @@ namespace fact_prime_detail {
   template <class T>
   T pollard_rho(T n) {
     if (!(n & 1)) return 2;
-    mod64::set_mod(n);
-    mod64 add(1);
-    const auto transit = [&add](mod64 m) { return m * m + add; };
+    mint64_t::set_mod(n);
+    mint64_t add(1);
+    const auto transit = [&add](mint64_t m) { return m * m + add; };
     const auto dif_abs = [](uint64_t x, uint64_t y) { return x > y ? x - y : y - x; };
     uint64_t initial = 0;
     while (true) {
       ++initial;
-      mod64 x(initial);
-      mod64 y = transit(x);
+      mint64_t x(initial);
+      mint64_t y = transit(x);
       while (true) {
         uint64_t g = fact_prime_detail::gcd64(dif_abs(x.get(), y.get()), n);
         if (g == 1) {

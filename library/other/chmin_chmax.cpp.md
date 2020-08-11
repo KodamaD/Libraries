@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/chmin_chmax.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-01 22:24:08+09:00
+    - Last commit date: 2020-08-11 15:45:19+09:00
 
 
 
@@ -45,19 +45,13 @@ layout: default
 
 template <class T, class U>
 constexpr bool chmin(T &lhs, const U &rhs) {
-  if (lhs > rhs) { 
-    lhs = rhs; 
-    return true; 
-  }
+  if (lhs > rhs) { lhs = rhs; return true; }
   return false;
 }
 
 template <class T, class U>
 constexpr bool chmax(T &lhs, const U &rhs) {
-  if (lhs < rhs) { 
-    lhs = rhs; 
-    return true; 
-  }
+  if (lhs < rhs) { lhs = rhs; return true; }
   return false;
 }
 
@@ -74,19 +68,13 @@ constexpr bool chmax(T &lhs, const U &rhs) {
 
 template <class T, class U>
 constexpr bool chmin(T &lhs, const U &rhs) {
-  if (lhs > rhs) { 
-    lhs = rhs; 
-    return true; 
-  }
+  if (lhs > rhs) { lhs = rhs; return true; }
   return false;
 }
 
 template <class T, class U>
 constexpr bool chmax(T &lhs, const U &rhs) {
-  if (lhs < rhs) { 
-    lhs = rhs; 
-    return true; 
-  }
+  if (lhs < rhs) { lhs = rhs; return true; }
   return false;
 }
 

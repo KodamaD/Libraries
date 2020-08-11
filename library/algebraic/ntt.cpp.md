@@ -25,26 +25,26 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: Number Theoretic Transform
+# :x: Number Theoretic Transform
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/ntt.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-05 18:30:10+09:00
+    - Last commit date: 2020-08-11 15:45:19+09:00
 
 
 
 
 ## Depends on
 
-* :heavy_check_mark: <a href="modular.cpp.html">Modint</a>
-* :heavy_check_mark: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
+* :question: <a href="modular.cpp.html">Modint</a>
+* :question: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
 
 
 ## Verified with
 
-* :heavy_check_mark: <a href="../../verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
+* :x: <a href="../../verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
 
 
 ## Code
@@ -281,20 +281,9 @@ public:
   explicit constexpr operator T() const noexcept { return static_cast<T>(value); }
 
   constexpr value_type get() const noexcept { return value; }
-  constexpr modular operator - () const noexcept { return modular(mod() - value); }
-  constexpr modular operator ~ () const noexcept { return inverse(); }
-
   constexpr value_type &extract() noexcept { return value; }
-  constexpr modular inverse() const noexcept { return power(mod() - 2); }
-  constexpr modular power(cover_type exp) const noexcept {
-    modular res(1), mult(*this);
-    while (exp > 0) {
-      if (exp & 1) res *= mult;
-      mult *= mult;
-      exp >>= 1;
-    }
-    return res;
-  }
+  constexpr modular operator - () const noexcept { return modular(mod() - value); }
+  constexpr modular operator ~ () const noexcept { return inverse(*this); }
 
   constexpr modular operator + (const modular &rhs) const noexcept { return modular(*this) += rhs; }
   constexpr modular& operator += (const modular &rhs) noexcept { 
@@ -322,8 +311,12 @@ public:
   constexpr bool operator != (const modular &rhs) const noexcept { return value != rhs.value; }
 
   friend std::ostream& operator << (std::ostream &stream, const modular &rhs) { return stream << rhs.value; }
-  friend constexpr modular power(modular val, cover_type exp) noexcept { return val.power(exp); }
-  friend constexpr modular inverse(modular val) noexcept { return val.inverse(); }
+  friend constexpr modular inverse(modular val) noexcept { return power(val, mod() - 2); }
+  friend constexpr modular power(modular val, cover_type exp) noexcept { 
+    modular res(1);
+    for (; exp > 0; exp >>= 1, val *= val) if (exp & 1) res *= val;
+    return res;
+  }
 
 };
 
@@ -343,33 +336,13 @@ using rmint32_t = modular<runtime_mod>;
 #include <cstddef>
 #line 5 "other/bit_operation.cpp"
 
-constexpr size_t bit_ppc(const uint64_t x) {
-  return __builtin_popcountll(x);
-}
-
-constexpr size_t bit_ctzr(const uint64_t x) {
-  return x == 0 ? 64 : __builtin_ctzll(x);
-}
-
-constexpr size_t bit_ctzl(const uint64_t x) {
-  return x == 0 ? 64 : __builtin_clzll(x);
-}
-
-constexpr size_t bit_width(const uint64_t x) { 
-  return 64 - bit_ctzl(x);
-}
-
-constexpr uint64_t bit_msb(const uint64_t x) {
-  return x == 0 ? 0 : uint64_t(1) << (bit_width(x) - 1);
-}
-
-constexpr uint64_t bit_lsb(const uint64_t x) {
-  return x & (-x);
-}
-
-constexpr uint64_t bit_cover(const uint64_t x) {
-  return x == 0 ? 0 : bit_msb(2 * x - 1);
-}
+constexpr size_t   bit_ppc(const uint64_t x)   { return __builtin_popcountll(x); }
+constexpr size_t   bit_ctzr(const uint64_t x)  { return x == 0 ? 64 : __builtin_ctzll(x); }
+constexpr size_t   bit_ctzl(const uint64_t x)  { return x == 0 ? 64 : __builtin_clzll(x); }
+constexpr size_t   bit_width(const uint64_t x) { return 64 - bit_ctzl(x); }
+constexpr uint64_t bit_msb(const uint64_t x)   { return x == 0 ? 0 : uint64_t(1) << (bit_width(x) - 1); }
+constexpr uint64_t bit_lsb(const uint64_t x)   { return x & (-x); }
+constexpr uint64_t bit_cover(const uint64_t x) { return x == 0 ? 0 : bit_msb(2 * x - 1); }
 
 constexpr uint64_t bit_rev(uint64_t x) {
   x = ((x >> 1) & 0x5555555555555555) | ((x & 0x5555555555555555) << 1);

@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/dst_tree.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-05 18:30:10+09:00
+    - Last commit date: 2020-08-11 15:45:19+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/staticrmq">https://judge.yosupo.jp/problem/staticrmq</a>
@@ -41,7 +41,7 @@ layout: default
 
 * :heavy_check_mark: <a href="../../library/container/disjoint_sparse_table.cpp.html">Disjoint Sparse Table</a>
 * :heavy_check_mark: <a href="../../library/container/dst_tree.cpp.html">DST Tree</a>
-* :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
+* :question: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
 * :heavy_check_mark: <a href="../../library/other/monoid.cpp.html">Monoid Utility</a>
 
 
@@ -103,33 +103,13 @@ int main() {
 #include <cstddef>
 #include <cstdint>
 
-constexpr size_t bit_ppc(const uint64_t x) {
-  return __builtin_popcountll(x);
-}
-
-constexpr size_t bit_ctzr(const uint64_t x) {
-  return x == 0 ? 64 : __builtin_ctzll(x);
-}
-
-constexpr size_t bit_ctzl(const uint64_t x) {
-  return x == 0 ? 64 : __builtin_clzll(x);
-}
-
-constexpr size_t bit_width(const uint64_t x) { 
-  return 64 - bit_ctzl(x);
-}
-
-constexpr uint64_t bit_msb(const uint64_t x) {
-  return x == 0 ? 0 : uint64_t(1) << (bit_width(x) - 1);
-}
-
-constexpr uint64_t bit_lsb(const uint64_t x) {
-  return x & (-x);
-}
-
-constexpr uint64_t bit_cover(const uint64_t x) {
-  return x == 0 ? 0 : bit_msb(2 * x - 1);
-}
+constexpr size_t   bit_ppc(const uint64_t x)   { return __builtin_popcountll(x); }
+constexpr size_t   bit_ctzr(const uint64_t x)  { return x == 0 ? 64 : __builtin_ctzll(x); }
+constexpr size_t   bit_ctzl(const uint64_t x)  { return x == 0 ? 64 : __builtin_clzll(x); }
+constexpr size_t   bit_width(const uint64_t x) { return 64 - bit_ctzl(x); }
+constexpr uint64_t bit_msb(const uint64_t x)   { return x == 0 ? 0 : uint64_t(1) << (bit_width(x) - 1); }
+constexpr uint64_t bit_lsb(const uint64_t x)   { return x & (-x); }
+constexpr uint64_t bit_cover(const uint64_t x) { return x == 0 ? 0 : bit_msb(2 * x - 1); }
 
 constexpr uint64_t bit_rev(uint64_t x) {
   x = ((x >> 1) & 0x5555555555555555) | ((x & 0x5555555555555555) << 1);

@@ -31,14 +31,14 @@ layout: default
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/randomized_queue.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-09 10:53:47+09:00
+    - Last commit date: 2020-08-11 15:45:19+09:00
 
 
 
 
 ## Depends on
 
-* :warning: <a href="../other/random_number.cpp.html">Random Number</a>
+* :question: <a href="../other/random_number.cpp.html">Random Number</a>
 
 
 ## Code
@@ -79,7 +79,7 @@ public:
   }
 
   void shuffle() {
-    std::swap(M_data.back(), M_data[engine() % M_data.size()]);
+    std::swap(M_data.back(), M_data[random_number<size_type>(0, M_data.size() - 1)]);
   }
 
   value_type front() const {
@@ -200,7 +200,7 @@ public:
   }
 
   void shuffle() {
-    std::swap(M_data.back(), M_data[engine() % M_data.size()]);
+    std::swap(M_data.back(), M_data[random_number<size_type>(0, M_data.size() - 1)]);
   }
 
   value_type front() const {

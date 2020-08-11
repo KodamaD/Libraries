@@ -31,14 +31,14 @@ layout: default
 
 * category: <a href="../../index.html#b45cffe084dd3d20d928bee85e7b0f21">string</a>
 * <a href="{{ site.github.repository_url }}/blob/master/string/rolling_hash.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-09 10:53:47+09:00
+    - Last commit date: 2020-08-11 15:45:19+09:00
 
 
 
 
 ## Depends on
 
-* :warning: <a href="../other/random_number.cpp.html">Random Number</a>
+* :question: <a href="../other/random_number.cpp.html">Random Number</a>
 
 
 ## Code
@@ -49,27 +49,73 @@ layout: default
 #pragma once
 
 #include "../other/random_number.cpp"
+
 #include <cstddef>
 #include <cstdint>
 #include <vector>
 #include <string>
 #include <chrono>
 
+namespace rolling_hash_detail {
+
+  class hash61_t {
+  public:
+
+    static constexpr uint64_t mod() {
+      return (static_cast<uint64_t>(1) << 61) - 1;
+    }
+    static uint32_t base() {
+      static const uint32_t value = static_cast<uint32_t>(engine());
+      return value;
+    }
+
+    static constexpr uint64_t add(uint64_t a, uint64_t b) {
+      a += b;
+      if (a >= mod()) a -= mod();
+      return a;
+    }
+    static constexpr uint64_t sub(uint64_t a, uint64_t b) {
+      a += mod() - b;
+      if (a >= mod()) a -= mod();
+      return a;
+    }
+    static constexpr uint64_t mul(uint64_t a, uint64_t b) {
+      uint64_t l1 = (uint32_t) a, h1 = a >> 32, l2 = (uint32_t) b, h2 = b >> 32;
+      uint64_t l = l1 * l2, m = l1 * h2 + l2 * h1, h = h1 * h2;
+      uint64_t res = (l & mod()) + (l >> 61) + (h << 3) + (m >> 29) + (m << 35 >> 3) + 1;
+      res = (res & mod()) + (res >> 61);
+      res = (res & mod()) + (res >> 61);
+      return res - 1;
+    }
+
+    static std::vector<uint64_t> reserve;
+    static uint64_t power(const size_t index) {
+      if (index >= reserve.size()) {
+        size_t cur = reserve.size();
+        reserve.resize(index + 1);
+        for (; cur <= index; ++cur) {
+          reserve[cur] = mul(reserve[cur - 1], base());
+        }
+      }
+      return reserve[index];
+    }
+
+  };
+
+  std::vector<uint64_t> hash61_t::reserve = std::vector<uint64_t>(1, 1);
+
+};
+
 class rolling_hash {
 public:
-  using mod_type  = uint64_t;
-  using base_type = uint32_t;
+  using hash_type = uint64_t;
   using size_type = size_t;
 
 private:
-  std::string M_string;
-  std::vector<mod_type> M_power, M_hash;
+  using op_t = rolling_hash_detail::hash61_t;
 
-  static constexpr mod_type S_mod = (mod_type(1) << 61) - 1;
-  static base_type S_base() { 
-    static const base_type value = engine();
-    return value;
-  }
+  std::string M_string;
+  std::vector<hash_type> M_hash;
 
 public:
   rolling_hash() { initialize(); }
@@ -78,7 +124,6 @@ public:
   void initialize() {
     clear();
     M_string = "";
-    M_power.assign(1, 1);
     M_hash.assign(1, 0);
   }
   void construct(const std::string &initial_) {
@@ -90,16 +135,14 @@ public:
     size_type cur_size = M_string.size();
     size_type next_size = M_string.size() + str.size();
     M_string += str;
-    M_power.resize(next_size + 1);
     M_hash.resize(next_size + 1);
     for (size_type i = cur_size; i < next_size; ++i) {
-      M_power[i + 1] = (__uint128_t) M_power[i] * S_base() % S_mod;
-      M_hash[i + 1] = ((__uint128_t) M_hash[i] * S_base() + M_string[i]) % S_mod;
+      M_hash[i + 1] = op_t::add(op_t::mul(M_hash[i], op_t::base()), M_string[i]);
     }
   }
 
-  mod_type hash(size_type l, size_type r) const {
-    return (M_hash[r] + S_mod - ((__uint128_t) M_power[r - l] * M_hash[l]) % S_mod) % S_mod;
+  hash_type hash(size_type l, size_type r) const {
+    return op_t::sub(M_hash[r], op_t::mul(op_t::power(r - l), M_hash[l]));
   }
   size_type lcp(size_type l, size_type r) const {
     size_type ok = 0, ng = std::min(M_string.size() - l, M_string.size() - r) + 1;
@@ -122,8 +165,6 @@ public:
   void clear() {
     M_string.clear();
     M_string.shrink_to_fit();
-    M_power.clear();
-    M_power.shrink_to_fit();
     M_hash.clear();
     M_hash.shrink_to_fit();
   }
@@ -191,27 +232,73 @@ typename std::enable_if<!std::is_integral<Real>::value, Real>::type random_numbe
  * @title Random Number
  */
 #line 4 "string/rolling_hash.cpp"
+
 #include <cstddef>
-#line 6 "string/rolling_hash.cpp"
+#line 7 "string/rolling_hash.cpp"
 #include <vector>
 #include <string>
-#line 9 "string/rolling_hash.cpp"
+#line 10 "string/rolling_hash.cpp"
+
+namespace rolling_hash_detail {
+
+  class hash61_t {
+  public:
+
+    static constexpr uint64_t mod() {
+      return (static_cast<uint64_t>(1) << 61) - 1;
+    }
+    static uint32_t base() {
+      static const uint32_t value = static_cast<uint32_t>(engine());
+      return value;
+    }
+
+    static constexpr uint64_t add(uint64_t a, uint64_t b) {
+      a += b;
+      if (a >= mod()) a -= mod();
+      return a;
+    }
+    static constexpr uint64_t sub(uint64_t a, uint64_t b) {
+      a += mod() - b;
+      if (a >= mod()) a -= mod();
+      return a;
+    }
+    static constexpr uint64_t mul(uint64_t a, uint64_t b) {
+      uint64_t l1 = (uint32_t) a, h1 = a >> 32, l2 = (uint32_t) b, h2 = b >> 32;
+      uint64_t l = l1 * l2, m = l1 * h2 + l2 * h1, h = h1 * h2;
+      uint64_t res = (l & mod()) + (l >> 61) + (h << 3) + (m >> 29) + (m << 35 >> 3) + 1;
+      res = (res & mod()) + (res >> 61);
+      res = (res & mod()) + (res >> 61);
+      return res - 1;
+    }
+
+    static std::vector<uint64_t> reserve;
+    static uint64_t power(const size_t index) {
+      if (index >= reserve.size()) {
+        size_t cur = reserve.size();
+        reserve.resize(index + 1);
+        for (; cur <= index; ++cur) {
+          reserve[cur] = mul(reserve[cur - 1], base());
+        }
+      }
+      return reserve[index];
+    }
+
+  };
+
+  std::vector<uint64_t> hash61_t::reserve = std::vector<uint64_t>(1, 1);
+
+};
 
 class rolling_hash {
 public:
-  using mod_type  = uint64_t;
-  using base_type = uint32_t;
+  using hash_type = uint64_t;
   using size_type = size_t;
 
 private:
-  std::string M_string;
-  std::vector<mod_type> M_power, M_hash;
+  using op_t = rolling_hash_detail::hash61_t;
 
-  static constexpr mod_type S_mod = (mod_type(1) << 61) - 1;
-  static base_type S_base() { 
-    static const base_type value = engine();
-    return value;
-  }
+  std::string M_string;
+  std::vector<hash_type> M_hash;
 
 public:
   rolling_hash() { initialize(); }
@@ -220,7 +307,6 @@ public:
   void initialize() {
     clear();
     M_string = "";
-    M_power.assign(1, 1);
     M_hash.assign(1, 0);
   }
   void construct(const std::string &initial_) {
@@ -232,16 +318,14 @@ public:
     size_type cur_size = M_string.size();
     size_type next_size = M_string.size() + str.size();
     M_string += str;
-    M_power.resize(next_size + 1);
     M_hash.resize(next_size + 1);
     for (size_type i = cur_size; i < next_size; ++i) {
-      M_power[i + 1] = (__uint128_t) M_power[i] * S_base() % S_mod;
-      M_hash[i + 1] = ((__uint128_t) M_hash[i] * S_base() + M_string[i]) % S_mod;
+      M_hash[i + 1] = op_t::add(op_t::mul(M_hash[i], op_t::base()), M_string[i]);
     }
   }
 
-  mod_type hash(size_type l, size_type r) const {
-    return (M_hash[r] + S_mod - ((__uint128_t) M_power[r - l] * M_hash[l]) % S_mod) % S_mod;
+  hash_type hash(size_type l, size_type r) const {
+    return op_t::sub(M_hash[r], op_t::mul(op_t::power(r - l), M_hash[l]));
   }
   size_type lcp(size_type l, size_type r) const {
     size_type ok = 0, ng = std::min(M_string.size() - l, M_string.size() - r) + 1;
@@ -264,8 +348,6 @@ public:
   void clear() {
     M_string.clear();
     M_string.shrink_to_fit();
-    M_power.clear();
-    M_power.shrink_to_fit();
     M_hash.clear();
     M_hash.shrink_to_fit();
   }

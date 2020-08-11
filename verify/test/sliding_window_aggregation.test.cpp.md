@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/sliding_window_aggregation.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-05 18:30:10+09:00
+    - Last commit date: 2020-08-11 15:45:19+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/queue_operate_all_composite">https://judge.yosupo.jp/problem/queue_operate_all_composite</a>
@@ -39,7 +39,7 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
+* :question: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
 * :heavy_check_mark: <a href="../../library/container/sliding_window_aggregation.cpp.html">Sliding Window Aggregation</a>
 * :heavy_check_mark: <a href="../../library/other/monoid.cpp.html">Monoid Utility</a>
 
@@ -306,20 +306,9 @@ public:
   explicit constexpr operator T() const noexcept { return static_cast<T>(value); }
 
   constexpr value_type get() const noexcept { return value; }
-  constexpr modular operator - () const noexcept { return modular(mod() - value); }
-  constexpr modular operator ~ () const noexcept { return inverse(); }
-
   constexpr value_type &extract() noexcept { return value; }
-  constexpr modular inverse() const noexcept { return power(mod() - 2); }
-  constexpr modular power(cover_type exp) const noexcept {
-    modular res(1), mult(*this);
-    while (exp > 0) {
-      if (exp & 1) res *= mult;
-      mult *= mult;
-      exp >>= 1;
-    }
-    return res;
-  }
+  constexpr modular operator - () const noexcept { return modular(mod() - value); }
+  constexpr modular operator ~ () const noexcept { return inverse(*this); }
 
   constexpr modular operator + (const modular &rhs) const noexcept { return modular(*this) += rhs; }
   constexpr modular& operator += (const modular &rhs) noexcept { 
@@ -347,8 +336,12 @@ public:
   constexpr bool operator != (const modular &rhs) const noexcept { return value != rhs.value; }
 
   friend std::ostream& operator << (std::ostream &stream, const modular &rhs) { return stream << rhs.value; }
-  friend constexpr modular power(modular val, cover_type exp) noexcept { return val.power(exp); }
-  friend constexpr modular inverse(modular val) noexcept { return val.inverse(); }
+  friend constexpr modular inverse(modular val) noexcept { return power(val, mod() - 2); }
+  friend constexpr modular power(modular val, cover_type exp) noexcept { 
+    modular res(1);
+    for (; exp > 0; exp >>= 1, val *= val) if (exp & 1) res *= val;
+    return res;
+  }
 
 };
 

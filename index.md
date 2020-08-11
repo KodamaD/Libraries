@@ -40,8 +40,9 @@ layout: default
 
 * :heavy_check_mark: <a href="library/algebraic/fact_prime.cpp.html">Primes/Factors</a>
 * :heavy_check_mark: <a href="library/algebraic/factorials.cpp.html">Factorial</a>
-* :heavy_check_mark: <a href="library/algebraic/modular.cpp.html">Modint</a>
-* :heavy_check_mark: <a href="library/algebraic/ntt.cpp.html">Number Theoretic Transform</a>
+* :question: <a href="library/algebraic/modular.cpp.html">Modint</a>
+* :question: <a href="library/algebraic/modular_operation.cpp.html">Modular Operations</a>
+* :x: <a href="library/algebraic/ntt.cpp.html">Number Theoretic Transform</a>
 
 
 <div id="5f0b6ebc4bea10285ba2b8a6ce78b863"></div>
@@ -86,7 +87,7 @@ layout: default
 
 ### other
 
-* :heavy_check_mark: <a href="library/other/bit_operation.cpp.html">Bit Operations</a>
+* :question: <a href="library/other/bit_operation.cpp.html">Bit Operations</a>
 * :warning: <a href="library/other/chmin_chmax.cpp.html">Chmin/Chmax</a>
 * :heavy_check_mark: <a href="library/other/fast_io.cpp.html">Fast Input/Output</a>
 * :heavy_check_mark: <a href="library/other/fix_point.cpp.html">Lambda Recursion</a>
@@ -94,7 +95,7 @@ layout: default
 * :heavy_check_mark: <a href="library/other/monoid.cpp.html">Monoid Utility</a>
 * :warning: <a href="library/other/multi_array.cpp.html">Multi-Dimensional Array</a>
 * :warning: <a href="library/other/multi_vec.cpp.html">Multi-Dimensional Vector</a>
-* :warning: <a href="library/other/random_number.cpp.html">Random Number</a>
+* :question: <a href="library/other/random_number.cpp.html">Random Number</a>
 * :warning: <a href="library/other/range.cpp.html">Range</a>
 * :warning: <a href="library/other/rev.cpp.html">Reverser</a>
 * :warning: <a href="library/other/template.cpp.html">Template</a>
@@ -113,6 +114,7 @@ layout: default
 ## Verify Files
 
 * :heavy_check_mark: <a href="verify/test/dinic.test.cpp.html">test/dinic.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/discrete_log.test.cpp.html">test/discrete_log.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/dst_tree.test.cpp.html">test/dst_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/enumerate_divisors.test.cpp.html">test/enumerate_divisors.test.cpp</a>
@@ -123,10 +125,11 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/heavy_light_decomposition.test.cpp.html">test/heavy_light_decomposition.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/matrix.test.cpp.html">test/matrix.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
+* :x: <a href="verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/push_relabel.test.cpp.html">test/push_relabel.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/sliding_window_aggregation.test.cpp.html">test/sliding_window_aggregation.test.cpp</a>
+* :x: <a href="verify/test/sqrt_mod.test.cpp.html">test/sqrt_mod.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/suffix_array.test.cpp.html">test/suffix_array.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/union_find.test.cpp.html">test/union_find.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/wavelet_matrix_quantile.test.cpp.html">test/wavelet_matrix_quantile.test.cpp</a>
