@@ -31,7 +31,7 @@ public:
   }
 
   void shuffle() {
-    std::swap(M_data.back(), M_data[engine() % M_data.size()]);
+    std::swap(M_data.back(), M_data[random_number<size_type>(0, M_data.size() - 1)]);
   }
 
   value_type front() const {

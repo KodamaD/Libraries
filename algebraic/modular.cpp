@@ -32,20 +32,9 @@ public:
   explicit constexpr operator T() const noexcept { return static_cast<T>(value); }
 
   constexpr value_type get() const noexcept { return value; }
-  constexpr modular operator - () const noexcept { return modular(mod() - value); }
-  constexpr modular operator ~ () const noexcept { return inverse(); }
-
   constexpr value_type &extract() noexcept { return value; }
-  constexpr modular inverse() const noexcept { return power(mod() - 2); }
-  constexpr modular power(cover_type exp) const noexcept {
-    modular res(1), mult(*this);
-    while (exp > 0) {
-      if (exp & 1) res *= mult;
-      mult *= mult;
-      exp >>= 1;
-    }
-    return res;
-  }
+  constexpr modular operator - () const noexcept { return modular(mod() - value); }
+  constexpr modular operator ~ () const noexcept { return inverse(*this); }
 
   constexpr modular operator + (const modular &rhs) const noexcept { return modular(*this) += rhs; }
   constexpr modular& operator += (const modular &rhs) noexcept { 
@@ -73,8 +62,12 @@ public:
   constexpr bool operator != (const modular &rhs) const noexcept { return value != rhs.value; }
 
   friend std::ostream& operator << (std::ostream &stream, const modular &rhs) { return stream << rhs.value; }
-  friend constexpr modular power(modular val, cover_type exp) noexcept { return val.power(exp); }
-  friend constexpr modular inverse(modular val) noexcept { return val.inverse(); }
+  friend constexpr modular inverse(modular val) noexcept { return power(val, mod() - 2); }
+  friend constexpr modular power(modular val, cover_type exp) noexcept { 
+    modular res(1);
+    for (; exp > 0; exp >>= 1, val *= val) if (exp & 1) res *= val;
+    return res;
+  }
 
 };
 
