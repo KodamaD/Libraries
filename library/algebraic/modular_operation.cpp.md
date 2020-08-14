@@ -25,26 +25,26 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :question: Modular Operations
+# :heavy_check_mark: Modular Operations
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/modular_operation.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-11 15:45:19+09:00
+    - Last commit date: 2020-08-14 11:56:16+09:00
 
 
 
 
 ## Depends on
 
-* :question: <a href="../other/random_number.cpp.html">Random Number</a>
+* :heavy_check_mark: <a href="../other/random_number.cpp.html">Random Number</a>
 
 
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/discrete_log.test.cpp.html">test/discrete_log.test.cpp</a>
-* :x: <a href="../../verify/test/sqrt_mod.test.cpp.html">test/sqrt_mod.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/sqrt_mod.test.cpp.html">test/sqrt_mod.test.cpp</a>
 
 
 ## Code
@@ -52,6 +52,7 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#pragma once
 
 #include "../other/random_number.cpp"
 
@@ -136,7 +137,7 @@ uint64_t log(const Modular x, const Modular y) {
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "algebraic/modular_operation.cpp"
+#line 2 "algebraic/modular_operation.cpp"
 
 #line 2 "other/random_number.cpp"
 
@@ -187,9 +188,9 @@ typename std::enable_if<!std::is_integral<Real>::value, Real>::type random_numbe
 /** 
  * @title Random Number
  */
-#line 3 "algebraic/modular_operation.cpp"
+#line 4 "algebraic/modular_operation.cpp"
 
-#line 5 "algebraic/modular_operation.cpp"
+#line 6 "algebraic/modular_operation.cpp"
 #include <unordered_map>
 
 template <class Modular>

@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/z_algorithm.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-11 19:42:18+09:00
+    - Last commit date: 2020-08-14 11:56:16+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/zalgorithm">https://judge.yosupo.jp/problem/zalgorithm</a>
@@ -84,7 +84,7 @@ int main() {
 
 template <class InputIterator>
 std::vector<size_t> z_algorithm(InputIterator first, InputIterator last) {
-  std::vector<typename InputIterator::value_type> str(first, last);
+  const std::vector<typename InputIterator::value_type> str(first, last);
   const size_t size = str.size();
   std::vector<size_t> result(size);
   result[0] = size;

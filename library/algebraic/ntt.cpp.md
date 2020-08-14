@@ -25,26 +25,26 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: Number Theoretic Transform
+# :heavy_check_mark: Number Theoretic Transform
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/ntt.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-11 15:45:19+09:00
+    - Last commit date: 2020-08-14 11:56:16+09:00
 
 
 
 
 ## Depends on
 
-* :question: <a href="modular.cpp.html">Modint</a>
-* :question: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
+* :heavy_check_mark: <a href="modular.cpp.html">Modint</a>
+* :heavy_check_mark: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
 
 
 ## Verified with
 
-* :x: <a href="../../verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
 
 
 ## Code
@@ -137,9 +137,9 @@ public:
 private:
   static constexpr size_t level = bit_ctzr(mod - 1);
   static constexpr value_type unit = value_type(1);
-  static constexpr value_type omega = value_type(prim).power((mod - 1) >> level); 
+  static constexpr value_type omega = power(value_type(prim), ((mod - 1) >> level)); 
   static constexpr auto roots = ntt_detail::compute_roots<level>(omega);
-  static constexpr auto inv_roots = ntt_detail::compute_roots<level>(omega.inverse());
+  static constexpr auto inv_roots = ntt_detail::compute_roots<level>(inverse(omega));
 
 public:
   static void transform(std::vector<value_type> &F) {
@@ -192,7 +192,7 @@ public:
         }
       }
     }
-    coeff = value_type(size).inverse();
+    coeff = inverse(value_type(size));
     for (auto &x: F) {
       x *= coeff;
     }
@@ -439,9 +439,9 @@ public:
 private:
   static constexpr size_t level = bit_ctzr(mod - 1);
   static constexpr value_type unit = value_type(1);
-  static constexpr value_type omega = value_type(prim).power((mod - 1) >> level); 
+  static constexpr value_type omega = power(value_type(prim), ((mod - 1) >> level)); 
   static constexpr auto roots = ntt_detail::compute_roots<level>(omega);
-  static constexpr auto inv_roots = ntt_detail::compute_roots<level>(omega.inverse());
+  static constexpr auto inv_roots = ntt_detail::compute_roots<level>(inverse(omega));
 
 public:
   static void transform(std::vector<value_type> &F) {
@@ -494,7 +494,7 @@ public:
         }
       }
     }
-    coeff = value_type(size).inverse();
+    coeff = inverse(value_type(size));
     for (auto &x: F) {
       x *= coeff;
     }

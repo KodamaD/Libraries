@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#b45cffe084dd3d20d928bee85e7b0f21">string</a>
 * <a href="{{ site.github.repository_url }}/blob/master/string/z_algorithm.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-11 19:42:18+09:00
+    - Last commit date: 2020-08-14 11:56:16+09:00
 
 
 
@@ -53,7 +53,7 @@ layout: default
 
 template <class InputIterator>
 std::vector<size_t> z_algorithm(InputIterator first, InputIterator last) {
-  std::vector<typename InputIterator::value_type> str(first, last);
+  const std::vector<typename InputIterator::value_type> str(first, last);
   const size_t size = str.size();
   std::vector<size_t> result(size);
   result[0] = size;
@@ -94,7 +94,7 @@ std::vector<size_t> z_algorithm(InputIterator first, InputIterator last) {
 
 template <class InputIterator>
 std::vector<size_t> z_algorithm(InputIterator first, InputIterator last) {
-  std::vector<typename InputIterator::value_type> str(first, last);
+  const std::vector<typename InputIterator::value_type> str(first, last);
   const size_t size = str.size();
   std::vector<size_t> result(size);
   result[0] = size;

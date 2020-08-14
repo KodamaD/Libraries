@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/discrete_log.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-11 15:45:19+09:00
+    - Last commit date: 2020-08-14 11:56:16+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/discrete_logarithm_mod">https://judge.yosupo.jp/problem/discrete_logarithm_mod</a>
@@ -39,9 +39,9 @@ layout: default
 
 ## Depends on
 
-* :question: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
-* :question: <a href="../../library/algebraic/modular_operation.cpp.html">Modular Operations</a>
-* :question: <a href="../../library/other/random_number.cpp.html">Random Number</a>
+* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
+* :heavy_check_mark: <a href="../../library/algebraic/modular_operation.cpp.html">Modular Operations</a>
+* :heavy_check_mark: <a href="../../library/other/random_number.cpp.html">Random Number</a>
 
 
 ## Code
@@ -170,7 +170,7 @@ using rmint32_t = modular<runtime_mod>;
 /**
  * @title Modint
  */
-#line 1 "algebraic/modular_operation.cpp"
+#line 2 "algebraic/modular_operation.cpp"
 
 #line 2 "other/random_number.cpp"
 
@@ -221,9 +221,9 @@ typename std::enable_if<!std::is_integral<Real>::value, Real>::type random_numbe
 /** 
  * @title Random Number
  */
-#line 3 "algebraic/modular_operation.cpp"
+#line 4 "algebraic/modular_operation.cpp"
 
-#line 5 "algebraic/modular_operation.cpp"
+#line 6 "algebraic/modular_operation.cpp"
 #include <unordered_map>
 
 template <class Modular>

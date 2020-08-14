@@ -39,7 +39,7 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="disjoint_sparse_table.cpp.html">Disjoint Sparse Table</a>
-* :question: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
+* :heavy_check_mark: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
 * :heavy_check_mark: <a href="../other/monoid.cpp.html">Monoid Utility</a>
 
 
