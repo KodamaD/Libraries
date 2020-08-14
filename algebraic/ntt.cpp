@@ -83,9 +83,9 @@ public:
 private:
   static constexpr size_t level = bit_ctzr(mod - 1);
   static constexpr value_type unit = value_type(1);
-  static constexpr value_type omega = value_type(prim).power((mod - 1) >> level); 
+  static constexpr value_type omega = power(value_type(prim), ((mod - 1) >> level)); 
   static constexpr auto roots = ntt_detail::compute_roots<level>(omega);
-  static constexpr auto inv_roots = ntt_detail::compute_roots<level>(omega.inverse());
+  static constexpr auto inv_roots = ntt_detail::compute_roots<level>(inverse(omega));
 
 public:
   static void transform(std::vector<value_type> &F) {
@@ -138,7 +138,7 @@ public:
         }
       }
     }
-    coeff = value_type(size).inverse();
+    coeff = inverse(value_type(size));
     for (auto &x: F) {
       x *= coeff;
     }

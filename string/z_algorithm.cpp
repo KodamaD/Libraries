@@ -5,7 +5,7 @@
 
 template <class InputIterator>
 std::vector<size_t> z_algorithm(InputIterator first, InputIterator last) {
-  std::vector<typename InputIterator::value_type> str(first, last);
+  const std::vector<typename InputIterator::value_type> str(first, last);
   const size_t size = str.size();
   std::vector<size_t> result(size);
   result[0] = size;

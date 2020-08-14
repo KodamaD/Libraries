@@ -1,3 +1,4 @@
+#pragma once
 
 #include "../other/random_number.cpp"
 

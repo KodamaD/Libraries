@@ -1,5 +1,5 @@
 
-#define PROBLEM "https://judge.yosupo.jp/problem/discrete_logarithm_mod"
+#define PROBLEM "https://judge.yosupo.jp/problem/sqrt_mod"
 
 #include "../algebraic/modular.cpp"
 #include "../algebraic/modular_operation.cpp"
