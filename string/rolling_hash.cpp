@@ -10,51 +10,51 @@
 
 namespace rolling_hash_detail {
 
-  class hash61_t {
-  public:
+class hash61_t {
+public:
 
-    static constexpr uint64_t mod() {
-      return (static_cast<uint64_t>(1) << 61) - 1;
-    }
-    static uint32_t base() {
-      static const uint32_t value = static_cast<uint32_t>(engine());
-      return value;
-    }
+  static constexpr uint64_t mod() {
+    return (static_cast<uint64_t>(1) << 61) - 1;
+  }
+  static uint32_t base() {
+    static const uint32_t value = static_cast<uint32_t>(engine());
+    return value;
+  }
 
-    static constexpr uint64_t add(uint64_t a, uint64_t b) {
-      a += b;
-      if (a >= mod()) a -= mod();
-      return a;
-    }
-    static constexpr uint64_t sub(uint64_t a, uint64_t b) {
-      a += mod() - b;
-      if (a >= mod()) a -= mod();
-      return a;
-    }
-    static constexpr uint64_t mul(uint64_t a, uint64_t b) {
-      uint64_t l1 = (uint32_t) a, h1 = a >> 32, l2 = (uint32_t) b, h2 = b >> 32;
-      uint64_t l = l1 * l2, m = l1 * h2 + l2 * h1, h = h1 * h2;
-      uint64_t res = (l & mod()) + (l >> 61) + (h << 3) + (m >> 29) + (m << 35 >> 3) + 1;
-      res = (res & mod()) + (res >> 61);
-      res = (res & mod()) + (res >> 61);
-      return res - 1;
-    }
+  static constexpr uint64_t add(uint64_t a, uint64_t b) {
+    a += b;
+    if (a >= mod()) a -= mod();
+    return a;
+  }
+  static constexpr uint64_t sub(uint64_t a, uint64_t b) {
+    a += mod() - b;
+    if (a >= mod()) a -= mod();
+    return a;
+  }
+  static constexpr uint64_t mul(uint64_t a, uint64_t b) {
+    uint64_t l1 = (uint32_t) a, h1 = a >> 32, l2 = (uint32_t) b, h2 = b >> 32;
+    uint64_t l = l1 * l2, m = l1 * h2 + l2 * h1, h = h1 * h2;
+    uint64_t res = (l & mod()) + (l >> 61) + (h << 3) + (m >> 29) + (m << 35 >> 3) + 1;
+    res = (res & mod()) + (res >> 61);
+    res = (res & mod()) + (res >> 61);
+    return res - 1;
+  }
 
-    static std::vector<uint64_t> reserve;
-    static uint64_t power(const size_t index) {
-      if (index >= reserve.size()) {
-        size_t cur = reserve.size();
-        reserve.resize(index + 1);
-        for (; cur <= index; ++cur) {
-          reserve[cur] = mul(reserve[cur - 1], base());
-        }
+  static std::vector<uint64_t> reserve;
+  static uint64_t power(const size_t index) {
+    if (index >= reserve.size()) {
+      size_t cur = reserve.size();
+      reserve.resize(index + 1);
+      for (; cur <= index; ++cur) {
+        reserve[cur] = mul(reserve[cur - 1], base());
       }
-      return reserve[index];
     }
+    return reserve[index];
+  }
 
-  };
+};
 
-  std::vector<uint64_t> hash61_t::reserve = std::vector<uint64_t>(1, 1);
+std::vector<uint64_t> hash61_t::reserve = std::vector<uint64_t>(1, 1);
 
 };
 

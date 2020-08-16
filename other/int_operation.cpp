@@ -7,36 +7,22 @@
 template <class T>
 constexpr typename std::make_unsigned<T>::type negation_impl(const T x) {
   using unsigned_type = typename std::make_unsigned<T>::type;
-  if (x == std::numeric_limits<T>::min()) {
-    return static_cast<unsigned_type>(x);
-  }
+  if (x == std::numeric_limits<T>::min()) return static_cast<unsigned_type>(x);
   return static_cast<unsigned_type>(-x);
 }
 
 template <class T>
 constexpr typename std::enable_if<std::is_unsigned<T>::value && std::is_integral<T>::value, bool>::type
-mul_overflow(const T x, const T y, const T z) {
-  if (x == 0 || y == 0) return false;
-  return x > z / y;
-}
+mul_overflow(const T x, const T y, const T z) { return (x == 0 || y == 0) ? false : x > z / y; }
 
 template <class T>
 constexpr typename std::enable_if<std::is_signed<T>::value && std::is_integral<T>::value, bool>::type
 mul_overflow(const T x, const T y, const T z) {
   if (x == 0 || y == 0) return z < 0;
   using unsigned_type = typename std::make_unsigned<T>::type;
-  if (x > 0 && y > 0) {
-    if (z <= 0) return true;
-    return mul_overflow<unsigned_type>(x, y, z);
-  }
-  if (x > 0) {
-    if (z >= 0) return false;
-    return mul_overflow<unsigned_type>(x, negation_impl(y), negation_impl(z));
-  }
-  if (y > 0) {
-    if (z >= 0) return false;
-    return mul_overflow<unsigned_type>(negation_impl(x), y, negation_impl(z));
-  }
+  if (x > 0 && y > 0) return z <= 0 ? true : mul_overflow<unsigned_type>(x, y, z);
+  if (x > 0) return z >= 0 ? false : mul_overflow<unsigned_type>(x, negation_impl(y), negation_impl(z));
+  if (y > 0) return z >= 0 ? false : mul_overflow<unsigned_type>(negation_impl(x), y, negation_impl(z));
   return mul_overflow<unsigned_type>(negation_impl(x), negation_impl(y), z);
 }
 
