@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/ntt.test.cpp
+# :x: test/ntt.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/ntt.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-14 11:56:16+09:00
+    - Last commit date: 2020-08-16 21:16:25+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/convolution_mod">https://judge.yosupo.jp/problem/convolution_mod</a>
@@ -39,9 +39,8 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
-* :heavy_check_mark: <a href="../../library/algebraic/ntt.cpp.html">Number Theoretic Transform</a>
-* :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
+* :x: <a href="../../library/algebraic/ntt.cpp.html">Number Theoretic Transform</a>
+* :question: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
 
 
 ## Code
@@ -90,94 +89,10 @@ int main() {
 
 #line 2 "algebraic/ntt.cpp"
 
-#line 2 "algebraic/modular.cpp"
-
-#include <cstdint>
-#include <iostream>
-
-template <class Modulus>
-class modular {
-public:
-  using value_type = uint32_t;
-  using cover_type = uint64_t;
-  static constexpr value_type mod() { return Modulus::value(); }
-
-  template <class T>
-  static constexpr value_type normalize(T value_) noexcept {
-    if (value_ < 0) {
-      value_ = -value_;
-      value_ %= mod();
-      if (value_ == 0) return 0;
-      return mod() - value_;
-    }
-    return value_ % mod();
-  }
-
-private:
-  value_type value;
-
-public:
-  constexpr modular() noexcept : value(0) { }
-  template <class T>
-  explicit constexpr modular(T value_) noexcept : value(normalize(value_)) { }
-  template <class T>
-  explicit constexpr operator T() const noexcept { return static_cast<T>(value); }
-
-  constexpr value_type get() const noexcept { return value; }
-  constexpr value_type &extract() noexcept { return value; }
-  constexpr modular operator - () const noexcept { return modular(mod() - value); }
-  constexpr modular operator ~ () const noexcept { return inverse(*this); }
-
-  constexpr modular operator + (const modular &rhs) const noexcept { return modular(*this) += rhs; }
-  constexpr modular& operator += (const modular &rhs) noexcept { 
-    if ((value += rhs.value) >= mod()) value -= mod(); 
-    return *this; 
-  }
-
-  constexpr modular operator - (const modular &rhs) const noexcept { return modular(*this) -= rhs; }
-  constexpr modular& operator -= (const modular &rhs) noexcept { 
-    if ((value += mod() - rhs.value) >= mod()) value -= mod(); 
-    return *this; 
-  }
-
-  constexpr modular operator * (const modular &rhs) const noexcept { return modular(*this) *= rhs; }
-  constexpr modular& operator *= (const modular &rhs) noexcept { 
-    value = (cover_type) value * rhs.value % mod();
-    return *this;
-  }
-
-  constexpr modular operator / (const modular &rhs) const noexcept { return modular(*this) /= rhs; }
-  constexpr modular& operator /= (const modular &rhs) noexcept { return (*this) *= rhs.inverse(); }
-
-  constexpr bool zero() const noexcept { return value == 0; }
-  constexpr bool operator == (const modular &rhs) const noexcept { return value == rhs.value; }
-  constexpr bool operator != (const modular &rhs) const noexcept { return value != rhs.value; }
-
-  friend std::ostream& operator << (std::ostream &stream, const modular &rhs) { return stream << rhs.value; }
-  friend constexpr modular inverse(modular val) noexcept { return power(val, mod() - 2); }
-  friend constexpr modular power(modular val, cover_type exp) noexcept { 
-    modular res(1);
-    for (; exp > 0; exp >>= 1, val *= val) if (exp & 1) res *= val;
-    return res;
-  }
-
-};
-
-template <uint32_t Val>
-struct modulus_impl { static constexpr uint32_t value() noexcept { return Val; } };
-template <uint32_t Val>
-using mint32_t = modular<modulus_impl<Val>>;
-
-struct runtime_mod { static uint32_t &value() noexcept { static uint32_t val = 0; return val; } };
-using rmint32_t = modular<runtime_mod>;
-
-/**
- * @title Modint
- */
 #line 2 "other/bit_operation.cpp"
 
 #include <cstddef>
-#line 5 "other/bit_operation.cpp"
+#include <cstdint>
 
 constexpr size_t   bit_ppc(const uint64_t x)   { return __builtin_popcountll(x); }
 constexpr size_t   bit_ctzr(const uint64_t x)  { return x == 0 ? 64 : __builtin_ctzll(x); }
@@ -200,9 +115,9 @@ constexpr uint64_t bit_rev(uint64_t x) {
 /**
  * @title Bit Operations
  */
-#line 5 "algebraic/ntt.cpp"
+#line 4 "algebraic/ntt.cpp"
 
-#line 7 "algebraic/ntt.cpp"
+#line 6 "algebraic/ntt.cpp"
 #include <vector>
 #include <array>
 #include <utility>
@@ -210,7 +125,7 @@ constexpr uint64_t bit_rev(uint64_t x) {
 
 namespace ntt_detail {
 
-  constexpr uint32_t primitive_root(uint32_t mod) {
+  constexpr uint32_t primitive_root(const uint32_t mod) {
     std::array<uint32_t, 32> exp{};
     uint32_t cur = mod - 1;
     size_t size = 0;
@@ -220,28 +135,20 @@ namespace ntt_detail {
         while (cur % i == 0) cur /= i;
       }
     }
-    if (cur != 1) {
-      exp[size++] = (mod - 1) / cur;
-    }
-    uint32_t res = 2;
-    while (true) {
-      bool ok = true;
-      for (size_t i = 0; i < size; ++i) {
-        uint64_t a = res, e = exp[i], x = 1;
+    if (cur != 1) exp[size++] = (mod - 1) / cur;
+    for (uint32_t check = 1; check < mod; ++check) {
+      for (auto e: exp) {
+        if (e == 0) return check;
+        uint64_t a = check, x = 1;
         while (e > 0) {
           if (e & 1) (x *= a) %= mod;
           (a *= a) %= mod;
           e >>= 1;
         }
-        if (x == 1) {
-          ok = false;
-          break;
-        }
+        if (x == 1) break;
       }
-      if (ok) break;
-      ++res;
     }
-    return res;
+    return mod;
   };
 
   template <size_t N, class T>
@@ -254,22 +161,6 @@ namespace ntt_detail {
     return res;
   }
 
-  /*
-    prime numbers for ntt
-    [ 1051721729 ]  [ 2^20 ]
-    [ 1045430273 ]  [ 2^20 ]
-    [ 1007681537 ]  [ 2^20 ]
-    [  962592769 ]  [ 2^21 ]
-    [  924844033 ]  [ 2^21 ]
-    [  985661441 ]  [ 2^22 ]
-    [  943718401 ]  [ 2^22 ]
-    [  935329793 ]  [ 2^22 ]
-    [  998244353 ]  [ 2^23 ]
-    [  754974721 ]  [ 2^24 ]
-    [  167772161 ]  [ 2^25 ]
-    [  469762049 ]  [ 2^26 ]
-  */
-
 }
 
 template <class Modular>
@@ -281,30 +172,27 @@ public:
 
 private:
   static constexpr size_t level = bit_ctzr(mod - 1);
-  static constexpr value_type unit = value_type(1);
   static constexpr value_type omega = power(value_type(prim), ((mod - 1) >> level)); 
   static constexpr auto roots = ntt_detail::compute_roots<level>(omega);
   static constexpr auto inv_roots = ntt_detail::compute_roots<level>(inverse(omega));
 
 public:
   static void transform(std::vector<value_type> &F) {
-    size_t size = F.size();
-    size_t logn = bit_ctzr(size);
+    const size_t size = F.size();
+    const size_t logn = bit_ctzr(size);
     for (size_t i = 0; i < size; ++i) {
-      size_t j = bit_rev(i) >> (64 - logn);
-      if (i < j) {
-        std::swap(F[i], F[j]);
-      }
+      const size_t j = bit_rev(i) >> (64 - logn);
+      if (i < j) std::swap(F[i], F[j]);
     }
-    value_type coeff = unit;
+    value_type coeff(1);
     for (size_t s = 0; s < logn; ++s) {
-      size_t mh = 1 << s;
-      size_t m = mh << 1;
+      const size_t mh = 1 << s;
+      const size_t m = mh << 1;
       for (size_t i = 0; i < size; i += m) {
-        coeff = unit;
+        coeff = value_type(1);
         for (size_t j = i; j < i + mh; ++j) {
-          auto a = F[j];
-          auto b = F[j + mh] * coeff;
+          const auto a = F[j];
+          const auto b = F[j + mh] * coeff;
           F[j] = a + b;
           F[j + mh] = a - b;
           coeff *= roots[s];
@@ -314,23 +202,21 @@ public:
   }
 
   static void inv_transform(std::vector<value_type> &F) {
-    size_t size = F.size();
-    size_t logn = bit_ctzr(size);
+    const size_t size = F.size();
+    const size_t logn = bit_ctzr(size);
     for (size_t i = 0; i < size; ++i) {
-      size_t j = bit_rev(i) >> (64 - logn);
-      if (i < j) {
-        std::swap(F[i], F[j]);
-      }
+      const size_t j = bit_rev(i) >> (64 - logn);
+      if (i < j) std::swap(F[i], F[j]);
     }
-    value_type coeff = unit;
+    value_type coeff(1);
     for (size_t s = 0; s < logn; ++s) {
-      size_t mh = 1 << s;
-      size_t m = mh << 1;
+      const size_t mh = 1 << s;
+      const size_t m = mh << 1;
       for (size_t i = 0; i < size; i += m) {
-        coeff = unit;
+        coeff = value_type(1);
         for (size_t j = i; j < i + mh; ++j) {
-          auto a = F[j];
-          auto b = F[j + mh] * coeff;
+          const auto a = F[j];
+          const auto b = F[j + mh] * coeff;
           F[j] = a + b;
           F[j + mh] = a - b;
           coeff *= inv_roots[s];
@@ -338,45 +224,7 @@ public:
       }
     }
     coeff = inverse(value_type(size));
-    for (auto &x: F) {
-      x *= coeff;
-    }
-  }
-
-  template <bool Same = false, typename std::enable_if<!Same, void>::type* = nullptr>
-  static std::vector<value_type> convolve(
-    std::vector<value_type> A, 
-    std::vector<value_type> B) {
-    if (A.empty() || B.empty()) return { };
-    size_t res_size = A.size() + B.size() - 1;
-    size_t fix_size = bit_cover(res_size);
-    A.resize(fix_size);
-    B.resize(fix_size);
-    transform(A);
-    transform(B);
-    for (size_t i = 0; i < fix_size; ++i) {
-      A[i] *= B[i];
-    }
-    inv_transform(A);
-    A.resize(res_size);
-    return A;
-  }
-
-  template <bool Same = false, typename std::enable_if<Same, void>::type* = nullptr>
-  static std::vector<value_type> convolve(
-    std::vector<value_type> A,
-    const std::vector<value_type>&) {
-    if (A.empty()) return { };
-    size_t res_size = 2 * A.size() - 1;
-    size_t fix_size = bit_cover(res_size);
-    A.resize(fix_size);
-    transform(A);
-    for (size_t i = 0; i < fix_size; ++i) {
-      A[i] *= A[i];
-    }
-    inv_transform(A);
-    A.resize(res_size);
-    return A;
+    for (auto &x: F) x *= coeff;
   }
 
 };
@@ -386,6 +234,7 @@ public:
  */
 #line 5 "test/ntt.test.cpp"
 
+#include <iostream>
 #line 8 "test/ntt.test.cpp"
 
 using m32 = mint32_t<998244353>;

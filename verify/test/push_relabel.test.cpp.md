@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/push_relabel.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-09 10:53:47+09:00
+    - Last commit date: 2020-08-16 21:16:25+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A">https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A</a>
@@ -247,77 +247,73 @@ public:
 #include <queue>
 #include <algorithm>
 
-namespace push_relabel_detail {
+class stack_impl {
+private:
+  const size_t M_size;
+  std::vector<size_t> M_stack;
+public:
+  explicit stack_impl(const size_t size):
+    M_size(size), M_stack(size * 2)
+  { clear(); }
+  size_t top(const size_t height) const {
+    return M_stack[M_size + height];
+  }
+  bool empty(const size_t height) const { 
+    return M_stack[M_size + height] == M_size + height; 
+  }
+  void pop(const size_t height) {
+    M_stack[M_size + height] = M_stack[M_stack[M_size + height]];
+  }
+  void push(const size_t height, const size_t node) {
+    M_stack[node] = M_stack[M_size + height];
+    M_stack[M_size + height] = node;
+  }
+  void clear() {
+    std::iota(M_stack.begin() + M_size, M_stack.end(), M_size);
+  }
+};
 
-  class stack_helper {
-  private:
-    const size_t M_size;
-    std::vector<size_t> M_stack;
-  public:
-    explicit stack_helper(const size_t size):
-      M_size(size), M_stack(size * 2)
-    { clear(); }
-    size_t top(const size_t height) const {
-      return M_stack[M_size + height];
-    }
-    bool empty(const size_t height) const { 
-      return M_stack[M_size + height] == M_size + height; 
-    }
-    void pop(const size_t height) {
-      M_stack[M_size + height] = M_stack[M_stack[M_size + height]];
-    }
-    void push(const size_t height, const size_t node) {
-      M_stack[node] = M_stack[M_size + height];
-      M_stack[M_size + height] = node;
-    }
-    void clear() {
-      std::iota(M_stack.begin() + M_size, M_stack.end(), M_size);
-    }
-  };
-
-  class list_helper {
-  private:
-    const size_t M_size;
-    std::vector<std::pair<size_t, size_t>> M_list;
-  public:
-    explicit list_helper(const size_t size):
-      M_size(size), M_list(size * 2)
-    { clear(); }
-    bool empty(const size_t height) {
-      return M_list[M_size + height].second == M_size + height;
-    }
-    bool more_than_one(const size_t height) {
-      return M_list[M_size + height].first != M_list[M_size + height].second;
-    }
-    void insert(const size_t height, const size_t node) {
-      M_list[node].first = M_list[M_size + height].first;
-      M_list[node].second = M_size + height;
-      M_list[M_list[M_size + height].first].second = node;
-      M_list[M_size + height].first = node;
-    }
-    void erase(const size_t node) {
-      M_list[M_list[node].first].second = M_list[node].second;
-      M_list[M_list[node].second].first = M_list[node].first;
-    }
-    void clear() {
-      for (size_t index = M_size; index < M_size * 2; ++index) {
-        M_list[index].first = M_list[index].second = index;
-      }
-    }
-    void clear(const size_t height) {
-      const size_t index = M_size + height;
+class list_impl {
+private:
+  const size_t M_size;
+  std::vector<std::pair<size_t, size_t>> M_list;
+public:
+  explicit list_impl(const size_t size):
+    M_size(size), M_list(size * 2)
+  { clear(); }
+  bool empty(const size_t height) {
+    return M_list[M_size + height].second == M_size + height;
+  }
+  bool more_than_one(const size_t height) {
+    return M_list[M_size + height].first != M_list[M_size + height].second;
+  }
+  void insert(const size_t height, const size_t node) {
+    M_list[node].first = M_list[M_size + height].first;
+    M_list[node].second = M_size + height;
+    M_list[M_list[M_size + height].first].second = node;
+    M_list[M_size + height].first = node;
+  }
+  void erase(const size_t node) {
+    M_list[M_list[node].first].second = M_list[node].second;
+    M_list[M_list[node].second].first = M_list[node].first;
+  }
+  void clear() {
+    for (size_t index = M_size; index < M_size * 2; ++index) {
       M_list[index].first = M_list[index].second = index;
     }
-    template <class Func>
-    void apply_all(const size_t height, Func &&func) {
-      size_t index = M_list[M_size + height].second;
-      while (index < M_size) {
-        func(index);
-        index = M_list[index].second;
-      }
+  }
+  void clear(const size_t height) {
+    const size_t index = M_size + height;
+    M_list[index].first = M_list[index].second = index;
+  }
+  template <class Func>
+  void apply_all(const size_t height, Func &&func) {
+    size_t index = M_list[M_size + height].second;
+    while (index < M_size) {
+      func(index);
+      index = M_list[index].second;
     }
-  };
-
+  }
 };
 
 template <class Network>
@@ -416,8 +412,8 @@ public:
   template <bool ValueOnly = true>
   typename std::enable_if<ValueOnly, flow_type>::type
   max_flow(const vertex_type source, const vertex_type sink, const bool initialize_edges = false) {
-    push_relabel_detail::stack_helper active(M_graph.size());
-    push_relabel_detail::list_helper level(M_graph.size());
+    stack_impl active(M_graph.size());
+    list_impl level(M_graph.size());
     height_type min_gap, max_active;
     for (auto &node: M_graph) {
       node.excess = 0;
