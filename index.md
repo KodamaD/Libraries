@@ -42,7 +42,7 @@ layout: default
 * :heavy_check_mark: <a href="library/algebraic/factorials.cpp.html">Factorial</a>
 * :heavy_check_mark: <a href="library/algebraic/modular.cpp.html">Modint</a>
 * :heavy_check_mark: <a href="library/algebraic/modular_operation.cpp.html">Modular Operations</a>
-* :x: <a href="library/algebraic/ntt.cpp.html">Number Theoretic Transform</a>
+* :warning: <a href="library/algebraic/ntt.cpp.html">Number Theoretic Transform</a>
 
 
 <div id="5f0b6ebc4bea10285ba2b8a6ce78b863"></div>
@@ -83,11 +83,20 @@ layout: default
 * :heavy_check_mark: <a href="library/graph/union_find.cpp.html">Union Find</a>
 
 
+<div id="be68540dfa000a0fb38be40d32259215"></div>
+
+### implementing
+
+* :warning: <a href="library/implementing/avl_tree.cpp.html">implementing/avl_tree.cpp</a>
+* :warning: <a href="library/implementing/generate_array.cpp.html">Random Array Generator</a>
+* :warning: <a href="library/implementing/graph_generator.cpp.html">implementing/graph_generator.cpp</a>
+
+
 <div id="795f3202b17cb6bc3d4b771d8c6c9eaf"></div>
 
 ### other
 
-* :question: <a href="library/other/bit_operation.cpp.html">Bit Operations</a>
+* :heavy_check_mark: <a href="library/other/bit_operation.cpp.html">Bit Operations</a>
 * :warning: <a href="library/other/chmin_chmax.cpp.html">Chmin/Chmax</a>
 * :heavy_check_mark: <a href="library/other/fast_io.cpp.html">Fast Input/Output</a>
 * :heavy_check_mark: <a href="library/other/fix_point.cpp.html">Lambda Recursion</a>
@@ -123,16 +132,16 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/factorials.test.cpp.html">test/factorials.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/fast_io.test.cpp.html">test/fast_io.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/fenwick_tree.test.cpp.html">test/fenwick_tree.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/heavy_light_decomposition.test.cpp.html">test/heavy_light_decomposition.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/lca.test.cpp.html">test/lca.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/matrix.test.cpp.html">test/matrix.test.cpp</a>
-* :x: <a href="verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/push_relabel.test.cpp.html">test/push_relabel.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/sliding_window_aggregation.test.cpp.html">test/sliding_window_aggregation.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/sqrt_mod.test.cpp.html">test/sqrt_mod.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/suffix_array.test.cpp.html">test/suffix_array.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/union_find.test.cpp.html">test/union_find.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/vertex_set_path_sum.test.cpp.html">test/vertex_set_path_sum.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/wavelet_matrix_quantile.test.cpp.html">test/wavelet_matrix_quantile.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/z_algorithm.test.cpp.html">test/z_algorithm.test.cpp</a>
 

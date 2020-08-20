@@ -38,12 +38,13 @@ layout: default
 
 ## Depends on
 
-* :question: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
+* :heavy_check_mark: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
 
 
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/fenwick_tree.test.cpp.html">test/fenwick_tree.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/vertex_set_path_sum.test.cpp.html">test/vertex_set_path_sum.test.cpp</a>
 
 
 ## Code

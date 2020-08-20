@@ -41,7 +41,7 @@ layout: default
 
 * :heavy_check_mark: <a href="../../library/container/disjoint_sparse_table.cpp.html">Disjoint Sparse Table</a>
 * :heavy_check_mark: <a href="../../library/container/dst_tree.cpp.html">DST Tree</a>
-* :question: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
+* :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
 * :heavy_check_mark: <a href="../../library/other/monoid.cpp.html">Monoid Utility</a>
 
 

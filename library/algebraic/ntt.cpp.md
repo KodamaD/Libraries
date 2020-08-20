@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: Number Theoretic Transform
+# :warning: Number Theoretic Transform
 
 <a href="../../index.html">Back to top page</a>
 
@@ -38,12 +38,7 @@ layout: default
 
 ## Depends on
 
-* :question: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
-
-
-## Verified with
-
-* :x: <a href="../../verify/test/ntt.test.cpp.html">test/ntt.test.cpp</a>
+* :heavy_check_mark: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
 
 
 ## Code

@@ -40,6 +40,7 @@ layout: default
 
 * :heavy_check_mark: <a href="../algebraic/fact_prime.cpp.html">Primes/Factors</a>
 * :heavy_check_mark: <a href="../graph/dinic.cpp.html">Dinic</a>
+* :warning: <a href="../implementing/avl_tree.cpp.html">implementing/avl_tree.cpp</a>
 
 
 ## Verified with

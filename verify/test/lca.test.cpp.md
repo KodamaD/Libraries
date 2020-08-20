@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/heavy_light_decomposition.test.cpp
+# :heavy_check_mark: test/lca.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
-* <a href="{{ site.github.repository_url }}/blob/master/test/heavy_light_decomposition.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-12 13:43:20+09:00
+* <a href="{{ site.github.repository_url }}/blob/master/test/lca.test.cpp">View this file on GitHub</a>
+    - Last commit date: 2020-08-20 23:34:30+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/lca">https://judge.yosupo.jp/problem/lca</a>
@@ -81,7 +81,7 @@ int main() {
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "test/heavy_light_decomposition.test.cpp"
+#line 1 "test/lca.test.cpp"
 
 #define PROBLEM "https://judge.yosupo.jp/problem/lca"
 
@@ -227,9 +227,9 @@ public:
 /**
  * @title Heavy-Light Decomposition
  */
-#line 5 "test/heavy_light_decomposition.test.cpp"
+#line 5 "test/lca.test.cpp"
 
-#line 7 "test/heavy_light_decomposition.test.cpp"
+#line 7 "test/lca.test.cpp"
 #include <iostream>
 #include <algorithm>
 #include <set>
