@@ -82,9 +82,9 @@ Traceback (most recent call last):
     bundled_code = language.bundle(self.file_class.file_path, basedir=pathlib.Path.cwd())
   File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/cplusplus.py", line 185, in bundle
     bundler.update(path)
-  File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py", line 307, in update
+  File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py", line 399, in update
     self.update(self._resolve(pathlib.Path(included), included_from=path))
-  File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py", line 187, in _resolve
+  File "/opt/hostedtoolcache/Python/3.8.5/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py", line 258, in _resolve
     raise BundleErrorAt(path, -1, "no such header")
 onlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt: /Users/kodamankod/Desktop/Programming/Library/other/chmin_chmax.cpp: line -1: no such header
 

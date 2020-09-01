@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/sqrt_mod.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-14 11:56:16+09:00
+    - Last commit date: 2020-09-01 23:08:04+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/sqrt_mod">https://judge.yosupo.jp/problem/sqrt_mod</a>
@@ -142,7 +142,7 @@ public:
   }
 
   constexpr modular operator / (const modular &rhs) const noexcept { return modular(*this) /= rhs; }
-  constexpr modular& operator /= (const modular &rhs) noexcept { return (*this) *= rhs.inverse(); }
+  constexpr modular& operator /= (const modular &rhs) noexcept { return (*this) *= inverse(rhs); }
 
   constexpr bool zero() const noexcept { return value == 0; }
   constexpr bool operator == (const modular &rhs) const noexcept { return value == rhs.value; }

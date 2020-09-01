@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: implementing/avl_tree.cpp
+# :warning: implementing/sequence.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#be68540dfa000a0fb38be40d32259215">implementing</a>
-* <a href="{{ site.github.repository_url }}/blob/master/implementing/avl_tree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-20 23:34:30+09:00
+* <a href="{{ site.github.repository_url }}/blob/master/implementing/sequence.cpp">View this file on GitHub</a>
+    - Last commit date: 2020-09-01 23:08:04+09:00
 
 
 
@@ -337,7 +337,6 @@ public:
   bool empty() const noexcept {
     return static_cast<bool>(root);
   }
-
 };
 
 int main() {
@@ -362,14 +361,14 @@ int main() {
   std::cout << '\n';
   return 0;
 }
- 
+
 ```
 {% endraw %}
 
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "implementing/avl_tree.cpp"
+#line 1 "implementing/sequence.cpp"
 
 #line 2 "other/fix_point.cpp"
 
@@ -392,12 +391,12 @@ constexpr decltype(auto) fix_point(Func &&func) {
 /**
  * @title Lambda Recursion
  */
-#line 3 "implementing/avl_tree.cpp"
+#line 3 "implementing/sequence.cpp"
 
 #include <cstdint>
 #include <memory>
 #include <algorithm>
-#line 8 "implementing/avl_tree.cpp"
+#line 8 "implementing/sequence.cpp"
 #include <vector>
 #include <iterator>
 #include <initializer_list>
@@ -682,7 +681,6 @@ public:
   bool empty() const noexcept {
     return static_cast<bool>(root);
   }
-
 };
 
 int main() {
@@ -707,7 +705,6 @@ int main() {
   std::cout << '\n';
   return 0;
 }
- 
 
 ```
 {% endraw %}

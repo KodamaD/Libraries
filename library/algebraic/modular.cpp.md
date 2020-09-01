@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/modular.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-11 15:45:19+09:00
+    - Last commit date: 2020-09-01 23:08:04+09:00
 
 
 
@@ -109,7 +109,7 @@ public:
   }
 
   constexpr modular operator / (const modular &rhs) const noexcept { return modular(*this) /= rhs; }
-  constexpr modular& operator /= (const modular &rhs) noexcept { return (*this) *= rhs.inverse(); }
+  constexpr modular& operator /= (const modular &rhs) noexcept { return (*this) *= inverse(rhs); }
 
   constexpr bool zero() const noexcept { return value == 0; }
   constexpr bool operator == (const modular &rhs) const noexcept { return value == rhs.value; }
@@ -199,7 +199,7 @@ public:
   }
 
   constexpr modular operator / (const modular &rhs) const noexcept { return modular(*this) /= rhs; }
-  constexpr modular& operator /= (const modular &rhs) noexcept { return (*this) *= rhs.inverse(); }
+  constexpr modular& operator /= (const modular &rhs) noexcept { return (*this) *= inverse(rhs); }
 
   constexpr bool zero() const noexcept { return value == 0; }
   constexpr bool operator == (const modular &rhs) const noexcept { return value == rhs.value; }

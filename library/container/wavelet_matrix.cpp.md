@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/wavelet_matrix.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-05 18:30:10+09:00
+    - Last commit date: 2020-09-01 23:08:04+09:00
 
 
 
@@ -83,7 +83,8 @@ public:
     std::vector<value_type> current(first, last);
     std::vector<value_type> next(M_size);
     for (size_type k = word_size; k--;) {
-      auto l = next.begin(), r = next.rbegin();
+      auto l = next.begin();
+      auto r = next.rbegin();
       for (size_type i = 0; i < M_size; ++i) {
         bit[i] = current[i] >> k & 1;
         (bit[i] ? *(r++) : *(l++)) = current[i];
@@ -286,7 +287,8 @@ public:
     std::vector<value_type> current(first, last);
     std::vector<value_type> next(M_size);
     for (size_type k = word_size; k--;) {
-      auto l = next.begin(), r = next.rbegin();
+      auto l = next.begin();
+      auto r = next.rbegin();
       for (size_type i = 0; i < M_size; ++i) {
         bit[i] = current[i] >> k & 1;
         (bit[i] ? *(r++) : *(l++)) = current[i];

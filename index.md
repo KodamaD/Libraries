@@ -87,9 +87,8 @@ layout: default
 
 ### implementing
 
-* :warning: <a href="library/implementing/avl_tree.cpp.html">implementing/avl_tree.cpp</a>
-* :warning: <a href="library/implementing/generate_array.cpp.html">Random Array Generator</a>
-* :warning: <a href="library/implementing/graph_generator.cpp.html">implementing/graph_generator.cpp</a>
+* :warning: <a href="library/implementing/sequence.cpp.html">implementing/sequence.cpp</a>
+* :warning: <a href="library/implementing/trie.cpp.html">implementing/trie.cpp</a>
 
 
 <div id="795f3202b17cb6bc3d4b771d8c6c9eaf"></div>

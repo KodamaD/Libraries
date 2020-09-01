@@ -40,8 +40,6 @@ layout: default
 
 * :heavy_check_mark: <a href="../algebraic/modular_operation.cpp.html">Modular Operations</a>
 * :warning: <a href="../container/randomized_queue.cpp.html">Randomized Queue</a>
-* :warning: <a href="../implementing/generate_array.cpp.html">Random Array Generator</a>
-* :warning: <a href="../implementing/graph_generator.cpp.html">implementing/graph_generator.cpp</a>
 * :warning: <a href="../string/rolling_hash.cpp.html">Rolling Hash</a>
 
 
