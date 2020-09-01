@@ -30,7 +30,8 @@ public:
     std::vector<value_type> current(first, last);
     std::vector<value_type> next(M_size);
     for (size_type k = word_size; k--;) {
-      auto l = next.begin(), r = next.rbegin();
+      auto l = next.begin();
+      auto r = next.rbegin();
       for (size_type i = 0; i < M_size; ++i) {
         bit[i] = current[i] >> k & 1;
         (bit[i] ? *(r++) : *(l++)) = current[i];

@@ -289,7 +289,6 @@ public:
   bool empty() const noexcept {
     return static_cast<bool>(root);
   }
-
 };
 
 int main() {
@@ -314,4 +313,3 @@ int main() {
   std::cout << '\n';
   return 0;
 }
- 

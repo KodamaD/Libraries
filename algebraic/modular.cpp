@@ -55,7 +55,7 @@ public:
   }
 
   constexpr modular operator / (const modular &rhs) const noexcept { return modular(*this) /= rhs; }
-  constexpr modular& operator /= (const modular &rhs) noexcept { return (*this) *= rhs.inverse(); }
+  constexpr modular& operator /= (const modular &rhs) noexcept { return (*this) *= inverse(rhs); }
 
   constexpr bool zero() const noexcept { return value == 0; }
   constexpr bool operator == (const modular &rhs) const noexcept { return value == rhs.value; }
