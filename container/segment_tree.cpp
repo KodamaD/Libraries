@@ -1,11 +1,14 @@
 #pragma once
 
 #include "../other/monoid.cpp"
+#include "../other/bit_operation.cpp"
 
 #include <cstddef>
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#include <utility>
+#include <type_traits>
 #include <cassert>
 
 template <class Monoid>
@@ -83,9 +86,94 @@ public:
         fold_r = fixed_value_monoid::operation(M_tree[last], fold_r);      
       }
       first >>= 1;
-      last  >>= 1;
+      last >>= 1;
     }
     return fixed_value_monoid::revert(fixed_value_monoid::operation(fold_l, fold_r));
+  }
+
+  template <bool ToRight = true, class Constraint, std::enable_if_t<ToRight>* = nullptr> 
+  size_type satisfies(const size_type left, Constraint &&func) const {
+    assert(left <= size());
+    if (fixed_value_monoid::satisfies(std::forward<Constraint>(func), 
+      fixed_value_monoid::identity())) return left;
+    size_type first = left + size();
+    size_type last = 2 * size();
+    const size_type last_c = last;
+    fixed_value_type fold = fixed_value_monoid::identity();
+    const auto try_merge = [&](const size_type index) {
+      fixed_value_type tmp = fixed_value_monoid::operation(fold, M_tree[index]);
+      if (fixed_value_monoid::satisfies(std::forward<Constraint>(func), tmp)) return true;
+      fold = std::move(tmp);
+      return false;
+    };
+    const auto subtree = [&](size_type index) {
+      while (index < size()) {
+        index <<= 1;
+        if (!try_merge(index)) ++index;
+      }
+      return index - size() + 1;
+    };
+    size_type story = 0;
+    while (first < last) {
+      if (first & 1) {
+        if (try_merge(first)) return subtree(first);
+        ++first;
+      }
+      first >>= 1;
+      last >>= 1;
+      ++story;
+    }
+    while (story--) {
+      last = last_c >> story;
+      if (last & 1) {
+        --last;
+        if (try_merge(last)) return subtree(last);
+      }
+    }
+    return size() + 1;
+  }
+
+  template <bool ToRight = true, class Constraint, std::enable_if_t<!ToRight>* = nullptr> 
+  size_type satisfies(const size_type right, Constraint &&func) const {
+    assert(right <= size());
+    if (fixed_value_monoid::satisfies(std::forward<Constraint>(func), 
+      fixed_value_monoid::identity())) return right;
+    size_type first = size();
+    size_type last = right + size();
+    const size_type first_c = first;
+    fixed_value_type fold = fixed_value_monoid::identity();
+    const auto try_merge = [&](const size_type index) {
+      fixed_value_type tmp = fixed_value_monoid::operation(M_tree[index], fold);
+      if (fixed_value_monoid::satisfies(std::forward<Constraint>(func), tmp)) return true;
+      fold = std::move(tmp);
+      return false;
+    };
+    const auto subtree = [&](size_type index) {
+      while (index < size()) {
+        index <<= 1;
+        if (try_merge(index + 1)) ++index;
+      }
+      return index - size();
+    };
+    size_type story = 0;
+    while (first < last) {
+      if (first & 1) ++first;
+      if (last & 1) {
+        --last;
+        if (try_merge(last)) return subtree(last);
+      }
+      first >>= 1;
+      last >>= 1;
+      ++story;
+    }
+    const size_type cover = bit_cover(first_c);
+    while (story--) {
+      first = (cover >> story) - ((cover - first_c) >> story);
+      if (first & 1) {
+        if (try_merge(first)) return subtree(first);
+      }
+    }
+    return size_type(-1);
   }
 
   void clear() {

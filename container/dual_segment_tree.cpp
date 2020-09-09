@@ -19,7 +19,7 @@ public:
   using size_type       = size_t;
 
 private:
-  using fixed_operator_monoid = fixed_monoid<operator_structure>;
+  using fixed_operator_monoid = fixed_monoid<operator_monoid>;
   using fixed_operator_type   = typename fixed_operator_monoid::type;
 
   static void S_apply(fixed_operator_type &op, const fixed_operator_type &add) {

@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <vector>
 #include <cassert>
+#include <type_traits>
 
 template <class T>
 class fenwick_tree {
@@ -20,7 +21,7 @@ public:
   explicit fenwick_tree(size_type size) { initialize(size); }
 
   void initialize(size_type size) {
-    M_tree.assign(size + 1, value_type{});
+    M_tree.assign(size + 1, value_type { });
   }
 
   void add(size_type index, const value_type& x) {
@@ -32,10 +33,11 @@ public:
     }
   }
 
+  template <size_type Indexed = 1>
   value_type get(size_type index) const {
     assert(index < size());
-    ++index;
-    value_type res{};
+    index += Indexed;
+    value_type res{ };
     while (index > 0) {
       res += M_tree[index];
       index -= bit_lsb(index);
@@ -55,6 +57,21 @@ public:
       first -= bit_lsb(first);
     }
     return res;
+  }
+
+  template <class Func>
+  size_type satisfies(const size_type left, Func &&func) const {
+    assert(left <= size());
+    if (func(value_type { })) return left;
+    value_type val = -get<0>(left);
+    size_type res = 0;
+    for (size_type cur = bit_cover(size() + 1) >> 1; cur > 0; cur >>= 1) {
+      if ((res + cur <= left) || (res + cur <= size() && !func(val + M_tree[res + cur]))) {
+        val += M_tree[res + cur];
+        res += cur;
+      }
+    }
+    return res + 1;
   }
 
   void clear() {
