@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: test/dual_segment_tree.test.cpp
+# :heavy_check_mark: test/dual_segment_tree.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/dual_segment_tree.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 18:26:02+09:00
+    - Last commit date: 2020-09-09 22:02:05+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_D">https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_D</a>
@@ -39,9 +39,9 @@ layout: default
 
 ## Depends on
 
-* :x: <a href="../../library/container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
-* :question: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
-* :question: <a href="../../library/other/monoid.cpp.html">Monoid Utility</a>
+* :heavy_check_mark: <a href="../../library/container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
+* :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
+* :heavy_check_mark: <a href="../../library/other/monoid.cpp.html">Monoid Utility</a>
 
 
 ## Code
@@ -165,12 +165,18 @@ template <class T>
 template <class T, bool HasIdentity>
 class fixed_monoid_impl: public T {
 public:
-  static constexpr typename T::type convert(const typename T::type &value) { return value; }
-  static constexpr typename T::type revert(const typename T::type &value) { return value; }
+  using type = typename T::type;
+
+  static constexpr type convert(const type &value) { return value; }
+  static constexpr type revert(const type &value) { return value; }
 
   template <class Mapping, class Value, class... Args>
-  static constexpr void operate(Mapping &&func, Value &value, const typename T::type &op, Args&&... args) {
+  static constexpr void operate(Mapping &&func, Value &value, const type &op, Args&&... args) {
     value = func(value, op, std::forward<Args>(args)...);
+  }
+  template <class Constraint>
+  static constexpr bool satisfies(Constraint &&func, const type &value) {
+    return func(value);
   }
 };
 
@@ -202,7 +208,12 @@ public:
   template <class Mapping, class Value, class... Args>
   static constexpr void operate(Mapping &&func, Value &value, const type &op, Args&&... args) {
     if (!op.state) return;
-    value = func(value, op, std::forward<Args>(args)...);
+    value = func(value, op.value, std::forward<Args>(args)...);
+  }
+  template <class Constraint>
+  static constexpr bool satisfies(Constraint &&func, const type &value) {
+    if (!value.state) return false;
+    return func(value.value);
   }
 };
 
@@ -230,7 +241,7 @@ public:
   using size_type       = size_t;
 
 private:
-  using fixed_operator_monoid = fixed_monoid<operator_structure>;
+  using fixed_operator_monoid = fixed_monoid<operator_monoid>;
   using fixed_operator_type   = typename fixed_operator_monoid::type;
 
   static void S_apply(fixed_operator_type &op, const fixed_operator_type &add) {

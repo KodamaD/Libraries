@@ -31,14 +31,15 @@ layout: default
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/segment_tree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 18:26:02+09:00
+    - Last commit date: 2020-09-09 22:02:05+09:00
 
 
 
 
 ## Depends on
 
-* :question: <a href="../other/monoid.cpp.html">Monoid Utility</a>
+* :heavy_check_mark: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
+* :heavy_check_mark: <a href="../other/monoid.cpp.html">Monoid Utility</a>
 
 
 ## Verified with
@@ -54,11 +55,14 @@ layout: default
 #pragma once
 
 #include "../other/monoid.cpp"
+#include "../other/bit_operation.cpp"
 
 #include <cstddef>
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#include <utility>
+#include <type_traits>
 #include <cassert>
 
 template <class Monoid>
@@ -136,9 +140,94 @@ public:
         fold_r = fixed_value_monoid::operation(M_tree[last], fold_r);      
       }
       first >>= 1;
-      last  >>= 1;
+      last >>= 1;
     }
     return fixed_value_monoid::revert(fixed_value_monoid::operation(fold_l, fold_r));
+  }
+
+  template <bool ToRight = true, class Constraint, std::enable_if_t<ToRight>* = nullptr> 
+  size_type satisfies(const size_type left, Constraint &&func) const {
+    assert(left <= size());
+    if (fixed_value_monoid::satisfies(std::forward<Constraint>(func), 
+      fixed_value_monoid::identity())) return left;
+    size_type first = left + size();
+    size_type last = 2 * size();
+    const size_type last_c = last;
+    fixed_value_type fold = fixed_value_monoid::identity();
+    const auto try_merge = [&](const size_type index) {
+      fixed_value_type tmp = fixed_value_monoid::operation(fold, M_tree[index]);
+      if (fixed_value_monoid::satisfies(std::forward<Constraint>(func), tmp)) return true;
+      fold = std::move(tmp);
+      return false;
+    };
+    const auto subtree = [&](size_type index) {
+      while (index < size()) {
+        index <<= 1;
+        if (!try_merge(index)) ++index;
+      }
+      return index - size() + 1;
+    };
+    size_type story = 0;
+    while (first < last) {
+      if (first & 1) {
+        if (try_merge(first)) return subtree(first);
+        ++first;
+      }
+      first >>= 1;
+      last >>= 1;
+      ++story;
+    }
+    while (story--) {
+      last = last_c >> story;
+      if (last & 1) {
+        --last;
+        if (try_merge(last)) return subtree(last);
+      }
+    }
+    return size() + 1;
+  }
+
+  template <bool ToRight = true, class Constraint, std::enable_if_t<!ToRight>* = nullptr> 
+  size_type satisfies(const size_type right, Constraint &&func) const {
+    assert(right <= size());
+    if (fixed_value_monoid::satisfies(std::forward<Constraint>(func), 
+      fixed_value_monoid::identity())) return right;
+    size_type first = size();
+    size_type last = right + size();
+    const size_type first_c = first;
+    fixed_value_type fold = fixed_value_monoid::identity();
+    const auto try_merge = [&](const size_type index) {
+      fixed_value_type tmp = fixed_value_monoid::operation(M_tree[index], fold);
+      if (fixed_value_monoid::satisfies(std::forward<Constraint>(func), tmp)) return true;
+      fold = std::move(tmp);
+      return false;
+    };
+    const auto subtree = [&](size_type index) {
+      while (index < size()) {
+        index <<= 1;
+        if (try_merge(index + 1)) ++index;
+      }
+      return index - size();
+    };
+    size_type story = 0;
+    while (first < last) {
+      if (first & 1) ++first;
+      if (last & 1) {
+        --last;
+        if (try_merge(last)) return subtree(last);
+      }
+      first >>= 1;
+      last >>= 1;
+      ++story;
+    }
+    const size_type cover = bit_cover(first_c);
+    while (story--) {
+      first = (cover >> story) - ((cover - first_c) >> story);
+      if (first & 1) {
+        if (try_merge(first)) return subtree(first);
+      }
+    }
+    return size_type(-1);
   }
 
   void clear() {
@@ -185,12 +274,18 @@ template <class T>
 template <class T, bool HasIdentity>
 class fixed_monoid_impl: public T {
 public:
-  static constexpr typename T::type convert(const typename T::type &value) { return value; }
-  static constexpr typename T::type revert(const typename T::type &value) { return value; }
+  using type = typename T::type;
+
+  static constexpr type convert(const type &value) { return value; }
+  static constexpr type revert(const type &value) { return value; }
 
   template <class Mapping, class Value, class... Args>
-  static constexpr void operate(Mapping &&func, Value &value, const typename T::type &op, Args&&... args) {
+  static constexpr void operate(Mapping &&func, Value &value, const type &op, Args&&... args) {
     value = func(value, op, std::forward<Args>(args)...);
+  }
+  template <class Constraint>
+  static constexpr bool satisfies(Constraint &&func, const type &value) {
+    return func(value);
   }
 };
 
@@ -222,7 +317,12 @@ public:
   template <class Mapping, class Value, class... Args>
   static constexpr void operate(Mapping &&func, Value &value, const type &op, Args&&... args) {
     if (!op.state) return;
-    value = func(value, op, std::forward<Args>(args)...);
+    value = func(value, op.value, std::forward<Args>(args)...);
+  }
+  template <class Constraint>
+  static constexpr bool satisfies(Constraint &&func, const type &value) {
+    if (!value.state) return false;
+    return func(value.value);
   }
 };
 
@@ -232,12 +332,39 @@ using fixed_monoid = fixed_monoid_impl<T, has_identity<T>::value>;
 /**
  * @title Monoid Utility
  */
-#line 4 "container/segment_tree.cpp"
+#line 2 "other/bit_operation.cpp"
 
 #include <cstddef>
+#include <cstdint>
+
+constexpr size_t bit_ppc(const uint64_t x) { return __builtin_popcountll(x); }
+constexpr size_t bit_ctzr(const uint64_t x) { return x == 0 ? 64 : __builtin_ctzll(x); }
+constexpr size_t bit_ctzl(const uint64_t x) { return x == 0 ? 64 : __builtin_clzll(x); }
+constexpr size_t bit_width(const uint64_t x) { return 64 - bit_ctzl(x); }
+constexpr uint64_t bit_msb(const uint64_t x) { return x == 0 ? 0 : uint64_t(1) << (bit_width(x) - 1); }
+constexpr uint64_t bit_lsb(const uint64_t x) { return x & (-x); }
+constexpr uint64_t bit_cover(const uint64_t x) { return x == 0 ? 0 : bit_msb(2 * x - 1); }
+
+constexpr uint64_t bit_rev(uint64_t x) {
+  x = ((x >> 1) & 0x5555555555555555) | ((x & 0x5555555555555555) << 1);
+  x = ((x >> 2) & 0x3333333333333333) | ((x & 0x3333333333333333) << 2);
+  x = ((x >> 4) & 0x0F0F0F0F0F0F0F0F) | ((x & 0x0F0F0F0F0F0F0F0F) << 4);
+  x = ((x >> 8) & 0x00FF00FF00FF00FF) | ((x & 0x00FF00FF00FF00FF) << 8);
+  x = ((x >> 16) & 0x0000FFFF0000FFFF) | ((x & 0x0000FFFF0000FFFF) << 16);
+  x = (x >> 32) | (x << 32);
+  return x;
+}
+
+/**
+ * @title Bit Operations
+ */
+#line 5 "container/segment_tree.cpp"
+
+#line 7 "container/segment_tree.cpp"
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#line 12 "container/segment_tree.cpp"
 #include <cassert>
 
 template <class Monoid>
@@ -315,9 +442,94 @@ public:
         fold_r = fixed_value_monoid::operation(M_tree[last], fold_r);      
       }
       first >>= 1;
-      last  >>= 1;
+      last >>= 1;
     }
     return fixed_value_monoid::revert(fixed_value_monoid::operation(fold_l, fold_r));
+  }
+
+  template <bool ToRight = true, class Constraint, std::enable_if_t<ToRight>* = nullptr> 
+  size_type satisfies(const size_type left, Constraint &&func) const {
+    assert(left <= size());
+    if (fixed_value_monoid::satisfies(std::forward<Constraint>(func), 
+      fixed_value_monoid::identity())) return left;
+    size_type first = left + size();
+    size_type last = 2 * size();
+    const size_type last_c = last;
+    fixed_value_type fold = fixed_value_monoid::identity();
+    const auto try_merge = [&](const size_type index) {
+      fixed_value_type tmp = fixed_value_monoid::operation(fold, M_tree[index]);
+      if (fixed_value_monoid::satisfies(std::forward<Constraint>(func), tmp)) return true;
+      fold = std::move(tmp);
+      return false;
+    };
+    const auto subtree = [&](size_type index) {
+      while (index < size()) {
+        index <<= 1;
+        if (!try_merge(index)) ++index;
+      }
+      return index - size() + 1;
+    };
+    size_type story = 0;
+    while (first < last) {
+      if (first & 1) {
+        if (try_merge(first)) return subtree(first);
+        ++first;
+      }
+      first >>= 1;
+      last >>= 1;
+      ++story;
+    }
+    while (story--) {
+      last = last_c >> story;
+      if (last & 1) {
+        --last;
+        if (try_merge(last)) return subtree(last);
+      }
+    }
+    return size() + 1;
+  }
+
+  template <bool ToRight = true, class Constraint, std::enable_if_t<!ToRight>* = nullptr> 
+  size_type satisfies(const size_type right, Constraint &&func) const {
+    assert(right <= size());
+    if (fixed_value_monoid::satisfies(std::forward<Constraint>(func), 
+      fixed_value_monoid::identity())) return right;
+    size_type first = size();
+    size_type last = right + size();
+    const size_type first_c = first;
+    fixed_value_type fold = fixed_value_monoid::identity();
+    const auto try_merge = [&](const size_type index) {
+      fixed_value_type tmp = fixed_value_monoid::operation(M_tree[index], fold);
+      if (fixed_value_monoid::satisfies(std::forward<Constraint>(func), tmp)) return true;
+      fold = std::move(tmp);
+      return false;
+    };
+    const auto subtree = [&](size_type index) {
+      while (index < size()) {
+        index <<= 1;
+        if (try_merge(index + 1)) ++index;
+      }
+      return index - size();
+    };
+    size_type story = 0;
+    while (first < last) {
+      if (first & 1) ++first;
+      if (last & 1) {
+        --last;
+        if (try_merge(last)) return subtree(last);
+      }
+      first >>= 1;
+      last >>= 1;
+      ++story;
+    }
+    const size_type cover = bit_cover(first_c);
+    while (story--) {
+      first = (cover >> story) - ((cover - first_c) >> story);
+      if (first & 1) {
+        if (try_merge(first)) return subtree(first);
+      }
+    }
+    return size_type(-1);
   }
 
   void clear() {

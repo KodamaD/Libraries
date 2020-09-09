@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :question: Monoid Utility
+# :heavy_check_mark: Monoid Utility
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/monoid.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 18:26:02+09:00
+    - Last commit date: 2020-09-09 22:02:05+09:00
 
 
 
@@ -40,7 +40,7 @@ layout: default
 
 * :heavy_check_mark: <a href="../container/disjoint_sparse_table.cpp.html">Disjoint Sparse Table</a>
 * :heavy_check_mark: <a href="../container/dst_tree.cpp.html">DST Tree</a>
-* :x: <a href="../container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
+* :heavy_check_mark: <a href="../container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
 * :heavy_check_mark: <a href="../container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
 * :heavy_check_mark: <a href="../container/segment_tree.cpp.html">Segment Tree</a>
 * :heavy_check_mark: <a href="../container/sliding_window_aggregation.cpp.html">Sliding Window Aggregation</a>
@@ -49,7 +49,7 @@ layout: default
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/dst_tree.test.cpp.html">test/dst_tree.test.cpp</a>
-* :x: <a href="../../verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/sliding_window_aggregation.test.cpp.html">test/sliding_window_aggregation.test.cpp</a>
@@ -84,12 +84,18 @@ template <class T>
 template <class T, bool HasIdentity>
 class fixed_monoid_impl: public T {
 public:
-  static constexpr typename T::type convert(const typename T::type &value) { return value; }
-  static constexpr typename T::type revert(const typename T::type &value) { return value; }
+  using type = typename T::type;
+
+  static constexpr type convert(const type &value) { return value; }
+  static constexpr type revert(const type &value) { return value; }
 
   template <class Mapping, class Value, class... Args>
-  static constexpr void operate(Mapping &&func, Value &value, const typename T::type &op, Args&&... args) {
+  static constexpr void operate(Mapping &&func, Value &value, const type &op, Args&&... args) {
     value = func(value, op, std::forward<Args>(args)...);
+  }
+  template <class Constraint>
+  static constexpr bool satisfies(Constraint &&func, const type &value) {
+    return func(value);
   }
 };
 
@@ -121,7 +127,12 @@ public:
   template <class Mapping, class Value, class... Args>
   static constexpr void operate(Mapping &&func, Value &value, const type &op, Args&&... args) {
     if (!op.state) return;
-    value = func(value, op, std::forward<Args>(args)...);
+    value = func(value, op.value, std::forward<Args>(args)...);
+  }
+  template <class Constraint>
+  static constexpr bool satisfies(Constraint &&func, const type &value) {
+    if (!value.state) return false;
+    return func(value.value);
   }
 };
 
@@ -161,12 +172,18 @@ template <class T>
 template <class T, bool HasIdentity>
 class fixed_monoid_impl: public T {
 public:
-  static constexpr typename T::type convert(const typename T::type &value) { return value; }
-  static constexpr typename T::type revert(const typename T::type &value) { return value; }
+  using type = typename T::type;
+
+  static constexpr type convert(const type &value) { return value; }
+  static constexpr type revert(const type &value) { return value; }
 
   template <class Mapping, class Value, class... Args>
-  static constexpr void operate(Mapping &&func, Value &value, const typename T::type &op, Args&&... args) {
+  static constexpr void operate(Mapping &&func, Value &value, const type &op, Args&&... args) {
     value = func(value, op, std::forward<Args>(args)...);
+  }
+  template <class Constraint>
+  static constexpr bool satisfies(Constraint &&func, const type &value) {
+    return func(value);
   }
 };
 
@@ -198,7 +215,12 @@ public:
   template <class Mapping, class Value, class... Args>
   static constexpr void operate(Mapping &&func, Value &value, const type &op, Args&&... args) {
     if (!op.state) return;
-    value = func(value, op, std::forward<Args>(args)...);
+    value = func(value, op.value, std::forward<Args>(args)...);
+  }
+  template <class Constraint>
+  static constexpr bool satisfies(Constraint &&func, const type &value) {
+    if (!value.state) return false;
+    return func(value.value);
   }
 };
 

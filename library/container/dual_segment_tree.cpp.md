@@ -25,26 +25,26 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: Dual Segment Tree
+# :heavy_check_mark: Dual Segment Tree
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/dual_segment_tree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 18:26:02+09:00
+    - Last commit date: 2020-09-09 22:02:05+09:00
 
 
 
 
 ## Depends on
 
-* :question: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
-* :question: <a href="../other/monoid.cpp.html">Monoid Utility</a>
+* :heavy_check_mark: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
+* :heavy_check_mark: <a href="../other/monoid.cpp.html">Monoid Utility</a>
 
 
 ## Verified with
 
-* :x: <a href="../../verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
 
 
 ## Code
@@ -73,7 +73,7 @@ public:
   using size_type       = size_t;
 
 private:
-  using fixed_operator_monoid = fixed_monoid<operator_structure>;
+  using fixed_operator_monoid = fixed_monoid<operator_monoid>;
   using fixed_operator_type   = typename fixed_operator_monoid::type;
 
   static void S_apply(fixed_operator_type &op, const fixed_operator_type &add) {
@@ -235,12 +235,18 @@ template <class T>
 template <class T, bool HasIdentity>
 class fixed_monoid_impl: public T {
 public:
-  static constexpr typename T::type convert(const typename T::type &value) { return value; }
-  static constexpr typename T::type revert(const typename T::type &value) { return value; }
+  using type = typename T::type;
+
+  static constexpr type convert(const type &value) { return value; }
+  static constexpr type revert(const type &value) { return value; }
 
   template <class Mapping, class Value, class... Args>
-  static constexpr void operate(Mapping &&func, Value &value, const typename T::type &op, Args&&... args) {
+  static constexpr void operate(Mapping &&func, Value &value, const type &op, Args&&... args) {
     value = func(value, op, std::forward<Args>(args)...);
+  }
+  template <class Constraint>
+  static constexpr bool satisfies(Constraint &&func, const type &value) {
+    return func(value);
   }
 };
 
@@ -272,7 +278,12 @@ public:
   template <class Mapping, class Value, class... Args>
   static constexpr void operate(Mapping &&func, Value &value, const type &op, Args&&... args) {
     if (!op.state) return;
-    value = func(value, op, std::forward<Args>(args)...);
+    value = func(value, op.value, std::forward<Args>(args)...);
+  }
+  template <class Constraint>
+  static constexpr bool satisfies(Constraint &&func, const type &value) {
+    if (!value.state) return false;
+    return func(value.value);
   }
 };
 
@@ -300,7 +311,7 @@ public:
   using size_type       = size_t;
 
 private:
-  using fixed_operator_monoid = fixed_monoid<operator_structure>;
+  using fixed_operator_monoid = fixed_monoid<operator_monoid>;
   using fixed_operator_type   = typename fixed_operator_monoid::type;
 
   static void S_apply(fixed_operator_type &op, const fixed_operator_type &add) {

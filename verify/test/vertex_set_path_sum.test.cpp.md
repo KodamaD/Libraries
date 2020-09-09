@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/vertex_set_path_sum.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 18:26:02+09:00
+    - Last commit date: 2020-09-09 22:02:05+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/vertex_add_path_sum">https://judge.yosupo.jp/problem/vertex_add_path_sum</a>
@@ -39,9 +39,9 @@ layout: default
 
 ## Depends on
 
-* :question: <a href="../../library/container/fenwick_tree.cpp.html">Fenwick Tree</a>
+* :heavy_check_mark: <a href="../../library/container/fenwick_tree.cpp.html">Fenwick Tree</a>
 * :heavy_check_mark: <a href="../../library/graph/heavy_light_decomposition.cpp.html">Heavy-Light Decomposition</a>
-* :question: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
+* :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
 
 
 ## Code
@@ -295,6 +295,7 @@ constexpr uint64_t bit_rev(uint64_t x) {
 #line 4 "container/fenwick_tree.cpp"
 
 #line 8 "container/fenwick_tree.cpp"
+#include <type_traits>
 
 template <class T>
 class fenwick_tree {
@@ -310,7 +311,7 @@ public:
   explicit fenwick_tree(size_type size) { initialize(size); }
 
   void initialize(size_type size) {
-    M_tree.assign(size + 1, value_type{});
+    M_tree.assign(size + 1, value_type { });
   }
 
   void add(size_type index, const value_type& x) {
@@ -322,10 +323,11 @@ public:
     }
   }
 
+  template <size_type Indexed = 1>
   value_type get(size_type index) const {
     assert(index < size());
-    ++index;
-    value_type res{};
+    index += Indexed;
+    value_type res{ };
     while (index > 0) {
       res += M_tree[index];
       index -= bit_lsb(index);
@@ -345,6 +347,21 @@ public:
       first -= bit_lsb(first);
     }
     return res;
+  }
+
+  template <class Func>
+  size_type satisfies(const size_type left, Func &&func) const {
+    assert(left <= size());
+    if (func(value_type { })) return left;
+    value_type val = -get<0>(left);
+    size_type res = 0;
+    for (size_type cur = bit_cover(size() + 1) >> 1; cur > 0; cur >>= 1) {
+      if ((res + cur <= left) || (res + cur <= size() && !func(val + M_tree[res + cur]))) {
+        val += M_tree[res + cur];
+        res += cur;
+      }
+    }
+    return res + 1;
   }
 
   void clear() {

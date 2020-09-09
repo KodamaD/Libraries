@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/lazy_propagation_segment_tree.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 18:26:02+09:00
+    - Last commit date: 2020-09-09 22:02:05+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/range_affine_range_sum">https://judge.yosupo.jp/problem/range_affine_range_sum</a>
@@ -41,8 +41,8 @@ layout: default
 
 * :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
 * :heavy_check_mark: <a href="../../library/container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
-* :question: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
-* :question: <a href="../../library/other/monoid.cpp.html">Monoid Utility</a>
+* :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
+* :heavy_check_mark: <a href="../../library/other/monoid.cpp.html">Monoid Utility</a>
 
 
 ## Code
@@ -174,12 +174,18 @@ template <class T>
 template <class T, bool HasIdentity>
 class fixed_monoid_impl: public T {
 public:
-  static constexpr typename T::type convert(const typename T::type &value) { return value; }
-  static constexpr typename T::type revert(const typename T::type &value) { return value; }
+  using type = typename T::type;
+
+  static constexpr type convert(const type &value) { return value; }
+  static constexpr type revert(const type &value) { return value; }
 
   template <class Mapping, class Value, class... Args>
-  static constexpr void operate(Mapping &&func, Value &value, const typename T::type &op, Args&&... args) {
+  static constexpr void operate(Mapping &&func, Value &value, const type &op, Args&&... args) {
     value = func(value, op, std::forward<Args>(args)...);
+  }
+  template <class Constraint>
+  static constexpr bool satisfies(Constraint &&func, const type &value) {
+    return func(value);
   }
 };
 
@@ -211,7 +217,12 @@ public:
   template <class Mapping, class Value, class... Args>
   static constexpr void operate(Mapping &&func, Value &value, const type &op, Args&&... args) {
     if (!op.state) return;
-    value = func(value, op, std::forward<Args>(args)...);
+    value = func(value, op.value, std::forward<Args>(args)...);
+  }
+  template <class Constraint>
+  static constexpr bool satisfies(Constraint &&func, const type &value) {
+    if (!value.state) return false;
+    return func(value.value);
   }
 };
 
@@ -227,6 +238,7 @@ using fixed_monoid = fixed_monoid_impl<T, has_identity<T>::value>;
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#include <cassert>
 
 template <class CombinedMonoid>
 class lazy_propagation_segment_tree {
@@ -255,6 +267,11 @@ private:
   static void S_apply(node_type &node, const fixed_operator_type &op, const size_type length) {
     fixed_operator_monoid::operate(structure::operation, node.value, op, length);
     node.lazy = fixed_operator_monoid::operation(node.lazy, op);
+  }
+  template <class Constraint>
+  static bool S_satisfies(Constraint &&func, const value_type &value) {
+    return fixed_monoid<value_monoid>::satisfies(std::forward<Constraint>(func),
+      fixed_monoid<value_monoid>::convert(value));
   }
 
   void M_propagate(const size_type index, const size_type length) {
@@ -309,6 +326,8 @@ public:
   }
 
   value_type fold(size_type first, size_type last) {
+    assert(first <= last);
+    assert(last <= size());
     first += size();
     last  += size();
     M_pushdown(first);
@@ -331,6 +350,8 @@ public:
   }
 
   void operate(size_type first, size_type last, const operator_type &op_) {
+    assert(first <= last);
+    assert(last <= size());
     const auto op = fixed_operator_monoid::convert(op_);
     first += size();
     last  += size();
@@ -355,6 +376,7 @@ public:
   }
 
   void assign(size_type index, const value_type &val) {
+    assert(index < size());
     index += size();
     for (size_type story = bit_width(index); story != 0; --story) {
       M_propagate(index >> story, 1 << (story - 1));
@@ -367,15 +389,104 @@ public:
     }
   }
 
+  template <bool ToRight = true, class Constraint, std::enable_if_t<ToRight>* = nullptr> 
+  size_type satisfies(const size_type left, Constraint &&func) {
+    assert(left <= size());
+    if (S_satisfies(std::forward<Constraint>(func), value_monoid::identity())) return left;
+    size_type first = left + size();
+    size_type last = 2 * size();
+    M_pushdown(first);
+    M_pushdown(last);
+    const size_type last_c = last;
+    value_type fold = value_monoid::identity();
+    const auto try_merge = [&](const size_type index) {
+      value_type tmp = value_monoid::operation(fold, M_tree[index].value);
+      if (S_satisfies(std::forward<Constraint>(func), tmp)) return true;
+      fold = std::move(tmp);
+      return false;
+    };
+    const auto subtree = [&](size_type index, size_type story) {
+      while (index < size()) {
+        M_propagate(index, 1 << (story - 1));
+        index <<= 1;
+        if (!try_merge(index)) ++index;
+        --story;
+      }
+      return index - size() + 1;
+    };
+    size_type story = 0;
+    while (first < last) {
+      if (first & 1) {
+        if (try_merge(first)) return subtree(first, story);
+        ++first;
+      }
+      first >>= 1;
+      last >>= 1;
+      ++story;
+    }
+    while (story--) {
+      last = last_c >> story;
+      if (last & 1) {
+        --last;
+        if (try_merge(last)) return subtree(last, story);
+      }
+    }
+    return size() + 1;
+  }
+
+  template <bool ToRight = true, class Constraint, std::enable_if_t<!ToRight>* = nullptr> 
+  size_type satisfies(const size_type right, Constraint &&func) {
+    assert(right <= size());
+    if (S_satisfies(std::forward<Constraint>(func), value_monoid::identity())) return right;
+    size_type first = size();
+    size_type last = right + size();
+    M_pushdown(first);
+    M_pushdown(last);
+    const size_type first_c = first;
+    value_type fold = value_monoid::identity();
+    const auto try_merge = [&](const size_type index) {
+      value_type tmp = value_monoid::operation(M_tree[index].value, fold);
+      if (S_satisfies(std::forward<Constraint>(func), tmp)) return true;
+      fold = std::move(tmp);
+      return false;
+    };
+    const auto subtree = [&](size_type index, size_type story) {
+      while (index < size()) {
+        M_propagate(index, 1 << (story - 1));
+        index <<= 1;
+        if (try_merge(index + 1)) ++index;
+        --story;
+      }
+      return index - size();
+    };
+    size_type story = 0;
+    while (first < last) {
+      if (first & 1) ++first;
+      if (last & 1) {
+        --last;
+        if (try_merge(last)) return subtree(last, story);
+      }
+      first >>= 1;
+      last >>= 1;
+      ++story;
+    }
+    const size_type cover = bit_cover(first_c);
+    while (story--) {
+      first = (cover >> story) - ((cover - first_c) >> story);
+      if (first & 1) {
+        if (try_merge(first)) return subtree(first, story);
+      }
+    }
+    return size_type(-1);
+  }
+
   void clear() {
     M_tree.clear();
     M_tree.shrink_to_fit();
   }
-
   size_type size() const { 
     return M_tree.size() >> 1;
   }
-
 };
 
 /**
