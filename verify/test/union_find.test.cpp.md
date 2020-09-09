@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/union_find.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-12 13:43:20+09:00
+    - Last commit date: 2020-09-09 18:08:09+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/unionfind">https://judge.yosupo.jp/problem/unionfind</a>
@@ -86,6 +86,7 @@ int main() {
 #include <cstddef>
 #include <vector>
 #include <utility>
+#include <cassert>
 
 class union_find {
 public:
@@ -117,6 +118,7 @@ public:
   }
 
   size_type find_parent(const size_type node) {
+    assert(node < size());
     size_type &parent = M_forest[node].parent;
     if (node == parent) return node;
     return parent = find_parent(parent);
@@ -125,10 +127,13 @@ public:
     return M_components; 
   }
   size_type component_size(const size_type node) { 
+    assert(node < size());
     return M_forest[find_parent(node)].size;
   }
 
   bool unite(size_type node1, size_type node2) {
+    assert(node1 < size());
+    assert(node2 < size());
     node1 = find_parent(node1);
     node2 = find_parent(node2);
     if (node1 == node2) return false;
@@ -141,6 +146,8 @@ public:
     return true;
   }
   bool same_component(const size_type node1, const size_type node2) { 
+    assert(node1 < size());
+    assert(node2 < size());
     return find_parent(node1) == find_parent(node2); 
   }
 
@@ -155,7 +162,6 @@ public:
     M_forest.clear();
     M_forest.shrink_to_fit();
   }
-
 };
 
 /**

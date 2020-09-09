@@ -25,26 +25,26 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: Fenwick Tree
+# :x: Fenwick Tree
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/fenwick_tree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-11 15:45:19+09:00
+    - Last commit date: 2020-09-09 18:08:09+09:00
 
 
 
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
+* :x: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
 
 
 ## Verified with
 
-* :heavy_check_mark: <a href="../../verify/test/fenwick_tree.test.cpp.html">test/fenwick_tree.test.cpp</a>
-* :heavy_check_mark: <a href="../../verify/test/vertex_set_path_sum.test.cpp.html">test/vertex_set_path_sum.test.cpp</a>
+* :x: <a href="../../verify/test/fenwick_tree.test.cpp.html">test/fenwick_tree.test.cpp</a>
+* :x: <a href="../../verify/test/vertex_set_path_sum.test.cpp.html">test/vertex_set_path_sum.test.cpp</a>
 
 
 ## Code
@@ -58,6 +58,7 @@ layout: default
 
 #include <cstddef>
 #include <vector>
+#include <cassert>
 
 template <class T>
 class fenwick_tree {
@@ -77,6 +78,7 @@ public:
   }
 
   void add(size_type index, const value_type& x) {
+    assert(index < size());
     ++index;
     while (index <= size()) {
       M_tree[index] += x;
@@ -85,6 +87,7 @@ public:
   }
 
   value_type get(size_type index) const {
+    assert(index < size());
     ++index;
     value_type res{};
     while (index > 0) {
@@ -93,16 +96,28 @@ public:
     }
     return res;
   }
-  value_type fold(size_type l, size_type r) const {
-    if (l == 0 && r == 0) return value_type{};
-    if (l == 0) return get(r - 1);
-    return get(r - 1) - get(l - 1);
+  value_type fold(size_type first, size_type last) const {
+    assert(first <= last);
+    assert(last <= size());
+    value_type res{};
+    while (first < last) {
+      res += data[last];
+      last -= bit_lsb(last);
+    }
+    while (last < first) {
+      res -= data[first];
+      first -= bit_lsb(first);
+    }
+    return res;
   }
 
+  void clear() {
+    M_tree.clear();
+    M_tree.shrink_to_fit();
+  }
   size_type size() const {
     return M_tree.size() - 1;
   }
-
 };
 
 /**
@@ -121,12 +136,12 @@ public:
 #include <cstddef>
 #include <cstdint>
 
-constexpr size_t   bit_ppc(const uint64_t x)   { return __builtin_popcountll(x); }
-constexpr size_t   bit_ctzr(const uint64_t x)  { return x == 0 ? 64 : __builtin_ctzll(x); }
-constexpr size_t   bit_ctzl(const uint64_t x)  { return x == 0 ? 64 : __builtin_clzll(x); }
-constexpr size_t   bit_width(const uint64_t x) { return 64 - bit_ctzl(x); }
-constexpr uint64_t bit_msb(const uint64_t x)   { return x == 0 ? 0 : uint64_t(1) << (bit_width(x) - 1); }
-constexpr uint64_t bit_lsb(const uint64_t x)   { return x & (-x); }
+constexpr size_t bit_ppc(const uint64_t x) { return __builtin_popcountll(x); }
+constexpr size_t bit_ctzr(const uint64_t x) { return x == 0 ? 64 : __builtin_ctzll(x); }
+constexpr size_t bit_ctzl(const uint64_t x) { return x == 0 ? 64 : __builtin_clzll(x); }
+constexpr size_t bit_width(const uint64_t x) { return 64 - bit_ctzl(x); }
+constexpr uint64_t bit_msb(const uint64_t x) { return x == 0 ? 0 : uint64_t(1) << (bit_width(x) - 1); }
+constexpr uint64_t bit_lsb(const uint64_t x) { return x & (-x); }
 constexpr uint64_t bit_cover(const uint64_t x) { return x == 0 ? 0 : bit_msb(2 * x - 1); }
 
 constexpr uint64_t bit_rev(uint64_t x) {
@@ -146,6 +161,7 @@ constexpr uint64_t bit_rev(uint64_t x) {
 
 #line 6 "container/fenwick_tree.cpp"
 #include <vector>
+#include <cassert>
 
 template <class T>
 class fenwick_tree {
@@ -165,6 +181,7 @@ public:
   }
 
   void add(size_type index, const value_type& x) {
+    assert(index < size());
     ++index;
     while (index <= size()) {
       M_tree[index] += x;
@@ -173,6 +190,7 @@ public:
   }
 
   value_type get(size_type index) const {
+    assert(index < size());
     ++index;
     value_type res{};
     while (index > 0) {
@@ -181,16 +199,28 @@ public:
     }
     return res;
   }
-  value_type fold(size_type l, size_type r) const {
-    if (l == 0 && r == 0) return value_type{};
-    if (l == 0) return get(r - 1);
-    return get(r - 1) - get(l - 1);
+  value_type fold(size_type first, size_type last) const {
+    assert(first <= last);
+    assert(last <= size());
+    value_type res{};
+    while (first < last) {
+      res += data[last];
+      last -= bit_lsb(last);
+    }
+    while (last < first) {
+      res -= data[first];
+      first -= bit_lsb(first);
+    }
+    return res;
   }
 
+  void clear() {
+    M_tree.clear();
+    M_tree.shrink_to_fit();
+  }
   size_type size() const {
     return M_tree.size() - 1;
   }
-
 };
 
 /**

@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#b45cffe084dd3d20d928bee85e7b0f21">string</a>
 * <a href="{{ site.github.repository_url }}/blob/master/string/rolling_hash.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-16 21:16:25+09:00
+    - Last commit date: 2020-09-09 18:08:09+09:00
 
 
 
@@ -54,7 +54,7 @@ layout: default
 #include <cstdint>
 #include <vector>
 #include <string>
-#include <chrono>
+#include <cassert>
 
 namespace rolling_hash_detail {
 
@@ -142,9 +142,13 @@ public:
   }
 
   hash_type hash(size_type l, size_type r) const {
+    assert(l <= r);
+    assert(r <= size());
     return op_t::sub(M_hash[r], op_t::mul(op_t::power(r - l), M_hash[l]));
   }
   size_type lcp(size_type l, size_type r) const {
+    assert(l < size());
+    assert(r < size());
     size_type ok = 0, ng = std::min(M_string.size() - l, M_string.size() - r) + 1;
     while (ng - ok > 1) {
       size_type md = (ok + ng) >> 1;
@@ -168,7 +172,6 @@ public:
     M_hash.clear();
     M_hash.shrink_to_fit();
   }
-
 };
 
 /**
@@ -237,7 +240,7 @@ typename std::enable_if<!std::is_integral<Real>::value, Real>::type random_numbe
 #line 7 "string/rolling_hash.cpp"
 #include <vector>
 #include <string>
-#line 10 "string/rolling_hash.cpp"
+#include <cassert>
 
 namespace rolling_hash_detail {
 
@@ -325,9 +328,13 @@ public:
   }
 
   hash_type hash(size_type l, size_type r) const {
+    assert(l <= r);
+    assert(r <= size());
     return op_t::sub(M_hash[r], op_t::mul(op_t::power(r - l), M_hash[l]));
   }
   size_type lcp(size_type l, size_type r) const {
+    assert(l < size());
+    assert(r < size());
     size_type ok = 0, ng = std::min(M_string.size() - l, M_string.size() - r) + 1;
     while (ng - ok > 1) {
       size_type md = (ok + ng) >> 1;
@@ -351,7 +358,6 @@ public:
     M_hash.clear();
     M_hash.shrink_to_fit();
   }
-
 };
 
 /**

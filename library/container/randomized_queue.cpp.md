@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/randomized_queue.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-11 15:45:19+09:00
+    - Last commit date: 2020-09-09 18:08:09+09:00
 
 
 
@@ -55,6 +55,7 @@ layout: default
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#include <cassert>
 
 template <class T>
 class randomized_queue {
@@ -79,10 +80,12 @@ public:
   }
 
   void shuffle() {
+    assert(!empty());
     std::swap(M_data.back(), M_data[random_number<size_type>(0, M_data.size() - 1)]);
   }
 
   value_type front() const {
+    assert(!empty());
     return M_data.back();
   }
   bool empty() const {
@@ -97,6 +100,7 @@ public:
     shuffle();
   }
   void pop() {
+    assert(!empty());
     M_data.pop_back();
     if (!M_data.empty()) {
       shuffle();
@@ -106,7 +110,6 @@ public:
     M_data.clear();
     M_data.shrink_to_fit();
   }
-
 };
 
 /**
@@ -176,6 +179,7 @@ typename std::enable_if<!std::is_integral<Real>::value, Real>::type random_numbe
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#include <cassert>
 
 template <class T>
 class randomized_queue {
@@ -200,10 +204,12 @@ public:
   }
 
   void shuffle() {
+    assert(!empty());
     std::swap(M_data.back(), M_data[random_number<size_type>(0, M_data.size() - 1)]);
   }
 
   value_type front() const {
+    assert(!empty());
     return M_data.back();
   }
   bool empty() const {
@@ -218,6 +224,7 @@ public:
     shuffle();
   }
   void pop() {
+    assert(!empty());
     M_data.pop_back();
     if (!M_data.empty()) {
       shuffle();
@@ -227,7 +234,6 @@ public:
     M_data.clear();
     M_data.shrink_to_fit();
   }
-
 };
 
 /**

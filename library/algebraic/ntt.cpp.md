@@ -31,14 +31,14 @@ layout: default
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/ntt.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-16 21:16:25+09:00
+    - Last commit date: 2020-09-09 18:08:09+09:00
 
 
 
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
+* :x: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
 
 
 ## Code
@@ -56,6 +56,7 @@ layout: default
 #include <utility>
 #include <algorithm>
 
+// TODO: make it better
 namespace ntt_detail {
 
   constexpr uint32_t primitive_root(const uint32_t mod) {
@@ -178,12 +179,12 @@ public:
 #include <cstddef>
 #include <cstdint>
 
-constexpr size_t   bit_ppc(const uint64_t x)   { return __builtin_popcountll(x); }
-constexpr size_t   bit_ctzr(const uint64_t x)  { return x == 0 ? 64 : __builtin_ctzll(x); }
-constexpr size_t   bit_ctzl(const uint64_t x)  { return x == 0 ? 64 : __builtin_clzll(x); }
-constexpr size_t   bit_width(const uint64_t x) { return 64 - bit_ctzl(x); }
-constexpr uint64_t bit_msb(const uint64_t x)   { return x == 0 ? 0 : uint64_t(1) << (bit_width(x) - 1); }
-constexpr uint64_t bit_lsb(const uint64_t x)   { return x & (-x); }
+constexpr size_t bit_ppc(const uint64_t x) { return __builtin_popcountll(x); }
+constexpr size_t bit_ctzr(const uint64_t x) { return x == 0 ? 64 : __builtin_ctzll(x); }
+constexpr size_t bit_ctzl(const uint64_t x) { return x == 0 ? 64 : __builtin_clzll(x); }
+constexpr size_t bit_width(const uint64_t x) { return 64 - bit_ctzl(x); }
+constexpr uint64_t bit_msb(const uint64_t x) { return x == 0 ? 0 : uint64_t(1) << (bit_width(x) - 1); }
+constexpr uint64_t bit_lsb(const uint64_t x) { return x & (-x); }
 constexpr uint64_t bit_cover(const uint64_t x) { return x == 0 ? 0 : bit_msb(2 * x - 1); }
 
 constexpr uint64_t bit_rev(uint64_t x) {
@@ -207,6 +208,7 @@ constexpr uint64_t bit_rev(uint64_t x) {
 #include <utility>
 #include <algorithm>
 
+// TODO: make it better
 namespace ntt_detail {
 
   constexpr uint32_t primitive_root(const uint32_t mod) {

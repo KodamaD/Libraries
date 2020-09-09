@@ -25,25 +25,25 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: Sliding Window Aggregation
+# :x: Sliding Window Aggregation
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/sliding_window_aggregation.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-05 18:30:10+09:00
+    - Last commit date: 2020-09-09 18:08:09+09:00
 
 
 
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../other/monoid.cpp.html">Monoid Utility</a>
+* :x: <a href="../other/monoid.cpp.html">Monoid Utility</a>
 
 
 ## Verified with
 
-* :heavy_check_mark: <a href="../../verify/test/sliding_window_aggregation.test.cpp.html">test/sliding_window_aggregation.test.cpp</a>
+* :x: <a href="../../verify/test/sliding_window_aggregation.test.cpp.html">test/sliding_window_aggregation.test.cpp</a>
 
 
 ## Code
@@ -57,6 +57,7 @@ layout: default
 
 #include <cstddef>
 #include <stack>
+#include <cassert>
 
 template <class SemiGroup>
 class sliding_window_aggregation {
@@ -93,6 +94,7 @@ public:
     }
   }
   void pop() {
+    assert(!empty());
     if (M_front.empty()) {
       M_front.emplace(M_back.top().value, M_back.top().value);
       M_back.pop();
@@ -111,7 +113,6 @@ public:
   bool empty() const {
     return M_front.empty() && M_back.empty();
   }
-
 };
 
 /**
@@ -142,7 +143,7 @@ constexpr typename std::enable_if<has_identity<T>::value, typename T::type>::typ
   return T::identity();
 }
 template <class T>
-[[noreturn]] constexpr typename std::enable_if<!has_identity<T>::value, typename T::type>::type empty_exception() {
+[[noreturn]] typename std::enable_if<!has_identity<T>::value, typename T::type>::type empty_exception() {
   throw std::runtime_error("type T has no identity");
 }
 
@@ -152,6 +153,10 @@ public:
   static constexpr typename T::type convert(const typename T::type &value) { return value; }
   static constexpr typename T::type revert(const typename T::type &value) { return value; }
 
+  template <class Mapping, class T, class... Args>
+  static constexpr void operate(Mapping &&func, T &value, const typename T::type &op, Args&&... args) {
+    value = func(value, op, std::forward<Args>(args)...);
+  }
 };
 
 template <class T>
@@ -164,7 +169,6 @@ public:
   
     explicit constexpr type(): value(typename T::type { }), state(false) { }
     explicit constexpr type(const typename T::type &value): value(value), state(true) { }
-
   };
 
   static constexpr type convert(const typename T::type &value) { return type(value); }
@@ -180,46 +184,15 @@ public:
     return type(T::operation(v1.value, v2.value));
   }
 
+  template <class Mapping, class T, class... Args>
+  static constexpr void operate(Mapping &&func, T &value, const type &op, Args&&... args) {
+    if (!op.state) return;
+    value = func(value, op, std::forward<Args>(args)...);
+  }
 };
 
 template <class T>
 using fixed_monoid = fixed_monoid_impl<T, has_identity<T>::value>;
-
-template <class T, bool HasIdentity>
-class fixed_combined_monoid_impl {
-public:
-  using value_structure    = typename T::value_structure;
-  using operator_structure = fixed_monoid<typename T::operator_structure>;
-
-  template <class... Args>
-  static constexpr typename value_structure::type operation(
-    const typename value_structure::type    &val,
-    const typename operator_structure::type &op,
-    Args&&... args) {
-    return T::operation(val, op, std::forward<Args>(args)...);
-  }
-
-};
-
-template <class T>
-class fixed_combined_monoid_impl<T, false> {
-public:
-  using value_structure    = typename T::value_structure;
-  using operator_structure = fixed_monoid<typename T::operator_structure>;
-
-  template <class... Args>
-  static constexpr typename value_structure::type operation(
-    const typename value_structure::type    &val,
-    const typename operator_structure::type &op,
-    Args&&... args) {
-    if (!op.state) return val;
-    return T::operation(val, op.value, std::forward<Args>(args)...);
-  }
-
-};
-
-template <class T>
-using fixed_combined_monoid = fixed_combined_monoid_impl<T, has_identity<typename T::operator_structure>::value>;
 
 /**
  * @title Monoid Utility
@@ -228,6 +201,7 @@ using fixed_combined_monoid = fixed_combined_monoid_impl<T, has_identity<typenam
 
 #include <cstddef>
 #include <stack>
+#include <cassert>
 
 template <class SemiGroup>
 class sliding_window_aggregation {
@@ -264,6 +238,7 @@ public:
     }
   }
   void pop() {
+    assert(!empty());
     if (M_front.empty()) {
       M_front.emplace(M_back.top().value, M_back.top().value);
       M_back.pop();
@@ -282,7 +257,6 @@ public:
   bool empty() const {
     return M_front.empty() && M_back.empty();
   }
-
 };
 
 /**

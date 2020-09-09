@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/factorials.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-05 19:22:30+09:00
+    - Last commit date: 2020-09-09 18:08:09+09:00
 
 
 
@@ -50,32 +50,33 @@ layout: default
 
 #include <cstddef>
 #include <array>
+#include <cassert>
 
 template <class T, size_t N>
 class factorials {
 public:
   using value_type = T;
-  static constexpr size_t size = N;
 
 public:
-  std::array<value_type, size + 1> fact{};
-  std::array<value_type, size + 1> fact_inv{};
+  std::array<value_type, N + 1> fact{};
+  std::array<value_type, N + 1> fact_inv{};
 
   factorials() {
     fact.front() = value_type(1);
-    for (size_t i = 1; i <= size; ++i) {
+    for (size_t i = 1; i <= N; ++i) {
       fact[i] = fact[i - 1] * value_type(i);
     }
     fact_inv.back() = ~fact.back();
-    for (size_t i = size; i > 0; --i) {
+    for (size_t i = N; i > 0; --i) {
       fact_inv[i - 1] = fact_inv[i] * value_type(i);
     }
   }
 
   value_type operator () (size_t n, size_t r) const {
+    assert(n <= N);
+    assert(n >= r);
     return fact[n] * fact_inv[n - r] * fact_inv[r];
   }
-
 };
 
 /**
@@ -91,32 +92,33 @@ public:
 
 #include <cstddef>
 #include <array>
+#include <cassert>
 
 template <class T, size_t N>
 class factorials {
 public:
   using value_type = T;
-  static constexpr size_t size = N;
 
 public:
-  std::array<value_type, size + 1> fact{};
-  std::array<value_type, size + 1> fact_inv{};
+  std::array<value_type, N + 1> fact{};
+  std::array<value_type, N + 1> fact_inv{};
 
   factorials() {
     fact.front() = value_type(1);
-    for (size_t i = 1; i <= size; ++i) {
+    for (size_t i = 1; i <= N; ++i) {
       fact[i] = fact[i - 1] * value_type(i);
     }
     fact_inv.back() = ~fact.back();
-    for (size_t i = size; i > 0; --i) {
+    for (size_t i = N; i > 0; --i) {
       fact_inv[i - 1] = fact_inv[i] * value_type(i);
     }
   }
 
   value_type operator () (size_t n, size_t r) const {
+    assert(n <= N);
+    assert(n >= r);
     return fact[n] * fact_inv[n - r] * fact_inv[r];
   }
-
 };
 
 /**

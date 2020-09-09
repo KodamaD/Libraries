@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/bit_vector.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-05 19:22:30+09:00
+    - Last commit date: 2020-09-09 18:08:09+09:00
 
 
 
@@ -57,6 +57,7 @@ layout: default
 #include <cstdint>
 #include <vector>
 #include <iterator>
+#include <cassert>
 
 class bit_vector {
 public:
@@ -65,8 +66,6 @@ public:
   using count_type = uint32_t;
 
 private:
-  static constexpr size_type S_block_size = 64;
-
   size_type M_size;
   std::vector<bit_type> M_block;
   std::vector<count_type> M_accum;
@@ -79,11 +78,11 @@ public:
   template <class InputIterator>
   void construct(InputIterator first, InputIterator last) { 
     M_size = std::distance(first, last);
-    size_type fixed_size = M_size / S_block_size + 1;
+    size_type fixed_size = (M_size >> 6) + 1;
     M_block.assign(fixed_size, 0);
     M_accum.assign(fixed_size, 0);
     for (size_type i = 0; i < M_size; ++i) {
-      M_block[i / S_block_size] |= (bit_type(*first) & 1) << (i & (S_block_size - 1));
+      M_block[i >> 6] |= (bit_type(*first) & 1) << (i & 63);
       ++first;
     }
     for (size_type i = 1; i < fixed_size; ++i) {
@@ -92,11 +91,13 @@ public:
   }
 
   bool access(size_type idx) const {
-    return M_block[idx / S_block_size] >> (idx & (S_block_size - 1)) & 1;
+    assert(idx < M_size);
+    return M_block[idx >> 6] >> (idx & 63) & 1;
   }
   size_type rank(bool value, size_type idx) const {
-    bit_type mask = (bit_type(1) << (idx & (S_block_size - 1))) - 1;
-    size_type res = M_accum[idx / S_block_size] + __builtin_popcountll(M_block[idx / S_block_size] & mask);
+    assert(idx <= M_size);
+    bit_type mask = (bit_type(1) << (idx & 63)) - 1;
+    size_type res = M_accum[idx >> 6] + __builtin_popcountll(M_block[idx >> 6] & mask);
     return value ? res : idx - res;
   }
   size_type select(bool value, size_type idx) const {
@@ -111,9 +112,9 @@ public:
     return ok;
   }
   size_type select(bool value, size_type idx, size_type l) const {
+    assert(l <= M_size);
     return select(value, idx + rank(value, l));
   }
-
 };
 
 /**
@@ -131,6 +132,7 @@ public:
 #include <cstdint>
 #include <vector>
 #include <iterator>
+#include <cassert>
 
 class bit_vector {
 public:
@@ -139,8 +141,6 @@ public:
   using count_type = uint32_t;
 
 private:
-  static constexpr size_type S_block_size = 64;
-
   size_type M_size;
   std::vector<bit_type> M_block;
   std::vector<count_type> M_accum;
@@ -153,11 +153,11 @@ public:
   template <class InputIterator>
   void construct(InputIterator first, InputIterator last) { 
     M_size = std::distance(first, last);
-    size_type fixed_size = M_size / S_block_size + 1;
+    size_type fixed_size = (M_size >> 6) + 1;
     M_block.assign(fixed_size, 0);
     M_accum.assign(fixed_size, 0);
     for (size_type i = 0; i < M_size; ++i) {
-      M_block[i / S_block_size] |= (bit_type(*first) & 1) << (i & (S_block_size - 1));
+      M_block[i >> 6] |= (bit_type(*first) & 1) << (i & 63);
       ++first;
     }
     for (size_type i = 1; i < fixed_size; ++i) {
@@ -166,11 +166,13 @@ public:
   }
 
   bool access(size_type idx) const {
-    return M_block[idx / S_block_size] >> (idx & (S_block_size - 1)) & 1;
+    assert(idx < M_size);
+    return M_block[idx >> 6] >> (idx & 63) & 1;
   }
   size_type rank(bool value, size_type idx) const {
-    bit_type mask = (bit_type(1) << (idx & (S_block_size - 1))) - 1;
-    size_type res = M_accum[idx / S_block_size] + __builtin_popcountll(M_block[idx / S_block_size] & mask);
+    assert(idx <= M_size);
+    bit_type mask = (bit_type(1) << (idx & 63)) - 1;
+    size_type res = M_accum[idx >> 6] + __builtin_popcountll(M_block[idx >> 6] & mask);
     return value ? res : idx - res;
   }
   size_type select(bool value, size_type idx) const {
@@ -185,9 +187,9 @@ public:
     return ok;
   }
   size_type select(bool value, size_type idx, size_type l) const {
+    assert(l <= M_size);
     return select(value, idx + rank(value, l));
   }
-
 };
 
 /**

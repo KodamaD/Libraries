@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/dinic.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-09 10:53:47+09:00
+    - Last commit date: 2020-09-09 18:08:09+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/bipartitematching">https://judge.yosupo.jp/problem/bipartitematching</a>
@@ -109,6 +109,7 @@ int main() {
 #include <numeric>
 #include <utility>
 #include <type_traits>
+#include <cassert>
 
 template <class Edge>
 class network {
@@ -128,9 +129,12 @@ public:
       return to_vertex(index);
     }
     vertex_type to_vertex(const size_type index) const {
+      assert(index < M_size);
       return index + M_stuff;
     }
     size_type to_index(const vertex_type vert) const {
+      assert(vert >= M_stuff);
+      assert(vert < M_size + M_stuff);
       return vert - M_stuff;
     }
     size_type size() const {
@@ -178,9 +182,11 @@ public:
   }
 
   std::vector<edge_type> &operator [] (const vertex_type vert) {
+    assert(vert < size());
     return M_graph[vert];
   }
   const std::vector<edge_type> &operator [] (const vertex_type vert) const {
+    assert(vert < size());
     return M_graph[vert];
   }
 
@@ -194,7 +200,6 @@ public:
     M_graph.clear();
     M_graph.shrink_to_fit();
   }
-
 };
 
 class base_edge {
@@ -284,6 +289,7 @@ constexpr decltype(auto) fix_point(Func &&func) {
 
 #include <queue>
 #include <algorithm>
+#line 9 "graph/dinic.cpp"
 
 template <class Network>
 class dinic {
@@ -363,6 +369,9 @@ public:
   template <bool ValueOnly = true>
   typename std::enable_if<ValueOnly, flow_type>::type
   max_flow(const vertex_type source, const vertex_type sink, const bool initialize_edges = false) {
+    assert(source < M_graph.size());
+    assert(sink < M_graph.size());
+    assert(source != sink);
     const auto dfs = fix_point([&](const auto dfs, 
       const vertex_type vert, const flow_type flow) -> flow_type {
       if (vert == sink) return flow;
@@ -422,7 +431,6 @@ public:
     }
     return std::make_pair(flow, std::move(graph));
   }
-
 };
 
 /**

@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: Heavy-Light Decomposition
+# :question: Heavy-Light Decomposition
 
 <a href="../../index.html">Back to top page</a>
 
@@ -39,7 +39,7 @@ layout: default
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/lca.test.cpp.html">test/lca.test.cpp</a>
-* :heavy_check_mark: <a href="../../verify/test/vertex_set_path_sum.test.cpp.html">test/vertex_set_path_sum.test.cpp</a>
+* :x: <a href="../../verify/test/vertex_set_path_sum.test.cpp.html">test/vertex_set_path_sum.test.cpp</a>
 
 
 ## Code

@@ -39,7 +39,7 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
+* :question: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
 * :heavy_check_mark: <a href="../../library/algebraic/modular_operation.cpp.html">Modular Operations</a>
 * :heavy_check_mark: <a href="../../library/other/random_number.cpp.html">Random Number</a>
 

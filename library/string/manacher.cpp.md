@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#b45cffe084dd3d20d928bee85e7b0f21">string</a>
 * <a href="{{ site.github.repository_url }}/blob/master/string/manacher.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-14 11:56:16+09:00
+    - Last commit date: 2020-09-09 18:08:09+09:00
 
 
 
@@ -91,7 +91,6 @@ public:
       }
     }
   }
-
 };
 
 template <class InputIterator>
@@ -158,7 +157,6 @@ public:
       }
     }
   }
-
 };
 
 template <class InputIterator>

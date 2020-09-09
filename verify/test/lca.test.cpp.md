@@ -39,7 +39,7 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/graph/heavy_light_decomposition.cpp.html">Heavy-Light Decomposition</a>
+* :question: <a href="../../library/graph/heavy_light_decomposition.cpp.html">Heavy-Light Decomposition</a>
 
 
 ## Code

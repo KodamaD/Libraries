@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/dst_tree.test.cpp
+# :x: test/dst_tree.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/dst_tree.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-11 15:45:19+09:00
+    - Last commit date: 2020-09-09 18:08:09+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/staticrmq">https://judge.yosupo.jp/problem/staticrmq</a>
@@ -39,10 +39,10 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/container/disjoint_sparse_table.cpp.html">Disjoint Sparse Table</a>
-* :heavy_check_mark: <a href="../../library/container/dst_tree.cpp.html">DST Tree</a>
-* :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
-* :heavy_check_mark: <a href="../../library/other/monoid.cpp.html">Monoid Utility</a>
+* :x: <a href="../../library/container/disjoint_sparse_table.cpp.html">Disjoint Sparse Table</a>
+* :x: <a href="../../library/container/dst_tree.cpp.html">DST Tree</a>
+* :x: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
+* :x: <a href="../../library/other/monoid.cpp.html">Monoid Utility</a>
 
 
 ## Code
@@ -103,12 +103,12 @@ int main() {
 #include <cstddef>
 #include <cstdint>
 
-constexpr size_t   bit_ppc(const uint64_t x)   { return __builtin_popcountll(x); }
-constexpr size_t   bit_ctzr(const uint64_t x)  { return x == 0 ? 64 : __builtin_ctzll(x); }
-constexpr size_t   bit_ctzl(const uint64_t x)  { return x == 0 ? 64 : __builtin_clzll(x); }
-constexpr size_t   bit_width(const uint64_t x) { return 64 - bit_ctzl(x); }
-constexpr uint64_t bit_msb(const uint64_t x)   { return x == 0 ? 0 : uint64_t(1) << (bit_width(x) - 1); }
-constexpr uint64_t bit_lsb(const uint64_t x)   { return x & (-x); }
+constexpr size_t bit_ppc(const uint64_t x) { return __builtin_popcountll(x); }
+constexpr size_t bit_ctzr(const uint64_t x) { return x == 0 ? 64 : __builtin_ctzll(x); }
+constexpr size_t bit_ctzl(const uint64_t x) { return x == 0 ? 64 : __builtin_clzll(x); }
+constexpr size_t bit_width(const uint64_t x) { return 64 - bit_ctzl(x); }
+constexpr uint64_t bit_msb(const uint64_t x) { return x == 0 ? 0 : uint64_t(1) << (bit_width(x) - 1); }
+constexpr uint64_t bit_lsb(const uint64_t x) { return x & (-x); }
 constexpr uint64_t bit_cover(const uint64_t x) { return x == 0 ? 0 : bit_msb(2 * x - 1); }
 
 constexpr uint64_t bit_rev(uint64_t x) {
@@ -141,7 +141,7 @@ constexpr typename std::enable_if<has_identity<T>::value, typename T::type>::typ
   return T::identity();
 }
 template <class T>
-[[noreturn]] constexpr typename std::enable_if<!has_identity<T>::value, typename T::type>::type empty_exception() {
+[[noreturn]] typename std::enable_if<!has_identity<T>::value, typename T::type>::type empty_exception() {
   throw std::runtime_error("type T has no identity");
 }
 
@@ -151,6 +151,10 @@ public:
   static constexpr typename T::type convert(const typename T::type &value) { return value; }
   static constexpr typename T::type revert(const typename T::type &value) { return value; }
 
+  template <class Mapping, class T, class... Args>
+  static constexpr void operate(Mapping &&func, T &value, const typename T::type &op, Args&&... args) {
+    value = func(value, op, std::forward<Args>(args)...);
+  }
 };
 
 template <class T>
@@ -163,7 +167,6 @@ public:
   
     explicit constexpr type(): value(typename T::type { }), state(false) { }
     explicit constexpr type(const typename T::type &value): value(value), state(true) { }
-
   };
 
   static constexpr type convert(const typename T::type &value) { return type(value); }
@@ -179,46 +182,15 @@ public:
     return type(T::operation(v1.value, v2.value));
   }
 
+  template <class Mapping, class T, class... Args>
+  static constexpr void operate(Mapping &&func, T &value, const type &op, Args&&... args) {
+    if (!op.state) return;
+    value = func(value, op, std::forward<Args>(args)...);
+  }
 };
 
 template <class T>
 using fixed_monoid = fixed_monoid_impl<T, has_identity<T>::value>;
-
-template <class T, bool HasIdentity>
-class fixed_combined_monoid_impl {
-public:
-  using value_structure    = typename T::value_structure;
-  using operator_structure = fixed_monoid<typename T::operator_structure>;
-
-  template <class... Args>
-  static constexpr typename value_structure::type operation(
-    const typename value_structure::type    &val,
-    const typename operator_structure::type &op,
-    Args&&... args) {
-    return T::operation(val, op, std::forward<Args>(args)...);
-  }
-
-};
-
-template <class T>
-class fixed_combined_monoid_impl<T, false> {
-public:
-  using value_structure    = typename T::value_structure;
-  using operator_structure = fixed_monoid<typename T::operator_structure>;
-
-  template <class... Args>
-  static constexpr typename value_structure::type operation(
-    const typename value_structure::type    &val,
-    const typename operator_structure::type &op,
-    Args&&... args) {
-    if (!op.state) return val;
-    return T::operation(val, op.value, std::forward<Args>(args)...);
-  }
-
-};
-
-template <class T>
-using fixed_combined_monoid = fixed_combined_monoid_impl<T, has_identity<typename T::operator_structure>::value>;
 
 /**
  * @title Monoid Utility
@@ -227,6 +199,7 @@ using fixed_combined_monoid = fixed_combined_monoid_impl<T, has_identity<typenam
 
 #line 7 "container/disjoint_sparse_table.cpp"
 #include <vector>
+#include <cassert>
 
 template <class SemiGroup>
 class disjoint_sparse_table {
@@ -237,7 +210,6 @@ public:
   using size_type       = size_t;
 
 private:
-
   std::vector<std::vector<value_type>> M_table;
 
 public:
@@ -271,6 +243,8 @@ public:
   }
 
   value_type fold(const size_type first, size_type last) const {
+    assert(first <= last);
+    assert(last <= size());
     if (first == last) return empty_exception<value_semigroup>();
     if (first == --last) return M_table[0][first];
     const size_type height = bit_width(first ^ last) - 1;
@@ -285,10 +259,6 @@ public:
     if (M_table.empty()) return 0;
     return M_table.front().size();
   }
-  bool empty() const {
-    return M_table.empty();
-  }
-
 };
 
 /**
@@ -296,7 +266,7 @@ public:
  */
 #line 3 "container/dst_tree.cpp"
 
-#line 6 "container/dst_tree.cpp"
+#line 7 "container/dst_tree.cpp"
 
 template <class SemiGroup>
 class dst_tree {
@@ -338,6 +308,8 @@ public:
   }
 
   value_type fold(const size_type first, size_type last) const {
+    assert(first <= last);
+    assert(last <= size());
     if (first == last--) return empty_exception<value_semigroup>();
     const size_type fsec = first / M_logn, lsec = last / M_logn;
     const size_type fidx = first - fsec * M_logn, lidx = last - lsec * M_logn;
@@ -357,10 +329,6 @@ public:
   size_type size() const {
     return M_size;
   }
-  bool empty() const {
-    return M_size == 0;
-  }
-
 };
 
 /**

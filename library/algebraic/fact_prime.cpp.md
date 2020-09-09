@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/fact_prime.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-16 21:16:25+09:00
+    - Last commit date: 2020-09-09 18:08:09+09:00
 
 
 
@@ -61,6 +61,7 @@ layout: default
 #include <utility>
 #include <vector>
 #include <algorithm>
+#include <cassert>
 
 namespace fact_prime_detail {
 
@@ -69,6 +70,7 @@ public:
   static uint64_t mod;
 
   static void set_mod(uint64_t x) {
+    assert((x & 1));
     mod = x;
     encode = -__uint128_t(mod) % mod;
     decode = [] {
@@ -206,6 +208,7 @@ bool is_prime(T x) {
 
 template <class T>
 std::vector<T> enumerate_factors(T n, bool sort = true) {
+  assert(n >= 1);
   if (n == 1) return { };
   if (is_prime(n)) return { n };
   T d = fact_prime_detail::pollard_rho(n);
@@ -220,6 +223,7 @@ std::vector<T> enumerate_factors(T n, bool sort = true) {
 
 template <class T>
 std::vector<std::pair<T, size_t>> factorize(T n) {
+  assert(n >= 1);
   std::vector<std::pair<T, size_t>> res;
   T cur = 0;
   for (auto p: enumerate_factors(n)) {
@@ -234,6 +238,7 @@ std::vector<std::pair<T, size_t>> factorize(T n) {
 
 template <class T>
 std::vector<T> enumerate_divisors(T n, bool sort = true) {
+  assert(n >= 1);
   auto factors = factorize(n);
   std::vector<T> res;
   size_t size = 1;
@@ -296,6 +301,7 @@ constexpr decltype(auto) fix_point(Func &&func) {
 #line 8 "algebraic/fact_prime.cpp"
 #include <vector>
 #include <algorithm>
+#include <cassert>
 
 namespace fact_prime_detail {
 
@@ -304,6 +310,7 @@ public:
   static uint64_t mod;
 
   static void set_mod(uint64_t x) {
+    assert((x & 1));
     mod = x;
     encode = -__uint128_t(mod) % mod;
     decode = [] {
@@ -441,6 +448,7 @@ bool is_prime(T x) {
 
 template <class T>
 std::vector<T> enumerate_factors(T n, bool sort = true) {
+  assert(n >= 1);
   if (n == 1) return { };
   if (is_prime(n)) return { n };
   T d = fact_prime_detail::pollard_rho(n);
@@ -455,6 +463,7 @@ std::vector<T> enumerate_factors(T n, bool sort = true) {
 
 template <class T>
 std::vector<std::pair<T, size_t>> factorize(T n) {
+  assert(n >= 1);
   std::vector<std::pair<T, size_t>> res;
   T cur = 0;
   for (auto p: enumerate_factors(n)) {
@@ -469,6 +478,7 @@ std::vector<std::pair<T, size_t>> factorize(T n) {
 
 template <class T>
 std::vector<T> enumerate_divisors(T n, bool sort = true) {
+  assert(n >= 1);
   auto factors = factorize(n);
   std::vector<T> res;
   size_t size = 1;

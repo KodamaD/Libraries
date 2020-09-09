@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: Modint
+# :question: Modint
 
 <a href="../../index.html">Back to top page</a>
 
@@ -40,10 +40,10 @@ layout: default
 
 * :heavy_check_mark: <a href="../../verify/test/discrete_log.test.cpp.html">test/discrete_log.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/factorials.test.cpp.html">test/factorials.test.cpp</a>
-* :heavy_check_mark: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
+* :x: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/matrix.test.cpp.html">test/matrix.test.cpp</a>
-* :heavy_check_mark: <a href="../../verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
-* :heavy_check_mark: <a href="../../verify/test/sliding_window_aggregation.test.cpp.html">test/sliding_window_aggregation.test.cpp</a>
+* :x: <a href="../../verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
+* :x: <a href="../../verify/test/sliding_window_aggregation.test.cpp.html">test/sliding_window_aggregation.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/sqrt_mod.test.cpp.html">test/sqrt_mod.test.cpp</a>
 
 

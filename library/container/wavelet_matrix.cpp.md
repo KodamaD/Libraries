@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/wavelet_matrix.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-01 23:08:04+09:00
+    - Last commit date: 2020-09-09 18:08:09+09:00
 
 
 
@@ -57,6 +57,7 @@ layout: default
 
 #include <array>
 #include <algorithm>
+#include <cassert>
 
 template <class T, size_t W>
 class wavelet_matrix {
@@ -64,12 +65,10 @@ public:
   using value_type = T;
   using size_type = size_t;
 
-  static constexpr size_type word_size = W;
-
 private:
   size_type M_size;
-  std::array<bit_vector, word_size> M_fid;
-  std::array<size_type, word_size> M_zero;
+  std::array<bit_vector, W> M_fid;
+  std::array<size_type, W> M_zero;
 
 public:
   wavelet_matrix() = default;
@@ -82,7 +81,7 @@ public:
     std::vector<bool> bit(M_size);
     std::vector<value_type> current(first, last);
     std::vector<value_type> next(M_size);
-    for (size_type k = word_size; k--;) {
+    for (size_type k = W; k--;) {
       auto l = next.begin();
       auto r = next.rbegin();
       for (size_type i = 0; i < M_size; ++i) {
@@ -97,7 +96,9 @@ public:
   }
 
   size_type rank(value_type value, size_type l, size_type r) const {
-    for (size_type k = word_size; k--;) {
+    assert(l <= r);
+    assert(r <= M_size);
+    for (size_type k = W; k--;) {
       bool p = value >> k & 1;
       l = M_fid[k].rank(p, l) + p * M_zero[k];
       r = M_fid[k].rank(p, r) + p * M_zero[k];
@@ -106,10 +107,10 @@ public:
   }
 
   size_type select(value_type value, size_type index) const {
-    std::array<size_type, word_size + 1> l, r;
-    l[word_size] = 0;
-    r[word_size] = M_size;
-    for (size_type k = word_size; k--;) {
+    std::array<size_type, W + 1> l, r;
+    l[W] = 0;
+    r[W] = M_size;
+    for (size_type k = W; k--;) {
       bool p = value >> k & 1;
       l[k] = M_fid[k].rank(p, l[k + 1]) + p * M_zero[k];
       r[k] = M_fid[k].rank(p, r[k + 1]) + p * M_zero[k];
@@ -117,7 +118,7 @@ public:
     if (r[0] - l[0] <= index) {
       return M_size;
     }
-    for (size_type k = 0; k < word_size; ++k) {
+    for (size_type k = 0; k < W; ++k) {
       bool p = value >> k & 1;
       index = M_fid[k].select(p, index, l[k + 1]) - l[k + 1];
     }
@@ -125,8 +126,9 @@ public:
   }
 
   value_type access(size_type index) const {
+    assert(index < M_size);
     value_type res = 0;
-    for (size_type k = word_size; k--;) {
+    for (size_type k = W; k--;) {
       bool p = M_fid[k].access(index);
       res |= value_type(p) << k;
       index = M_fid[k].rank(p, index) + p * M_zero[k];
@@ -135,8 +137,10 @@ public:
   }
 
   value_type quantile(size_type index, size_type l, size_type r) const {
+    assert(l <= r);
+    assert(r <= M_size);
     value_type res = 0;
-    for (size_type k = word_size; k--;) {
+    for (size_type k = W; k--;) {
       size_type lc = M_fid[k].rank(1, l);
       size_type rc = M_fid[k].rank(1, r);
       size_type zc = (r - l) - (rc - lc);
@@ -156,8 +160,10 @@ public:
   }
 
   size_type count(size_type l, size_type r, value_type value) const {
+    assert(l <= r);
+    assert(r <= M_size);
     size_type res = 0;
-    for (size_type k = word_size; k--;) {
+    for (size_type k = W; k--;) {
       size_type lc = M_fid[k].rank(1, l);
       size_type rc = M_fid[k].rank(1, r);
       if (value >> (k) & 1) {
@@ -173,9 +179,10 @@ public:
     return res + (r - l);
   }
   size_type count(size_type l, size_type r, value_type lb, value_type ub) const {
+    assert(l <= r);
+    assert(r <= M_size);
     return count(l, r, lb) - count(l, r, ub);
   }
-
 };
 
 /**
@@ -195,6 +202,7 @@ public:
 #include <cstdint>
 #include <vector>
 #include <iterator>
+#include <cassert>
 
 class bit_vector {
 public:
@@ -203,8 +211,6 @@ public:
   using count_type = uint32_t;
 
 private:
-  static constexpr size_type S_block_size = 64;
-
   size_type M_size;
   std::vector<bit_type> M_block;
   std::vector<count_type> M_accum;
@@ -217,11 +223,11 @@ public:
   template <class InputIterator>
   void construct(InputIterator first, InputIterator last) { 
     M_size = std::distance(first, last);
-    size_type fixed_size = M_size / S_block_size + 1;
+    size_type fixed_size = (M_size >> 6) + 1;
     M_block.assign(fixed_size, 0);
     M_accum.assign(fixed_size, 0);
     for (size_type i = 0; i < M_size; ++i) {
-      M_block[i / S_block_size] |= (bit_type(*first) & 1) << (i & (S_block_size - 1));
+      M_block[i >> 6] |= (bit_type(*first) & 1) << (i & 63);
       ++first;
     }
     for (size_type i = 1; i < fixed_size; ++i) {
@@ -230,11 +236,13 @@ public:
   }
 
   bool access(size_type idx) const {
-    return M_block[idx / S_block_size] >> (idx & (S_block_size - 1)) & 1;
+    assert(idx < M_size);
+    return M_block[idx >> 6] >> (idx & 63) & 1;
   }
   size_type rank(bool value, size_type idx) const {
-    bit_type mask = (bit_type(1) << (idx & (S_block_size - 1))) - 1;
-    size_type res = M_accum[idx / S_block_size] + __builtin_popcountll(M_block[idx / S_block_size] & mask);
+    assert(idx <= M_size);
+    bit_type mask = (bit_type(1) << (idx & 63)) - 1;
+    size_type res = M_accum[idx >> 6] + __builtin_popcountll(M_block[idx >> 6] & mask);
     return value ? res : idx - res;
   }
   size_type select(bool value, size_type idx) const {
@@ -249,9 +257,9 @@ public:
     return ok;
   }
   size_type select(bool value, size_type idx, size_type l) const {
+    assert(l <= M_size);
     return select(value, idx + rank(value, l));
   }
-
 };
 
 /**
@@ -261,6 +269,7 @@ public:
 
 #include <array>
 #include <algorithm>
+#line 8 "container/wavelet_matrix.cpp"
 
 template <class T, size_t W>
 class wavelet_matrix {
@@ -268,12 +277,10 @@ public:
   using value_type = T;
   using size_type = size_t;
 
-  static constexpr size_type word_size = W;
-
 private:
   size_type M_size;
-  std::array<bit_vector, word_size> M_fid;
-  std::array<size_type, word_size> M_zero;
+  std::array<bit_vector, W> M_fid;
+  std::array<size_type, W> M_zero;
 
 public:
   wavelet_matrix() = default;
@@ -286,7 +293,7 @@ public:
     std::vector<bool> bit(M_size);
     std::vector<value_type> current(first, last);
     std::vector<value_type> next(M_size);
-    for (size_type k = word_size; k--;) {
+    for (size_type k = W; k--;) {
       auto l = next.begin();
       auto r = next.rbegin();
       for (size_type i = 0; i < M_size; ++i) {
@@ -301,7 +308,9 @@ public:
   }
 
   size_type rank(value_type value, size_type l, size_type r) const {
-    for (size_type k = word_size; k--;) {
+    assert(l <= r);
+    assert(r <= M_size);
+    for (size_type k = W; k--;) {
       bool p = value >> k & 1;
       l = M_fid[k].rank(p, l) + p * M_zero[k];
       r = M_fid[k].rank(p, r) + p * M_zero[k];
@@ -310,10 +319,10 @@ public:
   }
 
   size_type select(value_type value, size_type index) const {
-    std::array<size_type, word_size + 1> l, r;
-    l[word_size] = 0;
-    r[word_size] = M_size;
-    for (size_type k = word_size; k--;) {
+    std::array<size_type, W + 1> l, r;
+    l[W] = 0;
+    r[W] = M_size;
+    for (size_type k = W; k--;) {
       bool p = value >> k & 1;
       l[k] = M_fid[k].rank(p, l[k + 1]) + p * M_zero[k];
       r[k] = M_fid[k].rank(p, r[k + 1]) + p * M_zero[k];
@@ -321,7 +330,7 @@ public:
     if (r[0] - l[0] <= index) {
       return M_size;
     }
-    for (size_type k = 0; k < word_size; ++k) {
+    for (size_type k = 0; k < W; ++k) {
       bool p = value >> k & 1;
       index = M_fid[k].select(p, index, l[k + 1]) - l[k + 1];
     }
@@ -329,8 +338,9 @@ public:
   }
 
   value_type access(size_type index) const {
+    assert(index < M_size);
     value_type res = 0;
-    for (size_type k = word_size; k--;) {
+    for (size_type k = W; k--;) {
       bool p = M_fid[k].access(index);
       res |= value_type(p) << k;
       index = M_fid[k].rank(p, index) + p * M_zero[k];
@@ -339,8 +349,10 @@ public:
   }
 
   value_type quantile(size_type index, size_type l, size_type r) const {
+    assert(l <= r);
+    assert(r <= M_size);
     value_type res = 0;
-    for (size_type k = word_size; k--;) {
+    for (size_type k = W; k--;) {
       size_type lc = M_fid[k].rank(1, l);
       size_type rc = M_fid[k].rank(1, r);
       size_type zc = (r - l) - (rc - lc);
@@ -360,8 +372,10 @@ public:
   }
 
   size_type count(size_type l, size_type r, value_type value) const {
+    assert(l <= r);
+    assert(r <= M_size);
     size_type res = 0;
-    for (size_type k = word_size; k--;) {
+    for (size_type k = W; k--;) {
       size_type lc = M_fid[k].rank(1, l);
       size_type rc = M_fid[k].rank(1, r);
       if (value >> (k) & 1) {
@@ -377,9 +391,10 @@ public:
     return res + (r - l);
   }
   size_type count(size_type l, size_type r, value_type lb, value_type ub) const {
+    assert(l <= r);
+    assert(r <= M_size);
     return count(l, r, lb) - count(l, r, ub);
   }
-
 };
 
 /**

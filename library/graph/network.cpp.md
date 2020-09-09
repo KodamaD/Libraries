@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#f8b0b924ebd7046dbfa85a856e4682c8">graph</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/network.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-09 10:53:47+09:00
+    - Last commit date: 2020-09-09 18:08:09+09:00
 
 
 
@@ -61,6 +61,7 @@ layout: default
 #include <numeric>
 #include <utility>
 #include <type_traits>
+#include <cassert>
 
 template <class Edge>
 class network {
@@ -80,9 +81,12 @@ public:
       return to_vertex(index);
     }
     vertex_type to_vertex(const size_type index) const {
+      assert(index < M_size);
       return index + M_stuff;
     }
     size_type to_index(const vertex_type vert) const {
+      assert(vert >= M_stuff);
+      assert(vert < M_size + M_stuff);
       return vert - M_stuff;
     }
     size_type size() const {
@@ -130,9 +134,11 @@ public:
   }
 
   std::vector<edge_type> &operator [] (const vertex_type vert) {
+    assert(vert < size());
     return M_graph[vert];
   }
   const std::vector<edge_type> &operator [] (const vertex_type vert) const {
+    assert(vert < size());
     return M_graph[vert];
   }
 
@@ -146,7 +152,6 @@ public:
     M_graph.clear();
     M_graph.shrink_to_fit();
   }
-
 };
 
 class base_edge {
@@ -223,6 +228,7 @@ public:
 #include <numeric>
 #include <utility>
 #include <type_traits>
+#include <cassert>
 
 template <class Edge>
 class network {
@@ -242,9 +248,12 @@ public:
       return to_vertex(index);
     }
     vertex_type to_vertex(const size_type index) const {
+      assert(index < M_size);
       return index + M_stuff;
     }
     size_type to_index(const vertex_type vert) const {
+      assert(vert >= M_stuff);
+      assert(vert < M_size + M_stuff);
       return vert - M_stuff;
     }
     size_type size() const {
@@ -292,9 +301,11 @@ public:
   }
 
   std::vector<edge_type> &operator [] (const vertex_type vert) {
+    assert(vert < size());
     return M_graph[vert];
   }
   const std::vector<edge_type> &operator [] (const vertex_type vert) const {
+    assert(vert < size());
     return M_graph[vert];
   }
 
@@ -308,7 +319,6 @@ public:
     M_graph.clear();
     M_graph.shrink_to_fit();
   }
-
 };
 
 class base_edge {

@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/fenwick_tree.test.cpp
+# :x: test/fenwick_tree.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/fenwick_tree.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-11 15:45:19+09:00
+    - Last commit date: 2020-09-09 18:08:09+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_B">https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_B</a>
@@ -39,8 +39,8 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/container/fenwick_tree.cpp.html">Fenwick Tree</a>
-* :heavy_check_mark: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
+* :x: <a href="../../library/container/fenwick_tree.cpp.html">Fenwick Tree</a>
+* :x: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
 
 
 ## Code
@@ -96,12 +96,12 @@ int main() {
 #include <cstddef>
 #include <cstdint>
 
-constexpr size_t   bit_ppc(const uint64_t x)   { return __builtin_popcountll(x); }
-constexpr size_t   bit_ctzr(const uint64_t x)  { return x == 0 ? 64 : __builtin_ctzll(x); }
-constexpr size_t   bit_ctzl(const uint64_t x)  { return x == 0 ? 64 : __builtin_clzll(x); }
-constexpr size_t   bit_width(const uint64_t x) { return 64 - bit_ctzl(x); }
-constexpr uint64_t bit_msb(const uint64_t x)   { return x == 0 ? 0 : uint64_t(1) << (bit_width(x) - 1); }
-constexpr uint64_t bit_lsb(const uint64_t x)   { return x & (-x); }
+constexpr size_t bit_ppc(const uint64_t x) { return __builtin_popcountll(x); }
+constexpr size_t bit_ctzr(const uint64_t x) { return x == 0 ? 64 : __builtin_ctzll(x); }
+constexpr size_t bit_ctzl(const uint64_t x) { return x == 0 ? 64 : __builtin_clzll(x); }
+constexpr size_t bit_width(const uint64_t x) { return 64 - bit_ctzl(x); }
+constexpr uint64_t bit_msb(const uint64_t x) { return x == 0 ? 0 : uint64_t(1) << (bit_width(x) - 1); }
+constexpr uint64_t bit_lsb(const uint64_t x) { return x & (-x); }
 constexpr uint64_t bit_cover(const uint64_t x) { return x == 0 ? 0 : bit_msb(2 * x - 1); }
 
 constexpr uint64_t bit_rev(uint64_t x) {
@@ -121,6 +121,7 @@ constexpr uint64_t bit_rev(uint64_t x) {
 
 #line 6 "container/fenwick_tree.cpp"
 #include <vector>
+#include <cassert>
 
 template <class T>
 class fenwick_tree {
@@ -140,6 +141,7 @@ public:
   }
 
   void add(size_type index, const value_type& x) {
+    assert(index < size());
     ++index;
     while (index <= size()) {
       M_tree[index] += x;
@@ -148,6 +150,7 @@ public:
   }
 
   value_type get(size_type index) const {
+    assert(index < size());
     ++index;
     value_type res{};
     while (index > 0) {
@@ -156,16 +159,28 @@ public:
     }
     return res;
   }
-  value_type fold(size_type l, size_type r) const {
-    if (l == 0 && r == 0) return value_type{};
-    if (l == 0) return get(r - 1);
-    return get(r - 1) - get(l - 1);
+  value_type fold(size_type first, size_type last) const {
+    assert(first <= last);
+    assert(last <= size());
+    value_type res{};
+    while (first < last) {
+      res += data[last];
+      last -= bit_lsb(last);
+    }
+    while (last < first) {
+      res -= data[first];
+      first -= bit_lsb(first);
+    }
+    return res;
   }
 
+  void clear() {
+    M_tree.clear();
+    M_tree.shrink_to_fit();
+  }
   size_type size() const {
     return M_tree.size() - 1;
   }
-
 };
 
 /**

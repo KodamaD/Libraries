@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/factorials.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-01 23:08:04+09:00
+    - Last commit date: 2020-09-09 18:08:09+09:00
 
 
 * see: <a href="https://yukicoder.me/problems/no/117">https://yukicoder.me/problems/no/117</a>
@@ -40,7 +40,7 @@ layout: default
 ## Depends on
 
 * :heavy_check_mark: <a href="../../library/algebraic/factorials.cpp.html">Factorial</a>
-* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
+* :question: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
 
 
 ## Code
@@ -103,32 +103,33 @@ int main() {
 
 #include <cstddef>
 #include <array>
+#include <cassert>
 
 template <class T, size_t N>
 class factorials {
 public:
   using value_type = T;
-  static constexpr size_t size = N;
 
 public:
-  std::array<value_type, size + 1> fact{};
-  std::array<value_type, size + 1> fact_inv{};
+  std::array<value_type, N + 1> fact{};
+  std::array<value_type, N + 1> fact_inv{};
 
   factorials() {
     fact.front() = value_type(1);
-    for (size_t i = 1; i <= size; ++i) {
+    for (size_t i = 1; i <= N; ++i) {
       fact[i] = fact[i - 1] * value_type(i);
     }
     fact_inv.back() = ~fact.back();
-    for (size_t i = size; i > 0; --i) {
+    for (size_t i = N; i > 0; --i) {
       fact_inv[i - 1] = fact_inv[i] * value_type(i);
     }
   }
 
   value_type operator () (size_t n, size_t r) const {
+    assert(n <= N);
+    assert(n >= r);
     return fact[n] * fact_inv[n - r] * fact_inv[r];
   }
-
 };
 
 /**

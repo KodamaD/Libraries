@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: Bit Operations
+# :x: Bit Operations
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/bit_operation.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-11 15:45:19+09:00
+    - Last commit date: 2020-09-09 18:08:09+09:00
 
 
 
@@ -39,20 +39,20 @@ layout: default
 ## Required by
 
 * :warning: <a href="../algebraic/ntt.cpp.html">Number Theoretic Transform</a>
-* :heavy_check_mark: <a href="../container/disjoint_sparse_table.cpp.html">Disjoint Sparse Table</a>
-* :heavy_check_mark: <a href="../container/dst_tree.cpp.html">DST Tree</a>
-* :heavy_check_mark: <a href="../container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
-* :heavy_check_mark: <a href="../container/fenwick_tree.cpp.html">Fenwick Tree</a>
-* :heavy_check_mark: <a href="../container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
+* :x: <a href="../container/disjoint_sparse_table.cpp.html">Disjoint Sparse Table</a>
+* :x: <a href="../container/dst_tree.cpp.html">DST Tree</a>
+* :x: <a href="../container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
+* :x: <a href="../container/fenwick_tree.cpp.html">Fenwick Tree</a>
+* :x: <a href="../container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
 
 
 ## Verified with
 
-* :heavy_check_mark: <a href="../../verify/test/dst_tree.test.cpp.html">test/dst_tree.test.cpp</a>
-* :heavy_check_mark: <a href="../../verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
-* :heavy_check_mark: <a href="../../verify/test/fenwick_tree.test.cpp.html">test/fenwick_tree.test.cpp</a>
-* :heavy_check_mark: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
-* :heavy_check_mark: <a href="../../verify/test/vertex_set_path_sum.test.cpp.html">test/vertex_set_path_sum.test.cpp</a>
+* :x: <a href="../../verify/test/dst_tree.test.cpp.html">test/dst_tree.test.cpp</a>
+* :x: <a href="../../verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
+* :x: <a href="../../verify/test/fenwick_tree.test.cpp.html">test/fenwick_tree.test.cpp</a>
+* :x: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
+* :x: <a href="../../verify/test/vertex_set_path_sum.test.cpp.html">test/vertex_set_path_sum.test.cpp</a>
 
 
 ## Code
@@ -65,12 +65,12 @@ layout: default
 #include <cstddef>
 #include <cstdint>
 
-constexpr size_t   bit_ppc(const uint64_t x)   { return __builtin_popcountll(x); }
-constexpr size_t   bit_ctzr(const uint64_t x)  { return x == 0 ? 64 : __builtin_ctzll(x); }
-constexpr size_t   bit_ctzl(const uint64_t x)  { return x == 0 ? 64 : __builtin_clzll(x); }
-constexpr size_t   bit_width(const uint64_t x) { return 64 - bit_ctzl(x); }
-constexpr uint64_t bit_msb(const uint64_t x)   { return x == 0 ? 0 : uint64_t(1) << (bit_width(x) - 1); }
-constexpr uint64_t bit_lsb(const uint64_t x)   { return x & (-x); }
+constexpr size_t bit_ppc(const uint64_t x) { return __builtin_popcountll(x); }
+constexpr size_t bit_ctzr(const uint64_t x) { return x == 0 ? 64 : __builtin_ctzll(x); }
+constexpr size_t bit_ctzl(const uint64_t x) { return x == 0 ? 64 : __builtin_clzll(x); }
+constexpr size_t bit_width(const uint64_t x) { return 64 - bit_ctzl(x); }
+constexpr uint64_t bit_msb(const uint64_t x) { return x == 0 ? 0 : uint64_t(1) << (bit_width(x) - 1); }
+constexpr uint64_t bit_lsb(const uint64_t x) { return x & (-x); }
 constexpr uint64_t bit_cover(const uint64_t x) { return x == 0 ? 0 : bit_msb(2 * x - 1); }
 
 constexpr uint64_t bit_rev(uint64_t x) {
@@ -97,12 +97,12 @@ constexpr uint64_t bit_rev(uint64_t x) {
 #include <cstddef>
 #include <cstdint>
 
-constexpr size_t   bit_ppc(const uint64_t x)   { return __builtin_popcountll(x); }
-constexpr size_t   bit_ctzr(const uint64_t x)  { return x == 0 ? 64 : __builtin_ctzll(x); }
-constexpr size_t   bit_ctzl(const uint64_t x)  { return x == 0 ? 64 : __builtin_clzll(x); }
-constexpr size_t   bit_width(const uint64_t x) { return 64 - bit_ctzl(x); }
-constexpr uint64_t bit_msb(const uint64_t x)   { return x == 0 ? 0 : uint64_t(1) << (bit_width(x) - 1); }
-constexpr uint64_t bit_lsb(const uint64_t x)   { return x & (-x); }
+constexpr size_t bit_ppc(const uint64_t x) { return __builtin_popcountll(x); }
+constexpr size_t bit_ctzr(const uint64_t x) { return x == 0 ? 64 : __builtin_ctzll(x); }
+constexpr size_t bit_ctzl(const uint64_t x) { return x == 0 ? 64 : __builtin_clzll(x); }
+constexpr size_t bit_width(const uint64_t x) { return 64 - bit_ctzl(x); }
+constexpr uint64_t bit_msb(const uint64_t x) { return x == 0 ? 0 : uint64_t(1) << (bit_width(x) - 1); }
+constexpr uint64_t bit_lsb(const uint64_t x) { return x & (-x); }
 constexpr uint64_t bit_cover(const uint64_t x) { return x == 0 ? 0 : bit_msb(2 * x - 1); }
 
 constexpr uint64_t bit_rev(uint64_t x) {
