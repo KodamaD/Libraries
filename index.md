@@ -40,7 +40,7 @@ layout: default
 
 * :heavy_check_mark: <a href="library/algebraic/fact_prime.cpp.html">Primes/Factors</a>
 * :heavy_check_mark: <a href="library/algebraic/factorials.cpp.html">Factorial</a>
-* :question: <a href="library/algebraic/modular.cpp.html">Modint</a>
+* :heavy_check_mark: <a href="library/algebraic/modular.cpp.html">Modint</a>
 * :heavy_check_mark: <a href="library/algebraic/modular_operation.cpp.html">Modular Operations</a>
 * :warning: <a href="library/algebraic/ntt.cpp.html">Number Theoretic Transform</a>
 
@@ -50,15 +50,15 @@ layout: default
 ### container
 
 * :heavy_check_mark: <a href="library/container/bit_vector.cpp.html">Succinct Bit Vector</a>
-* :x: <a href="library/container/disjoint_sparse_table.cpp.html">Disjoint Sparse Table</a>
-* :x: <a href="library/container/dst_tree.cpp.html">DST Tree</a>
+* :heavy_check_mark: <a href="library/container/disjoint_sparse_table.cpp.html">Disjoint Sparse Table</a>
+* :heavy_check_mark: <a href="library/container/dst_tree.cpp.html">DST Tree</a>
 * :x: <a href="library/container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
-* :x: <a href="library/container/fenwick_tree.cpp.html">Fenwick Tree</a>
-* :x: <a href="library/container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
+* :question: <a href="library/container/fenwick_tree.cpp.html">Fenwick Tree</a>
+* :heavy_check_mark: <a href="library/container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
 * :heavy_check_mark: <a href="library/container/matrix.cpp.html">Matrix</a>
 * :warning: <a href="library/container/randomized_queue.cpp.html">Randomized Queue</a>
-* :x: <a href="library/container/segment_tree.cpp.html">Segment Tree</a>
-* :x: <a href="library/container/sliding_window_aggregation.cpp.html">Sliding Window Aggregation</a>
+* :heavy_check_mark: <a href="library/container/segment_tree.cpp.html">Segment Tree</a>
+* :heavy_check_mark: <a href="library/container/sliding_window_aggregation.cpp.html">Sliding Window Aggregation</a>
 * :heavy_check_mark: <a href="library/container/wavelet_matrix.cpp.html">Wavelet Matrix</a>
 
 
@@ -76,7 +76,7 @@ layout: default
 ### graph
 
 * :heavy_check_mark: <a href="library/graph/dinic.cpp.html">Dinic</a>
-* :question: <a href="library/graph/heavy_light_decomposition.cpp.html">Heavy-Light Decomposition</a>
+* :heavy_check_mark: <a href="library/graph/heavy_light_decomposition.cpp.html">Heavy-Light Decomposition</a>
 * :heavy_check_mark: <a href="library/graph/network.cpp.html">Network</a>
 * :warning: <a href="library/graph/partially_persistent_union_find.cpp.html">Partially Persistent Union Find</a>
 * :heavy_check_mark: <a href="library/graph/push_relabel.cpp.html">Push Relabel</a>
@@ -96,12 +96,12 @@ layout: default
 
 ### other
 
-* :x: <a href="library/other/bit_operation.cpp.html">Bit Operations</a>
+* :question: <a href="library/other/bit_operation.cpp.html">Bit Operations</a>
 * :warning: <a href="library/other/chmin_chmax.cpp.html">Chmin/Chmax</a>
 * :heavy_check_mark: <a href="library/other/fast_io.cpp.html">Fast Input/Output</a>
 * :heavy_check_mark: <a href="library/other/fix_point.cpp.html">Lambda Recursion</a>
 * :warning: <a href="library/other/int_operation.cpp.html">Integer Operations</a>
-* :x: <a href="library/other/monoid.cpp.html">Monoid Utility</a>
+* :question: <a href="library/other/monoid.cpp.html">Monoid Utility</a>
 * :warning: <a href="library/other/multi_array.cpp.html">Multi-Dimensional Array</a>
 * :warning: <a href="library/other/multi_vec.cpp.html">Multi-Dimensional Vector</a>
 * :heavy_check_mark: <a href="library/other/random_number.cpp.html">Random Number</a>
@@ -125,23 +125,23 @@ layout: default
 
 * :heavy_check_mark: <a href="verify/test/dinic.test.cpp.html">test/dinic.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/discrete_log.test.cpp.html">test/discrete_log.test.cpp</a>
-* :x: <a href="verify/test/dst_tree.test.cpp.html">test/dst_tree.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/dst_tree.test.cpp.html">test/dst_tree.test.cpp</a>
 * :x: <a href="verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/enumerate_divisors.test.cpp.html">test/enumerate_divisors.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/enumerate_factors.test.cpp.html">test/enumerate_factors.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/factorials.test.cpp.html">test/factorials.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/fast_io.test.cpp.html">test/fast_io.test.cpp</a>
 * :x: <a href="verify/test/fenwick_tree.test.cpp.html">test/fenwick_tree.test.cpp</a>
-* :x: <a href="verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/lca.test.cpp.html">test/lca.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/matrix.test.cpp.html">test/matrix.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/push_relabel.test.cpp.html">test/push_relabel.test.cpp</a>
-* :x: <a href="verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
-* :x: <a href="verify/test/sliding_window_aggregation.test.cpp.html">test/sliding_window_aggregation.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/sliding_window_aggregation.test.cpp.html">test/sliding_window_aggregation.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/sqrt_mod.test.cpp.html">test/sqrt_mod.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/suffix_array.test.cpp.html">test/suffix_array.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/union_find.test.cpp.html">test/union_find.test.cpp</a>
-* :x: <a href="verify/test/vertex_set_path_sum.test.cpp.html">test/vertex_set_path_sum.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/vertex_set_path_sum.test.cpp.html">test/vertex_set_path_sum.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/wavelet_matrix_quantile.test.cpp.html">test/wavelet_matrix_quantile.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/z_algorithm.test.cpp.html">test/z_algorithm.test.cpp</a>
 

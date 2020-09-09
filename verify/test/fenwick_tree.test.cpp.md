@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/fenwick_tree.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 18:08:09+09:00
+    - Last commit date: 2020-09-09 18:26:02+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_B">https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_B</a>
@@ -39,8 +39,8 @@ layout: default
 
 ## Depends on
 
-* :x: <a href="../../library/container/fenwick_tree.cpp.html">Fenwick Tree</a>
-* :x: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
+* :question: <a href="../../library/container/fenwick_tree.cpp.html">Fenwick Tree</a>
+* :question: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
 
 
 ## Code
@@ -60,7 +60,12 @@ layout: default
 int main() {
   size_t N, Q;
   std::cin >> N >> Q;
-  fenwick_tree<uint32_t> seg(N);
+  fenwick_tree<uint64_t> seg(N);
+  for (size_t i = 0; i < N; ++i) {
+    uint32_t x;
+    std::cin >> x;
+    seg.add(i, x);
+  }
   while (Q--) {
     char type;
     std::cin >> type;
@@ -68,12 +73,12 @@ int main() {
       size_t x;
       uint32_t y;
       std::cin >> x >> y;
-      seg.add(x - 1, y);
+      seg.add(x, y);
     }
     else {
       size_t x, y;
       std::cin >> x >> y;
-      std::cout << seg.fold(x - 1, y) << '\n';
+      std::cout << seg.fold(x, y) << '\n';
     }
   }
   return 0;
@@ -164,11 +169,11 @@ public:
     assert(last <= size());
     value_type res{};
     while (first < last) {
-      res += data[last];
+      res += M_tree[last];
       last -= bit_lsb(last);
     }
     while (last < first) {
-      res -= data[first];
+      res -= M_tree[first];
       first -= bit_lsb(first);
     }
     return res;
@@ -194,7 +199,12 @@ public:
 int main() {
   size_t N, Q;
   std::cin >> N >> Q;
-  fenwick_tree<uint32_t> seg(N);
+  fenwick_tree<uint64_t> seg(N);
+  for (size_t i = 0; i < N; ++i) {
+    uint32_t x;
+    std::cin >> x;
+    seg.add(i, x);
+  }
   while (Q--) {
     char type;
     std::cin >> type;
@@ -202,12 +212,12 @@ int main() {
       size_t x;
       uint32_t y;
       std::cin >> x >> y;
-      seg.add(x - 1, y);
+      seg.add(x, y);
     }
     else {
       size_t x, y;
       std::cin >> x >> y;
-      std::cout << seg.fold(x - 1, y) << '\n';
+      std::cout << seg.fold(x, y) << '\n';
     }
   }
   return 0;

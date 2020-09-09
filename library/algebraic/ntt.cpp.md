@@ -38,7 +38,7 @@ layout: default
 
 ## Depends on
 
-* :x: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
+* :question: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
 
 
 ## Code

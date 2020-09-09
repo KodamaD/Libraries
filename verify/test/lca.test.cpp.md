@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/lca.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-20 23:34:30+09:00
+    - Last commit date: 2020-09-09 18:26:02+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/lca">https://judge.yosupo.jp/problem/lca</a>
@@ -39,7 +39,7 @@ layout: default
 
 ## Depends on
 
-* :question: <a href="../../library/graph/heavy_light_decomposition.cpp.html">Heavy-Light Decomposition</a>
+* :heavy_check_mark: <a href="../../library/graph/heavy_light_decomposition.cpp.html">Heavy-Light Decomposition</a>
 
 
 ## Code
@@ -90,6 +90,7 @@ int main() {
 #include <cstddef>
 #include <vector>
 #include <utility>
+#include <cassert>
 
 class heavy_light_decomposition {
 public:
@@ -149,16 +150,22 @@ public:
     label.assign(size, 0);
   }
   void construct(size_type root = 0) {
+    assert(root < M_graph.size());
     M_calc_subtree(root, -1);
     M_decompose(root, -1, root);
   }
   void add_edge(size_type u, size_type v) {
+    assert(u < M_graph.size());
+    assert(v < M_graph.size());
+    assert(u != v);
     M_graph[u].push_back(v);
     M_graph[v].push_back(u);
   }
 
   template <class Func> 
   void each_edge(size_type u, size_type v, const Func &func) const {
+    assert(u < M_graph.size());
+    assert(v < M_graph.size());
     while (true) {
       if (label[u] > label[v]) {
         std::swap(u, v);
@@ -176,6 +183,8 @@ public:
 
   template <class Func> 
   void each_vertex(size_type u, size_type v, const Func &func) const {
+    assert(u < M_graph.size());
+    assert(v < M_graph.size());
     while (true) {
       if (label[u] > label[v]) {
         std::swap(u, v);
@@ -190,6 +199,8 @@ public:
   }
 
   size_type lca(size_type u, size_type v) const {
+    assert(u < M_graph.size());
+    assert(v < M_graph.size());
     if (label[u] > label[v]) {
       std::swap(u, v);
     }
@@ -221,7 +232,6 @@ public:
     label.clear();
     label.shrink_to_fit();
   }
-
 };
 
 /**

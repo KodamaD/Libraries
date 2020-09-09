@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: test/vertex_set_path_sum.test.cpp
+# :heavy_check_mark: test/vertex_set_path_sum.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/vertex_set_path_sum.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 18:08:09+09:00
+    - Last commit date: 2020-09-09 18:26:02+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/vertex_add_path_sum">https://judge.yosupo.jp/problem/vertex_add_path_sum</a>
@@ -39,9 +39,9 @@ layout: default
 
 ## Depends on
 
-* :x: <a href="../../library/container/fenwick_tree.cpp.html">Fenwick Tree</a>
-* :question: <a href="../../library/graph/heavy_light_decomposition.cpp.html">Heavy-Light Decomposition</a>
-* :x: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
+* :question: <a href="../../library/container/fenwick_tree.cpp.html">Fenwick Tree</a>
+* :heavy_check_mark: <a href="../../library/graph/heavy_light_decomposition.cpp.html">Heavy-Light Decomposition</a>
+* :question: <a href="../../library/other/bit_operation.cpp.html">Bit Operations</a>
 
 
 ## Code
@@ -117,6 +117,7 @@ int main() {
 #include <cstddef>
 #include <vector>
 #include <utility>
+#include <cassert>
 
 class heavy_light_decomposition {
 public:
@@ -176,16 +177,22 @@ public:
     label.assign(size, 0);
   }
   void construct(size_type root = 0) {
+    assert(root < M_graph.size());
     M_calc_subtree(root, -1);
     M_decompose(root, -1, root);
   }
   void add_edge(size_type u, size_type v) {
+    assert(u < M_graph.size());
+    assert(v < M_graph.size());
+    assert(u != v);
     M_graph[u].push_back(v);
     M_graph[v].push_back(u);
   }
 
   template <class Func> 
   void each_edge(size_type u, size_type v, const Func &func) const {
+    assert(u < M_graph.size());
+    assert(v < M_graph.size());
     while (true) {
       if (label[u] > label[v]) {
         std::swap(u, v);
@@ -203,6 +210,8 @@ public:
 
   template <class Func> 
   void each_vertex(size_type u, size_type v, const Func &func) const {
+    assert(u < M_graph.size());
+    assert(v < M_graph.size());
     while (true) {
       if (label[u] > label[v]) {
         std::swap(u, v);
@@ -217,6 +226,8 @@ public:
   }
 
   size_type lca(size_type u, size_type v) const {
+    assert(u < M_graph.size());
+    assert(v < M_graph.size());
     if (label[u] > label[v]) {
       std::swap(u, v);
     }
@@ -248,7 +259,6 @@ public:
     label.clear();
     label.shrink_to_fit();
   }
-
 };
 
 /**
@@ -284,8 +294,7 @@ constexpr uint64_t bit_rev(uint64_t x) {
  */
 #line 4 "container/fenwick_tree.cpp"
 
-#line 7 "container/fenwick_tree.cpp"
-#include <cassert>
+#line 8 "container/fenwick_tree.cpp"
 
 template <class T>
 class fenwick_tree {
@@ -328,11 +337,11 @@ public:
     assert(last <= size());
     value_type res{};
     while (first < last) {
-      res += data[last];
+      res += M_tree[last];
       last -= bit_lsb(last);
     }
     while (last < first) {
-      res -= data[first];
+      res -= M_tree[first];
       first -= bit_lsb(first);
     }
     return res;

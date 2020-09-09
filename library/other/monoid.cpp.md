@@ -25,34 +25,34 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: Monoid Utility
+# :question: Monoid Utility
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/monoid.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 18:08:09+09:00
+    - Last commit date: 2020-09-09 18:26:02+09:00
 
 
 
 
 ## Required by
 
-* :x: <a href="../container/disjoint_sparse_table.cpp.html">Disjoint Sparse Table</a>
-* :x: <a href="../container/dst_tree.cpp.html">DST Tree</a>
+* :heavy_check_mark: <a href="../container/disjoint_sparse_table.cpp.html">Disjoint Sparse Table</a>
+* :heavy_check_mark: <a href="../container/dst_tree.cpp.html">DST Tree</a>
 * :x: <a href="../container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
-* :x: <a href="../container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
-* :x: <a href="../container/segment_tree.cpp.html">Segment Tree</a>
-* :x: <a href="../container/sliding_window_aggregation.cpp.html">Sliding Window Aggregation</a>
+* :heavy_check_mark: <a href="../container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
+* :heavy_check_mark: <a href="../container/segment_tree.cpp.html">Segment Tree</a>
+* :heavy_check_mark: <a href="../container/sliding_window_aggregation.cpp.html">Sliding Window Aggregation</a>
 
 
 ## Verified with
 
-* :x: <a href="../../verify/test/dst_tree.test.cpp.html">test/dst_tree.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/dst_tree.test.cpp.html">test/dst_tree.test.cpp</a>
 * :x: <a href="../../verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
-* :x: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
-* :x: <a href="../../verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
-* :x: <a href="../../verify/test/sliding_window_aggregation.test.cpp.html">test/sliding_window_aggregation.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/sliding_window_aggregation.test.cpp.html">test/sliding_window_aggregation.test.cpp</a>
 
 
 ## Code
@@ -87,8 +87,8 @@ public:
   static constexpr typename T::type convert(const typename T::type &value) { return value; }
   static constexpr typename T::type revert(const typename T::type &value) { return value; }
 
-  template <class Mapping, class T, class... Args>
-  static constexpr void operate(Mapping &&func, T &value, const typename T::type &op, Args&&... args) {
+  template <class Mapping, class Value, class... Args>
+  static constexpr void operate(Mapping &&func, Value &value, const typename T::type &op, Args&&... args) {
     value = func(value, op, std::forward<Args>(args)...);
   }
 };
@@ -118,8 +118,8 @@ public:
     return type(T::operation(v1.value, v2.value));
   }
 
-  template <class Mapping, class T, class... Args>
-  static constexpr void operate(Mapping &&func, T &value, const type &op, Args&&... args) {
+  template <class Mapping, class Value, class... Args>
+  static constexpr void operate(Mapping &&func, Value &value, const type &op, Args&&... args) {
     if (!op.state) return;
     value = func(value, op, std::forward<Args>(args)...);
   }
@@ -164,8 +164,8 @@ public:
   static constexpr typename T::type convert(const typename T::type &value) { return value; }
   static constexpr typename T::type revert(const typename T::type &value) { return value; }
 
-  template <class Mapping, class T, class... Args>
-  static constexpr void operate(Mapping &&func, T &value, const typename T::type &op, Args&&... args) {
+  template <class Mapping, class Value, class... Args>
+  static constexpr void operate(Mapping &&func, Value &value, const typename T::type &op, Args&&... args) {
     value = func(value, op, std::forward<Args>(args)...);
   }
 };
@@ -195,8 +195,8 @@ public:
     return type(T::operation(v1.value, v2.value));
   }
 
-  template <class Mapping, class T, class... Args>
-  static constexpr void operate(Mapping &&func, T &value, const type &op, Args&&... args) {
+  template <class Mapping, class Value, class... Args>
+  static constexpr void operate(Mapping &&func, Value &value, const type &op, Args&&... args) {
     if (!op.state) return;
     value = func(value, op, std::forward<Args>(args)...);
   }

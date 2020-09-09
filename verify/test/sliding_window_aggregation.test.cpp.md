@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: test/sliding_window_aggregation.test.cpp
+# :heavy_check_mark: test/sliding_window_aggregation.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/sliding_window_aggregation.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 18:08:09+09:00
+    - Last commit date: 2020-09-09 18:26:02+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/queue_operate_all_composite">https://judge.yosupo.jp/problem/queue_operate_all_composite</a>
@@ -39,9 +39,9 @@ layout: default
 
 ## Depends on
 
-* :question: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
-* :x: <a href="../../library/container/sliding_window_aggregation.cpp.html">Sliding Window Aggregation</a>
-* :x: <a href="../../library/other/monoid.cpp.html">Monoid Utility</a>
+* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
+* :heavy_check_mark: <a href="../../library/container/sliding_window_aggregation.cpp.html">Sliding Window Aggregation</a>
+* :question: <a href="../../library/other/monoid.cpp.html">Monoid Utility</a>
 
 
 ## Code
@@ -136,8 +136,8 @@ public:
   static constexpr typename T::type convert(const typename T::type &value) { return value; }
   static constexpr typename T::type revert(const typename T::type &value) { return value; }
 
-  template <class Mapping, class T, class... Args>
-  static constexpr void operate(Mapping &&func, T &value, const typename T::type &op, Args&&... args) {
+  template <class Mapping, class Value, class... Args>
+  static constexpr void operate(Mapping &&func, Value &value, const typename T::type &op, Args&&... args) {
     value = func(value, op, std::forward<Args>(args)...);
   }
 };
@@ -167,8 +167,8 @@ public:
     return type(T::operation(v1.value, v2.value));
   }
 
-  template <class Mapping, class T, class... Args>
-  static constexpr void operate(Mapping &&func, T &value, const type &op, Args&&... args) {
+  template <class Mapping, class Value, class... Args>
+  static constexpr void operate(Mapping &&func, Value &value, const type &op, Args&&... args) {
     if (!op.state) return;
     value = func(value, op, std::forward<Args>(args)...);
   }

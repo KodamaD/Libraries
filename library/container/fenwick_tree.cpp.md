@@ -25,26 +25,26 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: Fenwick Tree
+# :question: Fenwick Tree
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/fenwick_tree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 18:08:09+09:00
+    - Last commit date: 2020-09-09 18:26:02+09:00
 
 
 
 
 ## Depends on
 
-* :x: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
+* :question: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
 
 
 ## Verified with
 
 * :x: <a href="../../verify/test/fenwick_tree.test.cpp.html">test/fenwick_tree.test.cpp</a>
-* :x: <a href="../../verify/test/vertex_set_path_sum.test.cpp.html">test/vertex_set_path_sum.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/vertex_set_path_sum.test.cpp.html">test/vertex_set_path_sum.test.cpp</a>
 
 
 ## Code
@@ -101,11 +101,11 @@ public:
     assert(last <= size());
     value_type res{};
     while (first < last) {
-      res += data[last];
+      res += M_tree[last];
       last -= bit_lsb(last);
     }
     while (last < first) {
-      res -= data[first];
+      res -= M_tree[first];
       first -= bit_lsb(first);
     }
     return res;
@@ -204,11 +204,11 @@ public:
     assert(last <= size());
     value_type res{};
     while (first < last) {
-      res += data[last];
+      res += M_tree[last];
       last -= bit_lsb(last);
     }
     while (last < first) {
-      res -= data[first];
+      res -= M_tree[first];
       first -= bit_lsb(first);
     }
     return res;

@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: Bit Operations
+# :question: Bit Operations
 
 <a href="../../index.html">Back to top page</a>
 
@@ -39,20 +39,20 @@ layout: default
 ## Required by
 
 * :warning: <a href="../algebraic/ntt.cpp.html">Number Theoretic Transform</a>
-* :x: <a href="../container/disjoint_sparse_table.cpp.html">Disjoint Sparse Table</a>
-* :x: <a href="../container/dst_tree.cpp.html">DST Tree</a>
+* :heavy_check_mark: <a href="../container/disjoint_sparse_table.cpp.html">Disjoint Sparse Table</a>
+* :heavy_check_mark: <a href="../container/dst_tree.cpp.html">DST Tree</a>
 * :x: <a href="../container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
-* :x: <a href="../container/fenwick_tree.cpp.html">Fenwick Tree</a>
-* :x: <a href="../container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
+* :question: <a href="../container/fenwick_tree.cpp.html">Fenwick Tree</a>
+* :heavy_check_mark: <a href="../container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
 
 
 ## Verified with
 
-* :x: <a href="../../verify/test/dst_tree.test.cpp.html">test/dst_tree.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/dst_tree.test.cpp.html">test/dst_tree.test.cpp</a>
 * :x: <a href="../../verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
 * :x: <a href="../../verify/test/fenwick_tree.test.cpp.html">test/fenwick_tree.test.cpp</a>
-* :x: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
-* :x: <a href="../../verify/test/vertex_set_path_sum.test.cpp.html">test/vertex_set_path_sum.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/vertex_set_path_sum.test.cpp.html">test/vertex_set_path_sum.test.cpp</a>
 
 
 ## Code

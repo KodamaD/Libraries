@@ -25,26 +25,26 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: Lazy Propagation Segment Tree
+# :heavy_check_mark: Lazy Propagation Segment Tree
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/lazy_propagation_segment_tree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 18:08:09+09:00
+    - Last commit date: 2020-09-09 18:26:02+09:00
 
 
 
 
 ## Depends on
 
-* :x: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
-* :x: <a href="../other/monoid.cpp.html">Monoid Utility</a>
+* :question: <a href="../other/bit_operation.cpp.html">Bit Operations</a>
+* :question: <a href="../other/monoid.cpp.html">Monoid Utility</a>
 
 
 ## Verified with
 
-* :x: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
 
 
 ## Code
@@ -276,8 +276,8 @@ public:
   static constexpr typename T::type convert(const typename T::type &value) { return value; }
   static constexpr typename T::type revert(const typename T::type &value) { return value; }
 
-  template <class Mapping, class T, class... Args>
-  static constexpr void operate(Mapping &&func, T &value, const typename T::type &op, Args&&... args) {
+  template <class Mapping, class Value, class... Args>
+  static constexpr void operate(Mapping &&func, Value &value, const typename T::type &op, Args&&... args) {
     value = func(value, op, std::forward<Args>(args)...);
   }
 };
@@ -307,8 +307,8 @@ public:
     return type(T::operation(v1.value, v2.value));
   }
 
-  template <class Mapping, class T, class... Args>
-  static constexpr void operate(Mapping &&func, T &value, const type &op, Args&&... args) {
+  template <class Mapping, class Value, class... Args>
+  static constexpr void operate(Mapping &&func, Value &value, const type &op, Args&&... args) {
     if (!op.state) return;
     value = func(value, op, std::forward<Args>(args)...);
   }
