@@ -25,8 +25,8 @@ public:
   static constexpr typename T::type convert(const typename T::type &value) { return value; }
   static constexpr typename T::type revert(const typename T::type &value) { return value; }
 
-  template <class Mapping, class T, class... Args>
-  static constexpr void operate(Mapping &&func, T &value, const typename T::type &op, Args&&... args) {
+  template <class Mapping, class Value, class... Args>
+  static constexpr void operate(Mapping &&func, Value &value, const typename T::type &op, Args&&... args) {
     value = func(value, op, std::forward<Args>(args)...);
   }
 };
@@ -56,8 +56,8 @@ public:
     return type(T::operation(v1.value, v2.value));
   }
 
-  template <class Mapping, class T, class... Args>
-  static constexpr void operate(Mapping &&func, T &value, const type &op, Args&&... args) {
+  template <class Mapping, class Value, class... Args>
+  static constexpr void operate(Mapping &&func, Value &value, const type &op, Args&&... args) {
     if (!op.state) return;
     value = func(value, op, std::forward<Args>(args)...);
   }

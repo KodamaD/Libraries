@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <vector>
 #include <utility>
+#include <cassert>
 
 class heavy_light_decomposition {
 public:
@@ -62,16 +63,22 @@ public:
     label.assign(size, 0);
   }
   void construct(size_type root = 0) {
+    assert(root < M_graph.size());
     M_calc_subtree(root, -1);
     M_decompose(root, -1, root);
   }
   void add_edge(size_type u, size_type v) {
+    assert(u < M_graph.size());
+    assert(v < M_graph.size());
+    assert(u != v);
     M_graph[u].push_back(v);
     M_graph[v].push_back(u);
   }
 
   template <class Func> 
   void each_edge(size_type u, size_type v, const Func &func) const {
+    assert(u < M_graph.size());
+    assert(v < M_graph.size());
     while (true) {
       if (label[u] > label[v]) {
         std::swap(u, v);
@@ -89,6 +96,8 @@ public:
 
   template <class Func> 
   void each_vertex(size_type u, size_type v, const Func &func) const {
+    assert(u < M_graph.size());
+    assert(v < M_graph.size());
     while (true) {
       if (label[u] > label[v]) {
         std::swap(u, v);
@@ -103,6 +112,8 @@ public:
   }
 
   size_type lca(size_type u, size_type v) const {
+    assert(u < M_graph.size());
+    assert(v < M_graph.size());
     if (label[u] > label[v]) {
       std::swap(u, v);
     }
@@ -134,7 +145,6 @@ public:
     label.clear();
     label.shrink_to_fit();
   }
-
 };
 
 /**

@@ -47,11 +47,11 @@ public:
     assert(last <= size());
     value_type res{};
     while (first < last) {
-      res += data[last];
+      res += M_tree[last];
       last -= bit_lsb(last);
     }
     while (last < first) {
-      res -= data[first];
+      res -= M_tree[first];
       first -= bit_lsb(first);
     }
     return res;
