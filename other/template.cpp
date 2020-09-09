@@ -11,9 +11,9 @@
 #include <array>
 #include <cassert>
 
-#include "/Users/kodamankod/Desktop/Programming/Library/other/chmin_chmax.cpp"
-#include "/Users/kodamankod/Desktop/Programming/Library/other/range.cpp"
-#include "/Users/kodamankod/Desktop/Programming/Library/other/rev.cpp"
+#include "/Users/kodamankod/Desktop/cpp_programming/Library/other/chmin_chmax.cpp"
+#include "/Users/kodamankod/Desktop/cpp_programming/Library/other/range.cpp"
+#include "/Users/kodamankod/Desktop/cpp_programming/Library/other/rev.cpp"
 
 using i32 = int32_t;
 using i64 = int64_t;

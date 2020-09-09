@@ -6,6 +6,7 @@
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#include <cassert>
 
 template <class Monoid>
 class segment_tree {
@@ -51,6 +52,7 @@ public:
   }
 
   void assign(size_type index, const value_type &value) {
+    assert(index < size());
     index += size();
     M_tree[index] = fixed_value_monoid::convert(value);
     while (index != 1) {
@@ -60,10 +62,13 @@ public:
   }
 
   value_type at(const size_type index) const { 
+    assert(index < size());
     return fixed_value_monoid::revert(M_tree[index + size()]);
   }
 
   value_type fold(size_type first, size_type last) const {
+    assert(first <= last);
+    assert(last <= size());
     first += size();
     last += size();
     fixed_value_type fold_l = fixed_value_monoid::identity();
@@ -87,11 +92,9 @@ public:
     M_tree.clear();
     M_tree.shrink_to_fit();
   }
-
   size_type size() const { 
     return M_tree.size() >> 1;
   }
-
 };
 
 /**

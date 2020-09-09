@@ -4,6 +4,7 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
+#include <cassert>
 
 class partially_persistent_union_find {
 public:
@@ -44,6 +45,7 @@ public:
   }
 
   size_type find_parent(const size_type node, const time_type time) const {
+    assert(node < size());
     if (M_forest[node].updated > time) return node;
     return find_parent(M_forest[node].parent, time);
   }
@@ -51,6 +53,7 @@ public:
     return M_components[std::min(now(), time)];
   }
   size_type component_size(size_type node, time_type time) const {
+    assert(node < size());
     time = std::min(time, now());
     node = find_parent(node, time);
     const auto &history = M_forest[node].history;
@@ -59,6 +62,8 @@ public:
   }
 
   time_type when(const size_type node1, const size_type node2) const {
+    assert(node1 < size());
+    assert(node2 < size());
     if (!same_component(node1, node2, now())) return far_future();
     time_type ok = now(), ng = 0, md;
     while (ok - ng > 1) {
@@ -69,9 +74,13 @@ public:
   }
 
   bool same_component(const size_type node1, const size_type node2, const time_type time) const {
+    assert(node1 < size());
+    assert(node2 < size());
     return find_parent(node1, time) == find_parent(node2, time);
   }
   bool unite(size_type node1, size_type node2) {
+    assert(node1 < size());
+    assert(node2 < size());
     node1 = find_parent(node1, now());
     node2 = find_parent(node2, now());
     size_type current = M_components.back();
@@ -105,7 +114,6 @@ public:
     M_components.clear();
     M_components.shrink_to_fit();
   }
-
 };
 
 /**

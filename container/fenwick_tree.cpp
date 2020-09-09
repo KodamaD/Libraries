@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <vector>
+#include <cassert>
 
 template <class T>
 class fenwick_tree {
@@ -23,6 +24,7 @@ public:
   }
 
   void add(size_type index, const value_type& x) {
+    assert(index < size());
     ++index;
     while (index <= size()) {
       M_tree[index] += x;
@@ -31,6 +33,7 @@ public:
   }
 
   value_type get(size_type index) const {
+    assert(index < size());
     ++index;
     value_type res{};
     while (index > 0) {
@@ -39,16 +42,28 @@ public:
     }
     return res;
   }
-  value_type fold(size_type l, size_type r) const {
-    if (l == 0 && r == 0) return value_type{};
-    if (l == 0) return get(r - 1);
-    return get(r - 1) - get(l - 1);
+  value_type fold(size_type first, size_type last) const {
+    assert(first <= last);
+    assert(last <= size());
+    value_type res{};
+    while (first < last) {
+      res += data[last];
+      last -= bit_lsb(last);
+    }
+    while (last < first) {
+      res -= data[first];
+      first -= bit_lsb(first);
+    }
+    return res;
   }
 
+  void clear() {
+    M_tree.clear();
+    M_tree.shrink_to_fit();
+  }
   size_type size() const {
     return M_tree.size() - 1;
   }
-
 };
 
 /**

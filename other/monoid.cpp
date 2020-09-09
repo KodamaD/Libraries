@@ -15,7 +15,7 @@ constexpr typename std::enable_if<has_identity<T>::value, typename T::type>::typ
   return T::identity();
 }
 template <class T>
-[[noreturn]] constexpr typename std::enable_if<!has_identity<T>::value, typename T::type>::type empty_exception() {
+[[noreturn]] typename std::enable_if<!has_identity<T>::value, typename T::type>::type empty_exception() {
   throw std::runtime_error("type T has no identity");
 }
 
@@ -25,6 +25,10 @@ public:
   static constexpr typename T::type convert(const typename T::type &value) { return value; }
   static constexpr typename T::type revert(const typename T::type &value) { return value; }
 
+  template <class Mapping, class T, class... Args>
+  static constexpr void operate(Mapping &&func, T &value, const typename T::type &op, Args&&... args) {
+    value = func(value, op, std::forward<Args>(args)...);
+  }
 };
 
 template <class T>
@@ -37,7 +41,6 @@ public:
   
     explicit constexpr type(): value(typename T::type { }), state(false) { }
     explicit constexpr type(const typename T::type &value): value(value), state(true) { }
-
   };
 
   static constexpr type convert(const typename T::type &value) { return type(value); }
@@ -53,46 +56,15 @@ public:
     return type(T::operation(v1.value, v2.value));
   }
 
+  template <class Mapping, class T, class... Args>
+  static constexpr void operate(Mapping &&func, T &value, const type &op, Args&&... args) {
+    if (!op.state) return;
+    value = func(value, op, std::forward<Args>(args)...);
+  }
 };
 
 template <class T>
 using fixed_monoid = fixed_monoid_impl<T, has_identity<T>::value>;
-
-template <class T, bool HasIdentity>
-class fixed_combined_monoid_impl {
-public:
-  using value_structure    = typename T::value_structure;
-  using operator_structure = fixed_monoid<typename T::operator_structure>;
-
-  template <class... Args>
-  static constexpr typename value_structure::type operation(
-    const typename value_structure::type    &val,
-    const typename operator_structure::type &op,
-    Args&&... args) {
-    return T::operation(val, op, std::forward<Args>(args)...);
-  }
-
-};
-
-template <class T>
-class fixed_combined_monoid_impl<T, false> {
-public:
-  using value_structure    = typename T::value_structure;
-  using operator_structure = fixed_monoid<typename T::operator_structure>;
-
-  template <class... Args>
-  static constexpr typename value_structure::type operation(
-    const typename value_structure::type    &val,
-    const typename operator_structure::type &op,
-    Args&&... args) {
-    if (!op.state) return val;
-    return T::operation(val, op.value, std::forward<Args>(args)...);
-  }
-
-};
-
-template <class T>
-using fixed_combined_monoid = fixed_combined_monoid_impl<T, has_identity<typename T::operator_structure>::value>;
 
 /**
  * @title Monoid Utility

@@ -6,6 +6,7 @@
 #include <numeric>
 #include <utility>
 #include <type_traits>
+#include <cassert>
 
 template <class Edge>
 class network {
@@ -25,9 +26,12 @@ public:
       return to_vertex(index);
     }
     vertex_type to_vertex(const size_type index) const {
+      assert(index < M_size);
       return index + M_stuff;
     }
     size_type to_index(const vertex_type vert) const {
+      assert(vert >= M_stuff);
+      assert(vert < M_size + M_stuff);
       return vert - M_stuff;
     }
     size_type size() const {
@@ -75,9 +79,11 @@ public:
   }
 
   std::vector<edge_type> &operator [] (const vertex_type vert) {
+    assert(vert < size());
     return M_graph[vert];
   }
   const std::vector<edge_type> &operator [] (const vertex_type vert) const {
+    assert(vert < size());
     return M_graph[vert];
   }
 
@@ -91,7 +97,6 @@ public:
     M_graph.clear();
     M_graph.shrink_to_fit();
   }
-
 };
 
 class base_edge {

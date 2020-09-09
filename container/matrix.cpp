@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <iterator>
 #include <initializer_list>
+#include <cassert>
 
 template <class SemiRing>
 class matrix {
@@ -22,8 +23,8 @@ public:
   matrix() = default;
   explicit matrix(size_type H, size_type W, 
     const value_type &value = value_semiring::addition_identity()) { initialize(H, W, value); }
-  explicit matrix(const std::vector<std::vector<value_type>> &cont) { construct(cont); }
-  explicit matrix(const std::initializer_list<std::initializer_list<value_type>> &cont) { construct(cont); }
+  matrix(const std::vector<std::vector<value_type>> &cont) { construct(cont); }
+  matrix(const std::initializer_list<std::initializer_list<value_type>> &cont) { construct(cont); }
 
   void initialize(size_type H, size_type W, const value_type &value = value_semiring::addition_identity()) {
     clear();
@@ -50,6 +51,8 @@ public:
 
   matrix operator + (const matrix &rhs) const { return matrix(*this) += rhs; }
   matrix& operator += (const matrix &rhs) { 
+    assert(height() == rhs.height());
+    assert(width() == rhs.width());
     for (size_type i = 0; i < height(); ++i) {
       for (size_type j = 0; j < width(); ++j) {
         M_matrix[i][j] = value_semiring::addition(M_matrix[i][j], rhs.M_matrix[i][j]);
@@ -60,6 +63,7 @@ public:
 
   matrix& operator *= (const matrix &rhs) { *this = (*this) * rhs; return *this; }
   matrix operator * (const matrix &rhs) const {
+    assert(width() == rhs.height());
     matrix res(height(), rhs.width());
     for (size_type i = 0; i < height(); ++i) {
       for (size_type k = 0; k < width(); ++k) {
@@ -83,6 +87,7 @@ public:
   }
  
   matrix power(uint64_t exp) const {
+    assert(height() == width());
     matrix res(height(), width()), use(*this);
     for (size_type i = 0; i < height(); ++i) {
       res[i][i] = value_semiring::multiplication_identity();
@@ -100,6 +105,9 @@ public:
   std::vector<value_type>& operator [] (size_type index) {
     return M_matrix[index];
   }
+  const std::vector<value_type>& operator [] (size_type index) const {
+    return M_matrix[index];
+  }
   size_type height() const {
     return M_matrix.size();
   }
@@ -107,14 +115,10 @@ public:
     if (M_matrix.empty()) return 0;
     return M_matrix.front().size();
   }
-  bool empty() const {
-    return M_matrix.empty();
-  }
   void clear() {
     M_matrix.clear();
     M_matrix.shrink_to_fit();
   }
-
 };
 
 /**

@@ -8,6 +8,7 @@
 #include <utility>
 #include <algorithm>
 
+// TODO: make it better
 namespace ntt_detail {
 
   constexpr uint32_t primitive_root(const uint32_t mod) {

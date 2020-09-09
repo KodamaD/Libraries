@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 #include <algorithm>
+#include <cassert>
 
 namespace fact_prime_detail {
 
@@ -15,6 +16,7 @@ public:
   static uint64_t mod;
 
   static void set_mod(uint64_t x) {
+    assert((x & 1));
     mod = x;
     encode = -__uint128_t(mod) % mod;
     decode = [] {
@@ -152,6 +154,7 @@ bool is_prime(T x) {
 
 template <class T>
 std::vector<T> enumerate_factors(T n, bool sort = true) {
+  assert(n >= 1);
   if (n == 1) return { };
   if (is_prime(n)) return { n };
   T d = fact_prime_detail::pollard_rho(n);
@@ -166,6 +169,7 @@ std::vector<T> enumerate_factors(T n, bool sort = true) {
 
 template <class T>
 std::vector<std::pair<T, size_t>> factorize(T n) {
+  assert(n >= 1);
   std::vector<std::pair<T, size_t>> res;
   T cur = 0;
   for (auto p: enumerate_factors(n)) {
@@ -180,6 +184,7 @@ std::vector<std::pair<T, size_t>> factorize(T n) {
 
 template <class T>
 std::vector<T> enumerate_divisors(T n, bool sort = true) {
+  assert(n >= 1);
   auto factors = factorize(n);
   std::vector<T> res;
   size_t size = 1;

@@ -5,6 +5,7 @@
 
 #include <cstddef>
 #include <vector>
+#include <cassert>
 
 template <class SemiGroup>
 class disjoint_sparse_table {
@@ -15,7 +16,6 @@ public:
   using size_type       = size_t;
 
 private:
-
   std::vector<std::vector<value_type>> M_table;
 
 public:
@@ -49,6 +49,8 @@ public:
   }
 
   value_type fold(const size_type first, size_type last) const {
+    assert(first <= last);
+    assert(last <= size());
     if (first == last) return empty_exception<value_semigroup>();
     if (first == --last) return M_table[0][first];
     const size_type height = bit_width(first ^ last) - 1;
@@ -63,10 +65,6 @@ public:
     if (M_table.empty()) return 0;
     return M_table.front().size();
   }
-  bool empty() const {
-    return M_table.empty();
-  }
-
 };
 
 /**

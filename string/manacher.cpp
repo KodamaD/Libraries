@@ -48,7 +48,6 @@ public:
       }
     }
   }
-
 };
 
 template <class InputIterator>

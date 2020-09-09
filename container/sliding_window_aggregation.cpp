@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <stack>
+#include <cassert>
 
 template <class SemiGroup>
 class sliding_window_aggregation {
@@ -40,6 +41,7 @@ public:
     }
   }
   void pop() {
+    assert(!empty());
     if (M_front.empty()) {
       M_front.emplace(M_back.top().value, M_back.top().value);
       M_back.pop();
@@ -58,7 +60,6 @@ public:
   bool empty() const {
     return M_front.empty() && M_back.empty();
   }
-
 };
 
 /**

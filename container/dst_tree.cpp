@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <vector>
+#include <cassert>
 
 template <class SemiGroup>
 class dst_tree {
@@ -44,6 +45,8 @@ public:
   }
 
   value_type fold(const size_type first, size_type last) const {
+    assert(first <= last);
+    assert(last <= size());
     if (first == last--) return empty_exception<value_semigroup>();
     const size_type fsec = first / M_logn, lsec = last / M_logn;
     const size_type fidx = first - fsec * M_logn, lidx = last - lsec * M_logn;
@@ -63,10 +66,6 @@ public:
   size_type size() const {
     return M_size;
   }
-  bool empty() const {
-    return M_size == 0;
-  }
-
 };
 
 /**

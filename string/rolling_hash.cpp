@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <vector>
 #include <string>
-#include <chrono>
+#include <cassert>
 
 namespace rolling_hash_detail {
 
@@ -94,9 +94,13 @@ public:
   }
 
   hash_type hash(size_type l, size_type r) const {
+    assert(l <= r);
+    assert(r <= size());
     return op_t::sub(M_hash[r], op_t::mul(op_t::power(r - l), M_hash[l]));
   }
   size_type lcp(size_type l, size_type r) const {
+    assert(l < size());
+    assert(r < size());
     size_type ok = 0, ng = std::min(M_string.size() - l, M_string.size() - r) + 1;
     while (ng - ok > 1) {
       size_type md = (ok + ng) >> 1;
@@ -120,7 +124,6 @@ public:
     M_hash.clear();
     M_hash.shrink_to_fit();
   }
-
 };
 
 /**

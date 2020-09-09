@@ -5,6 +5,7 @@
 
 #include <queue>
 #include <algorithm>
+#include <cassert>
 
 template <class Network>
 class dinic {
@@ -84,6 +85,9 @@ public:
   template <bool ValueOnly = true>
   typename std::enable_if<ValueOnly, flow_type>::type
   max_flow(const vertex_type source, const vertex_type sink, const bool initialize_edges = false) {
+    assert(source < M_graph.size());
+    assert(sink < M_graph.size());
+    assert(source != sink);
     const auto dfs = fix_point([&](const auto dfs, 
       const vertex_type vert, const flow_type flow) -> flow_type {
       if (vert == sink) return flow;
@@ -143,7 +147,6 @@ public:
     }
     return std::make_pair(flow, std::move(graph));
   }
-
 };
 
 /**

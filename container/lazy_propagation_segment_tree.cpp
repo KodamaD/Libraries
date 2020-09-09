@@ -19,8 +19,7 @@ public:
   using size_type       = size_t;
 
 private:
-  using fixed_structure       = fixed_combined_monoid<structure>;
-  using fixed_operator_monoid = typename fixed_structure::operator_structure;
+  using fixed_operator_monoid = fixed_monoid<operator_monoid>;
   using fixed_operator_type   = typename fixed_operator_monoid::type;
 
   class node_type {
@@ -29,13 +28,13 @@ private:
     fixed_operator_type lazy;
     node_type(
       const value_type    &value = value_monoid::identity(),
-      const fixed_operator_type &lazy  = fixed_operator_monoid::identity()
+      const fixed_operator_type &lazy = fixed_operator_monoid::identity()
     ): value(value), lazy(lazy) { }
   };
 
   static void S_apply(node_type &node, const fixed_operator_type &op, const size_type length) {
-    node.value = fixed_structure::operation(node.value, op, length);
-    node.lazy  = fixed_operator_monoid::operation(node.lazy, op);
+    fixed_operator_monoid::operate(structure::operation, node.value, op, length);
+    node.lazy = fixed_operator_monoid::operation(node.lazy, op);
   }
 
   void M_propagate(const size_type index, const size_type length) {

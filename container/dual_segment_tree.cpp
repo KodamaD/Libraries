@@ -7,6 +7,7 @@
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#include <cassert>
 
 template <class CombinedMonoid>
 class dual_segment_tree {
@@ -18,8 +19,7 @@ public:
   using size_type       = size_t;
 
 private:
-  using fixed_structure       = fixed_combined_monoid<structure>;
-  using fixed_operator_monoid = typename fixed_structure::operator_structure;
+  using fixed_operator_monoid = fixed_monoid<operator_structure>;
   using fixed_operator_type   = typename fixed_operator_monoid::type;
 
   static void S_apply(fixed_operator_type &op, const fixed_operator_type &add) {
@@ -64,17 +64,21 @@ public:
   }
 
   value_type at(size_type index) const {
-    const size_type index_c = index;
+    assert(index < size());
+    value_type res = M_leaves[index];
     index += size();
     fixed_operator_type op = M_tree[index];
     while (index != 1) {
       index >>= 1;
       S_apply(op, M_tree[index]);
     }
-    return fixed_structure::operation(M_leaves[index_c], op);
+    fixed_operator_monoid::operate(structure::operation, res, op);
+    return res;
   }
 
   void operate(size_type first, size_type last, const operator_type &op_) {
+    assert(first <= last);
+    assert(last <= size());
     const auto op = fixed_operator_monoid::convert(op_);
     first += size();
     last  += size();
@@ -95,6 +99,7 @@ public:
   }
 
   void assign(size_type index, const value_type &val) {
+    assert(index < size());
     const size_type index_c = index;
     index += size();
     for (size_type story = bit_width(index); story != 0; --story) {
@@ -110,11 +115,9 @@ public:
     M_tree.clear();
     M_tree.shrink_to_fit();
   }
-
   size_type size() const { 
     return M_leaves.size();
   }
-
 };
 
 /**

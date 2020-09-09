@@ -5,12 +5,14 @@
 #include <queue>
 #include <algorithm>
 
-class stack_impl {
+namespace push_relabel_detail {
+
+class stack {
 private:
   const size_t M_size;
   std::vector<size_t> M_stack;
 public:
-  explicit stack_impl(const size_t size):
+  explicit stack(const size_t size):
     M_size(size), M_stack(size * 2)
   { clear(); }
   size_t top(const size_t height) const {
@@ -31,12 +33,12 @@ public:
   }
 };
 
-class list_impl {
+class list {
 private:
   const size_t M_size;
   std::vector<std::pair<size_t, size_t>> M_list;
 public:
-  explicit list_impl(const size_t size):
+  explicit list(const size_t size):
     M_size(size), M_list(size * 2)
   { clear(); }
   bool empty(const size_t height) {
@@ -73,6 +75,8 @@ public:
     }
   }
 };
+
+}
 
 template <class Network>
 class push_relabel {
@@ -170,8 +174,11 @@ public:
   template <bool ValueOnly = true>
   typename std::enable_if<ValueOnly, flow_type>::type
   max_flow(const vertex_type source, const vertex_type sink, const bool initialize_edges = false) {
-    stack_impl active(M_graph.size());
-    list_impl level(M_graph.size());
+    assert(source < M_graph.size());
+    assert(sink < M_graph.size());
+    assert(source != sink);
+    push_relabel_detail::stack active(M_graph.size());
+    push_relabel_detail::list level(M_graph.size());
     height_type min_gap, max_active;
     for (auto &node: M_graph) {
       node.excess = 0;
@@ -309,7 +316,6 @@ public:
     }
     return std::make_pair(flow, std::move(graph));
   } 
-
 };
 
 /**

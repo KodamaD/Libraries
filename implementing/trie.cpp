@@ -12,7 +12,7 @@ public:
   using size_type = size_t;
   using value_type = typename Node::value_type;
 
-private:
+protected:
   using node_type = Node;
 
   std::vector<node_type> M_tree;

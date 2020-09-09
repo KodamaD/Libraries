@@ -7,6 +7,7 @@
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#include <cassert>
 
 template <class T>
 class randomized_queue {
@@ -31,10 +32,12 @@ public:
   }
 
   void shuffle() {
+    assert(!empty());
     std::swap(M_data.back(), M_data[random_number<size_type>(0, M_data.size() - 1)]);
   }
 
   value_type front() const {
+    assert(!empty());
     return M_data.back();
   }
   bool empty() const {
@@ -49,6 +52,7 @@ public:
     shuffle();
   }
   void pop() {
+    assert(!empty());
     M_data.pop_back();
     if (!M_data.empty()) {
       shuffle();
@@ -58,7 +62,6 @@ public:
     M_data.clear();
     M_data.shrink_to_fit();
   }
-
 };
 
 /**
