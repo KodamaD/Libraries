@@ -13,7 +13,6 @@ public:
     constexpr void operator ++ () noexcept { ++M_position; }
     constexpr bool operator != (iterator other) const noexcept { return M_position != other.M_position; }
     constexpr int64_t operator * () const noexcept { return M_position; }
-
   };
 
   class reverse_iterator {
@@ -25,7 +24,6 @@ public:
     constexpr void operator ++ () noexcept { --M_position; }
     constexpr bool operator != (reverse_iterator other) const noexcept { return M_position != other.M_position; }
     constexpr int64_t operator * () const noexcept { return M_position; }
-
   };
   
 private:
@@ -37,7 +35,6 @@ public:
   constexpr iterator end() const noexcept { return M_last; }
   constexpr reverse_iterator rbegin() const noexcept { return reverse_iterator(*M_last - 1); } 
   constexpr reverse_iterator rend() const noexcept { return reverse_iterator(*M_first - 1); } 
-
 };
 
 /**

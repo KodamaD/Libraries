@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../graph/network.cpp"
 #include "../other/fix_point.cpp"
 
 #include <queue>

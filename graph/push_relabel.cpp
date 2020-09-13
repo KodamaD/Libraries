@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../graph/network.cpp"
-
 #include <queue>
 #include <algorithm>
 
@@ -11,10 +9,12 @@ class stack {
 private:
   const size_t M_size;
   std::vector<size_t> M_stack;
+
 public:
   explicit stack(const size_t size):
     M_size(size), M_stack(size * 2)
   { clear(); }
+
   size_t top(const size_t height) const {
     return M_stack[M_size + height];
   }
@@ -37,16 +37,19 @@ class list {
 private:
   const size_t M_size;
   std::vector<std::pair<size_t, size_t>> M_list;
+
 public:
   explicit list(const size_t size):
     M_size(size), M_list(size * 2)
   { clear(); }
+
   bool empty(const size_t height) {
     return M_list[M_size + height].second == M_size + height;
   }
   bool more_than_one(const size_t height) {
     return M_list[M_size + height].first != M_list[M_size + height].second;
   }
+
   void insert(const size_t height, const size_t node) {
     M_list[node].first = M_list[M_size + height].first;
     M_list[node].second = M_size + height;
@@ -57,6 +60,7 @@ public:
     M_list[M_list[node].first].second = M_list[node].second;
     M_list[M_list[node].second].first = M_list[node].first;
   }
+  
   void clear() {
     for (size_t index = M_size; index < M_size * 2; ++index) {
       M_list[index].first = M_list[index].second = index;

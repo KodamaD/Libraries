@@ -37,11 +37,6 @@ private:
     fixed_operator_monoid::operate(structure::operation, node.value, op, length);
     node.lazy = fixed_operator_monoid::operation(node.lazy, op);
   }
-  template <class Constraint>
-  static bool S_satisfies(Constraint &&func, const value_type &value) {
-    return fixed_monoid<value_monoid>::satisfies(std::forward<Constraint>(func),
-      fixed_monoid<value_monoid>::convert(value));
-  }
 
   void M_propagate(const size_type index, const size_type length) {
     S_apply(M_tree[index << 1 | 0], M_tree[index].lazy, length);
@@ -161,7 +156,7 @@ public:
   template <bool ToRight = true, class Constraint, std::enable_if_t<ToRight>* = nullptr> 
   size_type satisfies(const size_type left, Constraint &&func) {
     assert(left <= size());
-    if (S_satisfies(std::forward<Constraint>(func), value_monoid::identity())) return left;
+    if (func(value_monoid::identity())) return left;
     size_type first = left + size();
     size_type last = 2 * size();
     M_pushdown(first);
@@ -170,7 +165,7 @@ public:
     value_type fold = value_monoid::identity();
     const auto try_merge = [&](const size_type index) {
       value_type tmp = value_monoid::operation(fold, M_tree[index].value);
-      if (S_satisfies(std::forward<Constraint>(func), tmp)) return true;
+      if (func(tmp)) return true;
       fold = std::move(tmp);
       return false;
     };
@@ -206,7 +201,7 @@ public:
   template <bool ToRight = true, class Constraint, std::enable_if_t<!ToRight>* = nullptr> 
   size_type satisfies(const size_type right, Constraint &&func) {
     assert(right <= size());
-    if (S_satisfies(std::forward<Constraint>(func), value_monoid::identity())) return right;
+    if (func(value_monoid::identity())) return right;
     size_type first = size();
     size_type last = right + size();
     M_pushdown(first);
@@ -215,7 +210,7 @@ public:
     value_type fold = value_monoid::identity();
     const auto try_merge = [&](const size_type index) {
       value_type tmp = value_monoid::operation(M_tree[index].value, fold);
-      if (S_satisfies(std::forward<Constraint>(func), tmp)) return true;
+      if (func(tmp)) return true;
       fold = std::move(tmp);
       return false;
     };

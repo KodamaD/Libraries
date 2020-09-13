@@ -35,7 +35,7 @@ namespace ntt_detail {
       }
     }
     return mod;
-  };
+  }
 
   template <size_t N, class T>
   constexpr std::array<T, N> compute_roots(T omega) {

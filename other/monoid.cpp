@@ -38,7 +38,7 @@ public:
 };
 
 template <class T>
-class fixed_monoid_impl<T, false>: private T {
+class fixed_monoid_impl<T, false> {
 public:
   class type {
   public:

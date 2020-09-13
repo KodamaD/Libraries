@@ -1,24 +1,20 @@
 
-#define PROBLEM "https://judge.yosupo.jp/problem/factorize"
+#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/1/NTL_1_A"
 
 #include "../algebraic/fact_prime.cpp"
 
-#include <cstddef>
 #include <cstdint>
 #include <iostream>
 
 int main() {
-  size_t Q;
-  std::cin >> Q;
-  while (Q--) {
-    uint64_t A;
-    std::cin >> A;
-    auto ans = enumerate_factors(A, true);
-    std::cout << ans.size();
-    for (auto x: ans) {
-      std::cout << ' ' << x;
+  uint32_t N;
+  std::cin >> N;
+  std::cout << N << ':';
+  for (auto [p, e]: factorize(N)) {
+    while (e--) {
+      std::cout << ' ' << p;
     }
-    std::cout << '\n';
   }
+  std::cout << '\n';
   return 0;
 }

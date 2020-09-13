@@ -17,7 +17,6 @@ public:
   constexpr rev_impl(T &&cont) noexcept: M_begin(std::rbegin(cont)), M_end(std::rend(cont)) { }
   constexpr iterator begin() const noexcept { return M_begin; }
   constexpr iterator end() const noexcept { return M_end; }
-
 };
 
 template <class T>

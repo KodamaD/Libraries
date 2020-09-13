@@ -18,10 +18,12 @@ public:
   class index_helper {
   private:
     const size_type M_stuff, M_size;
+
   public:
     explicit index_helper(const size_type stuff, const size_type size): 
       M_stuff(stuff), M_size(size) 
     { }
+
     vertex_type operator [] (const size_type index) const {
       return to_vertex(index);
     }
@@ -102,11 +104,13 @@ public:
 class base_edge {
 public:
   using vertex_type = uint32_t;
+
   const vertex_type source, dest;
   explicit base_edge(const vertex_type source, const vertex_type dest): 
     source(source), dest(dest) 
   { }
-  base_edge reverse() {
+
+  base_edge reverse() const {
     return base_edge(dest, source);
   }
 };
@@ -116,11 +120,13 @@ class flow_edge: public base_edge {
 public:
   using vertex_type = typename base_edge::vertex_type;
   using flow_type   = Flow;
+
   flow_type flow;
   const flow_type capacity;
   explicit flow_edge(const base_edge &edge, const flow_type capacity):
     base_edge(edge), flow(0), capacity(capacity)
   { }
+
   explicit flow_edge(const base_edge &edge, const flow_type flow, const flow_type capacity):
     base_edge(edge), flow(flow), capacity(capacity)
   { }
@@ -141,10 +147,12 @@ public:
   using vertex_type = typename flow_edge<Flow>::vertex_type;
   using flow_type   = typename flow_edge<Flow>::flow_type;
   using cost_type   = Cost;
+
   const cost_type cost;
   explicit flow_cost_edge(const flow_edge<Flow> &edge, const cost_type cost):
     flow_edge<Flow>(edge), cost(cost)
   { }
+  
   explicit flow_cost_edge(const vertex_type source, const vertex_type dest, const flow_type capacity, const cost_type cost):
     flow_edge<Flow>(source, dest, capacity), cost(cost)
   { }
