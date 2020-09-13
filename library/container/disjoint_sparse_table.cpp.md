@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/disjoint_sparse_table.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 22:02:05+09:00
+    - Last commit date: 2020-09-13 16:51:07+09:00
 
 
 
@@ -203,7 +203,7 @@ public:
 };
 
 template <class T>
-class fixed_monoid_impl<T, false>: private T {
+class fixed_monoid_impl<T, false> {
 public:
   class type {
   public:

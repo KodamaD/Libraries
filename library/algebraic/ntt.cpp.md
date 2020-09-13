@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#c7f6ad568392380a8f4b4cecbaccb64c">algebraic</a>
 * <a href="{{ site.github.repository_url }}/blob/master/algebraic/ntt.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 18:08:09+09:00
+    - Last commit date: 2020-09-13 16:51:07+09:00
 
 
 
@@ -83,7 +83,7 @@ namespace ntt_detail {
       }
     }
     return mod;
-  };
+  }
 
   template <size_t N, class T>
   constexpr std::array<T, N> compute_roots(T omega) {
@@ -235,7 +235,7 @@ namespace ntt_detail {
       }
     }
     return mod;
-  };
+  }
 
   template <size_t N, class T>
   constexpr std::array<T, N> compute_roots(T omega) {

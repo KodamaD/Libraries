@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/push_relabel.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 18:08:09+09:00
+    - Last commit date: 2020-09-13 16:51:07+09:00
 
 
 * see: <a href="https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A">https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A</a>
@@ -104,10 +104,12 @@ public:
   class index_helper {
   private:
     const size_type M_stuff, M_size;
+
   public:
     explicit index_helper(const size_type stuff, const size_type size): 
       M_stuff(stuff), M_size(size) 
     { }
+
     vertex_type operator [] (const size_type index) const {
       return to_vertex(index);
     }
@@ -188,11 +190,13 @@ public:
 class base_edge {
 public:
   using vertex_type = uint32_t;
+
   const vertex_type source, dest;
   explicit base_edge(const vertex_type source, const vertex_type dest): 
     source(source), dest(dest) 
   { }
-  base_edge reverse() {
+
+  base_edge reverse() const {
     return base_edge(dest, source);
   }
 };
@@ -202,11 +206,13 @@ class flow_edge: public base_edge {
 public:
   using vertex_type = typename base_edge::vertex_type;
   using flow_type   = Flow;
+
   flow_type flow;
   const flow_type capacity;
   explicit flow_edge(const base_edge &edge, const flow_type capacity):
     base_edge(edge), flow(0), capacity(capacity)
   { }
+
   explicit flow_edge(const base_edge &edge, const flow_type flow, const flow_type capacity):
     base_edge(edge), flow(flow), capacity(capacity)
   { }
@@ -227,10 +233,12 @@ public:
   using vertex_type = typename flow_edge<Flow>::vertex_type;
   using flow_type   = typename flow_edge<Flow>::flow_type;
   using cost_type   = Cost;
+
   const cost_type cost;
   explicit flow_cost_edge(const flow_edge<Flow> &edge, const cost_type cost):
     flow_edge<Flow>(edge), cost(cost)
   { }
+  
   explicit flow_cost_edge(const vertex_type source, const vertex_type dest, const flow_type capacity, const cost_type cost):
     flow_edge<Flow>(source, dest, capacity), cost(cost)
   { }
@@ -247,8 +255,6 @@ public:
  */
 #line 2 "graph/push_relabel.cpp"
 
-#line 4 "graph/push_relabel.cpp"
-
 #include <queue>
 #include <algorithm>
 
@@ -258,10 +264,12 @@ class stack {
 private:
   const size_t M_size;
   std::vector<size_t> M_stack;
+
 public:
   explicit stack(const size_t size):
     M_size(size), M_stack(size * 2)
   { clear(); }
+
   size_t top(const size_t height) const {
     return M_stack[M_size + height];
   }
@@ -284,16 +292,19 @@ class list {
 private:
   const size_t M_size;
   std::vector<std::pair<size_t, size_t>> M_list;
+
 public:
   explicit list(const size_t size):
     M_size(size), M_list(size * 2)
   { clear(); }
+
   bool empty(const size_t height) {
     return M_list[M_size + height].second == M_size + height;
   }
   bool more_than_one(const size_t height) {
     return M_list[M_size + height].first != M_list[M_size + height].second;
   }
+
   void insert(const size_t height, const size_t node) {
     M_list[node].first = M_list[M_size + height].first;
     M_list[node].second = M_size + height;
@@ -304,6 +315,7 @@ public:
     M_list[M_list[node].first].second = M_list[node].second;
     M_list[M_list[node].second].first = M_list[node].first;
   }
+  
   void clear() {
     for (size_t index = M_size; index < M_size * 2; ++index) {
       M_list[index].first = M_list[index].second = index;

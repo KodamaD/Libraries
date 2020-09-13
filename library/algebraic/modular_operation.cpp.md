@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: Modular Operations
+# :warning: Modular Operations
 
 <a href="../../index.html">Back to top page</a>
 
@@ -38,13 +38,13 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../other/random_number.cpp.html">Random Number</a>
+* :warning: <a href="../other/random_number.cpp.html">Random Number</a>
 
 
-## Verified with
+## Required by
 
-* :heavy_check_mark: <a href="../../verify/test/discrete_log.test.cpp.html">test/discrete_log.test.cpp</a>
-* :heavy_check_mark: <a href="../../verify/test/sqrt_mod.test.cpp.html">test/sqrt_mod.test.cpp</a>
+* :warning: <a href="../test/discrete_log.cpp.html">test/discrete_log.cpp</a>
+* :warning: <a href="../test/sqrt_mod.cpp.html">test/sqrt_mod.cpp</a>
 
 
 ## Code

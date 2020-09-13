@@ -25,21 +25,21 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/enumerate_divisors.test.cpp
+# :heavy_check_mark: test/enumerate_factors_faster.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
-* <a href="{{ site.github.repository_url }}/blob/master/test/enumerate_divisors.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 18:08:09+09:00
+* <a href="{{ site.github.repository_url }}/blob/master/test/enumerate_factors_faster.test.cpp">View this file on GitHub</a>
+    - Last commit date: 2020-09-13 16:51:07+09:00
 
 
-* see: <a href="https://yukicoder.me/problems/no/888">https://yukicoder.me/problems/no/888</a>
+* see: <a href="https://judge.yosupo.jp/problem/factorize">https://judge.yosupo.jp/problem/factorize</a>
 
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/algebraic/fact_prime.cpp.html">Primes/Factors</a>
+* :heavy_check_mark: <a href="../../library/algebraic/fact_prime_faster.cpp.html">Fast Factorization</a>
 * :heavy_check_mark: <a href="../../library/other/fix_point.cpp.html">Lambda Recursion</a>
 
 
@@ -49,21 +49,27 @@ layout: default
 {% raw %}
 ```cpp
 
-#define PROBLEM "https://yukicoder.me/problems/no/888"
+#define PROBLEM "https://judge.yosupo.jp/problem/factorize"
 
-#include "../algebraic/fact_prime.cpp"
+#include "../algebraic/fact_prime_faster.cpp"
 
+#include <cstddef>
 #include <cstdint>
 #include <iostream>
 
 int main() {
-  uint64_t N;
-  std::cin >> N;
-  uint64_t ans = 0;
-  for (auto x: enumerate_divisors(N, false)) {
-    ans += x;
+  size_t Q;
+  std::cin >> Q;
+  while (Q--) {
+    uint64_t A;
+    std::cin >> A;
+    auto ans = enumerate_factors(A, true);
+    std::cout << ans.size();
+    for (auto x: ans) {
+      std::cout << ' ' << x;
+    }
+    std::cout << '\n';
   }
-  std::cout << ans << '\n';
   return 0;
 }
 
@@ -73,11 +79,11 @@ int main() {
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "test/enumerate_divisors.test.cpp"
+#line 1 "test/enumerate_factors_faster.test.cpp"
 
-#define PROBLEM "https://yukicoder.me/problems/no/888"
+#define PROBLEM "https://judge.yosupo.jp/problem/factorize"
 
-#line 2 "algebraic/fact_prime.cpp"
+#line 2 "algebraic/fact_prime_faster.cpp"
 
 #line 2 "other/fix_point.cpp"
 
@@ -100,11 +106,11 @@ constexpr decltype(auto) fix_point(Func &&func) {
 /**
  * @title Lambda Recursion
  */
-#line 4 "algebraic/fact_prime.cpp"
+#line 4 "algebraic/fact_prime_faster.cpp"
 
 #include <cstddef>
 #include <cstdint>
-#line 8 "algebraic/fact_prime.cpp"
+#line 8 "algebraic/fact_prime_faster.cpp"
 #include <vector>
 #include <algorithm>
 #include <cassert>
@@ -309,21 +315,26 @@ std::vector<T> enumerate_divisors(T n, bool sort = true) {
 }
 
 /**
- * @title Primes/Factors
+ * @title Fast Factorization
  */
-#line 5 "test/enumerate_divisors.test.cpp"
+#line 5 "test/enumerate_factors_faster.test.cpp"
 
-#line 7 "test/enumerate_divisors.test.cpp"
+#line 8 "test/enumerate_factors_faster.test.cpp"
 #include <iostream>
 
 int main() {
-  uint64_t N;
-  std::cin >> N;
-  uint64_t ans = 0;
-  for (auto x: enumerate_divisors(N, false)) {
-    ans += x;
+  size_t Q;
+  std::cin >> Q;
+  while (Q--) {
+    uint64_t A;
+    std::cin >> A;
+    auto ans = enumerate_factors(A, true);
+    std::cout << ans.size();
+    for (auto x: ans) {
+      std::cout << ' ' << x;
+    }
+    std::cout << '\n';
   }
-  std::cout << ans << '\n';
   return 0;
 }
 

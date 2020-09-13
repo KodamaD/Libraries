@@ -38,16 +38,17 @@ layout: default
 
 ## Required by
 
-* :heavy_check_mark: <a href="../algebraic/fact_prime.cpp.html">Primes/Factors</a>
+* :heavy_check_mark: <a href="../algebraic/fact_prime_faster.cpp.html">Fast Factorization</a>
 * :heavy_check_mark: <a href="../graph/dinic.cpp.html">Dinic</a>
-* :warning: <a href="../implementing/sequence.cpp.html">implementing/sequence.cpp</a>
+* :heavy_check_mark: <a href="../graph/scc.cpp.html">Strongly Connected Components</a>
 
 
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/dinic.test.cpp.html">test/dinic.test.cpp</a>
-* :heavy_check_mark: <a href="../../verify/test/enumerate_divisors.test.cpp.html">test/enumerate_divisors.test.cpp</a>
-* :heavy_check_mark: <a href="../../verify/test/enumerate_factors.test.cpp.html">test/enumerate_factors.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/enumerate_divisors_faster.test.cpp.html">test/enumerate_divisors_faster.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/enumerate_factors_faster.test.cpp.html">test/enumerate_factors_faster.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/scc.test.cpp.html">test/scc.test.cpp</a>
 
 
 ## Code

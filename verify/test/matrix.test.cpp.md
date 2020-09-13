@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/matrix.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 18:08:09+09:00
+    - Last commit date: 2020-09-13 16:51:07+09:00
 
 
 * see: <a href="https://yukicoder.me/problems/no/1105">https://yukicoder.me/problems/no/1105</a>
@@ -39,7 +39,7 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">Modint</a>
+* :heavy_check_mark: <a href="../../library/algebraic/modular.cpp.html">Static Modint</a>
 * :heavy_check_mark: <a href="../../library/container/matrix.cpp.html">Matrix</a>
 
 
@@ -107,84 +107,78 @@ int main() {
 #include <cstdint>
 #include <iostream>
 
-template <class Modulus>
-class modular {
+template <uint32_t Mod>
+class static_modint {
 public:
   using value_type = uint32_t;
   using cover_type = uint64_t;
-  static constexpr value_type mod() { return Modulus::value(); }
 
   template <class T>
   static constexpr value_type normalize(T value_) noexcept {
     if (value_ < 0) {
       value_ = -value_;
-      value_ %= mod();
+      value_ %= Mod;
       if (value_ == 0) return 0;
-      return mod() - value_;
+      return Mod - value_;
     }
-    return value_ % mod();
+    return value_ % Mod;
   }
 
 private:
   value_type value;
 
 public:
-  constexpr modular() noexcept : value(0) { }
+  constexpr static_modint() noexcept : value(0) { }
   template <class T>
-  explicit constexpr modular(T value_) noexcept : value(normalize(value_)) { }
+  explicit constexpr static_modint(T value_) noexcept : value(normalize(value_)) { }
   template <class T>
   explicit constexpr operator T() const noexcept { return static_cast<T>(value); }
 
   constexpr value_type get() const noexcept { return value; }
   constexpr value_type &extract() noexcept { return value; }
-  constexpr modular operator - () const noexcept { return modular(mod() - value); }
-  constexpr modular operator ~ () const noexcept { return inverse(*this); }
+  constexpr static_modint operator - () const noexcept { return static_modint(Mod - value); }
+  constexpr static_modint operator ~ () const noexcept { return inverse(*this); }
 
-  constexpr modular operator + (const modular &rhs) const noexcept { return modular(*this) += rhs; }
-  constexpr modular& operator += (const modular &rhs) noexcept { 
-    if ((value += rhs.value) >= mod()) value -= mod(); 
+  constexpr static_modint operator + (const static_modint &rhs) const noexcept { return static_modint(*this) += rhs; }
+  constexpr static_modint& operator += (const static_modint &rhs) noexcept { 
+    if ((value += rhs.value) >= Mod) value -= Mod; 
     return *this; 
   }
 
-  constexpr modular operator - (const modular &rhs) const noexcept { return modular(*this) -= rhs; }
-  constexpr modular& operator -= (const modular &rhs) noexcept { 
-    if ((value += mod() - rhs.value) >= mod()) value -= mod(); 
+  constexpr static_modint operator - (const static_modint &rhs) const noexcept { return static_modint(*this) -= rhs; }
+  constexpr static_modint& operator -= (const static_modint &rhs) noexcept { 
+    if ((value += Mod - rhs.value) >= Mod) value -= Mod; 
     return *this; 
   }
 
-  constexpr modular operator * (const modular &rhs) const noexcept { return modular(*this) *= rhs; }
-  constexpr modular& operator *= (const modular &rhs) noexcept { 
-    value = (cover_type) value * rhs.value % mod();
+  constexpr static_modint operator * (const static_modint &rhs) const noexcept { return static_modint(*this) *= rhs; }
+  constexpr static_modint& operator *= (const static_modint &rhs) noexcept { 
+    value = (cover_type) value * rhs.value % Mod;
     return *this;
   }
 
-  constexpr modular operator / (const modular &rhs) const noexcept { return modular(*this) /= rhs; }
-  constexpr modular& operator /= (const modular &rhs) noexcept { return (*this) *= inverse(rhs); }
+  constexpr static_modint operator / (const static_modint &rhs) const noexcept { return static_modint(*this) /= rhs; }
+  constexpr static_modint& operator /= (const static_modint &rhs) noexcept { return (*this) *= inverse(rhs); }
 
   constexpr bool zero() const noexcept { return value == 0; }
-  constexpr bool operator == (const modular &rhs) const noexcept { return value == rhs.value; }
-  constexpr bool operator != (const modular &rhs) const noexcept { return value != rhs.value; }
+  constexpr bool operator == (const static_modint &rhs) const noexcept { return value == rhs.value; }
+  constexpr bool operator != (const static_modint &rhs) const noexcept { return value != rhs.value; }
 
-  friend std::ostream& operator << (std::ostream &stream, const modular &rhs) { return stream << rhs.value; }
-  friend constexpr modular inverse(modular val) noexcept { return power(val, mod() - 2); }
-  friend constexpr modular power(modular val, cover_type exp) noexcept { 
-    modular res(1);
+  friend std::ostream& operator << (std::ostream &stream, const static_modint &rhs) { return stream << rhs.value; }
+  friend constexpr static_modint inverse(static_modint val) noexcept { return power(val, Mod - 2); }
+  friend constexpr static_modint power(static_modint val, cover_type exp) noexcept { 
+    static_modint res(1);
     for (; exp > 0; exp >>= 1, val *= val) if (exp & 1) res *= val;
     return res;
   }
 
 };
 
-template <uint32_t Val>
-struct modulus_impl { static constexpr uint32_t value() noexcept { return Val; } };
-template <uint32_t Val>
-using mint32_t = modular<modulus_impl<Val>>;
-
-struct runtime_mod { static uint32_t &value() noexcept { static uint32_t val = 0; return val; } };
-using rmint32_t = modular<runtime_mod>;
+template <uint32_t Mod>
+using mint32_t = static_modint<Mod>;
 
 /**
- * @title Modint
+ * @title Static Modint
  */
 #line 2 "container/matrix.cpp"
 

@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#5f0b6ebc4bea10285ba2b8a6ce78b863">container</a>
 * <a href="{{ site.github.repository_url }}/blob/master/container/lazy_propagation_segment_tree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 22:02:05+09:00
+    - Last commit date: 2020-09-13 16:51:07+09:00
 
 
 
@@ -90,11 +90,6 @@ private:
   static void S_apply(node_type &node, const fixed_operator_type &op, const size_type length) {
     fixed_operator_monoid::operate(structure::operation, node.value, op, length);
     node.lazy = fixed_operator_monoid::operation(node.lazy, op);
-  }
-  template <class Constraint>
-  static bool S_satisfies(Constraint &&func, const value_type &value) {
-    return fixed_monoid<value_monoid>::satisfies(std::forward<Constraint>(func),
-      fixed_monoid<value_monoid>::convert(value));
   }
 
   void M_propagate(const size_type index, const size_type length) {
@@ -215,7 +210,7 @@ public:
   template <bool ToRight = true, class Constraint, std::enable_if_t<ToRight>* = nullptr> 
   size_type satisfies(const size_type left, Constraint &&func) {
     assert(left <= size());
-    if (S_satisfies(std::forward<Constraint>(func), value_monoid::identity())) return left;
+    if (func(value_monoid::identity())) return left;
     size_type first = left + size();
     size_type last = 2 * size();
     M_pushdown(first);
@@ -224,7 +219,7 @@ public:
     value_type fold = value_monoid::identity();
     const auto try_merge = [&](const size_type index) {
       value_type tmp = value_monoid::operation(fold, M_tree[index].value);
-      if (S_satisfies(std::forward<Constraint>(func), tmp)) return true;
+      if (func(tmp)) return true;
       fold = std::move(tmp);
       return false;
     };
@@ -260,7 +255,7 @@ public:
   template <bool ToRight = true, class Constraint, std::enable_if_t<!ToRight>* = nullptr> 
   size_type satisfies(const size_type right, Constraint &&func) {
     assert(right <= size());
-    if (S_satisfies(std::forward<Constraint>(func), value_monoid::identity())) return right;
+    if (func(value_monoid::identity())) return right;
     size_type first = size();
     size_type last = right + size();
     M_pushdown(first);
@@ -269,7 +264,7 @@ public:
     value_type fold = value_monoid::identity();
     const auto try_merge = [&](const size_type index) {
       value_type tmp = value_monoid::operation(M_tree[index].value, fold);
-      if (S_satisfies(std::forward<Constraint>(func), tmp)) return true;
+      if (func(tmp)) return true;
       fold = std::move(tmp);
       return false;
     };
@@ -389,7 +384,7 @@ public:
 };
 
 template <class T>
-class fixed_monoid_impl<T, false>: private T {
+class fixed_monoid_impl<T, false> {
 public:
   class type {
   public:
@@ -466,11 +461,6 @@ private:
   static void S_apply(node_type &node, const fixed_operator_type &op, const size_type length) {
     fixed_operator_monoid::operate(structure::operation, node.value, op, length);
     node.lazy = fixed_operator_monoid::operation(node.lazy, op);
-  }
-  template <class Constraint>
-  static bool S_satisfies(Constraint &&func, const value_type &value) {
-    return fixed_monoid<value_monoid>::satisfies(std::forward<Constraint>(func),
-      fixed_monoid<value_monoid>::convert(value));
   }
 
   void M_propagate(const size_type index, const size_type length) {
@@ -591,7 +581,7 @@ public:
   template <bool ToRight = true, class Constraint, std::enable_if_t<ToRight>* = nullptr> 
   size_type satisfies(const size_type left, Constraint &&func) {
     assert(left <= size());
-    if (S_satisfies(std::forward<Constraint>(func), value_monoid::identity())) return left;
+    if (func(value_monoid::identity())) return left;
     size_type first = left + size();
     size_type last = 2 * size();
     M_pushdown(first);
@@ -600,7 +590,7 @@ public:
     value_type fold = value_monoid::identity();
     const auto try_merge = [&](const size_type index) {
       value_type tmp = value_monoid::operation(fold, M_tree[index].value);
-      if (S_satisfies(std::forward<Constraint>(func), tmp)) return true;
+      if (func(tmp)) return true;
       fold = std::move(tmp);
       return false;
     };
@@ -636,7 +626,7 @@ public:
   template <bool ToRight = true, class Constraint, std::enable_if_t<!ToRight>* = nullptr> 
   size_type satisfies(const size_type right, Constraint &&func) {
     assert(right <= size());
-    if (S_satisfies(std::forward<Constraint>(func), value_monoid::identity())) return right;
+    if (func(value_monoid::identity())) return right;
     size_type first = size();
     size_type last = right + size();
     M_pushdown(first);
@@ -645,7 +635,7 @@ public:
     value_type fold = value_monoid::identity();
     const auto try_merge = [&](const size_type index) {
       value_type tmp = value_monoid::operation(M_tree[index].value, fold);
-      if (S_satisfies(std::forward<Constraint>(func), tmp)) return true;
+      if (func(tmp)) return true;
       fold = std::move(tmp);
       return false;
     };

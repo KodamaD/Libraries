@@ -38,11 +38,13 @@ layout: default
 
 ### algebraic
 
-* :heavy_check_mark: <a href="library/algebraic/fact_prime.cpp.html">Primes/Factors</a>
+* :heavy_check_mark: <a href="library/algebraic/fact_prime.cpp.html">Factors/Divisors</a>
+* :heavy_check_mark: <a href="library/algebraic/fact_prime_faster.cpp.html">Fast Factorization</a>
 * :heavy_check_mark: <a href="library/algebraic/factorials.cpp.html">Factorial</a>
-* :heavy_check_mark: <a href="library/algebraic/modular.cpp.html">Modint</a>
-* :heavy_check_mark: <a href="library/algebraic/modular_operation.cpp.html">Modular Operations</a>
+* :heavy_check_mark: <a href="library/algebraic/modular.cpp.html">Static Modint</a>
+* :warning: <a href="library/algebraic/modular_operation.cpp.html">Modular Operations</a>
 * :warning: <a href="library/algebraic/ntt.cpp.html">Number Theoretic Transform</a>
+* :warning: <a href="library/algebraic/sieve.cpp.html">algebraic/sieve.cpp</a>
 
 
 <div id="5f0b6ebc4bea10285ba2b8a6ce78b863"></div>
@@ -80,6 +82,7 @@ layout: default
 * :heavy_check_mark: <a href="library/graph/network.cpp.html">Network</a>
 * :warning: <a href="library/graph/partially_persistent_union_find.cpp.html">Partially Persistent Union Find</a>
 * :heavy_check_mark: <a href="library/graph/push_relabel.cpp.html">Push Relabel</a>
+* :heavy_check_mark: <a href="library/graph/scc.cpp.html">Strongly Connected Components</a>
 * :heavy_check_mark: <a href="library/graph/union_find.cpp.html">Union Find</a>
 
 
@@ -88,7 +91,6 @@ layout: default
 ### implementing
 
 * :warning: <a href="library/implementing/aho_corasick.cpp.html">implementing/aho_corasick.cpp</a>
-* :warning: <a href="library/implementing/sequence.cpp.html">implementing/sequence.cpp</a>
 * :warning: <a href="library/implementing/trie.cpp.html">implementing/trie.cpp</a>
 
 
@@ -104,7 +106,7 @@ layout: default
 * :heavy_check_mark: <a href="library/other/monoid.cpp.html">Monoid Utility</a>
 * :warning: <a href="library/other/multi_array.cpp.html">Multi-Dimensional Array</a>
 * :warning: <a href="library/other/multi_vec.cpp.html">Multi-Dimensional Vector</a>
-* :heavy_check_mark: <a href="library/other/random_number.cpp.html">Random Number</a>
+* :warning: <a href="library/other/random_number.cpp.html">Random Number</a>
 * :warning: <a href="library/other/range.cpp.html">Range</a>
 * :warning: <a href="library/other/rev.cpp.html">Reverser</a>
 * :warning: <a href="library/other/template.cpp.html">Template</a>
@@ -121,14 +123,22 @@ layout: default
 * :heavy_check_mark: <a href="library/string/z_algorithm.cpp.html">Z-Algorithm</a>
 
 
+<div id="098f6bcd4621d373cade4e832627b4f6"></div>
+
+### test
+
+* :warning: <a href="library/test/discrete_log.cpp.html">test/discrete_log.cpp</a>
+* :warning: <a href="library/test/sqrt_mod.cpp.html">test/sqrt_mod.cpp</a>
+
+
 ## Verify Files
 
 * :heavy_check_mark: <a href="verify/test/dinic.test.cpp.html">test/dinic.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/discrete_log.test.cpp.html">test/discrete_log.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/dst_tree.test.cpp.html">test/dst_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/enumerate_divisors.test.cpp.html">test/enumerate_divisors.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/enumerate_divisors_faster.test.cpp.html">test/enumerate_divisors_faster.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/enumerate_factors.test.cpp.html">test/enumerate_factors.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/enumerate_factors_faster.test.cpp.html">test/enumerate_factors_faster.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/factorials.test.cpp.html">test/factorials.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/fast_io.test.cpp.html">test/fast_io.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/fenwick_tree.test.cpp.html">test/fenwick_tree.test.cpp</a>
@@ -136,9 +146,9 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/lca.test.cpp.html">test/lca.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/matrix.test.cpp.html">test/matrix.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/push_relabel.test.cpp.html">test/push_relabel.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/scc.test.cpp.html">test/scc.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/sliding_window_aggregation.test.cpp.html">test/sliding_window_aggregation.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/sqrt_mod.test.cpp.html">test/sqrt_mod.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/suffix_array.test.cpp.html">test/suffix_array.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/union_find.test.cpp.html">test/union_find.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/vertex_set_path_sum.test.cpp.html">test/vertex_set_path_sum.test.cpp</a>

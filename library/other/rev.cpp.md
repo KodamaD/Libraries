@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/rev.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-10 11:08:49+09:00
+    - Last commit date: 2020-09-13 16:51:07+09:00
 
 
 
@@ -60,7 +60,6 @@ public:
   constexpr rev_impl(T &&cont) noexcept: M_begin(std::rbegin(cont)), M_end(std::rend(cont)) { }
   constexpr iterator begin() const noexcept { return M_begin; }
   constexpr iterator end() const noexcept { return M_end; }
-
 };
 
 template <class T>
@@ -96,7 +95,6 @@ public:
   constexpr rev_impl(T &&cont) noexcept: M_begin(std::rbegin(cont)), M_end(std::rend(cont)) { }
   constexpr iterator begin() const noexcept { return M_begin; }
   constexpr iterator end() const noexcept { return M_end; }
-
 };
 
 template <class T>

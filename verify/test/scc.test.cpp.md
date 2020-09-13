@@ -25,22 +25,22 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/dinic.test.cpp
+# :heavy_check_mark: test/scc.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
-* <a href="{{ site.github.repository_url }}/blob/master/test/dinic.test.cpp">View this file on GitHub</a>
+* <a href="{{ site.github.repository_url }}/blob/master/test/scc.test.cpp">View this file on GitHub</a>
     - Last commit date: 2020-09-13 16:51:07+09:00
 
 
-* see: <a href="https://judge.yosupo.jp/problem/bipartitematching">https://judge.yosupo.jp/problem/bipartitematching</a>
+* see: <a href="https://judge.yosupo.jp/problem/scc">https://judge.yosupo.jp/problem/scc</a>
 
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/graph/dinic.cpp.html">Dinic</a>
 * :heavy_check_mark: <a href="../../library/graph/network.cpp.html">Network</a>
+* :heavy_check_mark: <a href="../../library/graph/scc.cpp.html">Strongly Connected Components</a>
 * :heavy_check_mark: <a href="../../library/other/fix_point.cpp.html">Lambda Recursion</a>
 
 
@@ -49,44 +49,32 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-
-#define PROBLEM "https://judge.yosupo.jp/problem/bipartitematching"
+#define PROBLEM "https://judge.yosupo.jp/problem/scc"
 
 #include "../graph/network.cpp"
-#include "../graph/dinic.cpp"
+#include "../graph/scc.cpp"
 
 #include <cstddef>
-#include <cstdint>
 #include <iostream>
 
 int main() {
-  size_t L, R, M;
-  std::cin >> L >> R >> M;
-  network<flow_edge<int32_t>> graph;
-  const auto S = graph.add_vertex();
-  const auto T = graph.add_vertex();
-  const auto left = graph.add_vertices(L);
-  const auto right = graph.add_vertices(R);
-  while (M--) {
-    size_t u, v;
-    std::cin >> u >> v;
-    graph.emplace_edge(left[u], right[v], 1);
+  size_t N, M;
+  std::cin >> N >> M;
+  network<base_edge> net;
+  net.add_vertices<false>(N);
+  for (size_t i = 0; i < M; ++i) {
+    size_t a, b;
+    std::cin >> a >> b;
+    net.emplace_edge(a, b);
   }
-  for (size_t i = 0; i < L; ++i) {
-    graph.emplace_edge(S, left[i], 1);
-  }
-  for (size_t i = 0; i < R; ++i) {
-    graph.emplace_edge(right[i], T, 1);
-  }
-  const auto [flow, built] = dinic(graph).max_flow<false>(S, T);
-  std::cout << flow << '\n';
-  for (size_t i = 0; i < L; ++i) {
-    for (const auto &edge: built[left[i]]) {
-      if (edge.flow > 0) {
-        std::cout << i << ' ' << right.to_index(edge.dest) << '\n';
-        break;
-      }
+  const auto group = strongly_connected_components(net).decompose();
+  std::cout << group.size() << '\n';
+  for (const auto &vec: group) {
+    std::cout << vec.size();
+    for (const auto u: vec) {
+      std::cout << ' ' << u;
     }
+    std::cout << '\n';
   }
   return 0;
 }
@@ -97,9 +85,8 @@ int main() {
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "test/dinic.test.cpp"
-
-#define PROBLEM "https://judge.yosupo.jp/problem/bipartitematching"
+#line 1 "test/scc.test.cpp"
+#define PROBLEM "https://judge.yosupo.jp/problem/scc"
 
 #line 2 "graph/network.cpp"
 
@@ -270,7 +257,7 @@ public:
 /**
  * @title Network
  */
-#line 2 "graph/dinic.cpp"
+#line 2 "graph/scc.cpp"
 
 #line 2 "other/fix_point.cpp"
 
@@ -293,190 +280,97 @@ constexpr decltype(auto) fix_point(Func &&func) {
 /**
  * @title Lambda Recursion
  */
-#line 4 "graph/dinic.cpp"
+#line 4 "graph/scc.cpp"
 
-#include <queue>
-#include <algorithm>
-#line 8 "graph/dinic.cpp"
+#line 6 "graph/scc.cpp"
+#include <stack>
 
 template <class Network>
-class dinic {
+class strongly_connected_components {
 public:
   using network_type = Network;
   using vertex_type  = typename Network::vertex_type;
   using edge_type    = typename Network::edge_type;
   using size_type    = typename Network::size_type;
-  using flow_type    = typename Network::edge_type::flow_type;
-  using height_type  = uint32_t;
-
-  static_assert(std::is_integral<flow_type>::value, "invalid flow type :: non-integral");
 
 private:
-  class residual_edge: public edge_type {
-  public:
-    const size_type rev;
-    const bool is_rev;
-    explicit residual_edge(const edge_type &edge, const size_type rev, const bool is_rev):
-      edge_type(edge), rev(rev), is_rev(is_rev)
-    { }
-  };
-
-  class node_type {
-  public:
-    std::vector<residual_edge> edges;
-    height_type level;
-    size_type iter;
-    node_type() = default;
-  };
-
-  flow_type M_remain(const residual_edge &edge) {
-    return edge.capacity - edge.flow;
-  }
-  residual_edge &M_cur_edge(node_type &node) {
-    return node.edges[node.iter];
-  }
-  residual_edge &M_rev_edge(const residual_edge &edge) {
-    return M_graph[edge.dest].edges[edge.rev];
-  }
-
-  void M_bfs(const vertex_type source) {
-    for (auto &node: M_graph) {
-      node.level = M_graph.size() + 1;
-    }
-    M_graph[source].level = 0;
-    std::queue<vertex_type> queue;
-    queue.push(source);
-    while (!queue.empty()) {
-      const auto vert = queue.front();
-      queue.pop();
-      for (const auto &edge: M_graph[vert].edges) {
-        if (M_remain(edge) > 0) {
-          if (M_graph[edge.dest].level == M_graph.size() + 1) {
-            M_graph[edge.dest].level = M_graph[vert].level + 1;
-            queue.push(edge.dest);
-          }
-        }
-      }
-    }
-  }
-
-  std::vector<node_type> M_graph;
+  std::vector<std::vector<vertex_type>> graph;
+  std::vector<std::vector<vertex_type>> revgraph;
 
 public:
-  dinic() = default;
-  explicit dinic(const network_type &net) {
-    M_graph.resize(net.size());
+  explicit strongly_connected_components(const network_type &net) {
+    graph.resize(net.size());
+    revgraph.resize(net.size());
     for (size_type src = 0; src < net.size(); ++src) {
       for (const auto &edge: net[src]) {
-        M_graph[src].edges.emplace_back(edge, M_graph[edge.dest].edges.size(), false);
-        M_graph[edge.dest].edges.emplace_back(edge.reverse(), M_graph[src].edges.size() - 1, true);
+        graph[src].push_back(edge.dest);
+        revgraph[edge.dest].push_back(src);
       }
     }
   }
 
-  template <bool ValueOnly = true>
-  typename std::enable_if<ValueOnly, flow_type>::type
-  max_flow(const vertex_type source, const vertex_type sink, const bool initialize_edges = false) {
-    assert(source < M_graph.size());
-    assert(sink < M_graph.size());
-    assert(source != sink);
-    const auto dfs = fix_point([&](const auto dfs, 
-      const vertex_type vert, const flow_type flow) -> flow_type {
-      if (vert == sink) return flow;
-      auto &node = M_graph[vert];
-      for (; node.iter < node.edges.size(); ++node.iter) {
-        auto &edge = M_cur_edge(node);
-        if (M_remain(edge) > 0 && node.level < M_graph[edge.dest].level) {
-          const auto push = dfs(edge.dest, std::min(flow, M_remain(edge)));
-          if (push > 0) {
-            edge.flow += push;
-            M_rev_edge(edge).flow -= push;
-            return push;
-          }
-        }
+  std::vector<std::vector<vertex_type>> decompose() const {
+    std::vector<bool> visited(graph.size());
+    std::stack<vertex_type> topological;
+    const auto sort = fix_point([&](auto dfs, const vertex_type u) -> void {
+      if (visited[u]) return;
+      visited[u] = true;
+      for (const auto v: graph[u]) {
+        dfs(v);
       }
-      return 0;
+      topological.push(u);
     });
-    flow_type max_capacity = 0;
-    for (auto &node: M_graph) {
-      for (auto &edge: node.edges) {
-        if (initialize_edges) {
-          if (!edge.is_rev) edge.flow = 0;
-          else edge.flow = edge.capacity;
-        }
-        max_capacity = std::max(max_capacity, edge.capacity);
+    for (vertex_type src = 0; src < graph.size(); ++src) {
+      sort(src);
+    }
+    std::vector<std::vector<vertex_type>> group;
+    const auto decompose = fix_point([&](const auto dfs, const vertex_type u) -> void {
+      if (visited[u]) return;
+      visited[u] = true;
+      group.back().push_back(u);
+      for (const auto v: revgraph[u]) {
+        dfs(v);
+      }
+    });
+    std::fill(visited.begin(), visited.end(), false);
+    while (!topological.empty()) {
+      const auto u = topological.top();
+      topological.pop();
+      if (!visited[u]) {
+        group.push_back({ });
+        decompose(u);
       }
     }
-    flow_type flow = 0;
-    while (true) {
-      M_bfs(source);
-      if (M_graph[sink].level == M_graph.size() + 1) {
-        return flow;
-      }
-      for (auto &node: M_graph) {
-        node.iter = 0;
-      }
-      flow_type push;
-      while ((push = dfs(source, max_capacity)) > 0) {
-        flow += push;
-      }
-    }
-    return flow;
-  }
-
-  template <bool ValueOnly = true>
-  typename std::enable_if<!ValueOnly, std::pair<flow_type, network_type>>::type
-  max_flow(const vertex_type source, const vertex_type sink, const bool initialize_edges = false) {
-    const auto flow = max_flow<true>(source, sink, initialize_edges);
-    network_type graph;
-    graph.template add_vertices <false>(M_graph.size());
-    for (size_type index = 0; index < M_graph.size(); ++index) {
-      for (const auto &edge: M_graph[index].edges) {
-        if (!edge.is_rev) {
-          graph.add_edge(static_cast<edge_type>(edge));
-        }
-      }
-    }
-    return std::make_pair(flow, std::move(graph));
+    return group;
   }
 };
 
 /**
- * @title Dinic
+ * @title Strongly Connected Components
  */
-#line 6 "test/dinic.test.cpp"
+#line 5 "test/scc.test.cpp"
 
-#line 9 "test/dinic.test.cpp"
+#line 7 "test/scc.test.cpp"
 #include <iostream>
 
 int main() {
-  size_t L, R, M;
-  std::cin >> L >> R >> M;
-  network<flow_edge<int32_t>> graph;
-  const auto S = graph.add_vertex();
-  const auto T = graph.add_vertex();
-  const auto left = graph.add_vertices(L);
-  const auto right = graph.add_vertices(R);
-  while (M--) {
-    size_t u, v;
-    std::cin >> u >> v;
-    graph.emplace_edge(left[u], right[v], 1);
+  size_t N, M;
+  std::cin >> N >> M;
+  network<base_edge> net;
+  net.add_vertices<false>(N);
+  for (size_t i = 0; i < M; ++i) {
+    size_t a, b;
+    std::cin >> a >> b;
+    net.emplace_edge(a, b);
   }
-  for (size_t i = 0; i < L; ++i) {
-    graph.emplace_edge(S, left[i], 1);
-  }
-  for (size_t i = 0; i < R; ++i) {
-    graph.emplace_edge(right[i], T, 1);
-  }
-  const auto [flow, built] = dinic(graph).max_flow<false>(S, T);
-  std::cout << flow << '\n';
-  for (size_t i = 0; i < L; ++i) {
-    for (const auto &edge: built[left[i]]) {
-      if (edge.flow > 0) {
-        std::cout << i << ' ' << right.to_index(edge.dest) << '\n';
-        break;
-      }
+  const auto group = strongly_connected_components(net).decompose();
+  std::cout << group.size() << '\n';
+  for (const auto &vec: group) {
+    std::cout << vec.size();
+    for (const auto u: vec) {
+      std::cout << ' ' << u;
     }
+    std::cout << '\n';
   }
   return 0;
 }

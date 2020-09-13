@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#795f3202b17cb6bc3d4b771d8c6c9eaf">other</a>
 * <a href="{{ site.github.repository_url }}/blob/master/other/range.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-08-01 22:24:08+09:00
+    - Last commit date: 2020-09-13 16:51:07+09:00
 
 
 
@@ -56,7 +56,6 @@ public:
     constexpr void operator ++ () noexcept { ++M_position; }
     constexpr bool operator != (iterator other) const noexcept { return M_position != other.M_position; }
     constexpr int64_t operator * () const noexcept { return M_position; }
-
   };
 
   class reverse_iterator {
@@ -68,7 +67,6 @@ public:
     constexpr void operator ++ () noexcept { --M_position; }
     constexpr bool operator != (reverse_iterator other) const noexcept { return M_position != other.M_position; }
     constexpr int64_t operator * () const noexcept { return M_position; }
-
   };
   
 private:
@@ -80,7 +78,6 @@ public:
   constexpr iterator end() const noexcept { return M_last; }
   constexpr reverse_iterator rbegin() const noexcept { return reverse_iterator(*M_last - 1); } 
   constexpr reverse_iterator rend() const noexcept { return reverse_iterator(*M_first - 1); } 
-
 };
 
 /**
@@ -107,7 +104,6 @@ public:
     constexpr void operator ++ () noexcept { ++M_position; }
     constexpr bool operator != (iterator other) const noexcept { return M_position != other.M_position; }
     constexpr int64_t operator * () const noexcept { return M_position; }
-
   };
 
   class reverse_iterator {
@@ -119,7 +115,6 @@ public:
     constexpr void operator ++ () noexcept { --M_position; }
     constexpr bool operator != (reverse_iterator other) const noexcept { return M_position != other.M_position; }
     constexpr int64_t operator * () const noexcept { return M_position; }
-
   };
   
 private:
@@ -131,7 +126,6 @@ public:
   constexpr iterator end() const noexcept { return M_last; }
   constexpr reverse_iterator rbegin() const noexcept { return reverse_iterator(*M_last - 1); } 
   constexpr reverse_iterator rend() const noexcept { return reverse_iterator(*M_first - 1); } 
-
 };
 
 /**

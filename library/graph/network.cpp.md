@@ -31,21 +31,16 @@ layout: default
 
 * category: <a href="../../index.html#f8b0b924ebd7046dbfa85a856e4682c8">graph</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/network.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 18:08:09+09:00
+    - Last commit date: 2020-09-13 16:51:07+09:00
 
 
-
-
-## Required by
-
-* :heavy_check_mark: <a href="dinic.cpp.html">Dinic</a>
-* :heavy_check_mark: <a href="push_relabel.cpp.html">Push Relabel</a>
 
 
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/dinic.test.cpp.html">test/dinic.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/push_relabel.test.cpp.html">test/push_relabel.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/scc.test.cpp.html">test/scc.test.cpp</a>
 
 
 ## Code
@@ -73,10 +68,12 @@ public:
   class index_helper {
   private:
     const size_type M_stuff, M_size;
+
   public:
     explicit index_helper(const size_type stuff, const size_type size): 
       M_stuff(stuff), M_size(size) 
     { }
+
     vertex_type operator [] (const size_type index) const {
       return to_vertex(index);
     }
@@ -157,11 +154,13 @@ public:
 class base_edge {
 public:
   using vertex_type = uint32_t;
+
   const vertex_type source, dest;
   explicit base_edge(const vertex_type source, const vertex_type dest): 
     source(source), dest(dest) 
   { }
-  base_edge reverse() {
+
+  base_edge reverse() const {
     return base_edge(dest, source);
   }
 };
@@ -171,11 +170,13 @@ class flow_edge: public base_edge {
 public:
   using vertex_type = typename base_edge::vertex_type;
   using flow_type   = Flow;
+
   flow_type flow;
   const flow_type capacity;
   explicit flow_edge(const base_edge &edge, const flow_type capacity):
     base_edge(edge), flow(0), capacity(capacity)
   { }
+
   explicit flow_edge(const base_edge &edge, const flow_type flow, const flow_type capacity):
     base_edge(edge), flow(flow), capacity(capacity)
   { }
@@ -196,10 +197,12 @@ public:
   using vertex_type = typename flow_edge<Flow>::vertex_type;
   using flow_type   = typename flow_edge<Flow>::flow_type;
   using cost_type   = Cost;
+
   const cost_type cost;
   explicit flow_cost_edge(const flow_edge<Flow> &edge, const cost_type cost):
     flow_edge<Flow>(edge), cost(cost)
   { }
+  
   explicit flow_cost_edge(const vertex_type source, const vertex_type dest, const flow_type capacity, const cost_type cost):
     flow_edge<Flow>(source, dest, capacity), cost(cost)
   { }
@@ -240,10 +243,12 @@ public:
   class index_helper {
   private:
     const size_type M_stuff, M_size;
+
   public:
     explicit index_helper(const size_type stuff, const size_type size): 
       M_stuff(stuff), M_size(size) 
     { }
+
     vertex_type operator [] (const size_type index) const {
       return to_vertex(index);
     }
@@ -324,11 +329,13 @@ public:
 class base_edge {
 public:
   using vertex_type = uint32_t;
+
   const vertex_type source, dest;
   explicit base_edge(const vertex_type source, const vertex_type dest): 
     source(source), dest(dest) 
   { }
-  base_edge reverse() {
+
+  base_edge reverse() const {
     return base_edge(dest, source);
   }
 };
@@ -338,11 +345,13 @@ class flow_edge: public base_edge {
 public:
   using vertex_type = typename base_edge::vertex_type;
   using flow_type   = Flow;
+
   flow_type flow;
   const flow_type capacity;
   explicit flow_edge(const base_edge &edge, const flow_type capacity):
     base_edge(edge), flow(0), capacity(capacity)
   { }
+
   explicit flow_edge(const base_edge &edge, const flow_type flow, const flow_type capacity):
     base_edge(edge), flow(flow), capacity(capacity)
   { }
@@ -363,10 +372,12 @@ public:
   using vertex_type = typename flow_edge<Flow>::vertex_type;
   using flow_type   = typename flow_edge<Flow>::flow_type;
   using cost_type   = Cost;
+
   const cost_type cost;
   explicit flow_cost_edge(const flow_edge<Flow> &edge, const cost_type cost):
     flow_edge<Flow>(edge), cost(cost)
   { }
+  
   explicit flow_cost_edge(const vertex_type source, const vertex_type dest, const flow_type capacity, const cost_type cost):
     flow_edge<Flow>(source, dest, capacity), cost(cost)
   { }

@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: Random Number
+# :warning: Random Number
 
 <a href="../../index.html">Back to top page</a>
 
@@ -38,15 +38,11 @@ layout: default
 
 ## Required by
 
-* :heavy_check_mark: <a href="../algebraic/modular_operation.cpp.html">Modular Operations</a>
+* :warning: <a href="../algebraic/modular_operation.cpp.html">Modular Operations</a>
 * :warning: <a href="../container/randomized_queue.cpp.html">Randomized Queue</a>
 * :warning: <a href="../string/rolling_hash.cpp.html">Rolling Hash</a>
-
-
-## Verified with
-
-* :heavy_check_mark: <a href="../../verify/test/discrete_log.test.cpp.html">test/discrete_log.test.cpp</a>
-* :heavy_check_mark: <a href="../../verify/test/sqrt_mod.test.cpp.html">test/sqrt_mod.test.cpp</a>
+* :warning: <a href="../test/discrete_log.cpp.html">test/discrete_log.cpp</a>
+* :warning: <a href="../test/sqrt_mod.cpp.html">test/sqrt_mod.cpp</a>
 
 
 ## Code
