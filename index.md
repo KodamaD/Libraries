@@ -1,158 +1,246 @@
 ---
-layout: default
+data:
+  libraryCategories:
+  - name: algebraic
+    pages:
+    - icon: ':x:'
+      path: algebraic/ext_gcd.cpp
+      title: Extended GCD
+    - icon: ':heavy_check_mark:'
+      path: algebraic/fact_prime.cpp
+      title: Factors/Divisors
+    - icon: ':heavy_check_mark:'
+      path: algebraic/fact_prime_faster.cpp
+      title: Fast Factorization
+    - icon: ':x:'
+      path: algebraic/factorials.cpp
+      title: Factorial
+    - icon: ':warning:'
+      path: algebraic/mod_log.cpp
+      title: Discrete Logarithm
+    - icon: ':warning:'
+      path: algebraic/mod_sqrt.cpp
+      title: Sqrt Mod
+    - icon: ':x:'
+      path: algebraic/modular.cpp
+      title: Modint
+    - icon: ':warning:'
+      path: algebraic/ntt.cpp
+      title: Number Theoretic Transform
+    - icon: ':warning:'
+      path: algebraic/sieve.cpp
+      title: Sieve of Eratosthenes
+  - name: container
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: container/bit_vector.cpp
+      title: Succinct Bit Vector
+    - icon: ':heavy_check_mark:'
+      path: container/disjoint_sparse_table.cpp
+      title: Disjoint Sparse Table
+    - icon: ':heavy_check_mark:'
+      path: container/dst_tree.cpp
+      title: DST Tree
+    - icon: ':heavy_check_mark:'
+      path: container/dual_segment_tree.cpp
+      title: Dual Segment Tree
+    - icon: ':heavy_check_mark:'
+      path: container/fenwick_tree.cpp
+      title: Fenwick Tree
+    - icon: ':x:'
+      path: container/lazy_propagation_segment_tree.cpp
+      title: Lazy Propagation Segment Tree
+    - icon: ':x:'
+      path: container/matrix.cpp
+      title: Matrix
+    - icon: ':warning:'
+      path: container/randomized_queue.cpp
+      title: Randomized Queue
+    - icon: ':x:'
+      path: container/segment_tree.cpp
+      title: Segment Tree
+    - icon: ':x:'
+      path: container/sliding_window_aggregation.cpp
+      title: Sliding Window Aggregation
+    - icon: ':heavy_check_mark:'
+      path: container/wavelet_matrix.cpp
+      title: Wavelet Matrix
+  - name: geometry
+    pages:
+    - icon: ':warning:'
+      path: geometry/constants.cpp
+      title: Geometric Constants
+    - icon: ':warning:'
+      path: geometry/figures.cpp
+      title: 2D Figures
+    - icon: ':warning:'
+      path: geometry/polygon.cpp
+      title: 2D Polygons
+  - name: graph
+    pages:
+    - icon: ':x:'
+      path: graph/dinic.cpp
+      title: Dinic
+    - icon: ':heavy_check_mark:'
+      path: graph/heavy_light_decomposition.cpp
+      title: Heavy-Light Decomposition
+    - icon: ':x:'
+      path: graph/network.cpp
+      title: Network
+    - icon: ':warning:'
+      path: graph/partially_persistent_union_find.cpp
+      title: Partially Persistent Union Find
+    - icon: ':x:'
+      path: graph/push_relabel.cpp
+      title: Push Relabel
+    - icon: ':x:'
+      path: graph/scc.cpp
+      title: Strongly Connected Components
+    - icon: ':heavy_check_mark:'
+      path: graph/union_find.cpp
+      title: Union Find
+  - name: implementing
+    pages:
+    - icon: ':warning:'
+      path: implementing/aho_corasick.cpp
+      title: implementing/aho_corasick.cpp
+    - icon: ':warning:'
+      path: implementing/network_simplex.cpp
+      title: Network Simplex
+    - icon: ':warning:'
+      path: implementing/trie.cpp
+      title: implementing/trie.cpp
+  - name: other
+    pages:
+    - icon: ':x:'
+      path: other/adjust_index.cpp
+      title: Index Adjustment
+    - icon: ':question:'
+      path: other/bit_operation.cpp
+      title: Bit Operations
+    - icon: ':warning:'
+      path: other/chmin_chmax.cpp
+      title: Chmin/Chmax
+    - icon: ':heavy_check_mark:'
+      path: other/fast_io.cpp
+      title: Fast Input/Output
+    - icon: ':question:'
+      path: other/fix_point.cpp
+      title: Lambda Recursion
+    - icon: ':warning:'
+      path: other/int_operation.cpp
+      title: Integer Operations
+    - icon: ':question:'
+      path: other/monoid.cpp
+      title: Monoid Utility
+    - icon: ':warning:'
+      path: other/multi_array.cpp
+      title: Multi-Dimensional Array
+    - icon: ':warning:'
+      path: other/multi_vec.cpp
+      title: Multi-Dimensional Vector
+    - icon: ':warning:'
+      path: other/random_number.cpp
+      title: Random Number
+    - icon: ':warning:'
+      path: other/range.cpp
+      title: Range
+    - icon: ':warning:'
+      path: other/rev.cpp
+      title: Reverser
+    - icon: ':warning:'
+      path: other/template.cpp
+      title: other/template.cpp
+    - icon: ':warning:'
+      path: other/time_measurement.cpp
+      title: Time Measurement
+  - name: string
+    pages:
+    - icon: ':warning:'
+      path: string/manacher.cpp
+      title: Manacher
+    - icon: ':warning:'
+      path: string/rolling_hash.cpp
+      title: Rolling Hash
+    - icon: ':heavy_check_mark:'
+      path: string/suffix_array.cpp
+      title: Suffix Array
+    - icon: ':heavy_check_mark:'
+      path: string/z_algorithm.cpp
+      title: Z-Algorithm
+  - name: test
+    pages:
+    - icon: ':warning:'
+      path: test/discrete_log.cpp
+      title: test/discrete_log.cpp
+    - icon: ':warning:'
+      path: test/sqrt_mod.cpp
+      title: test/sqrt_mod.cpp
+  verificationCategories:
+  - name: test
+    pages:
+    - icon: ':x:'
+      path: test/dinic.test.cpp
+      title: test/dinic.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/dst_tree.test.cpp
+      title: test/dst_tree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/dual_segment_tree.test.cpp
+      title: test/dual_segment_tree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/enumerate_divisors_faster.test.cpp
+      title: test/enumerate_divisors_faster.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/enumerate_factors.test.cpp
+      title: test/enumerate_factors.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/enumerate_factors_faster.test.cpp
+      title: test/enumerate_factors_faster.test.cpp
+    - icon: ':x:'
+      path: test/factorials.test.cpp
+      title: test/factorials.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/fast_io.test.cpp
+      title: test/fast_io.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/fenwick_tree.test.cpp
+      title: test/fenwick_tree.test.cpp
+    - icon: ':x:'
+      path: test/lazy_propagation_segment_tree.test.cpp
+      title: test/lazy_propagation_segment_tree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/lca.test.cpp
+      title: test/lca.test.cpp
+    - icon: ':x:'
+      path: test/matrix.test.cpp
+      title: test/matrix.test.cpp
+    - icon: ':x:'
+      path: test/push_relabel.test.cpp
+      title: test/push_relabel.test.cpp
+    - icon: ':x:'
+      path: test/scc.test.cpp
+      title: test/scc.test.cpp
+    - icon: ':x:'
+      path: test/segment_tree.test.cpp
+      title: test/segment_tree.test.cpp
+    - icon: ':x:'
+      path: test/sliding_window_aggregation.test.cpp
+      title: test/sliding_window_aggregation.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/suffix_array.test.cpp
+      title: test/suffix_array.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/union_find.test.cpp
+      title: test/union_find.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/vertex_set_path_sum.test.cpp
+      title: test/vertex_set_path_sum.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/wavelet_matrix_quantile.test.cpp
+      title: test/wavelet_matrix_quantile.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/z_algorithm.test.cpp
+      title: test/z_algorithm.test.cpp
+layout: toppage
 ---
-
-<!-- mathjax config similar to math.stackexchange -->
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    TeX: { equationNumbers: { autoNumber: "AMS" }},
-    tex2jax: {
-      inlineMath: [ ['$','$'] ],
-      processEscapes: true
-    },
-    "HTML-CSS": { matchFontHeight: false },
-    displayAlign: "left",
-    displayIndent: "2em"
-  });
-</script>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-balloon-js@1.1.2/jquery.balloon.min.js" integrity="sha256-ZEYs9VrgAeNuPvs15E39OsyOJaIkXEEt10fzxJ20+2I=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="assets/js/copy-button.js"></script>
-<link rel="stylesheet" href="assets/css/copy-button.css" />
-
-
-# {{ site.title }}
-
-[![Actions Status]({{ site.github.repository_url }}/workflows/verify/badge.svg)]({{ site.github.repository_url }}/actions)
-<a href="{{ site.github.repository_url }}"><img src="https://img.shields.io/github/last-commit/{{ site.github.owner_name }}/{{ site.github.repository_name }}" /></a>
-
-{% if site.github.project_tagline %}{{ site.github.project_tagline }}{% else %}This documentation is automatically generated by <a href="https://github.com/online-judge-tools/verification-helper">online-judge-tools/verification-helper</a>.{% endif %}
-
-## Library Files
-
-<div id="c7f6ad568392380a8f4b4cecbaccb64c"></div>
-
-### algebraic
-
-* :heavy_check_mark: <a href="library/algebraic/fact_prime.cpp.html">Factors/Divisors</a>
-* :heavy_check_mark: <a href="library/algebraic/fact_prime_faster.cpp.html">Fast Factorization</a>
-* :heavy_check_mark: <a href="library/algebraic/factorials.cpp.html">Factorial</a>
-* :heavy_check_mark: <a href="library/algebraic/modular.cpp.html">Static Modint</a>
-* :warning: <a href="library/algebraic/modular_operation.cpp.html">Modular Operations</a>
-* :warning: <a href="library/algebraic/ntt.cpp.html">Number Theoretic Transform</a>
-* :warning: <a href="library/algebraic/sieve.cpp.html">algebraic/sieve.cpp</a>
-
-
-<div id="5f0b6ebc4bea10285ba2b8a6ce78b863"></div>
-
-### container
-
-* :heavy_check_mark: <a href="library/container/bit_vector.cpp.html">Succinct Bit Vector</a>
-* :heavy_check_mark: <a href="library/container/disjoint_sparse_table.cpp.html">Disjoint Sparse Table</a>
-* :heavy_check_mark: <a href="library/container/dst_tree.cpp.html">DST Tree</a>
-* :heavy_check_mark: <a href="library/container/dual_segment_tree.cpp.html">Dual Segment Tree</a>
-* :heavy_check_mark: <a href="library/container/fenwick_tree.cpp.html">Fenwick Tree</a>
-* :heavy_check_mark: <a href="library/container/lazy_propagation_segment_tree.cpp.html">Lazy Propagation Segment Tree</a>
-* :heavy_check_mark: <a href="library/container/matrix.cpp.html">Matrix</a>
-* :warning: <a href="library/container/randomized_queue.cpp.html">Randomized Queue</a>
-* :heavy_check_mark: <a href="library/container/segment_tree.cpp.html">Segment Tree</a>
-* :heavy_check_mark: <a href="library/container/sliding_window_aggregation.cpp.html">Sliding Window Aggregation</a>
-* :heavy_check_mark: <a href="library/container/wavelet_matrix.cpp.html">Wavelet Matrix</a>
-
-
-<div id="ed7daeb157cd9b31e53896ad3c771a26"></div>
-
-### geometry
-
-* :warning: <a href="library/geometry/constants.cpp.html">Geometric Constants</a>
-* :warning: <a href="library/geometry/figures.cpp.html">2D Figures</a>
-* :warning: <a href="library/geometry/polygon.cpp.html">2D Polygons</a>
-
-
-<div id="f8b0b924ebd7046dbfa85a856e4682c8"></div>
-
-### graph
-
-* :heavy_check_mark: <a href="library/graph/dinic.cpp.html">Dinic</a>
-* :heavy_check_mark: <a href="library/graph/heavy_light_decomposition.cpp.html">Heavy-Light Decomposition</a>
-* :heavy_check_mark: <a href="library/graph/network.cpp.html">Network</a>
-* :warning: <a href="library/graph/partially_persistent_union_find.cpp.html">Partially Persistent Union Find</a>
-* :heavy_check_mark: <a href="library/graph/push_relabel.cpp.html">Push Relabel</a>
-* :heavy_check_mark: <a href="library/graph/scc.cpp.html">Strongly Connected Components</a>
-* :heavy_check_mark: <a href="library/graph/union_find.cpp.html">Union Find</a>
-
-
-<div id="be68540dfa000a0fb38be40d32259215"></div>
-
-### implementing
-
-* :warning: <a href="library/implementing/aho_corasick.cpp.html">implementing/aho_corasick.cpp</a>
-* :warning: <a href="library/implementing/trie.cpp.html">implementing/trie.cpp</a>
-
-
-<div id="795f3202b17cb6bc3d4b771d8c6c9eaf"></div>
-
-### other
-
-* :heavy_check_mark: <a href="library/other/bit_operation.cpp.html">Bit Operations</a>
-* :warning: <a href="library/other/chmin_chmax.cpp.html">Chmin/Chmax</a>
-* :heavy_check_mark: <a href="library/other/fast_io.cpp.html">Fast Input/Output</a>
-* :heavy_check_mark: <a href="library/other/fix_point.cpp.html">Lambda Recursion</a>
-* :warning: <a href="library/other/int_operation.cpp.html">Integer Operations</a>
-* :heavy_check_mark: <a href="library/other/monoid.cpp.html">Monoid Utility</a>
-* :warning: <a href="library/other/multi_array.cpp.html">Multi-Dimensional Array</a>
-* :warning: <a href="library/other/multi_vec.cpp.html">Multi-Dimensional Vector</a>
-* :warning: <a href="library/other/random_number.cpp.html">Random Number</a>
-* :warning: <a href="library/other/range.cpp.html">Range</a>
-* :warning: <a href="library/other/rev.cpp.html">Reverser</a>
-* :warning: <a href="library/other/template.cpp.html">Template</a>
-* :warning: <a href="library/other/time_measurement.cpp.html">Time Measurement</a>
-
-
-<div id="b45cffe084dd3d20d928bee85e7b0f21"></div>
-
-### string
-
-* :warning: <a href="library/string/manacher.cpp.html">Manacher</a>
-* :warning: <a href="library/string/rolling_hash.cpp.html">Rolling Hash</a>
-* :heavy_check_mark: <a href="library/string/suffix_array.cpp.html">Suffix Array</a>
-* :heavy_check_mark: <a href="library/string/z_algorithm.cpp.html">Z-Algorithm</a>
-
-
-<div id="098f6bcd4621d373cade4e832627b4f6"></div>
-
-### test
-
-* :warning: <a href="library/test/discrete_log.cpp.html">test/discrete_log.cpp</a>
-* :warning: <a href="library/test/sqrt_mod.cpp.html">test/sqrt_mod.cpp</a>
-
-
-## Verify Files
-
-* :heavy_check_mark: <a href="verify/test/dinic.test.cpp.html">test/dinic.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/dst_tree.test.cpp.html">test/dst_tree.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/dual_segment_tree.test.cpp.html">test/dual_segment_tree.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/enumerate_divisors_faster.test.cpp.html">test/enumerate_divisors_faster.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/enumerate_factors.test.cpp.html">test/enumerate_factors.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/enumerate_factors_faster.test.cpp.html">test/enumerate_factors_faster.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/factorials.test.cpp.html">test/factorials.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/fast_io.test.cpp.html">test/fast_io.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/fenwick_tree.test.cpp.html">test/fenwick_tree.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/lazy_propagation_segment_tree.test.cpp.html">test/lazy_propagation_segment_tree.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/lca.test.cpp.html">test/lca.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/matrix.test.cpp.html">test/matrix.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/push_relabel.test.cpp.html">test/push_relabel.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/scc.test.cpp.html">test/scc.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/segment_tree.test.cpp.html">test/segment_tree.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/sliding_window_aggregation.test.cpp.html">test/sliding_window_aggregation.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/suffix_array.test.cpp.html">test/suffix_array.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/union_find.test.cpp.html">test/union_find.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/vertex_set_path_sum.test.cpp.html">test/vertex_set_path_sum.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/wavelet_matrix_quantile.test.cpp.html">test/wavelet_matrix_quantile.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/z_algorithm.test.cpp.html">test/z_algorithm.test.cpp</a>
-
-
