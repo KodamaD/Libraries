@@ -51,5 +51,5 @@ public:
 };
 
 /**
- * Sieve of Eratosthenes
+ * @title Sieve of Eratosthenes
  */

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../other/adjust_index.cpp"
+
 #include <cstddef>
 #include <cstdint>
 #include <vector>
@@ -14,32 +16,6 @@ public:
   using vertex_type = typename Edge::vertex_type;
   using edge_type   = Edge;
   using size_type   = size_t;
-
-  class index_helper {
-  private:
-    const size_type M_stuff, M_size;
-
-  public:
-    explicit index_helper(const size_type stuff, const size_type size): 
-      M_stuff(stuff), M_size(size) 
-    { }
-
-    vertex_type operator [] (const size_type index) const {
-      return to_vertex(index);
-    }
-    vertex_type to_vertex(const size_type index) const {
-      assert(index < M_size);
-      return index + M_stuff;
-    }
-    size_type to_index(const vertex_type vert) const {
-      assert(vert >= M_stuff);
-      assert(vert < M_size + M_stuff);
-      return vert - M_stuff;
-    }
-    size_type size() const {
-      return M_size;
-    }
-  };
 
 protected:
   std::vector<std::vector<edge_type>> M_graph;
@@ -59,11 +35,11 @@ public:
   }
 
   template <bool ReturnsIndices = true>
-  typename std::enable_if<ReturnsIndices, index_helper>::type 
+  typename std::enable_if<ReturnsIndices, adjust_index>::type 
   add_vertices(const size_type size) {
     size_type cur = M_graph.size();
     M_graph.resize(cur + size);
-    return index_helper(cur, size);
+    return adjust_index(cur, size);
   }
   template <bool ReturnsIndices = true>
   typename std::enable_if<!ReturnsIndices, void>::type 
@@ -138,29 +114,6 @@ public:
   { }
   flow_edge reverse() const {
     return flow_edge(static_cast<base_edge>(*this).reverse(), capacity - flow, capacity);
-  }
-};
-
-template <class Flow, class Cost>
-class flow_cost_edge: public flow_edge<Flow> {
-public:
-  using vertex_type = typename flow_edge<Flow>::vertex_type;
-  using flow_type   = typename flow_edge<Flow>::flow_type;
-  using cost_type   = Cost;
-
-  const cost_type cost;
-  explicit flow_cost_edge(const flow_edge<Flow> &edge, const cost_type cost):
-    flow_edge<Flow>(edge), cost(cost)
-  { }
-  
-  explicit flow_cost_edge(const vertex_type source, const vertex_type dest, const flow_type capacity, const cost_type cost):
-    flow_edge<Flow>(source, dest, capacity), cost(cost)
-  { }
-  explicit flow_cost_edge(const vertex_type source, const vertex_type dest, const flow_type flow, const flow_type capacity, const cost_type cost):
-    flow_edge<Flow>(source, dest, flow, capacity), cost(cost)
-  { }
-  flow_cost_edge reverse() const {
-    return flow_cost_edge(static_cast<flow_edge<Flow>>(*this).reverse(), -cost);
   }
 };
 
