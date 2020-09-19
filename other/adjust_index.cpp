@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <cassert>
 
 class adjust_index {
 private:
@@ -12,7 +13,8 @@ public:
   { }
 
   size_t operator [] (const size_t index) const {
-    return to_vertex(index);
+    assert(index < M_size);
+    return M_stuff + index;
   }
   size_t to_index(const size_t fixed) const {
     assert(fixed >= M_stuff);
