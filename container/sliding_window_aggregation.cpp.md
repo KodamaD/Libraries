@@ -1,16 +1,16 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: other/monoid.cpp
     title: Monoid Utility
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/sliding_window_aggregation.test.cpp
     title: test/sliding_window_aggregation.test.cpp
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Sliding Window Aggregation
@@ -98,7 +98,7 @@ data:
   path: container/sliding_window_aggregation.cpp
   requiredBy: []
   timestamp: '2020-09-13 16:51:07+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/sliding_window_aggregation.test.cpp
 documentation_of: container/sliding_window_aggregation.cpp

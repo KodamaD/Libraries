@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: container/fenwick_tree.cpp
     title: Fenwick Tree
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: other/bit_operation.cpp
     title: Bit Operations
   _extendedRequiredBy: []

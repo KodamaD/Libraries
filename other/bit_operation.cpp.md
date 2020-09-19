@@ -14,23 +14,23 @@ data:
   - icon: ':heavy_check_mark:'
     path: container/dst_tree.cpp
     title: DST Tree
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: container/lazy_propagation_segment_tree.cpp
     title: Lazy Propagation Segment Tree
   - icon: ':heavy_check_mark:'
     path: container/fenwick_tree.cpp
     title: Fenwick Tree
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: container/segment_tree.cpp
     title: Segment Tree
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/dst_tree.test.cpp
     title: test/dst_tree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/lazy_propagation_segment_tree.test.cpp
     title: test/lazy_propagation_segment_tree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/segment_tree.test.cpp
     title: test/segment_tree.test.cpp
   - icon: ':heavy_check_mark:'
@@ -43,7 +43,7 @@ data:
     path: test/vertex_set_path_sum.test.cpp
     title: test/vertex_set_path_sum.test.cpp
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Bit Operations
@@ -90,7 +90,7 @@ data:
   - container/fenwick_tree.cpp
   - container/segment_tree.cpp
   timestamp: '2020-09-09 18:08:09+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/dst_tree.test.cpp
   - test/lazy_propagation_segment_tree.test.cpp

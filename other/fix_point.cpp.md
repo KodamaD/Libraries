@@ -5,14 +5,14 @@ data:
   - icon: ':heavy_check_mark:'
     path: algebraic/fact_prime_faster.cpp
     title: Fast Factorization
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/dinic.cpp
     title: Dinic
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/scc.cpp
     title: Strongly Connected Components
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/scc.test.cpp
     title: test/scc.test.cpp
   - icon: ':heavy_check_mark:'
@@ -21,11 +21,11 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/enumerate_divisors_faster.test.cpp
     title: test/enumerate_divisors_faster.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/dinic.test.cpp
     title: test/dinic.test.cpp
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Lambda Recursion
@@ -52,7 +52,7 @@ data:
   - graph/dinic.cpp
   - graph/scc.cpp
   timestamp: '2020-08-03 12:07:15+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/scc.test.cpp
   - test/enumerate_factors_faster.test.cpp

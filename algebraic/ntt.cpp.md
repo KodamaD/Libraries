@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: other/bit_operation.cpp
     title: Bit Operations
   _extendedRequiredBy: []

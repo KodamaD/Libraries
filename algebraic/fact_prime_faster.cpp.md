@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: other/fix_point.cpp
     title: Lambda Recursion
   _extendedRequiredBy: []

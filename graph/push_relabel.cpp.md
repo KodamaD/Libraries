@@ -3,11 +3,11 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/push_relabel.test.cpp
     title: test/push_relabel.test.cpp
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Push Relabel
@@ -263,7 +263,7 @@ data:
   path: graph/push_relabel.cpp
   requiredBy: []
   timestamp: '2020-09-13 16:51:07+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/push_relabel.test.cpp
 documentation_of: graph/push_relabel.cpp

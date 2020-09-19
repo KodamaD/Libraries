@@ -4,10 +4,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: container/disjoint_sparse_table.cpp
     title: Disjoint Sparse Table
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: other/bit_operation.cpp
     title: Bit Operations
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: other/monoid.cpp
     title: Monoid Utility
   _extendedRequiredBy: []

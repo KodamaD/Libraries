@@ -4,10 +4,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: container/dual_segment_tree.cpp
     title: Dual Segment Tree
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: other/bit_operation.cpp
     title: Bit Operations
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: other/monoid.cpp
     title: Monoid Utility
   _extendedRequiredBy: []

@@ -3,7 +3,7 @@ data:
   libraryCategories:
   - name: algebraic
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: algebraic/ext_gcd.cpp
       title: Extended GCD
     - icon: ':heavy_check_mark:'
@@ -12,7 +12,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: algebraic/fact_prime_faster.cpp
       title: Fast Factorization
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: algebraic/factorials.cpp
       title: Factorial
     - icon: ':warning:'
@@ -21,7 +21,7 @@ data:
     - icon: ':warning:'
       path: algebraic/mod_sqrt.cpp
       title: Sqrt Mod
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: algebraic/modular.cpp
       title: Modint
     - icon: ':warning:'
@@ -47,19 +47,19 @@ data:
     - icon: ':heavy_check_mark:'
       path: container/fenwick_tree.cpp
       title: Fenwick Tree
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: container/lazy_propagation_segment_tree.cpp
       title: Lazy Propagation Segment Tree
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: container/matrix.cpp
       title: Matrix
     - icon: ':warning:'
       path: container/randomized_queue.cpp
       title: Randomized Queue
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: container/segment_tree.cpp
       title: Segment Tree
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: container/sliding_window_aggregation.cpp
       title: Sliding Window Aggregation
     - icon: ':heavy_check_mark:'
@@ -78,22 +78,22 @@ data:
       title: 2D Polygons
   - name: graph
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: graph/dinic.cpp
       title: Dinic
     - icon: ':heavy_check_mark:'
       path: graph/heavy_light_decomposition.cpp
       title: Heavy-Light Decomposition
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: graph/network.cpp
       title: Network
     - icon: ':warning:'
       path: graph/partially_persistent_union_find.cpp
       title: Partially Persistent Union Find
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: graph/push_relabel.cpp
       title: Push Relabel
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: graph/scc.cpp
       title: Strongly Connected Components
     - icon: ':heavy_check_mark:'
@@ -112,10 +112,10 @@ data:
       title: implementing/trie.cpp
   - name: other
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: other/adjust_index.cpp
       title: Index Adjustment
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: other/bit_operation.cpp
       title: Bit Operations
     - icon: ':warning:'
@@ -124,13 +124,13 @@ data:
     - icon: ':heavy_check_mark:'
       path: other/fast_io.cpp
       title: Fast Input/Output
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: other/fix_point.cpp
       title: Lambda Recursion
     - icon: ':warning:'
       path: other/int_operation.cpp
       title: Integer Operations
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: other/monoid.cpp
       title: Monoid Utility
     - icon: ':warning:'
@@ -179,7 +179,7 @@ data:
   verificationCategories:
   - name: test
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/dinic.test.cpp
       title: test/dinic.test.cpp
     - icon: ':heavy_check_mark:'
@@ -197,7 +197,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/enumerate_factors_faster.test.cpp
       title: test/enumerate_factors_faster.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/factorials.test.cpp
       title: test/factorials.test.cpp
     - icon: ':heavy_check_mark:'
@@ -206,25 +206,25 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/fenwick_tree.test.cpp
       title: test/fenwick_tree.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/lazy_propagation_segment_tree.test.cpp
       title: test/lazy_propagation_segment_tree.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/lca.test.cpp
       title: test/lca.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/matrix.test.cpp
       title: test/matrix.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/push_relabel.test.cpp
       title: test/push_relabel.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/scc.test.cpp
       title: test/scc.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/segment_tree.test.cpp
       title: test/segment_tree.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/sliding_window_aggregation.test.cpp
       title: test/sliding_window_aggregation.test.cpp
     - icon: ':heavy_check_mark:'

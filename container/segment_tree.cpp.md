@@ -1,19 +1,19 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: other/monoid.cpp
     title: Monoid Utility
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: other/bit_operation.cpp
     title: Bit Operations
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/segment_tree.test.cpp
     title: test/segment_tree.test.cpp
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Segment Tree
@@ -212,7 +212,7 @@ data:
   path: container/segment_tree.cpp
   requiredBy: []
   timestamp: '2020-09-13 16:51:07+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/segment_tree.test.cpp
 documentation_of: container/segment_tree.cpp

@@ -1,19 +1,19 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: other/bit_operation.cpp
     title: Bit Operations
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: other/monoid.cpp
     title: Monoid Utility
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/lazy_propagation_segment_tree.test.cpp
     title: test/lazy_propagation_segment_tree.test.cpp
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Lazy Propagation Segment Tree
@@ -265,7 +265,7 @@ data:
   path: container/lazy_propagation_segment_tree.cpp
   requiredBy: []
   timestamp: '2020-09-13 16:51:07+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/lazy_propagation_segment_tree.test.cpp
 documentation_of: container/lazy_propagation_segment_tree.cpp

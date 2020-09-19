@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: algebraic/fact_prime_faster.cpp
     title: Fast Factorization
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: other/fix_point.cpp
     title: Lambda Recursion
   _extendedRequiredBy: []

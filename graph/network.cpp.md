@@ -1,43 +1,43 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: other/adjust_index.cpp
     title: Index Adjustment
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/push_relabel.test.cpp
     title: test/push_relabel.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/scc.test.cpp
     title: test/scc.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/dinic.test.cpp
     title: test/dinic.test.cpp
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Network
     links: []
   bundledCode: "#line 2 \"graph/network.cpp\"\n\n#line 2 \"other/adjust_index.cpp\"\
-    \n\n#include <cstddef>\n\nclass adjust_index {\nprivate:\n  const size_t M_stuff,\
-    \ M_size;\n\npublic:\n  explicit adjust_index(const size_t stuff, const size_t\
-    \ size): \n    M_stuff(stuff), M_size(size) \n  { }\n\n  size_t operator [] (const\
-    \ size_t index) const {\n    return to_vertex(index);\n  }\n  size_t to_index(const\
-    \ size_t fixed) const {\n    assert(fixed >= M_stuff);\n    assert(fixed < M_size\
-    \ + M_stuff);\n    return fixed - M_stuff;\n  }\n  size_t size() const {\n   \
-    \ return M_size;\n  }\n};\n\n/**\n * @title Index Adjustment\n */\n#line 4 \"\
-    graph/network.cpp\"\n\n#line 6 \"graph/network.cpp\"\n#include <cstdint>\n#include\
-    \ <vector>\n#include <numeric>\n#include <utility>\n#include <type_traits>\n#include\
-    \ <cassert>\n\ntemplate <class Edge>\nclass network {\npublic:\n  using vertex_type\
-    \ = typename Edge::vertex_type;\n  using edge_type   = Edge;\n  using size_type\
-    \   = size_t;\n\nprotected:\n  std::vector<std::vector<edge_type>> M_graph;\n\n\
-    public:\n  network() = default;\n\n  template <bool ReturnsIndex = true>\n  typename\
-    \ std::enable_if<ReturnsIndex, vertex_type>::type add_vertex() {\n    vertex_type\
-    \ res = M_graph.size();\n    M_graph.push_back({ });\n    return res;\n  }\n \
-    \ template <bool ReturnsIndex = true>\n  typename std::enable_if<!ReturnsIndex,\
+    \n\n#include <cstddef>\n#include <cassert>\n\nclass adjust_index {\nprivate:\n\
+    \  const size_t M_stuff, M_size;\n\npublic:\n  explicit adjust_index(const size_t\
+    \ stuff, const size_t size): \n    M_stuff(stuff), M_size(size) \n  { }\n\n  size_t\
+    \ operator [] (const size_t index) const {\n    assert(index < M_size);\n    return\
+    \ M_stuff + index;\n  }\n  size_t to_index(const size_t fixed) const {\n    assert(fixed\
+    \ >= M_stuff);\n    assert(fixed < M_size + M_stuff);\n    return fixed - M_stuff;\n\
+    \  }\n  size_t size() const {\n    return M_size;\n  }\n};\n\n/**\n * @title Index\
+    \ Adjustment\n */\n#line 4 \"graph/network.cpp\"\n\n#line 6 \"graph/network.cpp\"\
+    \n#include <cstdint>\n#include <vector>\n#include <numeric>\n#include <utility>\n\
+    #include <type_traits>\n#line 12 \"graph/network.cpp\"\n\ntemplate <class Edge>\n\
+    class network {\npublic:\n  using vertex_type = typename Edge::vertex_type;\n\
+    \  using edge_type   = Edge;\n  using size_type   = size_t;\n\nprotected:\n  std::vector<std::vector<edge_type>>\
+    \ M_graph;\n\npublic:\n  network() = default;\n\n  template <bool ReturnsIndex\
+    \ = true>\n  typename std::enable_if<ReturnsIndex, vertex_type>::type add_vertex()\
+    \ {\n    vertex_type res = M_graph.size();\n    M_graph.push_back({ });\n    return\
+    \ res;\n  }\n  template <bool ReturnsIndex = true>\n  typename std::enable_if<!ReturnsIndex,\
     \ void>::type add_vertex() {\n    M_graph.push_back({ });\n  }\n\n  template <bool\
     \ ReturnsIndices = true>\n  typename std::enable_if<ReturnsIndices, adjust_index>::type\
     \ \n  add_vertices(const size_type size) {\n    size_type cur = M_graph.size();\n\
@@ -114,8 +114,8 @@ data:
   isVerificationFile: false
   path: graph/network.cpp
   requiredBy: []
-  timestamp: '2020-09-19 12:22:26+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  timestamp: '2020-09-19 13:07:45+09:00'
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/push_relabel.test.cpp
   - test/scc.test.cpp
