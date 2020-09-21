@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../algebraic/ext_gcd.cpp"
+#include "../algebraic/mod_inv.cpp"
 
 #include <cstdint>
 #include <iostream>
@@ -31,7 +31,7 @@ private:
   constexpr modular inverse_helper() const noexcept { return power(*this, Modulus::mod() - 2); }
   template <bool IsPrime, std::enable_if_t<!IsPrime>* = nullptr>
   constexpr modular inverse_helper() const noexcept {
-    const auto tmp = ext_gcd(value, Modulus::mod());
+    const auto tmp = mod_inv(value, Modulus::mod());
     assert(tmp.first == 1);
     return modular(tmp.second);
   }
