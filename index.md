@@ -4,9 +4,6 @@ data:
   - name: algebraic
     pages:
     - icon: ':heavy_check_mark:'
-      path: algebraic/ext_gcd.cpp
-      title: Extended GCD
-    - icon: ':heavy_check_mark:'
       path: algebraic/fact_prime.cpp
       title: Factors/Divisors
     - icon: ':heavy_check_mark:'
@@ -15,6 +12,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: algebraic/factorials.cpp
       title: Factorial
+    - icon: ':heavy_check_mark:'
+      path: algebraic/mod_inv.cpp
+      title: Extended GCD
     - icon: ':warning:'
       path: algebraic/mod_log.cpp
       title: Discrete Logarithm
@@ -87,6 +87,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: graph/network.cpp
       title: Network
+    - icon: ':heavy_check_mark:'
+      path: graph/network_simplex.cpp
+      title: Network Simplex
     - icon: ':warning:'
       path: graph/partially_persistent_union_find.cpp
       title: Partially Persistent Union Find
@@ -104,9 +107,6 @@ data:
     - icon: ':warning:'
       path: implementing/aho_corasick.cpp
       title: implementing/aho_corasick.cpp
-    - icon: ':warning:'
-      path: implementing/network_simplex.cpp
-      title: Network Simplex
     - icon: ':warning:'
       path: implementing/trie.cpp
       title: implementing/trie.cpp
@@ -215,6 +215,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/matrix.test.cpp
       title: test/matrix.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/network_simplex.test.cpp
+      title: test/network_simplex.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/push_relabel.test.cpp
       title: test/push_relabel.test.cpp

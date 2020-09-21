@@ -5,6 +5,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/network.cpp
     title: Network
+  - icon: ':heavy_check_mark:'
+    path: graph/network_simplex.cpp
+    title: Network Simplex
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/push_relabel.test.cpp
@@ -15,6 +18,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/dinic.test.cpp
     title: test/dinic.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/network_simplex.test.cpp
+    title: test/network_simplex.test.cpp
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
@@ -43,12 +49,14 @@ data:
   path: other/adjust_index.cpp
   requiredBy:
   - graph/network.cpp
+  - graph/network_simplex.cpp
   timestamp: '2020-09-19 13:07:45+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/push_relabel.test.cpp
   - test/scc.test.cpp
   - test/dinic.test.cpp
+  - test/network_simplex.test.cpp
 documentation_of: other/adjust_index.cpp
 layout: document
 redirect_from:

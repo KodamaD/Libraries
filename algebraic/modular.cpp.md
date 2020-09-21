@@ -2,7 +2,7 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: algebraic/ext_gcd.cpp
+    path: algebraic/mod_inv.cpp
     title: Extended GCD
   _extendedRequiredBy: []
   _extendedVerifiedWith:
@@ -27,9 +27,9 @@ data:
     '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Modint
     links: []
-  bundledCode: "#line 2 \"algebraic/modular.cpp\"\n\n#line 2 \"algebraic/ext_gcd.cpp\"\
+  bundledCode: "#line 2 \"algebraic/modular.cpp\"\n\n#line 2 \"algebraic/mod_inv.cpp\"\
     \n\n#include <utility>\n#include <cstdint>\n\nconstexpr std::pair<int64_t, int64_t>\
-    \ ext_gcd(int64_t a, int64_t b) {\n  if ((a %= b) == 0) return { b, 0 };\n  int64_t\
+    \ mod_inv(int64_t a, int64_t b) {\n  if ((a %= b) == 0) return { b, 0 };\n  int64_t\
     \ s = b, t = (a < 0 ? a + b : a);\n  int64_t m0 = 0, m1 = 1, tmp = 0;\n  while\
     \ (t > 0) {\n    const auto u = s / t;\n    s -= t * u; m0 -= m1 * u;\n    tmp\
     \ = s; s = t; t = tmp; tmp = m0; m0 = m1; m1 = tmp;\n  }\n  return { s, (m0 <\
@@ -44,7 +44,7 @@ data:
     \n  template <bool IsPrime, std::enable_if_t<IsPrime>* = nullptr>\n  constexpr\
     \ modular inverse_helper() const noexcept { return power(*this, Modulus::mod()\
     \ - 2); }\n  template <bool IsPrime, std::enable_if_t<!IsPrime>* = nullptr>\n\
-    \  constexpr modular inverse_helper() const noexcept {\n    const auto tmp = ext_gcd(value,\
+    \  constexpr modular inverse_helper() const noexcept {\n    const auto tmp = mod_inv(value,\
     \ Modulus::mod());\n    assert(tmp.first == 1);\n    return modular(tmp.second);\n\
     \  }\n\npublic:\n  constexpr modular() noexcept : value(0) { }\n  template <class\
     \ T>\n  explicit constexpr modular(T value_) noexcept : value(normalize(value_))\
@@ -82,7 +82,7 @@ data:
     \ constexpr bool is_prime = IsPrime;\n};\n\ntemplate <uint32_t Mod>\nusing mint32_t\
     \ = modular<static_modulus<Mod>>;\nusing rmint32_t = modular<dynamic_modulus<>>;\n\
     \n/*\n * @title Modint\n */\n"
-  code: "#pragma once\n\n#include \"../algebraic/ext_gcd.cpp\"\n\n#include <cstdint>\n\
+  code: "#pragma once\n\n#include \"../algebraic/mod_inv.cpp\"\n\n#include <cstdint>\n\
     #include <iostream>\n#include <cassert>\n#include <type_traits>\n\ntemplate <class\
     \ Modulus>\nclass modular {\npublic:\n  using value_type = uint32_t;\n  using\
     \ cover_type = uint64_t;\n \n  template <class T>\n  static constexpr value_type\
@@ -93,7 +93,7 @@ data:
     \ = nullptr>\n  constexpr modular inverse_helper() const noexcept { return power(*this,\
     \ Modulus::mod() - 2); }\n  template <bool IsPrime, std::enable_if_t<!IsPrime>*\
     \ = nullptr>\n  constexpr modular inverse_helper() const noexcept {\n    const\
-    \ auto tmp = ext_gcd(value, Modulus::mod());\n    assert(tmp.first == 1);\n  \
+    \ auto tmp = mod_inv(value, Modulus::mod());\n    assert(tmp.first == 1);\n  \
     \  return modular(tmp.second);\n  }\n\npublic:\n  constexpr modular() noexcept\
     \ : value(0) { }\n  template <class T>\n  explicit constexpr modular(T value_)\
     \ noexcept : value(normalize(value_)) { }\n  template <class T>\n  explicit constexpr\
@@ -131,11 +131,11 @@ data:
     template <uint32_t Mod>\nusing mint32_t = modular<static_modulus<Mod>>;\nusing\
     \ rmint32_t = modular<dynamic_modulus<>>;\n\n/*\n * @title Modint\n */"
   dependsOn:
-  - algebraic/ext_gcd.cpp
+  - algebraic/mod_inv.cpp
   isVerificationFile: false
   path: algebraic/modular.cpp
   requiredBy: []
-  timestamp: '2020-09-19 13:07:45+09:00'
+  timestamp: '2020-09-21 19:57:57+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/lazy_propagation_segment_tree.test.cpp
