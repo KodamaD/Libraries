@@ -2,9 +2,12 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/discrete_log.test.cpp
+    title: test/discrete_log.test.cpp
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Discrete Logarithm
@@ -42,8 +45,9 @@ data:
   path: algebraic/mod_log.cpp
   requiredBy: []
   timestamp: '2020-09-19 12:22:26+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/discrete_log.test.cpp
 documentation_of: algebraic/mod_log.cpp
 layout: document
 redirect_from:

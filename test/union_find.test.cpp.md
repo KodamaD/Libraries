@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: graph/union_find.cpp
-    title: Union Find
+    title: Disjoint Set Union
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
@@ -38,7 +38,7 @@ data:
     \ == find_parent(node2); \n  }\n\n  size_type size() const {\n    return M_forest.size();\n\
     \  }\n  bool empty() const {\n    return M_forest.empty();\n  }\n  void clear()\
     \ {\n    M_components = 0;\n    M_forest.clear();\n    M_forest.shrink_to_fit();\n\
-    \  }\n};\n\n/**\n * @title Union Find\n */\n#line 5 \"test/union_find.test.cpp\"\
+    \  }\n};\n\n/**\n * @title Disjoint Set Union\n */\n#line 5 \"test/union_find.test.cpp\"\
     \n\n#line 7 \"test/union_find.test.cpp\"\n#include <iostream>\n\nint main() {\n\
     \  size_t N, Q;\n  std::cin >> N >> Q;\n  union_find dsu(N);\n  while (Q--) {\n\
     \    size_t t, u, v;\n    std::cin >> t >> u >> v;\n    if (t == 0) {\n      dsu.unite(u,\
@@ -55,7 +55,7 @@ data:
   isVerificationFile: true
   path: test/union_find.test.cpp
   requiredBy: []
-  timestamp: '2020-09-09 18:08:09+09:00'
+  timestamp: '2020-09-27 11:10:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/union_find.test.cpp

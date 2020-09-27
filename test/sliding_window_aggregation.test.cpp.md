@@ -89,35 +89,35 @@ data:
     #line 4 \"algebraic/modular.cpp\"\n\n#line 6 \"algebraic/modular.cpp\"\n#include\
     \ <iostream>\n#line 9 \"algebraic/modular.cpp\"\n\ntemplate <class Modulus>\n\
     class modular {\npublic:\n  using value_type = uint32_t;\n  using cover_type =\
-    \ uint64_t;\n \n  template <class T>\n  static constexpr value_type normalize(T\
-    \ value_) noexcept {\n    if (value_ < 0) {\n      value_ = -value_;\n      value_\
-    \ %= Modulus::mod();\n      if (value_ == 0) return 0;\n      return Modulus::mod()\
-    \ - value_;\n    }\n    return value_ % Modulus::mod();\n  }\n\nprivate:\n  value_type\
-    \ value;\n\n  template <bool IsPrime, std::enable_if_t<IsPrime>* = nullptr>\n\
-    \  constexpr modular inverse_helper() const noexcept { return power(*this, Modulus::mod()\
-    \ - 2); }\n  template <bool IsPrime, std::enable_if_t<!IsPrime>* = nullptr>\n\
-    \  constexpr modular inverse_helper() const noexcept {\n    const auto tmp = mod_inv(value,\
-    \ Modulus::mod());\n    assert(tmp.first == 1);\n    return modular(tmp.second);\n\
-    \  }\n\npublic:\n  constexpr modular() noexcept : value(0) { }\n  template <class\
-    \ T>\n  explicit constexpr modular(T value_) noexcept : value(normalize(value_))\
-    \ { }\n  template <class T>\n  explicit constexpr operator T() const noexcept\
-    \ { return static_cast<T>(value); }\n \n  constexpr value_type get() const noexcept\
-    \ { return value; }\n  constexpr value_type &extract() noexcept { return value;\
-    \ }\n  constexpr modular operator - () const noexcept { return modular(Modulus::mod()\
-    \ - value); }\n  constexpr modular operator ~ () const noexcept { return inverse(*this);\
-    \ }\n \n  constexpr modular operator + (const modular &rhs) const noexcept { return\
-    \ modular(*this) += rhs; }\n  constexpr modular& operator += (const modular &rhs)\
-    \ noexcept { \n    if ((value += rhs.value) >= Modulus::mod()) value -= Modulus::mod();\
-    \ \n    return *this; \n  }\n \n  constexpr modular operator - (const modular\
-    \ &rhs) const noexcept { return modular(*this) -= rhs; }\n  constexpr modular&\
-    \ operator -= (const modular &rhs) noexcept { \n    if ((value += Modulus::mod()\
-    \ - rhs.value) >= Modulus::mod()) value -= Modulus::mod(); \n    return *this;\
+    \ uint64_t;\n \n  static constexpr uint32_t mod() { return Modulus::mod(); }\n\
+    \  template <class T>\n  static constexpr value_type normalize(T value_) noexcept\
+    \ {\n    if (value_ < 0) {\n      value_ = -value_;\n      value_ %= mod();\n\
+    \      if (value_ == 0) return 0;\n      return mod() - value_;\n    }\n    return\
+    \ value_ % mod();\n  }\n\nprivate:\n  value_type value;\n\n  template <bool IsPrime,\
+    \ std::enable_if_t<IsPrime>* = nullptr>\n  constexpr modular inverse_helper()\
+    \ const noexcept { return power(*this, mod() - 2); }\n  template <bool IsPrime,\
+    \ std::enable_if_t<!IsPrime>* = nullptr>\n  constexpr modular inverse_helper()\
+    \ const noexcept {\n    const auto tmp = mod_inv(value, mod());\n    assert(tmp.first\
+    \ == 1);\n    return modular(tmp.second);\n  }\n\npublic:\n  constexpr modular()\
+    \ noexcept : value(0) { }\n  template <class T>\n  explicit constexpr modular(T\
+    \ value_) noexcept : value(normalize(value_)) { }\n  template <class T>\n  explicit\
+    \ constexpr operator T() const noexcept { return static_cast<T>(value); }\n \n\
+    \  constexpr value_type get() const noexcept { return value; }\n  constexpr value_type\
+    \ &extract() noexcept { return value; }\n  constexpr modular operator - () const\
+    \ noexcept { return modular(mod() - value); }\n  constexpr modular operator ~\
+    \ () const noexcept { return inverse(*this); }\n \n  constexpr modular operator\
+    \ + (const modular &rhs) const noexcept { return modular(*this) += rhs; }\n  constexpr\
+    \ modular& operator += (const modular &rhs) noexcept { \n    if ((value += rhs.value)\
+    \ >= mod()) value -= mod(); \n    return *this; \n  }\n \n  constexpr modular\
+    \ operator - (const modular &rhs) const noexcept { return modular(*this) -= rhs;\
+    \ }\n  constexpr modular& operator -= (const modular &rhs) noexcept { \n    if\
+    \ ((value += mod() - rhs.value) >= mod()) value -= mod(); \n    return *this;\
     \ \n  }\n \n  constexpr modular operator * (const modular &rhs) const noexcept\
     \ { return modular(*this) *= rhs; }\n  constexpr modular& operator *= (const modular\
-    \ &rhs) noexcept { \n    value = (cover_type) value * rhs.value % Modulus::mod();\n\
-    \    return *this;\n  }\n \n  constexpr modular operator / (const modular &rhs)\
-    \ const noexcept { return modular(*this) /= rhs; }\n  constexpr modular& operator\
-    \ /= (const modular &rhs) noexcept { return (*this) *= inverse(rhs); }\n \n  constexpr\
+    \ &rhs) noexcept { \n    value = (cover_type) value * rhs.value % mod();\n   \
+    \ return *this;\n  }\n \n  constexpr modular operator / (const modular &rhs) const\
+    \ noexcept { return modular(*this) /= rhs; }\n  constexpr modular& operator /=\
+    \ (const modular &rhs) noexcept { return (*this) *= inverse(rhs); }\n \n  constexpr\
     \ bool zero() const noexcept { return value == 0; }\n  constexpr bool operator\
     \ == (const modular &rhs) const noexcept { return value == rhs.value; }\n  constexpr\
     \ bool operator != (const modular &rhs) const noexcept { return value != rhs.value;\
@@ -131,9 +131,9 @@ data:
     \ { return Mod; } \n  static constexpr bool is_prime = IsPrime;\n};\n\ntemplate\
     \ <uint32_t Id = 0, bool IsPrime = false>\nstruct dynamic_modulus {\n  static\
     \ uint32_t &mod() noexcept { static uint32_t val = 0; return val; }\n  static\
-    \ constexpr bool is_prime = IsPrime;\n};\n\ntemplate <uint32_t Mod>\nusing mint32_t\
-    \ = modular<static_modulus<Mod>>;\nusing rmint32_t = modular<dynamic_modulus<>>;\n\
-    \n/*\n * @title Modint\n */\n#line 6 \"test/sliding_window_aggregation.test.cpp\"\
+    \ constexpr bool is_prime = IsPrime;\n};\n\ntemplate <uint32_t Mod, bool IsPrime\
+    \ = true>\nusing mint32_t = modular<static_modulus<Mod, IsPrime>>;\nusing rmint32_t\
+    \ = modular<dynamic_modulus<>>;\n\n/*\n * @title Modint\n */\n#line 6 \"test/sliding_window_aggregation.test.cpp\"\
     \n\n#line 10 \"test/sliding_window_aggregation.test.cpp\"\n#include <vector>\n\
     \nusing m32 = mint32_t<998244353>;\n\nstruct st_monoid {\n  struct value_structure\
     \ {\n    using type = std::pair<m32, m32>;\n    static type identity() { return\
@@ -168,7 +168,7 @@ data:
   isVerificationFile: true
   path: test/sliding_window_aggregation.test.cpp
   requiredBy: []
-  timestamp: '2020-09-21 19:57:57+09:00'
+  timestamp: '2020-09-27 11:10:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/sliding_window_aggregation.test.cpp

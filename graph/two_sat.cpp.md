@@ -16,26 +16,25 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/scc
-    links:
-    - https://judge.yosupo.jp/problem/scc
-  bundledCode: "#line 1 \"test/scc.test.cpp\"\n#define PROBLEM \"https://judge.yosupo.jp/problem/scc\"\
-    \n\n#line 2 \"graph/network.cpp\"\n\n#line 2 \"other/adjust_index.cpp\"\n\n#include\
-    \ <cstddef>\n#include <cassert>\n\nclass adjust_index {\nprivate:\n  const size_t\
-    \ M_stuff, M_size;\n\npublic:\n  explicit adjust_index(const size_t stuff, const\
-    \ size_t size): \n    M_stuff(stuff), M_size(size) \n  { }\n\n  size_t operator\
-    \ [] (const size_t index) const {\n    assert(index < M_size);\n    return M_stuff\
-    \ + index;\n  }\n  size_t to_index(const size_t fixed) const {\n    assert(fixed\
-    \ >= M_stuff);\n    assert(fixed < M_size + M_stuff);\n    return fixed - M_stuff;\n\
-    \  }\n  size_t size() const {\n    return M_size;\n  }\n};\n\n/**\n * @title Index\
-    \ Adjustment\n */\n#line 4 \"graph/network.cpp\"\n\n#line 6 \"graph/network.cpp\"\
-    \n#include <cstdint>\n#include <vector>\n#include <numeric>\n#include <utility>\n\
-    #include <type_traits>\n#line 12 \"graph/network.cpp\"\n\ntemplate <class Edge>\n\
-    class network {\npublic:\n  using vertex_type = typename Edge::vertex_type;\n\
-    \  using edge_type   = Edge;\n  using size_type   = size_t;\n\nprotected:\n  std::vector<std::vector<edge_type>>\
+    document_title: Two Sat
+    links: []
+  bundledCode: "#line 2 \"graph/two_sat.cpp\"\n\n#line 2 \"graph/network.cpp\"\n\n\
+    #line 2 \"other/adjust_index.cpp\"\n\n#include <cstddef>\n#include <cassert>\n\
+    \nclass adjust_index {\nprivate:\n  const size_t M_stuff, M_size;\n\npublic:\n\
+    \  explicit adjust_index(const size_t stuff, const size_t size): \n    M_stuff(stuff),\
+    \ M_size(size) \n  { }\n\n  size_t operator [] (const size_t index) const {\n\
+    \    assert(index < M_size);\n    return M_stuff + index;\n  }\n  size_t to_index(const\
+    \ size_t fixed) const {\n    assert(fixed >= M_stuff);\n    assert(fixed < M_size\
+    \ + M_stuff);\n    return fixed - M_stuff;\n  }\n  size_t size() const {\n   \
+    \ return M_size;\n  }\n};\n\n/**\n * @title Index Adjustment\n */\n#line 4 \"\
+    graph/network.cpp\"\n\n#line 6 \"graph/network.cpp\"\n#include <cstdint>\n#include\
+    \ <vector>\n#include <numeric>\n#include <utility>\n#include <type_traits>\n#line\
+    \ 12 \"graph/network.cpp\"\n\ntemplate <class Edge>\nclass network {\npublic:\n\
+    \  using vertex_type = typename Edge::vertex_type;\n  using edge_type   = Edge;\n\
+    \  using size_type   = size_t;\n\nprotected:\n  std::vector<std::vector<edge_type>>\
     \ M_graph;\n\npublic:\n  explicit network() = default;\n  explicit network(const\
     \ size_type size) { add_vertices<false>(size); }\n\n  template <bool ReturnsIndex\
     \ = true>\n  typename std::enable_if<ReturnsIndex, vertex_type>::type add_vertex()\
@@ -101,38 +100,53 @@ data:
     \ u = topological.top();\n      topological.pop();\n      if (!visited[u]) {\n\
     \        group.push_back({ });\n        decompose(u);\n      }\n    }\n    return\
     \ group;\n  }\n};\n\n/**\n * @title Strongly Connected Components\n */\n#line\
-    \ 5 \"test/scc.test.cpp\"\n\n#line 7 \"test/scc.test.cpp\"\n#include <iostream>\n\
-    \nint main() {\n  size_t N, M;\n  std::cin >> N >> M;\n  network<base_edge> net;\n\
-    \  net.add_vertices<false>(N);\n  for (size_t i = 0; i < M; ++i) {\n    size_t\
-    \ a, b;\n    std::cin >> a >> b;\n    net.emplace_edge(a, b);\n  }\n  const auto\
-    \ group = strongly_connected_components(net).decompose();\n  std::cout << group.size()\
-    \ << '\\n';\n  for (const auto &vec: group) {\n    std::cout << vec.size();\n\
-    \    for (const auto u: vec) {\n      std::cout << ' ' << u;\n    }\n    std::cout\
-    \ << '\\n';\n  }\n  return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/scc\"\n\n#include \"../graph/network.cpp\"\
-    \n#include \"../graph/scc.cpp\"\n\n#include <cstddef>\n#include <iostream>\n\n\
-    int main() {\n  size_t N, M;\n  std::cin >> N >> M;\n  network<base_edge> net;\n\
-    \  net.add_vertices<false>(N);\n  for (size_t i = 0; i < M; ++i) {\n    size_t\
-    \ a, b;\n    std::cin >> a >> b;\n    net.emplace_edge(a, b);\n  }\n  const auto\
-    \ group = strongly_connected_components(net).decompose();\n  std::cout << group.size()\
-    \ << '\\n';\n  for (const auto &vec: group) {\n    std::cout << vec.size();\n\
-    \    for (const auto u: vec) {\n      std::cout << ' ' << u;\n    }\n    std::cout\
-    \ << '\\n';\n  }\n  return 0;\n}\n"
+    \ 5 \"graph/two_sat.cpp\"\n\n#line 10 \"graph/two_sat.cpp\"\n\nclass two_sat {\n\
+    public:\n  using size_type = size_t;\n\nprivate:\n  network<base_edge> graph;\n\
+    \npublic:\n  explicit two_sat() = default;\n  explicit two_sat(const size_type\
+    \ size): graph(size * 2) { }\n\n  void add_clause(const size_type i, const bool\
+    \ f, const size_type j, const bool g) {\n    assert(i < size());\n    assert(j\
+    \ < size());\n    graph.emplace_edge(2 * i + (f ? 0 : 1), 2 * j + (g ? 1 : 0));\n\
+    \    graph.emplace_edge(2 * j + (g ? 0 : 1), 2 * i + (f ? 1 : 0));\n  }\n\n  std::pair<bool,\
+    \ std::vector<bool>> satisfy() const {\n    const auto groups = strongly_connected_components(graph).decompose();\n\
+    \    std::vector<size_type> id(graph.size());\n    std::vector<bool> res(size());\n\
+    \    for (size_type i = 0; i < groups.size(); ++i) {\n      for (const auto x:\
+    \ groups[i]) {\n        id[x] = i;\n      }\n    }\n    for (size_type i = 0;\
+    \ i < size(); ++i) {\n      if (id[2 * i] == id[2 * i + 1]) {\n        return\
+    \ { false, { } };\n      }\n      res[i] = id[2 * i] < id[2 * i + 1];\n    }\n\
+    \    return { true, res };\n  }\n\n  size_type size() const {\n    return graph.size()\
+    \ / 2;\n  }\n\n};\n\n/**\n * @title Two Sat\n */\n"
+  code: "#pragma once\n\n#include \"../graph/network.cpp\"\n#include \"../graph/scc.cpp\"\
+    \n\n#include <cstddef>\n#include <utility>\n#include <vector>\n#include <cassert>\n\
+    \nclass two_sat {\npublic:\n  using size_type = size_t;\n\nprivate:\n  network<base_edge>\
+    \ graph;\n\npublic:\n  explicit two_sat() = default;\n  explicit two_sat(const\
+    \ size_type size): graph(size * 2) { }\n\n  void add_clause(const size_type i,\
+    \ const bool f, const size_type j, const bool g) {\n    assert(i < size());\n\
+    \    assert(j < size());\n    graph.emplace_edge(2 * i + (f ? 0 : 1), 2 * j +\
+    \ (g ? 1 : 0));\n    graph.emplace_edge(2 * j + (g ? 0 : 1), 2 * i + (f ? 1 :\
+    \ 0));\n  }\n\n  std::pair<bool, std::vector<bool>> satisfy() const {\n    const\
+    \ auto groups = strongly_connected_components(graph).decompose();\n    std::vector<size_type>\
+    \ id(graph.size());\n    std::vector<bool> res(size());\n    for (size_type i\
+    \ = 0; i < groups.size(); ++i) {\n      for (const auto x: groups[i]) {\n    \
+    \    id[x] = i;\n      }\n    }\n    for (size_type i = 0; i < size(); ++i) {\n\
+    \      if (id[2 * i] == id[2 * i + 1]) {\n        return { false, { } };\n   \
+    \   }\n      res[i] = id[2 * i] < id[2 * i + 1];\n    }\n    return { true, res\
+    \ };\n  }\n\n  size_type size() const {\n    return graph.size() / 2;\n  }\n\n\
+    };\n\n/**\n * @title Two Sat\n */"
   dependsOn:
   - graph/network.cpp
   - other/adjust_index.cpp
   - graph/scc.cpp
   - other/fix_point.cpp
-  isVerificationFile: true
-  path: test/scc.test.cpp
+  isVerificationFile: false
+  path: graph/two_sat.cpp
   requiredBy: []
   timestamp: '2020-09-27 11:10:55+09:00'
-  verificationStatus: TEST_ACCEPTED
+  verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: test/scc.test.cpp
+documentation_of: graph/two_sat.cpp
 layout: document
 redirect_from:
-- /verify/test/scc.test.cpp
-- /verify/test/scc.test.cpp.html
-title: test/scc.test.cpp
+- /library/graph/two_sat.cpp
+- /library/graph/two_sat.cpp.html
+title: Two Sat
 ---

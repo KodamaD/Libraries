@@ -4,7 +4,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: other/fix_point.cpp
     title: Lambda Recursion
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: graph/two_sat.cpp
+    title: Two Sat
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/scc.test.cpp
@@ -72,7 +75,8 @@ data:
   - other/fix_point.cpp
   isVerificationFile: false
   path: graph/scc.cpp
-  requiredBy: []
+  requiredBy:
+  - graph/two_sat.cpp
   timestamp: '2020-09-13 16:51:07+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

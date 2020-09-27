@@ -13,6 +13,9 @@ data:
     path: test/factorials.test.cpp
     title: test/factorials.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/sqrt_mod.test.cpp
+    title: test/sqrt_mod.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/sliding_window_aggregation.test.cpp
     title: test/sliding_window_aggregation.test.cpp
   - icon: ':heavy_check_mark:'
@@ -21,6 +24,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/matrix.test.cpp
     title: test/matrix.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/discrete_log.test.cpp
+    title: test/discrete_log.test.cpp
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
@@ -50,9 +56,11 @@ data:
   verifiedWith:
   - test/lazy_propagation_segment_tree.test.cpp
   - test/factorials.test.cpp
+  - test/sqrt_mod.test.cpp
   - test/sliding_window_aggregation.test.cpp
   - test/segment_tree.test.cpp
   - test/matrix.test.cpp
+  - test/discrete_log.test.cpp
 documentation_of: algebraic/mod_inv.cpp
 layout: document
 redirect_from:

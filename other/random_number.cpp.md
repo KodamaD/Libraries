@@ -5,15 +5,18 @@ data:
   - icon: ':warning:'
     path: string/rolling_hash.cpp
     title: Rolling Hash
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: algebraic/mod_sqrt.cpp
     title: Sqrt Mod
   - icon: ':warning:'
     path: container/randomized_queue.cpp
     title: Randomized Queue
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/sqrt_mod.test.cpp
+    title: test/sqrt_mod.test.cpp
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Random Number
@@ -65,8 +68,9 @@ data:
   - algebraic/mod_sqrt.cpp
   - container/randomized_queue.cpp
   timestamp: '2020-08-09 10:53:47+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/sqrt_mod.test.cpp
 documentation_of: other/random_number.cpp
 layout: document
 redirect_from:

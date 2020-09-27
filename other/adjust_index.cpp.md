@@ -2,6 +2,9 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
+  - icon: ':warning:'
+    path: graph/two_sat.cpp
+    title: Two Sat
   - icon: ':heavy_check_mark:'
     path: graph/network.cpp
     title: Network
@@ -48,6 +51,7 @@ data:
   isVerificationFile: false
   path: other/adjust_index.cpp
   requiredBy:
+  - graph/two_sat.cpp
   - graph/network.cpp
   - graph/network_simplex.cpp
   timestamp: '2020-09-19 13:07:45+09:00'

@@ -4,7 +4,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: other/adjust_index.cpp
     title: Index Adjustment
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: graph/two_sat.cpp
+    title: Two Sat
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/push_relabel.test.cpp
@@ -34,7 +37,8 @@ data:
     #include <type_traits>\n#line 12 \"graph/network.cpp\"\n\ntemplate <class Edge>\n\
     class network {\npublic:\n  using vertex_type = typename Edge::vertex_type;\n\
     \  using edge_type   = Edge;\n  using size_type   = size_t;\n\nprotected:\n  std::vector<std::vector<edge_type>>\
-    \ M_graph;\n\npublic:\n  network() = default;\n\n  template <bool ReturnsIndex\
+    \ M_graph;\n\npublic:\n  explicit network() = default;\n  explicit network(const\
+    \ size_type size) { add_vertices<false>(size); }\n\n  template <bool ReturnsIndex\
     \ = true>\n  typename std::enable_if<ReturnsIndex, vertex_type>::type add_vertex()\
     \ {\n    vertex_type res = M_graph.size();\n    M_graph.push_back({ });\n    return\
     \ res;\n  }\n  template <bool ReturnsIndex = true>\n  typename std::enable_if<!ReturnsIndex,\
@@ -74,7 +78,8 @@ data:
     #include <type_traits>\n#include <cassert>\n\ntemplate <class Edge>\nclass network\
     \ {\npublic:\n  using vertex_type = typename Edge::vertex_type;\n  using edge_type\
     \   = Edge;\n  using size_type   = size_t;\n\nprotected:\n  std::vector<std::vector<edge_type>>\
-    \ M_graph;\n\npublic:\n  network() = default;\n\n  template <bool ReturnsIndex\
+    \ M_graph;\n\npublic:\n  explicit network() = default;\n  explicit network(const\
+    \ size_type size) { add_vertices<false>(size); }\n\n  template <bool ReturnsIndex\
     \ = true>\n  typename std::enable_if<ReturnsIndex, vertex_type>::type add_vertex()\
     \ {\n    vertex_type res = M_graph.size();\n    M_graph.push_back({ });\n    return\
     \ res;\n  }\n  template <bool ReturnsIndex = true>\n  typename std::enable_if<!ReturnsIndex,\
@@ -113,8 +118,9 @@ data:
   - other/adjust_index.cpp
   isVerificationFile: false
   path: graph/network.cpp
-  requiredBy: []
-  timestamp: '2020-09-19 13:07:45+09:00'
+  requiredBy:
+  - graph/two_sat.cpp
+  timestamp: '2020-09-27 11:10:55+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/push_relabel.test.cpp

@@ -5,6 +5,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: algebraic/fact_prime_faster.cpp
     title: Fast Factorization
+  - icon: ':warning:'
+    path: graph/two_sat.cpp
+    title: Two Sat
   - icon: ':heavy_check_mark:'
     path: graph/dinic.cpp
     title: Dinic
@@ -49,6 +52,7 @@ data:
   path: other/fix_point.cpp
   requiredBy:
   - algebraic/fact_prime_faster.cpp
+  - graph/two_sat.cpp
   - graph/dinic.cpp
   - graph/scc.cpp
   timestamp: '2020-08-03 12:07:15+09:00'

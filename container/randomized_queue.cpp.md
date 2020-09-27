@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: other/random_number.cpp
     title: Random Number
   _extendedRequiredBy: []

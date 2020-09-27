@@ -15,10 +15,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: algebraic/mod_inv.cpp
       title: Extended GCD
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: algebraic/mod_log.cpp
       title: Discrete Logarithm
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: algebraic/mod_sqrt.cpp
       title: Sqrt Mod
     - icon: ':heavy_check_mark:'
@@ -99,9 +99,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: graph/scc.cpp
       title: Strongly Connected Components
+    - icon: ':warning:'
+      path: graph/two_sat.cpp
+      title: Two Sat
     - icon: ':heavy_check_mark:'
       path: graph/union_find.cpp
-      title: Union Find
+      title: Disjoint Set Union
   - name: implementing
     pages:
     - icon: ':warning:'
@@ -139,7 +142,7 @@ data:
     - icon: ':warning:'
       path: other/multi_vec.cpp
       title: Multi-Dimensional Vector
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: other/random_number.cpp
       title: Random Number
     - icon: ':warning:'
@@ -168,20 +171,15 @@ data:
     - icon: ':heavy_check_mark:'
       path: string/z_algorithm.cpp
       title: Z-Algorithm
-  - name: test
-    pages:
-    - icon: ':warning:'
-      path: test/discrete_log.cpp
-      title: test/discrete_log.cpp
-    - icon: ':warning:'
-      path: test/sqrt_mod.cpp
-      title: test/sqrt_mod.cpp
   verificationCategories:
   - name: test
     pages:
     - icon: ':heavy_check_mark:'
       path: test/dinic.test.cpp
       title: test/dinic.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/discrete_log.test.cpp
+      title: test/discrete_log.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/dst_tree.test.cpp
       title: test/dst_tree.test.cpp
@@ -230,6 +228,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/sliding_window_aggregation.test.cpp
       title: test/sliding_window_aggregation.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/sqrt_mod.test.cpp
+      title: test/sqrt_mod.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/suffix_array.test.cpp
       title: test/suffix_array.test.cpp
