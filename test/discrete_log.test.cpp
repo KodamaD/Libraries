@@ -2,7 +2,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/discrete_logarithm_mod"
 
 #include "../algebraic/modular.cpp"
-#include "../algebraic/modular_operation.cpp"
+#include "../algebraic/mod_log.cpp"
 
 #include <cstddef>
 #include <cstdint>
@@ -13,9 +13,9 @@ int main() {
   std::cin >> Q;
   while (Q--) {
     uint32_t x, y;
-    std::cin >> x >> y >> runtime_mod::value();
+    std::cin >> x >> y >> dynamic_modulus<>::mod();
     const auto ans = log(rmint32_t(x), rmint32_t(y));
-    if (ans == runtime_mod::value()) {
+    if (ans == dynamic_modulus<>::mod()) {
       std::cout << "-1\n";
     }
     else {

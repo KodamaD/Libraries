@@ -13,25 +13,26 @@ public:
   using value_type = uint32_t;
   using cover_type = uint64_t;
  
+  static constexpr uint32_t mod() { return Modulus::mod(); }
   template <class T>
   static constexpr value_type normalize(T value_) noexcept {
     if (value_ < 0) {
       value_ = -value_;
-      value_ %= Modulus::mod();
+      value_ %= mod();
       if (value_ == 0) return 0;
-      return Modulus::mod() - value_;
+      return mod() - value_;
     }
-    return value_ % Modulus::mod();
+    return value_ % mod();
   }
 
 private:
   value_type value;
 
   template <bool IsPrime, std::enable_if_t<IsPrime>* = nullptr>
-  constexpr modular inverse_helper() const noexcept { return power(*this, Modulus::mod() - 2); }
+  constexpr modular inverse_helper() const noexcept { return power(*this, mod() - 2); }
   template <bool IsPrime, std::enable_if_t<!IsPrime>* = nullptr>
   constexpr modular inverse_helper() const noexcept {
-    const auto tmp = mod_inv(value, Modulus::mod());
+    const auto tmp = mod_inv(value, mod());
     assert(tmp.first == 1);
     return modular(tmp.second);
   }
@@ -45,24 +46,24 @@ public:
  
   constexpr value_type get() const noexcept { return value; }
   constexpr value_type &extract() noexcept { return value; }
-  constexpr modular operator - () const noexcept { return modular(Modulus::mod() - value); }
+  constexpr modular operator - () const noexcept { return modular(mod() - value); }
   constexpr modular operator ~ () const noexcept { return inverse(*this); }
  
   constexpr modular operator + (const modular &rhs) const noexcept { return modular(*this) += rhs; }
   constexpr modular& operator += (const modular &rhs) noexcept { 
-    if ((value += rhs.value) >= Modulus::mod()) value -= Modulus::mod(); 
+    if ((value += rhs.value) >= mod()) value -= mod(); 
     return *this; 
   }
  
   constexpr modular operator - (const modular &rhs) const noexcept { return modular(*this) -= rhs; }
   constexpr modular& operator -= (const modular &rhs) noexcept { 
-    if ((value += Modulus::mod() - rhs.value) >= Modulus::mod()) value -= Modulus::mod(); 
+    if ((value += mod() - rhs.value) >= mod()) value -= mod(); 
     return *this; 
   }
  
   constexpr modular operator * (const modular &rhs) const noexcept { return modular(*this) *= rhs; }
   constexpr modular& operator *= (const modular &rhs) noexcept { 
-    value = (cover_type) value * rhs.value % Modulus::mod();
+    value = (cover_type) value * rhs.value % mod();
     return *this;
   }
  
@@ -95,8 +96,8 @@ struct dynamic_modulus {
   static constexpr bool is_prime = IsPrime;
 };
 
-template <uint32_t Mod>
-using mint32_t = modular<static_modulus<Mod>>;
+template <uint32_t Mod, bool IsPrime = true>
+using mint32_t = modular<static_modulus<Mod, IsPrime>>;
 using rmint32_t = modular<dynamic_modulus<>>;
 
 /*

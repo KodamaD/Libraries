@@ -2,7 +2,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/sqrt_mod"
 
 #include "../algebraic/modular.cpp"
-#include "../algebraic/modular_operation.cpp"
+#include "../algebraic/mod_sqrt.cpp"
 
 #include <cstddef>
 #include <cstdint>
@@ -13,7 +13,7 @@ int main() {
   std::cin >> Q;
   while (Q--) {
     uint32_t x;
-    std::cin >> x >> runtime_mod::value();
+    std::cin >> x >> dynamic_modulus<>::mod();
     if (x == 0) std::cout << "0\n";
     else {
       const auto ans = sqrt(rmint32_t(x));

@@ -21,7 +21,8 @@ protected:
   std::vector<std::vector<edge_type>> M_graph;
 
 public:
-  network() = default;
+  explicit network() = default;
+  explicit network(const size_type size) { add_vertices<false>(size); }
 
   template <bool ReturnsIndex = true>
   typename std::enable_if<ReturnsIndex, vertex_type>::type add_vertex() {

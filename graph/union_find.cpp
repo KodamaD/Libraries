@@ -82,5 +82,5 @@ public:
 };
 
 /**
- * @title Union Find
+ * @title Disjoint Set Union
  */
