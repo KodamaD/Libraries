@@ -12,7 +12,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Network Simplex
     links: []
   bundledCode: "#line 2 \"graph/network_simplex.cpp\"\n\n#line 2 \"other/adjust_index.cpp\"\

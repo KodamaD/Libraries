@@ -6,7 +6,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Multi-Dimensional Array
     links: []
   bundledCode: "#line 2 \"other/multi_array.cpp\"\n\n#include <cstddef>\n#include\

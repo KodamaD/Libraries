@@ -5,11 +5,11 @@ data:
     path: algebraic/factorials.cpp
     title: Factorial
   - icon: ':heavy_check_mark:'
-    path: algebraic/modular.cpp
-    title: Modint
-  - icon: ':heavy_check_mark:'
     path: algebraic/mod_inv.cpp
     title: Extended GCD
+  - icon: ':heavy_check_mark:'
+    path: algebraic/modular.cpp
+    title: Modint
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
@@ -25,8 +25,8 @@ data:
     \  using value_type = T;\n\npublic:\n  std::array<value_type, N + 1> fact{};\n\
     \  std::array<value_type, N + 1> fact_inv{};\n\n  factorials() {\n    fact.front()\
     \ = value_type(1);\n    for (size_t i = 1; i <= N; ++i) {\n      fact[i] = fact[i\
-    \ - 1] * value_type(i);\n    }\n    fact_inv.back() = ~fact.back();\n    for (size_t\
-    \ i = N; i > 0; --i) {\n      fact_inv[i - 1] = fact_inv[i] * value_type(i);\n\
+    \ - 1] * value_type(i);\n    }\n    fact_inv.back() = value_type(1) / fact.back();\n\
+    \    for (size_t i = N; i > 0; --i) {\n      fact_inv[i - 1] = fact_inv[i] * value_type(i);\n\
     \    }\n  }\n\n  value_type operator () (size_t n, size_t r) const {\n    assert(n\
     \ <= N);\n    assert(n >= r);\n    return fact[n] * fact_inv[n - r] * fact_inv[r];\n\
     \  }\n};\n\n/**\n * @title Factorial\n */\n#line 2 \"algebraic/modular.cpp\"\n\
@@ -114,7 +114,7 @@ data:
   isVerificationFile: true
   path: test/factorials.test.cpp
   requiredBy: []
-  timestamp: '2020-09-27 11:10:55+09:00'
+  timestamp: '2020-10-09 16:14:32+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/factorials.test.cpp

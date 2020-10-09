@@ -6,20 +6,20 @@ data:
     path: algebraic/ntt.cpp
     title: Number Theoretic Transform
   - icon: ':heavy_check_mark:'
-    path: container/dual_segment_tree.cpp
-    title: Dual Segment Tree
-  - icon: ':heavy_check_mark:'
     path: container/disjoint_sparse_table.cpp
     title: Disjoint Sparse Table
   - icon: ':heavy_check_mark:'
     path: container/dst_tree.cpp
     title: DST Tree
   - icon: ':heavy_check_mark:'
-    path: container/lazy_propagation_segment_tree.cpp
-    title: Lazy Propagation Segment Tree
+    path: container/dual_segment_tree.cpp
+    title: Dual Segment Tree
   - icon: ':heavy_check_mark:'
     path: container/fenwick_tree.cpp
     title: Fenwick Tree
+  - icon: ':heavy_check_mark:'
+    path: container/lazy_propagation_segment_tree.cpp
+    title: Lazy Propagation Segment Tree
   - icon: ':heavy_check_mark:'
     path: container/segment_tree.cpp
     title: Segment Tree
@@ -28,24 +28,23 @@ data:
     path: test/dst_tree.test.cpp
     title: test/dst_tree.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/dual_segment_tree.test.cpp
+    title: test/dual_segment_tree.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/fenwick_tree.test.cpp
+    title: test/fenwick_tree.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/lazy_propagation_segment_tree.test.cpp
     title: test/lazy_propagation_segment_tree.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/segment_tree.test.cpp
     title: test/segment_tree.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/fenwick_tree.test.cpp
-    title: test/fenwick_tree.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/dual_segment_tree.test.cpp
-    title: test/dual_segment_tree.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/vertex_set_path_sum.test.cpp
     title: test/vertex_set_path_sum.test.cpp
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Bit Operations
     links: []
   bundledCode: "#line 2 \"other/bit_operation.cpp\"\n\n#include <cstddef>\n#include\
@@ -83,21 +82,21 @@ data:
   path: other/bit_operation.cpp
   requiredBy:
   - algebraic/ntt.cpp
-  - container/dual_segment_tree.cpp
-  - container/disjoint_sparse_table.cpp
   - container/dst_tree.cpp
-  - container/lazy_propagation_segment_tree.cpp
+  - container/disjoint_sparse_table.cpp
   - container/fenwick_tree.cpp
   - container/segment_tree.cpp
+  - container/lazy_propagation_segment_tree.cpp
+  - container/dual_segment_tree.cpp
   timestamp: '2020-09-09 18:08:09+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/dst_tree.test.cpp
-  - test/lazy_propagation_segment_tree.test.cpp
-  - test/segment_tree.test.cpp
-  - test/fenwick_tree.test.cpp
   - test/dual_segment_tree.test.cpp
+  - test/segment_tree.test.cpp
+  - test/dst_tree.test.cpp
+  - test/fenwick_tree.test.cpp
   - test/vertex_set_path_sum.test.cpp
+  - test/lazy_propagation_segment_tree.test.cpp
 documentation_of: other/bit_operation.cpp
 layout: document
 redirect_from:

@@ -15,7 +15,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Fenwick Tree
     links: []
   bundledCode: "#line 2 \"container/fenwick_tree.cpp\"\n\n#line 2 \"other/bit_operation.cpp\"\

@@ -6,7 +6,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Sieve of Eratosthenes
     links: []
   bundledCode: "#line 2 \"algebraic/sieve.cpp\"\n\n#include <cstddef>\n#include <cstdint>\n\

@@ -12,7 +12,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Sqrt Mod
     links: []
   bundledCode: "#line 2 \"algebraic/mod_sqrt.cpp\"\n\n#line 2 \"other/random_number.cpp\"\

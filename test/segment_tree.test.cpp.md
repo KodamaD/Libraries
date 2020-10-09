@@ -2,20 +2,20 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: container/segment_tree.cpp
-    title: Segment Tree
-  - icon: ':heavy_check_mark:'
-    path: other/monoid.cpp
-    title: Monoid Utility
-  - icon: ':heavy_check_mark:'
-    path: other/bit_operation.cpp
-    title: Bit Operations
+    path: algebraic/mod_inv.cpp
+    title: Extended GCD
   - icon: ':heavy_check_mark:'
     path: algebraic/modular.cpp
     title: Modint
   - icon: ':heavy_check_mark:'
-    path: algebraic/mod_inv.cpp
-    title: Extended GCD
+    path: container/segment_tree.cpp
+    title: Segment Tree
+  - icon: ':heavy_check_mark:'
+    path: other/bit_operation.cpp
+    title: Bit Operations
+  - icon: ':heavy_check_mark:'
+    path: other/monoid.cpp
+    title: Monoid Utility
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp

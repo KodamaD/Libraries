@@ -12,7 +12,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Sliding Window Aggregation
     links: []
   bundledCode: "#line 2 \"container/sliding_window_aggregation.cpp\"\n\n#line 2 \"\

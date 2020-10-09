@@ -9,7 +9,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Suffix Array
     links: []
   bundledCode: "#line 2 \"string/suffix_array.cpp\"\n\n#include <cstddef>\n#include\

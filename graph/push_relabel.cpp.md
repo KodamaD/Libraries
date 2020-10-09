@@ -9,7 +9,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Push Relabel
     links: []
   bundledCode: "#line 2 \"graph/push_relabel.cpp\"\n\n#include <queue>\n#include <algorithm>\n\

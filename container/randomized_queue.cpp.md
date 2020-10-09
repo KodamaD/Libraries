@@ -9,7 +9,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Randomized Queue
     links: []
   bundledCode: "#line 2 \"container/randomized_queue.cpp\"\n\n#line 2 \"other/random_number.cpp\"\

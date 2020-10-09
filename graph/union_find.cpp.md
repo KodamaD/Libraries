@@ -9,7 +9,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Disjoint Set Union
     links: []
   bundledCode: "#line 2 \"graph/union_find.cpp\"\n\n#include <cstddef>\n#include <vector>\n\

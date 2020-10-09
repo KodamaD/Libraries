@@ -3,43 +3,42 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
-    path: container/dual_segment_tree.cpp
-    title: Dual Segment Tree
-  - icon: ':heavy_check_mark:'
-    path: container/sliding_window_aggregation.cpp
-    title: Sliding Window Aggregation
-  - icon: ':heavy_check_mark:'
     path: container/disjoint_sparse_table.cpp
     title: Disjoint Sparse Table
   - icon: ':heavy_check_mark:'
     path: container/dst_tree.cpp
     title: DST Tree
   - icon: ':heavy_check_mark:'
+    path: container/dual_segment_tree.cpp
+    title: Dual Segment Tree
+  - icon: ':heavy_check_mark:'
     path: container/lazy_propagation_segment_tree.cpp
     title: Lazy Propagation Segment Tree
   - icon: ':heavy_check_mark:'
     path: container/segment_tree.cpp
     title: Segment Tree
+  - icon: ':heavy_check_mark:'
+    path: container/sliding_window_aggregation.cpp
+    title: Sliding Window Aggregation
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/dst_tree.test.cpp
     title: test/dst_tree.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/dual_segment_tree.test.cpp
+    title: test/dual_segment_tree.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/lazy_propagation_segment_tree.test.cpp
     title: test/lazy_propagation_segment_tree.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/sliding_window_aggregation.test.cpp
-    title: test/sliding_window_aggregation.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/segment_tree.test.cpp
     title: test/segment_tree.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/dual_segment_tree.test.cpp
-    title: test/dual_segment_tree.test.cpp
+    path: test/sliding_window_aggregation.test.cpp
+    title: test/sliding_window_aggregation.test.cpp
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Monoid Utility
     links: []
   bundledCode: "#line 2 \"other/monoid.cpp\"\n\n#include <type_traits>\n#include <utility>\n\
@@ -114,20 +113,20 @@ data:
   isVerificationFile: false
   path: other/monoid.cpp
   requiredBy:
-  - container/dual_segment_tree.cpp
-  - container/sliding_window_aggregation.cpp
-  - container/disjoint_sparse_table.cpp
   - container/dst_tree.cpp
-  - container/lazy_propagation_segment_tree.cpp
+  - container/disjoint_sparse_table.cpp
+  - container/sliding_window_aggregation.cpp
   - container/segment_tree.cpp
+  - container/lazy_propagation_segment_tree.cpp
+  - container/dual_segment_tree.cpp
   timestamp: '2020-09-13 16:51:07+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/dst_tree.test.cpp
-  - test/lazy_propagation_segment_tree.test.cpp
-  - test/sliding_window_aggregation.test.cpp
-  - test/segment_tree.test.cpp
   - test/dual_segment_tree.test.cpp
+  - test/segment_tree.test.cpp
+  - test/dst_tree.test.cpp
+  - test/sliding_window_aggregation.test.cpp
+  - test/lazy_propagation_segment_tree.test.cpp
 documentation_of: other/monoid.cpp
 layout: document
 redirect_from:

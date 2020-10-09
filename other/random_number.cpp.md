@@ -2,15 +2,15 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':warning:'
-    path: string/rolling_hash.cpp
-    title: Rolling Hash
   - icon: ':heavy_check_mark:'
     path: algebraic/mod_sqrt.cpp
     title: Sqrt Mod
   - icon: ':warning:'
     path: container/randomized_queue.cpp
     title: Randomized Queue
+  - icon: ':warning:'
+    path: string/rolling_hash.cpp
+    title: Rolling Hash
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/sqrt_mod.test.cpp
@@ -18,7 +18,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Random Number
     links: []
   bundledCode: "#line 2 \"other/random_number.cpp\"\n\n#include <cstdint>\n#include\
@@ -64,8 +63,8 @@ data:
   isVerificationFile: false
   path: other/random_number.cpp
   requiredBy:
-  - string/rolling_hash.cpp
   - algebraic/mod_sqrt.cpp
+  - string/rolling_hash.cpp
   - container/randomized_queue.cpp
   timestamp: '2020-08-09 10:53:47+09:00'
   verificationStatus: LIBRARY_ALL_AC

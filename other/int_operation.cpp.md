@@ -6,7 +6,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Integer Operations
     links: []
   bundledCode: "#line 2 \"other/int_operation.cpp\"\n\n#include <cstdint>\n#include\

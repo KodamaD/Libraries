@@ -9,7 +9,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Number Theoretic Transform
     links: []
   bundledCode: "#line 2 \"algebraic/ntt.cpp\"\n\n#line 2 \"other/bit_operation.cpp\"\

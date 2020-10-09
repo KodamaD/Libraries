@@ -6,7 +6,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Manacher
     links: []
   bundledCode: "#line 2 \"string/manacher.cpp\"\n\n#include <cstddef>\n#include <cstdint>\n\

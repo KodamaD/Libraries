@@ -2,17 +2,17 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
+    path: algebraic/mod_inv.cpp
+    title: Extended GCD
+  - icon: ':heavy_check_mark:'
+    path: algebraic/modular.cpp
+    title: Modint
+  - icon: ':heavy_check_mark:'
     path: container/sliding_window_aggregation.cpp
     title: Sliding Window Aggregation
   - icon: ':heavy_check_mark:'
     path: other/monoid.cpp
     title: Monoid Utility
-  - icon: ':heavy_check_mark:'
-    path: algebraic/modular.cpp
-    title: Modint
-  - icon: ':heavy_check_mark:'
-    path: algebraic/mod_inv.cpp
-    title: Extended GCD
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp

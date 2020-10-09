@@ -9,7 +9,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Z-Algorithm
     links: []
   bundledCode: "#line 2 \"string/z_algorithm.cpp\"\n\n#include <cstddef>\n#include\

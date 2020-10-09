@@ -9,7 +9,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Matrix
     links: []
   bundledCode: "#line 2 \"container/matrix.cpp\"\n\n#include <cstddef>\n#include <cstdint>\n\

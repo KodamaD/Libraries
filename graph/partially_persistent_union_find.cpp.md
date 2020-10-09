@@ -6,7 +6,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Partially Persistent Union Find
     links: []
   bundledCode: "#line 2 \"graph/partially_persistent_union_find.cpp\"\n\n#include\

@@ -9,7 +9,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Rolling Hash
     links: []
   bundledCode: "#line 2 \"string/rolling_hash.cpp\"\n\n#line 2 \"other/random_number.cpp\"\

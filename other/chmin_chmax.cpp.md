@@ -6,7 +6,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Chmin/Chmax
     links: []
   bundledCode: "#line 2 \"other/chmin_chmax.cpp\"\n\ntemplate <class T, class U>\n\

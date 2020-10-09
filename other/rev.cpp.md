@@ -6,7 +6,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Reverser
     links: []
   bundledCode: "#line 2 \"other/rev.cpp\"\n\n#include <type_traits>\n#include <iterator>\n\

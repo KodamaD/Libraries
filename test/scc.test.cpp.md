@@ -5,11 +5,11 @@ data:
     path: graph/network.cpp
     title: Network
   - icon: ':heavy_check_mark:'
-    path: other/adjust_index.cpp
-    title: Index Adjustment
-  - icon: ':heavy_check_mark:'
     path: graph/scc.cpp
     title: Strongly Connected Components
+  - icon: ':heavy_check_mark:'
+    path: other/adjust_index.cpp
+    title: Index Adjustment
   - icon: ':heavy_check_mark:'
     path: other/fix_point.cpp
     title: Lambda Recursion

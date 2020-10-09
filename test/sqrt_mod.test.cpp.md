@@ -2,14 +2,14 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: algebraic/modular.cpp
-    title: Modint
-  - icon: ':heavy_check_mark:'
     path: algebraic/mod_inv.cpp
     title: Extended GCD
   - icon: ':heavy_check_mark:'
     path: algebraic/mod_sqrt.cpp
     title: Sqrt Mod
+  - icon: ':heavy_check_mark:'
+    path: algebraic/modular.cpp
+    title: Modint
   - icon: ':heavy_check_mark:'
     path: other/random_number.cpp
     title: Random Number

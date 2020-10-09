@@ -9,7 +9,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Fast Input/Output
     links: []
   bundledCode: "#line 2 \"other/fast_io.cpp\"\n\n#include <cstddef>\n#include <cstdint>\n\

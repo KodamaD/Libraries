@@ -15,7 +15,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Lazy Propagation Segment Tree
     links: []
   bundledCode: "#line 2 \"container/lazy_propagation_segment_tree.cpp\"\n\n#line 2\

@@ -12,7 +12,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Heavy-Light Decomposition
     links: []
   bundledCode: "#line 2 \"graph/heavy_light_decomposition.cpp\"\n\n#include <cstddef>\n\

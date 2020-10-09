@@ -2,11 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: algebraic/modular.cpp
-    title: Modint
-  - icon: ':heavy_check_mark:'
     path: algebraic/mod_inv.cpp
     title: Extended GCD
+  - icon: ':heavy_check_mark:'
+    path: algebraic/modular.cpp
+    title: Modint
   - icon: ':heavy_check_mark:'
     path: container/matrix.cpp
     title: Matrix

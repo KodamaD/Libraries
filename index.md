@@ -153,7 +153,7 @@ data:
       title: Reverser
     - icon: ':warning:'
       path: other/template.cpp
-      title: other/template.cpp
+      title: Template
     - icon: ':warning:'
       path: other/time_measurement.cpp
       title: Time Measurement

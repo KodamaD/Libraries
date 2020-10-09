@@ -2,14 +2,14 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: algebraic/modular.cpp
-    title: Modint
-  - icon: ':heavy_check_mark:'
     path: algebraic/mod_inv.cpp
     title: Extended GCD
   - icon: ':heavy_check_mark:'
     path: algebraic/mod_log.cpp
     title: Discrete Logarithm
+  - icon: ':heavy_check_mark:'
+    path: algebraic/modular.cpp
+    title: Modint
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp

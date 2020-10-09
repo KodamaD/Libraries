@@ -2,11 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: graph/heavy_light_decomposition.cpp
-    title: Heavy-Light Decomposition
-  - icon: ':heavy_check_mark:'
     path: container/fenwick_tree.cpp
     title: Fenwick Tree
+  - icon: ':heavy_check_mark:'
+    path: graph/heavy_light_decomposition.cpp
+    title: Heavy-Light Decomposition
   - icon: ':heavy_check_mark:'
     path: other/bit_operation.cpp
     title: Bit Operations

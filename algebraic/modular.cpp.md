@@ -7,30 +7,29 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/lazy_propagation_segment_tree.test.cpp
-    title: test/lazy_propagation_segment_tree.test.cpp
+    path: test/discrete_log.test.cpp
+    title: test/discrete_log.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/factorials.test.cpp
     title: test/factorials.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/sqrt_mod.test.cpp
-    title: test/sqrt_mod.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/sliding_window_aggregation.test.cpp
-    title: test/sliding_window_aggregation.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/segment_tree.test.cpp
-    title: test/segment_tree.test.cpp
+    path: test/lazy_propagation_segment_tree.test.cpp
+    title: test/lazy_propagation_segment_tree.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/matrix.test.cpp
     title: test/matrix.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/discrete_log.test.cpp
-    title: test/discrete_log.test.cpp
+    path: test/segment_tree.test.cpp
+    title: test/segment_tree.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/sliding_window_aggregation.test.cpp
+    title: test/sliding_window_aggregation.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/sqrt_mod.test.cpp
+    title: test/sqrt_mod.test.cpp
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Modint
     links: []
   bundledCode: "#line 2 \"algebraic/modular.cpp\"\n\n#line 2 \"algebraic/mod_inv.cpp\"\
@@ -143,13 +142,13 @@ data:
   timestamp: '2020-09-27 11:10:55+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/lazy_propagation_segment_tree.test.cpp
-  - test/factorials.test.cpp
-  - test/sqrt_mod.test.cpp
-  - test/sliding_window_aggregation.test.cpp
-  - test/segment_tree.test.cpp
   - test/matrix.test.cpp
   - test/discrete_log.test.cpp
+  - test/segment_tree.test.cpp
+  - test/sliding_window_aggregation.test.cpp
+  - test/factorials.test.cpp
+  - test/lazy_propagation_segment_tree.test.cpp
+  - test/sqrt_mod.test.cpp
 documentation_of: algebraic/modular.cpp
 layout: document
 redirect_from:

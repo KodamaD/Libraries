@@ -2,11 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: container/wavelet_matrix.cpp
-    title: Wavelet Matrix
-  - icon: ':heavy_check_mark:'
     path: container/bit_vector.cpp
     title: Succinct Bit Vector
+  - icon: ':heavy_check_mark:'
+    path: container/wavelet_matrix.cpp
+    title: Wavelet Matrix
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp

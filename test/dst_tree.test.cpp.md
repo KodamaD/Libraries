@@ -2,11 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: container/dst_tree.cpp
-    title: DST Tree
-  - icon: ':heavy_check_mark:'
     path: container/disjoint_sparse_table.cpp
     title: Disjoint Sparse Table
+  - icon: ':heavy_check_mark:'
+    path: container/dst_tree.cpp
+    title: DST Tree
   - icon: ':heavy_check_mark:'
     path: other/bit_operation.cpp
     title: Bit Operations

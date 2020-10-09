@@ -7,15 +7,14 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/enumerate_factors_faster.test.cpp
-    title: test/enumerate_factors_faster.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/enumerate_divisors_faster.test.cpp
     title: test/enumerate_divisors_faster.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/enumerate_factors_faster.test.cpp
+    title: test/enumerate_factors_faster.test.cpp
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Fast Factorization
     links: []
   bundledCode: "#line 2 \"algebraic/fact_prime_faster.cpp\"\n\n#line 2 \"other/fix_point.cpp\"\

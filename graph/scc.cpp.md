@@ -15,7 +15,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Strongly Connected Components
     links: []
   bundledCode: "#line 2 \"graph/scc.cpp\"\n\n#line 2 \"other/fix_point.cpp\"\n\n#include\

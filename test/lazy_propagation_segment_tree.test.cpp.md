@@ -2,6 +2,12 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
+    path: algebraic/mod_inv.cpp
+    title: Extended GCD
+  - icon: ':heavy_check_mark:'
+    path: algebraic/modular.cpp
+    title: Modint
+  - icon: ':heavy_check_mark:'
     path: container/lazy_propagation_segment_tree.cpp
     title: Lazy Propagation Segment Tree
   - icon: ':heavy_check_mark:'
@@ -10,12 +16,6 @@ data:
   - icon: ':heavy_check_mark:'
     path: other/monoid.cpp
     title: Monoid Utility
-  - icon: ':heavy_check_mark:'
-    path: algebraic/modular.cpp
-    title: Modint
-  - icon: ':heavy_check_mark:'
-    path: algebraic/mod_inv.cpp
-    title: Extended GCD
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp

@@ -10,18 +10,17 @@ data:
     title: Two Sat
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/dinic.test.cpp
+    title: test/dinic.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/push_relabel.test.cpp
     title: test/push_relabel.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/scc.test.cpp
     title: test/scc.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/dinic.test.cpp
-    title: test/dinic.test.cpp
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Network
     links: []
   bundledCode: "#line 2 \"graph/network.cpp\"\n\n#line 2 \"other/adjust_index.cpp\"\
@@ -124,8 +123,8 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/push_relabel.test.cpp
-  - test/scc.test.cpp
   - test/dinic.test.cpp
+  - test/scc.test.cpp
 documentation_of: graph/network.cpp
 layout: document
 redirect_from:

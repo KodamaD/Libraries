@@ -6,7 +6,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Time Measurement
     links: []
   bundledCode: "#line 2 \"other/time_measurement.cpp\"\n\n#include <chrono>\n#include\

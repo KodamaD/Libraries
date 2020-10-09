@@ -6,7 +6,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Multi-Dimensional Vector
     links: []
   bundledCode: "#line 2 \"other/multi_vec.cpp\"\n\n#include <cstddef>\n#include <vector>\n\

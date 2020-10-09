@@ -2,11 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: other/monoid.cpp
-    title: Monoid Utility
-  - icon: ':heavy_check_mark:'
     path: other/bit_operation.cpp
     title: Bit Operations
+  - icon: ':heavy_check_mark:'
+    path: other/monoid.cpp
+    title: Monoid Utility
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -15,7 +15,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Segment Tree
     links: []
   bundledCode: "#line 2 \"container/segment_tree.cpp\"\n\n#line 2 \"other/monoid.cpp\"\

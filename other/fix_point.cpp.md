@@ -5,32 +5,31 @@ data:
   - icon: ':heavy_check_mark:'
     path: algebraic/fact_prime_faster.cpp
     title: Fast Factorization
-  - icon: ':warning:'
-    path: graph/two_sat.cpp
-    title: Two Sat
   - icon: ':heavy_check_mark:'
     path: graph/dinic.cpp
     title: Dinic
   - icon: ':heavy_check_mark:'
     path: graph/scc.cpp
     title: Strongly Connected Components
+  - icon: ':warning:'
+    path: graph/two_sat.cpp
+    title: Two Sat
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/scc.test.cpp
-    title: test/scc.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/enumerate_factors_faster.test.cpp
-    title: test/enumerate_factors_faster.test.cpp
+    path: test/dinic.test.cpp
+    title: test/dinic.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/enumerate_divisors_faster.test.cpp
     title: test/enumerate_divisors_faster.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/dinic.test.cpp
-    title: test/dinic.test.cpp
+    path: test/enumerate_factors_faster.test.cpp
+    title: test/enumerate_factors_faster.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/scc.test.cpp
+    title: test/scc.test.cpp
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Lambda Recursion
     links: []
   bundledCode: "#line 2 \"other/fix_point.cpp\"\n\n#include <utility>\n\ntemplate\
@@ -52,16 +51,16 @@ data:
   path: other/fix_point.cpp
   requiredBy:
   - algebraic/fact_prime_faster.cpp
-  - graph/two_sat.cpp
-  - graph/dinic.cpp
   - graph/scc.cpp
+  - graph/dinic.cpp
+  - graph/two_sat.cpp
   timestamp: '2020-08-03 12:07:15+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/scc.test.cpp
-  - test/enumerate_factors_faster.test.cpp
-  - test/enumerate_divisors_faster.test.cpp
   - test/dinic.test.cpp
+  - test/enumerate_factors_faster.test.cpp
+  - test/scc.test.cpp
+  - test/enumerate_divisors_faster.test.cpp
 documentation_of: other/fix_point.cpp
 layout: document
 redirect_from:

@@ -12,7 +12,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Wavelet Matrix
     links: []
   bundledCode: "#line 2 \"container/wavelet_matrix.cpp\"\n\n#line 2 \"container/bit_vector.cpp\"\

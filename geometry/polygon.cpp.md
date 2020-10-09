@@ -2,17 +2,16 @@
 data:
   _extendedDependsOn:
   - icon: ':warning:'
-    path: geometry/figures.cpp
-    title: 2D Figures
-  - icon: ':warning:'
     path: geometry/constants.cpp
     title: Geometric Constants
+  - icon: ':warning:'
+    path: geometry/figures.cpp
+    title: 2D Figures
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: 2D Polygons
     links: []
   bundledCode: "#line 2 \"geometry/polygon.cpp\"\n\n#line 2 \"geometry/figures.cpp\"\

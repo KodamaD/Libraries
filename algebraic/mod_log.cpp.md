@@ -9,7 +9,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Discrete Logarithm
     links: []
   bundledCode: "#line 2 \"algebraic/mod_log.cpp\"\n\n#include <cstdint>\n#include\

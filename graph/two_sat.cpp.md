@@ -5,11 +5,11 @@ data:
     path: graph/network.cpp
     title: Network
   - icon: ':heavy_check_mark:'
-    path: other/adjust_index.cpp
-    title: Index Adjustment
-  - icon: ':heavy_check_mark:'
     path: graph/scc.cpp
     title: Strongly Connected Components
+  - icon: ':heavy_check_mark:'
+    path: other/adjust_index.cpp
+    title: Index Adjustment
   - icon: ':heavy_check_mark:'
     path: other/fix_point.cpp
     title: Lambda Recursion
@@ -18,7 +18,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Two Sat
     links: []
   bundledCode: "#line 2 \"graph/two_sat.cpp\"\n\n#line 2 \"graph/network.cpp\"\n\n\

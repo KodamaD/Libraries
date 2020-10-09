@@ -5,11 +5,11 @@ data:
     path: graph/network.cpp
     title: Network
   - icon: ':heavy_check_mark:'
-    path: other/adjust_index.cpp
-    title: Index Adjustment
-  - icon: ':heavy_check_mark:'
     path: graph/push_relabel.cpp
     title: Push Relabel
+  - icon: ':heavy_check_mark:'
+    path: other/adjust_index.cpp
+    title: Index Adjustment
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _pathExtension: cpp

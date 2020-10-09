@@ -18,7 +18,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     document_title: Disjoint Sparse Table
     links: []
   bundledCode: "#line 2 \"container/disjoint_sparse_table.cpp\"\n\n#line 2 \"other/bit_operation.cpp\"\

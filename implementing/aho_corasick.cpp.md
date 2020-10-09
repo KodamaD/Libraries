@@ -9,7 +9,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
     links: []
   bundledCode: "#line 2 \"implementing/aho_corasick.cpp\"\n\n#line 2 \"implementing/trie.cpp\"\
     \n\n#include <cstddef>\n#include <vector>\n#include <iterator>\n#include <map>\n\
