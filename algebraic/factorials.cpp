@@ -18,7 +18,7 @@ public:
     for (size_t i = 1; i <= N; ++i) {
       fact[i] = fact[i - 1] * value_type(i);
     }
-    fact_inv.back() = ~fact.back();
+    fact_inv.back() = value_type(1) / fact.back();
     for (size_t i = N; i > 0; --i) {
       fact_inv[i - 1] = fact_inv[i] * value_type(i);
     }
