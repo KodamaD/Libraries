@@ -18,6 +18,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/scc.test.cpp
     title: test/scc.test.cpp
+  _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
@@ -122,8 +123,8 @@ data:
   timestamp: '2020-09-27 11:10:55+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/push_relabel.test.cpp
   - test/dinic.test.cpp
+  - test/push_relabel.test.cpp
   - test/scc.test.cpp
 documentation_of: graph/network.cpp
 layout: document

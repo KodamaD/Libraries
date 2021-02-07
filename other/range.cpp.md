@@ -3,52 +3,47 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
+  _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
     document_title: Range
     links: []
   bundledCode: "#line 2 \"other/range.cpp\"\n\n#include <algorithm>\n\nclass range\
-    \ {\npublic:\n  class iterator {\n  private:\n    int64_t M_position;\n\n  public:\n\
-    \    constexpr iterator(int64_t position) noexcept: M_position(position) { }\n\
-    \    constexpr void operator ++ () noexcept { ++M_position; }\n    constexpr bool\
-    \ operator != (iterator other) const noexcept { return M_position != other.M_position;\
-    \ }\n    constexpr int64_t operator * () const noexcept { return M_position; }\n\
-    \  };\n\n  class reverse_iterator {\n  private:\n    int64_t M_position;\n  \n\
-    \  public:\n    constexpr reverse_iterator(int64_t position) noexcept: M_position(position)\
-    \ { }\n    constexpr void operator ++ () noexcept { --M_position; }\n    constexpr\
-    \ bool operator != (reverse_iterator other) const noexcept { return M_position\
-    \ != other.M_position; }\n    constexpr int64_t operator * () const noexcept {\
-    \ return M_position; }\n  };\n  \nprivate:\n  const iterator M_first, M_last;\n\
-    \npublic:\n  constexpr range(int64_t first, int64_t last) noexcept: M_first(first),\
-    \ M_last(std::max(first, last)) { }\n  constexpr iterator begin() const noexcept\
-    \ { return M_first; }\n  constexpr iterator end() const noexcept { return M_last;\
-    \ }\n  constexpr reverse_iterator rbegin() const noexcept { return reverse_iterator(*M_last\
-    \ - 1); } \n  constexpr reverse_iterator rend() const noexcept { return reverse_iterator(*M_first\
-    \ - 1); } \n};\n\n/**\n * @title Range\n */\n"
-  code: "#pragma once\n\n#include <algorithm>\n\nclass range {\npublic:\n  class iterator\
-    \ {\n  private:\n    int64_t M_position;\n\n  public:\n    constexpr iterator(int64_t\
-    \ position) noexcept: M_position(position) { }\n    constexpr void operator ++\
-    \ () noexcept { ++M_position; }\n    constexpr bool operator != (iterator other)\
-    \ const noexcept { return M_position != other.M_position; }\n    constexpr int64_t\
-    \ operator * () const noexcept { return M_position; }\n  };\n\n  class reverse_iterator\
-    \ {\n  private:\n    int64_t M_position;\n  \n  public:\n    constexpr reverse_iterator(int64_t\
-    \ position) noexcept: M_position(position) { }\n    constexpr void operator ++\
-    \ () noexcept { --M_position; }\n    constexpr bool operator != (reverse_iterator\
-    \ other) const noexcept { return M_position != other.M_position; }\n    constexpr\
-    \ int64_t operator * () const noexcept { return M_position; }\n  };\n  \nprivate:\n\
-    \  const iterator M_first, M_last;\n\npublic:\n  constexpr range(int64_t first,\
-    \ int64_t last) noexcept: M_first(first), M_last(std::max(first, last)) { }\n\
-    \  constexpr iterator begin() const noexcept { return M_first; }\n  constexpr\
-    \ iterator end() const noexcept { return M_last; }\n  constexpr reverse_iterator\
-    \ rbegin() const noexcept { return reverse_iterator(*M_last - 1); } \n  constexpr\
-    \ reverse_iterator rend() const noexcept { return reverse_iterator(*M_first -\
-    \ 1); } \n};\n\n/**\n * @title Range\n */"
+    \ {\n  struct iter {\n    std::size_t itr;\n    constexpr iter(std::size_t pos)\
+    \ noexcept: itr(pos) { }\n    constexpr void operator ++ () noexcept { ++itr;\
+    \ }\n    constexpr bool operator != (iter other) const noexcept { return itr !=\
+    \ other.itr; }\n    constexpr std::size_t operator * () const noexcept { return\
+    \ itr; }\n  };\n\n  struct reviter {\n    std::size_t itr;\n    constexpr reviter(std::size_t\
+    \ pos) noexcept: itr(pos) { }\n    constexpr void operator ++ () noexcept { --itr;\
+    \ }\n    constexpr bool operator != (reviter other) const noexcept { return itr\
+    \ != other.itr; }\n    constexpr std::size_t operator * () const noexcept { return\
+    \ itr; }\n  };\n\n  const iter first, last;\n\npublic:\n  constexpr range(std::size_t\
+    \ first, std::size_t last) noexcept: first(first), last(std::max(first, last))\
+    \ { }\n  constexpr iter begin() const noexcept { return first; }\n  constexpr\
+    \ iter end() const noexcept { return last; }\n  constexpr reviter rbegin() const\
+    \ noexcept { return reviter(*last - 1); } \n  constexpr reviter rend() const noexcept\
+    \ { return reviter(*first - 1); } \n};\n\n/**\n * @title Range\n */\n"
+  code: "#pragma once\n\n#include <algorithm>\n\nclass range {\n  struct iter {\n\
+    \    std::size_t itr;\n    constexpr iter(std::size_t pos) noexcept: itr(pos)\
+    \ { }\n    constexpr void operator ++ () noexcept { ++itr; }\n    constexpr bool\
+    \ operator != (iter other) const noexcept { return itr != other.itr; }\n    constexpr\
+    \ std::size_t operator * () const noexcept { return itr; }\n  };\n\n  struct reviter\
+    \ {\n    std::size_t itr;\n    constexpr reviter(std::size_t pos) noexcept: itr(pos)\
+    \ { }\n    constexpr void operator ++ () noexcept { --itr; }\n    constexpr bool\
+    \ operator != (reviter other) const noexcept { return itr != other.itr; }\n  \
+    \  constexpr std::size_t operator * () const noexcept { return itr; }\n  };\n\n\
+    \  const iter first, last;\n\npublic:\n  constexpr range(std::size_t first, std::size_t\
+    \ last) noexcept: first(first), last(std::max(first, last)) { }\n  constexpr iter\
+    \ begin() const noexcept { return first; }\n  constexpr iter end() const noexcept\
+    \ { return last; }\n  constexpr reviter rbegin() const noexcept { return reviter(*last\
+    \ - 1); } \n  constexpr reviter rend() const noexcept { return reviter(*first\
+    \ - 1); } \n};\n\n/**\n * @title Range\n */"
   dependsOn: []
   isVerificationFile: false
   path: other/range.cpp
   requiredBy: []
-  timestamp: '2020-09-13 16:51:07+09:00'
+  timestamp: '2021-02-07 17:51:45+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: other/range.cpp

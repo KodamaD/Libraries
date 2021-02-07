@@ -6,6 +6,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/push_relabel.test.cpp
     title: test/push_relabel.test.cpp
+  _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:

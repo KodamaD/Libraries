@@ -9,6 +9,7 @@ data:
     path: geometry/polygon.cpp
     title: 2D Polygons
   _extendedVerifiedWith: []
+  _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
@@ -64,8 +65,8 @@ data:
   isVerificationFile: false
   path: geometry/constants.cpp
   requiredBy:
-  - geometry/polygon.cpp
   - geometry/figures.cpp
+  - geometry/polygon.cpp
   timestamp: '2020-07-11 19:42:18+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

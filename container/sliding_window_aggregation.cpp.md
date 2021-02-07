@@ -9,6 +9,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/sliding_window_aggregation.test.cpp
     title: test/sliding_window_aggregation.test.cpp
+  _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:

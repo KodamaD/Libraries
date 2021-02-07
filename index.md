@@ -124,6 +124,9 @@ data:
     - icon: ':warning:'
       path: other/chmin_chmax.cpp
       title: Chmin/Chmax
+    - icon: ':warning:'
+      path: other/compressor.cpp
+      title: Compressor
     - icon: ':heavy_check_mark:'
       path: other/fast_io.cpp
       title: Fast Input/Output

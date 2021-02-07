@@ -6,6 +6,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/matrix.test.cpp
     title: test/matrix.test.cpp
+  _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:

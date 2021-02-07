@@ -27,6 +27,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/scc.test.cpp
     title: test/scc.test.cpp
+  _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
@@ -52,8 +53,8 @@ data:
   requiredBy:
   - algebraic/fact_prime_faster.cpp
   - graph/scc.cpp
-  - graph/dinic.cpp
   - graph/two_sat.cpp
+  - graph/dinic.cpp
   timestamp: '2020-08-03 12:07:15+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

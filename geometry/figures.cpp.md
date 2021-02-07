@@ -9,6 +9,7 @@ data:
     path: geometry/polygon.cpp
     title: 2D Polygons
   _extendedVerifiedWith: []
+  _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:

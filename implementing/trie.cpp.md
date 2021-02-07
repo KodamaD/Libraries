@@ -6,6 +6,7 @@ data:
     path: implementing/aho_corasick.cpp
     title: implementing/aho_corasick.cpp
   _extendedVerifiedWith: []
+  _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:

@@ -6,6 +6,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/z_algorithm.test.cpp
     title: test/z_algorithm.test.cpp
+  _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:

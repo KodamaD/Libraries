@@ -9,6 +9,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/vertex_set_path_sum.test.cpp
     title: test/vertex_set_path_sum.test.cpp
+  _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
@@ -109,8 +110,8 @@ data:
   timestamp: '2020-09-09 18:26:02+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/lca.test.cpp
   - test/vertex_set_path_sum.test.cpp
+  - test/lca.test.cpp
 documentation_of: graph/heavy_light_decomposition.cpp
 layout: document
 redirect_from:

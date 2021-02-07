@@ -6,6 +6,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/fast_io.test.cpp
     title: test/fast_io.test.cpp
+  _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
