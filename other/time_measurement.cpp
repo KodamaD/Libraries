@@ -26,7 +26,6 @@ public:
   void print_ms() const {
     std::cerr << "current time: " << get<std::chrono::milliseconds>() << "ms" << std::endl;
   }
-
 };
 
 /**

@@ -11,7 +11,6 @@
 #include <array>
 #include <cassert>
 
-#include "/Users/kodamankod/Desktop/cpp_programming/Library/other/chmin_chmax.cpp"
 #include "/Users/kodamankod/Desktop/cpp_programming/Library/other/range.cpp"
 
 using i32 = std::int32_t;
@@ -21,8 +20,11 @@ using u64 = std::uint64_t;
 using isize = std::ptrdiff_t;
 using usize = std::size_t;
 
-constexpr i32 inf32 = (i32(1) << 30) - 1;
-constexpr i64 inf64 = (i64(1) << 62) - 1;
+template <class T, T Div = 2>
+constexpr T infty = std::numeric_limits<T>::max() / Div;
+
+template <class T>
+using Vec = std::vector<T>;
 
 int main() {
   
