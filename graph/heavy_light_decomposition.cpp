@@ -67,6 +67,11 @@ public:
     M_calc_subtree(root, -1);
     M_decompose(root, -1, root);
   }
+  void construct(const std::vector<size_type> &roots) {
+    for (const auto x: roots) {
+      construct(x);
+    }
+  }
   void add_edge(size_type u, size_type v) {
     assert(u < M_graph.size());
     assert(v < M_graph.size());

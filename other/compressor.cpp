@@ -32,6 +32,16 @@ public:
     assert(compressed);
     return std::lower_bound(data.cbegin(), data.cend(), value) - data.cbegin();
   }
+
+  std::size_t size() const {
+    assert(compressed);
+    return data.size();
+  }
+
+  T restore(const std::size_t index) const {
+    assert(compressed);
+    return data[index];
+  }
 };
 
 /**
