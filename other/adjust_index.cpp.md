@@ -51,16 +51,16 @@ data:
   isVerificationFile: false
   path: other/adjust_index.cpp
   requiredBy:
-  - graph/two_sat.cpp
   - graph/network_simplex.cpp
   - graph/network.cpp
+  - graph/two_sat.cpp
   timestamp: '2020-09-19 13:07:45+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/dinic.test.cpp
+  - test/scc.test.cpp
   - test/network_simplex.test.cpp
   - test/push_relabel.test.cpp
-  - test/scc.test.cpp
+  - test/dinic.test.cpp
 documentation_of: other/adjust_index.cpp
 layout: document
 redirect_from:

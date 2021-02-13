@@ -65,8 +65,8 @@ data:
   isVerificationFile: false
   path: geometry/constants.cpp
   requiredBy:
-  - geometry/figures.cpp
   - geometry/polygon.cpp
+  - geometry/figures.cpp
   timestamp: '2020-07-11 19:42:18+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

@@ -91,8 +91,8 @@ data:
   timestamp: '2020-09-09 22:02:05+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/fenwick_tree.test.cpp
   - test/vertex_set_path_sum.test.cpp
+  - test/fenwick_tree.test.cpp
 documentation_of: container/fenwick_tree.cpp
 layout: document
 redirect_from:

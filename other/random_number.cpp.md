@@ -47,9 +47,9 @@ data:
   isVerificationFile: false
   path: other/random_number.cpp
   requiredBy:
-  - algebraic/mod_sqrt.cpp
-  - container/randomized_queue.cpp
   - string/rolling_hash.cpp
+  - container/randomized_queue.cpp
+  - algebraic/mod_sqrt.cpp
   timestamp: '2021-02-07 17:51:45+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

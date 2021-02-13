@@ -114,20 +114,20 @@ data:
   isVerificationFile: false
   path: other/monoid.cpp
   requiredBy:
-  - container/sliding_window_aggregation.cpp
-  - container/segment_tree.cpp
   - container/dst_tree.cpp
-  - container/dual_segment_tree.cpp
-  - container/disjoint_sparse_table.cpp
+  - container/segment_tree.cpp
   - container/lazy_propagation_segment_tree.cpp
+  - container/disjoint_sparse_table.cpp
+  - container/sliding_window_aggregation.cpp
+  - container/dual_segment_tree.cpp
   timestamp: '2020-09-13 16:51:07+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/dual_segment_tree.test.cpp
-  - test/lazy_propagation_segment_tree.test.cpp
-  - test/sliding_window_aggregation.test.cpp
   - test/dst_tree.test.cpp
   - test/segment_tree.test.cpp
+  - test/sliding_window_aggregation.test.cpp
+  - test/lazy_propagation_segment_tree.test.cpp
+  - test/dual_segment_tree.test.cpp
 documentation_of: other/monoid.cpp
 layout: document
 redirect_from:

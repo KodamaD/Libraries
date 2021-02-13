@@ -35,10 +35,12 @@ data:
     \    M_parent.assign(size, 0);\n    M_head.assign(size, 0);\n    label.assign(size,\
     \ 0);\n  }\n  void construct(size_type root = 0) {\n    assert(root < M_graph.size());\n\
     \    M_calc_subtree(root, -1);\n    M_decompose(root, -1, root);\n  }\n  void\
-    \ add_edge(size_type u, size_type v) {\n    assert(u < M_graph.size());\n    assert(v\
-    \ < M_graph.size());\n    assert(u != v);\n    M_graph[u].push_back(v);\n    M_graph[v].push_back(u);\n\
-    \  }\n\n  template <class Func> \n  void each_edge(size_type u, size_type v, const\
-    \ Func &func) const {\n    assert(u < M_graph.size());\n    assert(v < M_graph.size());\n\
+    \ construct(const std::vector<size_type> &roots) {\n    for (const auto x: roots)\
+    \ {\n      construct(x);\n    }\n  }\n  void add_edge(size_type u, size_type v)\
+    \ {\n    assert(u < M_graph.size());\n    assert(v < M_graph.size());\n    assert(u\
+    \ != v);\n    M_graph[u].push_back(v);\n    M_graph[v].push_back(u);\n  }\n\n\
+    \  template <class Func> \n  void each_edge(size_type u, size_type v, const Func\
+    \ &func) const {\n    assert(u < M_graph.size());\n    assert(v < M_graph.size());\n\
     \    while (true) {\n      if (label[u] > label[v]) {\n        std::swap(u, v);\n\
     \      }\n      if (M_head[u] == M_head[v]) {\n        if (label[u] + 1 <= label[v])\
     \ {\n          func(label[u] + 1, label[v]);\n        }\n        return;\n   \
@@ -77,7 +79,7 @@ data:
   isVerificationFile: true
   path: test/lca.test.cpp
   requiredBy: []
-  timestamp: '2020-09-09 18:26:02+09:00'
+  timestamp: '2021-02-13 19:27:44+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/lca.test.cpp

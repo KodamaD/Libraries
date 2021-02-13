@@ -143,13 +143,13 @@ data:
   timestamp: '2020-09-27 11:10:55+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/lazy_propagation_segment_tree.test.cpp
   - test/matrix.test.cpp
   - test/discrete_log.test.cpp
+  - test/segment_tree.test.cpp
   - test/sqrt_mod.test.cpp
   - test/sliding_window_aggregation.test.cpp
-  - test/segment_tree.test.cpp
   - test/factorials.test.cpp
+  - test/lazy_propagation_segment_tree.test.cpp
 documentation_of: algebraic/modular.cpp
 layout: document
 redirect_from:

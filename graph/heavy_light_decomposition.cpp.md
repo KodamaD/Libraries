@@ -35,10 +35,12 @@ data:
     \    M_parent.assign(size, 0);\n    M_head.assign(size, 0);\n    label.assign(size,\
     \ 0);\n  }\n  void construct(size_type root = 0) {\n    assert(root < M_graph.size());\n\
     \    M_calc_subtree(root, -1);\n    M_decompose(root, -1, root);\n  }\n  void\
-    \ add_edge(size_type u, size_type v) {\n    assert(u < M_graph.size());\n    assert(v\
-    \ < M_graph.size());\n    assert(u != v);\n    M_graph[u].push_back(v);\n    M_graph[v].push_back(u);\n\
-    \  }\n\n  template <class Func> \n  void each_edge(size_type u, size_type v, const\
-    \ Func &func) const {\n    assert(u < M_graph.size());\n    assert(v < M_graph.size());\n\
+    \ construct(const std::vector<size_type> &roots) {\n    for (const auto x: roots)\
+    \ {\n      construct(x);\n    }\n  }\n  void add_edge(size_type u, size_type v)\
+    \ {\n    assert(u < M_graph.size());\n    assert(v < M_graph.size());\n    assert(u\
+    \ != v);\n    M_graph[u].push_back(v);\n    M_graph[v].push_back(u);\n  }\n\n\
+    \  template <class Func> \n  void each_edge(size_type u, size_type v, const Func\
+    \ &func) const {\n    assert(u < M_graph.size());\n    assert(v < M_graph.size());\n\
     \    while (true) {\n      if (label[u] > label[v]) {\n        std::swap(u, v);\n\
     \      }\n      if (M_head[u] == M_head[v]) {\n        if (label[u] + 1 <= label[v])\
     \ {\n          func(label[u] + 1, label[v]);\n        }\n        return;\n   \
@@ -78,36 +80,37 @@ data:
     \   M_graph.assign(size, { });\n    M_size.assign(size, 0);\n    M_parent.assign(size,\
     \ 0);\n    M_head.assign(size, 0);\n    label.assign(size, 0);\n  }\n  void construct(size_type\
     \ root = 0) {\n    assert(root < M_graph.size());\n    M_calc_subtree(root, -1);\n\
-    \    M_decompose(root, -1, root);\n  }\n  void add_edge(size_type u, size_type\
-    \ v) {\n    assert(u < M_graph.size());\n    assert(v < M_graph.size());\n   \
-    \ assert(u != v);\n    M_graph[u].push_back(v);\n    M_graph[v].push_back(u);\n\
-    \  }\n\n  template <class Func> \n  void each_edge(size_type u, size_type v, const\
-    \ Func &func) const {\n    assert(u < M_graph.size());\n    assert(v < M_graph.size());\n\
-    \    while (true) {\n      if (label[u] > label[v]) {\n        std::swap(u, v);\n\
-    \      }\n      if (M_head[u] == M_head[v]) {\n        if (label[u] + 1 <= label[v])\
-    \ {\n          func(label[u] + 1, label[v]);\n        }\n        return;\n   \
-    \   }\n      func(label[M_head[v]], label[v]);\n      v = M_parent[M_head[v]];\n\
-    \    }\n  }\n\n  template <class Func> \n  void each_vertex(size_type u, size_type\
-    \ v, const Func &func) const {\n    assert(u < M_graph.size());\n    assert(v\
-    \ < M_graph.size());\n    while (true) {\n      if (label[u] > label[v]) {\n \
-    \       std::swap(u, v);\n      }\n      if (M_head[u] == M_head[v]) {\n     \
-    \   func(label[u], label[v]);\n        return;\n      }\n      func(label[M_head[v]],\
-    \ label[v]);\n      v = M_parent[M_head[v]];\n    }\n  }\n\n  size_type lca(size_type\
-    \ u, size_type v) const {\n    assert(u < M_graph.size());\n    assert(v < M_graph.size());\n\
-    \    if (label[u] > label[v]) {\n      std::swap(u, v);\n    }\n    while (label[u]\
-    \ <= label[v]) {\n      if (M_head[u] == M_head[v]) {\n        return u;\n   \
-    \   }\n      v = M_parent[M_head[v]];\n    }\n    return v;\n  }\n\n  size_type\
-    \ size() const {\n    return M_graph.size();\n  }\n  bool empty() const {\n  \
-    \  return M_graph.empty();\n  }\n  void clear() {\n    M_index = 0;\n    M_graph.clear();\n\
-    \    M_graph.shrink_to_fit();\n    M_size.clear();\n    M_size.shrink_to_fit();\n\
-    \    M_parent.clear();\n    M_parent.shrink_to_fit();\n    M_head.clear();\n \
-    \   M_head.shrink_to_fit();\n    label.clear();\n    label.shrink_to_fit();\n\
+    \    M_decompose(root, -1, root);\n  }\n  void construct(const std::vector<size_type>\
+    \ &roots) {\n    for (const auto x: roots) {\n      construct(x);\n    }\n  }\n\
+    \  void add_edge(size_type u, size_type v) {\n    assert(u < M_graph.size());\n\
+    \    assert(v < M_graph.size());\n    assert(u != v);\n    M_graph[u].push_back(v);\n\
+    \    M_graph[v].push_back(u);\n  }\n\n  template <class Func> \n  void each_edge(size_type\
+    \ u, size_type v, const Func &func) const {\n    assert(u < M_graph.size());\n\
+    \    assert(v < M_graph.size());\n    while (true) {\n      if (label[u] > label[v])\
+    \ {\n        std::swap(u, v);\n      }\n      if (M_head[u] == M_head[v]) {\n\
+    \        if (label[u] + 1 <= label[v]) {\n          func(label[u] + 1, label[v]);\n\
+    \        }\n        return;\n      }\n      func(label[M_head[v]], label[v]);\n\
+    \      v = M_parent[M_head[v]];\n    }\n  }\n\n  template <class Func> \n  void\
+    \ each_vertex(size_type u, size_type v, const Func &func) const {\n    assert(u\
+    \ < M_graph.size());\n    assert(v < M_graph.size());\n    while (true) {\n  \
+    \    if (label[u] > label[v]) {\n        std::swap(u, v);\n      }\n      if (M_head[u]\
+    \ == M_head[v]) {\n        func(label[u], label[v]);\n        return;\n      }\n\
+    \      func(label[M_head[v]], label[v]);\n      v = M_parent[M_head[v]];\n   \
+    \ }\n  }\n\n  size_type lca(size_type u, size_type v) const {\n    assert(u <\
+    \ M_graph.size());\n    assert(v < M_graph.size());\n    if (label[u] > label[v])\
+    \ {\n      std::swap(u, v);\n    }\n    while (label[u] <= label[v]) {\n     \
+    \ if (M_head[u] == M_head[v]) {\n        return u;\n      }\n      v = M_parent[M_head[v]];\n\
+    \    }\n    return v;\n  }\n\n  size_type size() const {\n    return M_graph.size();\n\
+    \  }\n  bool empty() const {\n    return M_graph.empty();\n  }\n  void clear()\
+    \ {\n    M_index = 0;\n    M_graph.clear();\n    M_graph.shrink_to_fit();\n  \
+    \  M_size.clear();\n    M_size.shrink_to_fit();\n    M_parent.clear();\n    M_parent.shrink_to_fit();\n\
+    \    M_head.clear();\n    M_head.shrink_to_fit();\n    label.clear();\n    label.shrink_to_fit();\n\
     \  }\n};\n\n/**\n * @title Heavy-Light Decomposition\n */"
   dependsOn: []
   isVerificationFile: false
   path: graph/heavy_light_decomposition.cpp
   requiredBy: []
-  timestamp: '2020-09-09 18:26:02+09:00'
+  timestamp: '2021-02-13 19:27:44+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/vertex_set_path_sum.test.cpp

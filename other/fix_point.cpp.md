@@ -51,17 +51,17 @@ data:
   isVerificationFile: false
   path: other/fix_point.cpp
   requiredBy:
-  - algebraic/fact_prime_faster.cpp
+  - graph/dinic.cpp
   - graph/scc.cpp
   - graph/two_sat.cpp
-  - graph/dinic.cpp
+  - algebraic/fact_prime_faster.cpp
   timestamp: '2020-08-03 12:07:15+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/dinic.test.cpp
   - test/enumerate_factors_faster.test.cpp
-  - test/scc.test.cpp
   - test/enumerate_divisors_faster.test.cpp
+  - test/scc.test.cpp
+  - test/dinic.test.cpp
 documentation_of: other/fix_point.cpp
 layout: document
 redirect_from:
